@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>计算机网络笔记</title>
+      <link href="/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/"/>
+      <url>/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h3><p>​    <strong>计算机网络</strong>由若干<strong>结点</strong>和连接这些结点的链路组成。网络中的结点可以是计算机、集线器、交换机和路由器等。</p><h3 id="Internet（互联网）"><a href="#Internet（互联网）" class="headerlink" title="Internet（互联网）"></a>Internet（互联网）</h3><h4 id="发展历史"><a href="#发展历史" class="headerlink" title="发展历史"></a>发展历史</h4><ul><li><p>ARPANET</p></li><li><p>Internet</p></li><li><p>基于ISP的多层结构</p><p>  <img src="/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/00006.jpg" alt="00006"></p></li><li><p>互联网交换点 IXP（Internet eXchange Point）</p><ul><li>作用：允许两个网络直接相连并交换分组，而不需要再通过第三个网络来转发分组。</li></ul></li><li><p>标准化</p></li></ul><h2 id="互联网组成"><a href="#互联网组成" class="headerlink" title="互联网组成"></a>互联网组成</h2><h3 id="边缘部分"><a href="#边缘部分" class="headerlink" title="边缘部分"></a>边缘部分</h3><p>​    由所有连接在互联网上的主机组成。</p><h4 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h4><ol><li><p>Client-Server</p><p> <img src="/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/00011.jpg" alt="00011"></p></li><li><p>Peer-to-Peer（P2P）</p><p> <img src="/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/00012.jpg" alt="00012"></p></li></ol><h3 id="核心部分"><a href="#核心部分" class="headerlink" title="核心部分"></a>核心部分</h3><p>由大量网络和连接这些网络的路由器组成。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 计算机网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Windows常见故障解决</title>
       <link href="/2020/03/17/Windows%E5%B8%B8%E8%A7%81%E6%95%85%E9%9A%9C%E8%A7%A3%E5%86%B3/"/>
       <url>/2020/03/17/Windows%E5%B8%B8%E8%A7%81%E6%95%85%E9%9A%9C%E8%A7%A3%E5%86%B3/</url>
