@@ -423,9 +423,9 @@
 <li><p>git clone（GitHub）</p>
 <ul>
 <li><p>HTTP/HTTPS</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.gitconfig</span><br><span class="line">[http &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; http:&#x2F;&#x2F;127.0.0.1:1081</span><br><span class="line">[https &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; http:&#x2F;&#x2F;127.0.0.1:1081</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.gitconfig</span><br><span class="line">[http &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line">[https &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>SOCKS</p>
+<li><p>SSH</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.ssh\config</span><br><span class="line">Host github.com</span><br><span class="line">    User git</span><br><span class="line">    ProxyCommand connect -S 127.0.0.1:1080 -a none %h %p</span><br></pre></td></tr></table></figure>
 
 </li>
@@ -443,7 +443,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-02T13:29:49+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-02T13:33:53+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月2日</p>
