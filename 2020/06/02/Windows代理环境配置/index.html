@@ -423,22 +423,40 @@
 <li><p>git clone（GitHub）</p>
 <ul>
 <li><p>HTTP/HTTPS</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.gitconfig</span><br><span class="line">[http &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line">[https &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">	proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>C:\Users\用户名\.gitconfig</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[http &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br><span class="line">[https &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:1080</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>SSH</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.ssh\config</span><br><span class="line">Host github.com</span><br><span class="line">    User git</span><br><span class="line">    ProxyCommand connect -S 127.0.0.1:1080 -a none %h %p</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>C:\Users\用户名\.ssh\config</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">	User git</span><br><span class="line">	ProxyCommand connect -S 127.0.0.1:1080 -a none %h %p</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>
-<li><p>node.js</p>
+</ul>
+<h2 id="国内镜像"><a href="#国内镜像" class="headerlink" title="国内镜像"></a>国内镜像</h2><ul>
+<li><p>Node.js</p>
 <ul>
-<li><p>npm</p>
-<p>  // C:\Users\用户名.npmrc<br>  registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
+<li><p>npm镜像</p>
+<blockquote>
+<p>C:\Users\用户名\.npmrc</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>electron镜像</p>
+<blockquote>
+<p>C:\Users\用户名\.npmrc</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ELECTRON_MIRROR&#x3D;http:&#x2F;&#x2F;npm.taobao.org&#x2F;mirrors&#x2F;electron&#x2F;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
-<ul>
-<li><p>electron</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; C:\Users\用户名\.npmrc</span><br><span class="line">	ELECTRON_MIRROR&#x3D;http:&#x2F;&#x2F;npm.taobao.org&#x2F;mirrors&#x2F;electron&#x2F;</span><br></pre></td></tr></table></figure></li>
+</li>
 </ul>
 </li>
 </ul>
@@ -453,7 +471,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-09T01:06:22+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-09T01:48:56+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月9日</p>
@@ -629,7 +647,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理软件"><span class="toc-text">代理软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置代理"><span class="toc-text">配置代理</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理软件"><span class="toc-text">代理软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置代理"><span class="toc-text">配置代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#国内镜像"><span class="toc-text">国内镜像</span></a></li></ol>
     </div>
   </section>
 
