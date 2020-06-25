@@ -29,8 +29,8 @@
   font-style: 'normal';
 }
 @font-face {
-  font-family: 'PxPlus_IBM_VGA8';
-  src: url("https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/font/PxPlus_IBM_VGA8.ttf");
+  font-family: 'PxPlus IBM VGA8';
+  src: url("https://github.com/secriy/secriy.github.io/blob/master/fonts/PxPlus_IBM_VGA8.ttf");
   font-weight: 'normal';
   font-style: 'normal';
 }
@@ -1264,7 +1264,7 @@ p.p.subtitle:first-child {
 }
 span.p.logo,
 p.p.logo {
-  font-family: "PxPlus_IBM_VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-family: "PxPlus IBM VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
 }
 span.p.code,
 p.p.code {
@@ -3038,7 +3038,7 @@ article .readmore >a {
   max-width: 100%;
 }
 .cover-wrapper .cover .cover-body .title {
-  font-family: "PxPlus_IBM_VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-family: "PxPlus IBM VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
   font-size: 3rem;
   line-height: 1.2;
 }
@@ -3882,7 +3882,7 @@ div.hoverbox:hover >div.target {
   line-height: 64px;
   padding: 0 24px;
   font-size: 1.25rem;
-  font-family: "PxPlus_IBM_VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-family: "PxPlus IBM VGA8", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
 }
 .l_header .wrapper .nav-main .title img {
   height: 64px;
