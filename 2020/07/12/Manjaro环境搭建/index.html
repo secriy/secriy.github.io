@@ -522,13 +522,16 @@
 </ol>
 <h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><ol>
 <li><p>换源</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line">sudo nano /etc/pacman.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 写入以下内容</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">SigLevel= TrustedOnly</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装archlinuxcn-keyring</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>更新系统</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Syyu</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Syyu</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装yay、配置清华源</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S yay</span><br><span class="line">yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S yay</span><br><span class="line">yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -548,11 +551,46 @@
 <p> 重启设备</p>
 </li>
 <li><p>oh-my-zsh</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /usr/bin/zsh # 修改默认shell</span><br><span class="line">sh -C "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /usr/bin/zsh # 修改默认shell</span><br><span class="line">sh -C "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"</span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置文件</span></span><br><span class="line">sudo vim ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<p> 主题：ys</p>
+<p> 插件：</p>
+<ul>
+<li>git</li>
+<li>zsh-autosuggestions</li>
+<li>zsh-syntax-highlighting</li>
+</ul>
+</li>
+</ol>
+<h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4><ol>
+<li><p>Chrome</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S google-chrome</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>WPS</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S wps-office</span><br><span class="line">yay -S ttf-wps-fonts</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>deepin-screenshot</p>
+<p> 截图工具</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S deepin-screenshot</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
-<h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4>
+<h3 id="KDE美化"><a href="#KDE美化" class="headerlink" title="KDE美化"></a>KDE美化</h3><ul>
+<li><p>Plasma Widgets</p>
+<ul>
+<li>Active Window Control</li>
+<li>Global Menu</li>
+<li>Application Dashboard</li>
+</ul>
+</li>
+<li><p>Latte Dock</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S latte-dock</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+
           
             <div class='article_footer'>
               
@@ -639,7 +677,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T14:12:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T22:55:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年7月18日</p>
@@ -803,7 +841,7 @@ Revo Uni...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统安装"><span class="toc-text">系统安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写入镜像"><span class="toc-text">写入镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装系统"><span class="toc-text">安装系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统配置"><span class="toc-text">系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境配置"><span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装软件"><span class="toc-text">安装软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#必需软件"><span class="toc-text">必需软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他软件"><span class="toc-text">其他软件</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统安装"><span class="toc-text">系统安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写入镜像"><span class="toc-text">写入镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装系统"><span class="toc-text">安装系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统配置"><span class="toc-text">系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境配置"><span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装软件"><span class="toc-text">安装软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#必需软件"><span class="toc-text">必需软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他软件"><span class="toc-text">其他软件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KDE美化"><span class="toc-text">KDE美化</span></a></li></ol></li></ol>
     </div>
   </section>
 
