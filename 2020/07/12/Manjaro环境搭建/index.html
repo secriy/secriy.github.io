@@ -16,13 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>CentOS7搭建CSGO社区服务器 - Secriy&#39;s Blog</title>
+    <title>Manjaro环境搭建 - Secriy&#39;s Blog</title>
   
-    <meta name="keywords" content="CSGO">
+    <meta name="keywords" content="Linux">
   
   
     <meta name="description" content="
-            想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。
+            Manjaro Linux安装及开发环境搭建。
           ">
   
 
@@ -417,8 +417,8 @@
         
           
   <h1 class="title">
-    <a href="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/">
-      CentOS7搭建CSGO社区服务器
+    <a href="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+      Manjaro环境搭建
     </a>
   </h1>
 
@@ -456,7 +456,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年2月21日</p>
+    <p>发布于：2020年7月12日</p>
   </a>
 </div>
 
@@ -480,100 +480,79 @@
         <div class="article-entry" itemprop="articleBody">
           
           <div class="note quote cyan">
-            <p>想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。</p>
+            <p>Manjaro Linux安装及开发环境搭建。</p>
           </div>
 
 <a id="more"></a>
 
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li>云服务器：个人使用<strong>阿里云学生机（轻量应用服务器）</strong><ul>
-<li>开放UDP 27015端口</li>
+<h2 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul>
+<li>安装<a href="https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/rufus-3.1.exe" target="_blank" rel="noopener">Rufus3.1</a>（镜像写入工具）</li>
+<li>U盘</li>
+<li>Manjaro<a href="https://manjaro.org/downloads/official/kde/" target="_blank" rel="noopener">镜像</a>（KDE）</li>
+</ul>
+<h3 id="写入镜像"><a href="#写入镜像" class="headerlink" title="写入镜像"></a>写入镜像</h3><ol>
+<li><p>打开Rufus3.1</p>
+</li>
+<li><p>选择镜像，配置选项</p>
+<ul>
+<li><p>按照图上配置，对分区类型有疑问请自行百度</p>
+<p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png" alt="image-20200718100243163"></p>
+</li>
+<li><p>以下部分默认即可</p>
+<p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png" alt="image-20200718100426743"></p>
+</li>
 </ul>
 </li>
-<li>Xshell：用于连接服务器，其他同类软件皆可</li>
-</ul>
-<h2 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h2><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><ol>
-<li><p>创建新用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd -m steam	&#x2F;&#x2F;创建名为steam的新用户</span><br><span class="line">passwd steam		&#x2F;&#x2F;为新用户设置密码</span><br><span class="line">su steam			&#x2F;&#x2F;切换到新用户</span><br><span class="line">cd &#x2F;home&#x2F;steam&#x2F;		&#x2F;&#x2F;进入用户目录</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装steamcmd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir steamcmd</span><br><span class="line">cd steamcmd			</span><br><span class="line">wget https:&#x2F;&#x2F;steamcdn-a.akamaihd.net&#x2F;client&#x2F;installer&#x2F;steamcmd_linux.tar.gz</span><br><span class="line">tar -zxvf steamcmd_linux.tar.gz</span><br><span class="line">rm steamcmd_linux.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><em>自行安装steamcmd运行依赖项</em></p>
-</li>
-<li><p>运行steamcmd</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;steamcmd.sh</span><br></pre></td></tr></table></figure>
-
-<p>成功运行会出现下图字样</p>
-<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" alt></p>
+<li><p>点击开始，写入镜像</p>
+<p> <strong>务必要使用DD模式写入！！！</strong></p>
 </li>
 </ol>
-<h3 id="安装CSGO"><a href="#安装CSGO" class="headerlink" title="安装CSGO"></a>安装CSGO</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">login anonymous						&#x2F;&#x2F;以匿名身份登录</span><br><span class="line">force_install_dir .&#x2F;csgo_server		&#x2F;&#x2F;设置安装文件夹路径</span><br><span class="line">app_update 740 validate				&#x2F;&#x2F;安装CSGO服务端，等待完成</span><br></pre></td></tr></table></figure>
-
-<p>出现<strong>Success！</strong>即安装完成，执行<code>quit</code>退出</p>
-<h3 id="一键更新脚本"><a href="#一键更新脚本" class="headerlink" title="一键更新脚本"></a>一键更新脚本</h3><p><strong>该脚本用于CSGO服务端的后期更新</strong></p>
-<ol>
-<li><p>在“/home/steam/steamcmd”下执行以下操作</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi update.txt</span><br></pre></td></tr></table></figure>
-
-<p> 写入以下文本，保存并退出</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login anonymous</span><br><span class="line">force_install_dir .&#x2F;csgo_server</span><br><span class="line">app_update 740</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
-
-
+<h3 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h3><ol>
+<li><p>插入U盘</p>
 </li>
-</ol>
-<ol start="2">
-<li><p>创建运行脚本</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi csgo_update.sh</span><br></pre></td></tr></table></figure>
-
-<p> 写入以下文本，保存并退出</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">.&#x2F;steamcmd.sh +runscript update.txt</span><br></pre></td></tr></table></figure>
+<li><p>修改BIOS，将U盘作为第一启动项</p>
 </li>
-<li><p>测试脚本</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;csgo_update.sh</span><br></pre></td></tr></table></figure>
-
+<li><p>重启电脑</p>
 </li>
-</ol>
-<h2 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h2><ol>
-<li><p>前往<a href="https://steamcommunity.com/dev/managegameservers" target="_blank" rel="noopener">Steam 游戏服务器帐户管理</a>创建服务器令牌</p>
-<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221010525719.png" alt></p>
-</li>
-<li><p>在<em>csgo_server/csgo/cfg</em>路径下创建配置文件<strong>server.cfg</strong></p>
-</li>
-<li><p>写入必要参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sv_setsteamaccount &quot;XXXXXXXXXXXXXXXXXXXXXXXXX&quot;		&#x2F;&#x2F;步骤1获取的服务器令牌ID</span><br><span class="line">hostname &quot;&quot;											&#x2F;&#x2F;服务器名</span><br><span class="line">rcon_password &quot;12345678&quot;							&#x2F;&#x2F;服务器管理密码</span><br><span class="line">sv_password &quot;23333333&quot;								&#x2F;&#x2F;服务器连接密码</span><br></pre></td></tr></table></figure>
-
-<p>其他参数请根据需要自行修改/添加</p>
-</li>
-</ol>
-<h2 id="服务端启动"><a href="#服务端启动" class="headerlink" title="服务端启动"></a>服务端启动</h2><ol>
-<li><p>安装screen</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo install screen</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建启动脚本</p>
-<p><strong>使用脚本启动方便修改启动项</strong></p>
-<p>进入<em>/home/steam/steamcmd/csgo_server/</em>路径，新建<strong>run.sh</strong>文件，写入以下形式的文本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen .&#x2F;srcds_run -console -game csgo -usercon -noipx -nomaster</span><br></pre></td></tr></table></figure>
-
+<li><p>按照提示安装Manjaro，最后重启电脑</p>
 <blockquote>
-<p>部分启动项说明：</p>
-<p>-console    打开游戏控制台</p>
-<p>-usercon    可以从控制台管理服务器</p>
-<p>-nomaster    使服务器无法被搜索</p>
-<p>+map    加载地图</p>
-<p>+game_mode    游戏模式</p>
-<p><strong>如需添加启动项请自行查询</strong></p>
+<p>分区：将<em>/boot/efi*分区（单硬盘）、</em>/boot<em>分区挂载至Windows的</em>EFI*（200MB）分区</p>
 </blockquote>
 </li>
-<li><p>启动服务器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;run.sh</span><br></pre></td></tr></table></figure>
+</ol>
+<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><ol>
+<li><p>换源</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新系统</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Syyu</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装yay、配置清华源</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S yay</span><br><span class="line">yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" alt="image-20200221012223811"></p>
-<p>当出现上图显示的文字，服务器启动成功</p>
 </li>
 </ol>
-<h2 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h2><p>在控制台中输入<code>connect IP地址;password 连接密码</code>即可连接</p>
+<h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><h4 id="必需软件"><a href="#必需软件" class="headerlink" title="必需软件"></a>必需软件</h4><ol>
+<li><p>Vim</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S vim</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入法</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy fcitx</span><br><span class="line">sudo pacman -S fcitx-sunpinyin <span class="comment"># 输入法</span></span><br><span class="line">sudo pacman -S fcitx-configtool <span class="comment"># 配置工具</span></span><br></pre></td></tr></table></figure>
 
+<p> 创建<code>.xprofile</code>文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.xprofile</span><br></pre></td></tr></table></figure>
+
+<p> 写入内容：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=<span class="string">"@im=fcitx"</span></span><br></pre></td></tr></table></figure>
+
+<p> 重启设备</p>
+</li>
+<li><p>oh-my-zsh</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /usr/bin/zsh # 修改默认shell</span><br><span class="line">sh -C "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4>
           
             <div class='article_footer'>
               
@@ -604,7 +583,7 @@
       <blockquote>
         
           
-            <p>本文永久链接：<a href=https://secriy.com/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/>https://secriy.com/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/</a></p>
+            <p>本文永久链接：<a href=https://secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/>https://secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</a></p>
           
         
           
@@ -660,10 +639,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-12T20:09:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-18T14:12:52+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年7月12日</p>
+    <p>更新于：2020年7月18日</p>
   </a>
 </div>
 
@@ -672,7 +651,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/CSGO/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>CSGO</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
 
 
         
@@ -690,8 +669,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=CentOS7搭建CSGO社区服务器 - Secriy's Blog&summary=
-            想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/&title=Manjaro环境搭建 - Secriy's Blog&summary=
+            Manjaro Linux安装及开发环境搭建。
           "
           
           >
@@ -704,8 +683,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=CentOS7搭建CSGO社区服务器 - Secriy's Blog&summary=
-            想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/&title=Manjaro环境搭建 - Secriy's Blog&summary=
+            Manjaro Linux安装及开发环境搭建。
           "
           
           >
@@ -718,8 +697,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/&title=CentOS7搭建CSGO社区服务器 - Secriy's Blog&summary=
-            想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。
+          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/&title=Manjaro环境搭建 - Secriy's Blog&summary=
+            Manjaro Linux安装及开发环境搭建。
           "
           
           >
@@ -744,23 +723,17 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2020/03/10/Navicat-Premium%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Navicat Premium安装破解</p>
-                <p class='content'>
-            Navicat Premium 是一套多连接数据库开发工具，让你在单一应用程序中同时连接多达七种数据库：MySQL、MariaDB、MongoDB、SQL Server...</p>
-              </a>
             
-            
-              <a class='next' href='/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/'>
-                <p class='title'>云服务器搭建Hexo博客<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+              <a class='next' href='/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/'>
+                <p class='title'>RevoUninstallerPro安装破解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>
-            本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。
+            Revo Uninstaller Pro是一个用于卸载电脑上其他软件的程序，支持卸载时附带清理注册表和相关文件。
           
 
 
 
-准备工作
-本地端安装配置Hexo...</p>
+下载地址
+Revo Uni...</p>
               </a>
             
           </div>
@@ -805,7 +778,7 @@
 
   <script>
     window.subData = {
-      title: 'CentOS7搭建CSGO社区服务器',
+      title: 'Manjaro环境搭建',
       tools: true
     }
   </script>
@@ -830,7 +803,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端安装"><span class="toc-text">服务端安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境安装"><span class="toc-text">环境安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装CSGO"><span class="toc-text">安装CSGO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一键更新脚本"><span class="toc-text">一键更新脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端配置"><span class="toc-text">服务端配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务端启动"><span class="toc-text">服务端启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接服务器"><span class="toc-text">连接服务器</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统安装"><span class="toc-text">系统安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写入镜像"><span class="toc-text">写入镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装系统"><span class="toc-text">安装系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统配置"><span class="toc-text">系统配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境配置"><span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装软件"><span class="toc-text">安装软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#必需软件"><span class="toc-text">必需软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他软件"><span class="toc-text">其他软件</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 

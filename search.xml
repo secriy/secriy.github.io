@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Manjaro环境搭建</title>
+      <link href="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+      <url>/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+      
+        <content type="html"><![CDATA[<div class="note quote cyan">            <p>Manjaro Linux安装及开发环境搭建。</p>          </div><a id="more"></a><h2 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul><li>安装<a href="https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/rufus-3.1.exe" target="_blank" rel="noopener">Rufus3.1</a>（镜像写入工具）</li><li>U盘</li><li>Manjaro<a href="https://manjaro.org/downloads/official/kde/" target="_blank" rel="noopener">镜像</a>（KDE）</li></ul><h3 id="写入镜像"><a href="#写入镜像" class="headerlink" title="写入镜像"></a>写入镜像</h3><ol><li><p>打开Rufus3.1</p></li><li><p>选择镜像，配置选项</p><ul><li><p>按照图上配置，对分区类型有疑问请自行百度</p><p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png" alt="image-20200718100243163"></p></li><li><p>以下部分默认即可</p><p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png" alt="image-20200718100426743"></p></li></ul></li><li><p>点击开始，写入镜像</p><p> <strong>务必要使用DD模式写入！！！</strong></p></li></ol><h3 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h3><ol><li><p>插入U盘</p></li><li><p>修改BIOS，将U盘作为第一启动项</p></li><li><p>重启电脑</p></li><li><p>按照提示安装Manjaro，最后重启电脑</p><blockquote><p>分区：将<em>/boot/efi*分区（单硬盘）、</em>/boot<em>分区挂载至Windows的</em>EFI*（200MB）分区</p></blockquote></li></ol><h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><ol><li><p>换源</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br></pre></td></tr></table></figure></li><li><p>更新系统</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Syyu</span><br></pre></td></tr></table></figure></li><li><p>安装yay、配置清华源</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S yay</span><br><span class="line">yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save</span><br></pre></td></tr></table></figure></li></ol><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><h4 id="必需软件"><a href="#必需软件" class="headerlink" title="必需软件"></a>必需软件</h4><ol><li><p>Vim</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S vim</span><br></pre></td></tr></table></figure></li><li><p>输入法</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy fcitx</span><br><span class="line">sudo pacman -S fcitx-sunpinyin <span class="comment"># 输入法</span></span><br><span class="line">sudo pacman -S fcitx-configtool <span class="comment"># 配置工具</span></span><br></pre></td></tr></table></figure><p> 创建<code>.xprofile</code>文件</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.xprofile</span><br></pre></td></tr></table></figure><p> 写入内容：</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=<span class="string">"@im=fcitx"</span></span><br></pre></td></tr></table></figure><p> 重启设备</p></li><li><p>oh-my-zsh</p> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /usr/bin/zsh # 修改默认shell</span><br><span class="line">sh -C "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"</span><br></pre></td></tr></table></figure></li></ol><h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验技巧 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>RevoUninstallerPro安装破解</title>
       <link href="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/"/>
       <url>/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/</url>
