@@ -485,67 +485,39 @@
 
 <a id="more"></a>
 
-<h1 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h1><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的4种工作模式"><a href="#无线网卡的4种工作模式" class="headerlink" title="无线网卡的4种工作模式"></a>无线网卡的4种工作模式</h4><ul>
-<li><p>Managed</p>
-<blockquote>
-<p>用于设备与AP直接连接， <strong>无线网卡的驱动程序依赖无线AP管理整个通信过程。</strong> </p>
-</blockquote>
+<h2 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h2><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的4种工作模式"><a href="#无线网卡的4种工作模式" class="headerlink" title="无线网卡的4种工作模式"></a>无线网卡的4种工作模式</h4><ul>
+<li><p>Managed：用于设备与AP直接连接， <strong>无线网卡的驱动程序依赖无线AP管理整个通信过程。</strong> </p>
 </li>
-<li><p>Ad hoc</p>
-<blockquote>
-<p>当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担WAP的职责。</p>
-</blockquote>
+<li><p>Ad hoc：当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担WAP的职责。</p>
 </li>
-<li><p>Master</p>
-<blockquote>
-<p>主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的WAP。</p>
-</blockquote>
+<li><p>Master：主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的WAP。</p>
 </li>
-<li><p>Monitor</p>
-<blockquote>
-<p>监听模式，停止收发数据，监听无线数据包。</p>
-</blockquote>
+<li><p>Monitor：监听模式，停止收发数据，监听无线数据包。</p>
 </li>
 </ul>
 <h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h3><h4 id="切换为监听模式"><a href="#切换为监听模式" class="headerlink" title="切换为监听模式"></a>切换为监听模式</h4><ul>
 <li><p>使用Airmon-ng</p>
-<blockquote>
-<p>iwconfig</p>
-<p>airmon-ng start <strong><em>wlx70f11c280f23</em></strong> 或 airmon-ng start wlan0</p>
-</blockquote>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line">airmon-ng start wlx70f11c280f23	# airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>关闭Network Manager</p>
-<blockquote>
-<p>service network-manager stop</p>
-</blockquote>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager stop</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>开启Network Manager</p>
-<blockquote>
-<p> service network-manager restart</p>
-</blockquote>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager restart</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h4 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h4><ul>
 <li><p>使用Airodump-ng</p>
-<blockquote>
-<p>airodump-ng wlan0mon</p>
-</blockquote>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h4 id="捕获数据"><a href="#捕获数据" class="headerlink" title="捕获数据"></a>捕获数据</h4><ul>
-<li><p>Wireshark</p>
-<blockquote>
-<p>选择监听网卡捕获数据</p>
-</blockquote>
+<li><p>Wireshark：选择监听网卡捕获数据</p>
 </li>
 <li><p>Airodump-ng</p>
-<blockquote>
-<p>airodump-ng -c 1 wlan0mon -w data</p>
-<blockquote>
-<p>c —— 信道 w —— 文件</p>
-</blockquote>
-</blockquote>
-</li>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng -c 1 wlan0mon -w data	# -c信道 -w输出目录名</span><br></pre></td></tr></table></figure></li>
 </ul>
 
           
@@ -634,10 +606,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-26T15:13:00+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-21T17:56:29+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年6月26日</p>
+    <p>更新于：2020年7月21日</p>
   </a>
 </div>
 
@@ -799,7 +771,7 @@ git config –global user.na...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#技术原理"><span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#无线网卡的4种工作模式"><span class="toc-text">无线网卡的4种工作模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行步骤"><span class="toc-text">执行步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#切换为监听模式"><span class="toc-text">切换为监听模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启监听"><span class="toc-text">开启监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#捕获数据"><span class="toc-text">捕获数据</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#无线监听"><span class="toc-text">无线监听</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#技术原理"><span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#无线网卡的4种工作模式"><span class="toc-text">无线网卡的4种工作模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行步骤"><span class="toc-text">执行步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#切换为监听模式"><span class="toc-text">切换为监听模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开启监听"><span class="toc-text">开启监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#捕获数据"><span class="toc-text">捕获数据</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 

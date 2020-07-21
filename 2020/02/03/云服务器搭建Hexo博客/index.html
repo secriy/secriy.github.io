@@ -22,7 +22,7 @@
   
   
     <meta name="description" content="
-            本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。
+            一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。
           ">
   
 
@@ -480,7 +480,7 @@
         <div class="article-entry" itemprop="articleBody">
           
           <div class="note quote cyan">
-            <p>本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。</p>
+            <p>一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。</p>
           </div>
 
 <a id="more"></a>
@@ -494,23 +494,23 @@
 <li><p>连接服务器</p>
 </li>
 <li><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd git</span><br><span class="line">passwd git #输入自定义密码并确认</span><br><span class="line">chmod 740 &#x2F;etc&#x2F;sudoers #修改文件权限</span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd git</span><br><span class="line">passwd git #输入自定义密码并确认</span><br><span class="line">chmod 740 /etc/sudoers #修改文件权限</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编辑 /etc/sudoers 文件，在<strong>root     ALL=(ALL)     ALL</strong>下添加<strong>git     ALL=(ALL)     ALL</strong></p>
 </li>
 <li><p>执行<code>chmod 400 /etc/sudoers</code>改回文件权限</p>
 </li>
 <li><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">su git								#切换至git用户</span><br><span class="line">sudo mkdir -p &#x2F;www&#x2F;wwwroot&#x2F;blog		#创建博客目录，自定义修改</span><br><span class="line">cd &#x2F;home&#x2F;git</span><br><span class="line">mkdir repos</span><br><span class="line">cd repos</span><br><span class="line">git init --bare hexo.git			#创建仓库hexo.git</span><br><span class="line">cd hexo.git&#x2F;hooks</span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">su git								#切换至git用户</span><br><span class="line">sudo mkdir -p /www/wwwroot/blog		#创建博客目录，自定义修改</span><br><span class="line">cd /home/git</span><br><span class="line">mkdir repos</span><br><span class="line">cd repos</span><br><span class="line">git init --bare hexo.git			#创建仓库hexo.git</span><br><span class="line">cd hexo.git/hooks</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在hooks文件夹下创建post-receive文件并编辑（参数对照修改）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">git --work-tree&#x3D;&#x2F;www&#x2F;wwwroot&#x2F;blog --git-dir&#x3D;&#x2F;home&#x2F;git&#x2F;repos&#x2F;hexo.git checkout -f</span><br></pre></td></tr></table></figure>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">git --work-tree=/www/wwwroot/blog --git-dir=/home/git/repos/hexo.git checkout -f</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>退出并修改权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x post-receive</span><br><span class="line">exit</span><br><span class="line">chown -R git:git &#x2F;home&#x2F;git&#x2F;repos&#x2F;hexo.git</span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x post-receive</span><br><span class="line">exit</span><br><span class="line">chown -R git:git /home/git/repos/hexo.git</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>修改/www/wwwroot/blog目录权限</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R git:git &#x2F;www&#x2F;wwwroot&#x2F;blog</span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R git:git /www/wwwroot/blog</span><br></pre></td></tr></table></figure>
 
 
 
@@ -528,7 +528,7 @@
 <li><p>执行<code>ssh git@服务器ip</code>测试能否免密远程连接</p>
 </li>
 <li><p>修改deploy配置（注意空格）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">	type: git</span><br><span class="line">	repository: git@服务器IP:&#x2F;home&#x2F;git&#x2F;repos&#x2F;hexo.git</span><br><span class="line">	branch: master</span><br></pre></td></tr></table></figure>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">	<span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">	<span class="attr">repository:</span> <span class="string">git@服务器IP:/home/git/repos/hexo.git</span></span><br><span class="line">	<span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -621,10 +621,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-26T15:13:09+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-21T17:40:18+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年6月26日</p>
+    <p>更新于：2020年7月21日</p>
   </a>
 </div>
 
@@ -652,7 +652,7 @@
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
           href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=
-            本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。
+            一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。
           "
           
           >
@@ -666,7 +666,7 @@
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
           href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=
-            本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。
+            一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。
           "
           
           >
@@ -680,7 +680,7 @@
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
           href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=
-            本文详细介绍了在Linux（CentOS）环境下安装Git和Hexo从而在服务器上部署Hexo博客的步骤。
+            一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。
           "
           
           >
