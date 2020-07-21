@@ -92,19 +92,19 @@ h1 {
   font-size: 1.625rem;
 }
 h2 {
-  font-size: 1.375rem;
+  font-size: 1.625rem;
 }
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 h4 {
-  font-size: 1.125rem;
+  font-size: 1.375rem;
 }
 h5 {
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 h6 {
-  font-size: 1rem;
+  font-size: 1.125rem;
 }
 h1,
 h2,
@@ -1327,21 +1327,21 @@ p.p.h1 {
 }
 span.p.h2,
 p.p.h2 {
-  font-size: 1.375rem;
-  color: #42ba78;
+  font-size: 1.625rem;
+  color: #f04c46;
   padding-top: 1rem;
   border-bottom: 1px solid rgba(66,186,120,0.1);
 }
 span.p.h3,
 p.p.h3 {
-  font-size: 1.25rem;
-  color: #fac8cd;
+  font-size: 1.5rem;
+  color: #fc8663;
   padding-top: 1rem;
 }
 span.p.h4,
 p.p.h4 {
-  font-size: 1.125rem;
-  color: #42ba78;
+  font-size: 1.375rem;
+  color: #0a94af;
   padding-top: 1rem;
 }
 span.p.red,
@@ -1893,7 +1893,7 @@ pre {
   border-radius: 8px;
   box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
   font-weight: bold;
-  font-size: 1.125rem;
+  font-size: 1.375rem;
 }
 .alert.alert-success {
   color: #247830;
@@ -2202,7 +2202,7 @@ div.gallery.stretch>p img {
 }
 .l_main #comments #valine_container .vcount .vnum {
   color: #56638a;
-  font-size: 1.375rem;
+  font-size: 1.625rem;
 }
 .l_main #comments #valine_container button {
   border: none;
@@ -2535,22 +2535,22 @@ div.gallery.stretch>p img {
 }
 .article h2 {
   text-align: left;
-  color: #42ba78;
+  color: #f04c46;
   margin-top: 36px;
 }
 .article h3 {
   text-align: left;
-  color: #fac8cd;
+  color: #fc8663;
   margin-top: 24px;
 }
 .article h4 {
   text-align: left;
-  color: #42ba78;
+  color: #0a94af;
   margin-top: 16px;
 }
 .article h5 {
   font-weight: bold;
-  color: #42ba78;
+  color: #87b5cc;
   margin-top: 1rem;
 }
 .article h6 {
@@ -3410,14 +3410,14 @@ footer .copyright p {
   margin-bottom: 16px;
 }
 .l_main .post-wrapper .post div.meta .title {
-  font-size: 1.375rem;
+  font-size: 1.625rem;
 }
 .l_main .post-wrapper .post div.meta .title a {
-  font-size: 1.375rem;
+  font-size: 1.625rem;
 }
 @media screen and (max-width: 500px) {
   .l_main .post-wrapper .post div.meta .title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
 @media screen and (max-width: 500px) and (max-width: 500px) {
@@ -3554,7 +3554,7 @@ footer .copyright p {
   font-size: 1.7875rem;
 }
 .l_main .post section.meta .title p.h2 {
-  font-size: 1.5125rem;
+  font-size: 1.7875rem;
 }
 .l_main .post section.meta .title a {
   display: inline;
@@ -3719,7 +3719,7 @@ footer .copyright p {
     padding-right: 0;
   }
   .l_main .post div.meta .title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
 @media screen and (max-width: 768px) and (max-width: 500px) {
@@ -3776,7 +3776,7 @@ div.hoverbox:hover >div.target {
 .comments .article p[ct] {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   color: #42ba78;
 }
 .comments .article p[cst] {
@@ -3881,7 +3881,7 @@ div.hoverbox:hover >div.target {
   flex-shrink: 0;
   line-height: 64px;
   padding: 0 24px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
 }
 .l_header .wrapper .nav-main .title img {
@@ -4412,7 +4412,7 @@ ul.list-v >li>a.active {
 .l_main .article .prev-next >a p.title {
   margin: 8px 0.5rem;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 .l_main .article .prev-next >a p.title >i {
   width: 1rem;
@@ -4727,7 +4727,7 @@ ul.list-v >li>a.active {
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.125rem;
+  font-size: 1.375rem;
 }
 #u-search .modal-body .modal-results .result .digest {
   display: block;
