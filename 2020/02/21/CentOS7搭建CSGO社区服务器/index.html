@@ -547,14 +547,14 @@
 <li><p>在<em>csgo_server/csgo/cfg</em>路径下创建配置文件<strong>server.cfg</strong></p>
 </li>
 <li><p>写入必要参数</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sv_setsteamaccount <span class="string">"XXXXXXXXXXXXXXXXXXXXXXXXX"</span>		//步骤1获取的服务器令牌ID</span><br><span class="line">hostname <span class="string">""</span>											//服务器名</span><br><span class="line">rcon_password <span class="string">"12345678"</span>							//服务器管理密码</span><br><span class="line">sv_password <span class="string">"23333333"</span>								//服务器连接密码</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment"># 步骤1获取的服务器令牌ID</span></span><br><span class="line">	sv_setsteamaccount <span class="string">"XXXXXXXXXXXXXXXXXXXXXXXXX"</span></span><br><span class="line">	<span class="comment"># 服务器名</span></span><br><span class="line">	hostname <span class="string">"wdnmd"</span></span><br><span class="line">	<span class="comment"># 服务器管理密码</span></span><br><span class="line">rcon_password <span class="string">"12345678"</span></span><br><span class="line">	<span class="comment"># 服务器连接密码</span></span><br><span class="line">	sv_password <span class="string">"23333333"</span></span><br></pre></td></tr></table></figure>
 
 <p> 其他参数请根据需要自行修改/添加</p>
 </li>
 </ol>
 <h2 id="服务端启动"><a href="#服务端启动" class="headerlink" title="服务端启动"></a>服务端启动</h2><ol>
 <li><p>安装screen</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo install screen</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install screen</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建启动脚本</p>
 <p> <strong>使用脚本启动方便修改启动项</strong></p>
@@ -572,12 +572,12 @@
 </blockquote>
 </li>
 <li><p>启动服务器</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
+
+<p> <img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" alt></p>
+<p> 当出现上图显示的文字，服务器启动成功</p>
 </li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" alt></p>
-<p>当出现上图显示的文字，服务器启动成功</p>
 <h2 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h2><p>在控制台中输入<code>connect IP地址;password 连接密码</code>即可连接</p>
 
           
@@ -666,10 +666,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-21T17:46:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-27T14:06:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年7月21日</p>
+    <p>更新于：2020年7月27日</p>
   </a>
 </div>
 
