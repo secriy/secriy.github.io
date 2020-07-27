@@ -540,13 +540,13 @@
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S vim</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>输入法</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy fcitx</span><br><span class="line">sudo pacman -S fcitx-sunpinyin <span class="comment"># 输入法</span></span><br><span class="line">sudo pacman -S fcitx-configtool <span class="comment"># 配置工具</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy fcitx</span><br><span class="line">sudo pacman -S fcitx-sunpinyin # 输入法</span><br><span class="line">sudo pacman -S fcitx-configtool # 配置工具</span><br></pre></td></tr></table></figure>
 
 <p> 创建<code>.xprofile</code>文件</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.xprofile</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.xprofile</span><br></pre></td></tr></table></figure>
 
 <p> 写入内容：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=<span class="string">"@im=fcitx"</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS="@im=fcitx"</span><br></pre></td></tr></table></figure>
 
 <p> 重启设备</p>
 </li>
@@ -564,18 +564,18 @@
 </ol>
 <h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4><ol>
 <li><p>V2RAY</p>
-<p><a href="https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md" target="_blank" rel="noopener">V2RAY配置说明</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line">yay -S v2ray</span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置</span></span><br><span class="line">sudo vim /etc/v2ray/config.json</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">sudo systemctl start v2ray.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 开机自启动</span></span><br><span class="line">sudo systemctl enable v2ray.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭</span></span><br><span class="line">sudo systemctl stop v2ray.service</span><br></pre></td></tr></table></figure>
+<p> <a href="https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md" target="_blank" rel="noopener">V2RAY配置说明</a></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装</span></span><br><span class="line">yay -S v2ray</span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置</span></span><br><span class="line">sudo vim /etc/v2ray/config.json</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">sudo systemctl start v2ray.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 开机自启动</span></span><br><span class="line">sudo systemctl enable v2ray.service</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭</span></span><br><span class="line">sudo systemctl stop v2ray.service</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Chrome</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S google-chrome</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S google-chrome</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>WPS</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S wps-office</span><br><span class="line">yay -S ttf-wps-fonts</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S wps-office</span><br><span class="line">yay -S ttf-wps-fonts</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>deepin-screenshot</p>
-<p>截图工具</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S deepin-screenshot</span><br></pre></td></tr></table></figure>
+<p> 截图工具</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S deepin-screenshot</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -680,7 +680,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-27T13:40:43+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-27T13:49:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年7月27日</p>
