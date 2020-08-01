@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#3.0-beta2'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+  <title>sqlmap使用笔记 - Secriy&#39;s Blog</title>
+  
+    <meta name="keywords" content="信息安全">
+  
+
+  
+    <meta name="description" content="
+            sqlmap使用笔记。
+          ">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/sun.png">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  
+  
+    <!-- ba -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+	  setTimeout(function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5213c4b7580d2b4b637d22dcbe0965e5";
+		hm.defer=true;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+	  }, 5000);
+    })();
+    </script>
+  
+</head>
+
+
+<body oncontextmenu="return popMenu(event);">
+
+  
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post' style="display: none;">
+      <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Secriy's Blog</p>
+    
+    
+      <p class="subtitle">The world is a fine place and worth fighting for.</p>
+    
+  </div>
+  <div class='b'>
+    <div class='menu navigation dock'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-rss fa-fw'></i><p>博文</p>
+            </a>
+          
+            <a href="/projects/"
+              
+              
+              id="projects">
+              <i class='fas fa-code-branch fa-fw'></i><p>项目</p>
+            </a>
+          
+            <a href="/friends/"
+              
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+                target="_blank"
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+    </cover>
+    <header class="l_header shadow blur floatable">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h' id="pjax-header-nav-list">
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Secriy
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/archives/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/categories/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/tags/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-hashtag fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/projects/
+                  
+                  
+                  
+                    id="projects"
+                  >
+                  <i class='fas fa-code-branch fa-fw'></i>项目
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/friends/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box" href=/about/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>主页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/archives/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/categories/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/tags/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-hashtag fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/projects/
+                  
+                  
+                  
+                    id="projects"
+                  >
+                  <i class='fas fa-code-branch fa-fw'></i>项目
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/friends/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box" href=/about/
+                  
+                    rel="nofollow"
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  </div>
+  
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper' id="pjax-container">
+      
+        <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+
+
+<div id="pjax-data" style="display: none">
+  <div id="pjax-ispage">true</div>
+  <div id="pjax-pageTitle">sqlmap使用笔记</div>
+  <div id="pjax-enable-cover">true</div>
+  <div id="pjax-permalink">https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/</div>
+  
+  <div id="valine-path">none</div>
+  <div id="valine-placeholder">none</div>
+  
+  
+</div>
+
+
+<script>
+  // 处理封面 此时 jquery 还没加载
+  if ("none" == "none") { // 移除封面
+    document.getElementsByClassName('cover')[0].style.display = "none";
+    document.getElementsByClassName('l_body')[0].classList.add("nocover");
+    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
+  } else {
+    if ("none" == "blog") { // 半屏
+      document.getElementsByClassName('cover')[0].classList.remove("full");
+      document.getElementsByClassName('cover')[0].classList.add("half");
+      document.getElementsByClassName('scroll-down')[0].style.display = "none";
+    } else if ("none" == "docs") { // 全屏
+      document.getElementsByClassName('cover')[0].classList.remove("half");
+      document.getElementsByClassName('cover')[0].classList.add("full");
+      document.getElementsByClassName('scroll-down')[0].style.display = "";
+    }
+    document.getElementsByClassName('cover')[0].style.display = "";
+    document.getElementsByClassName('l_body', 'show')[0].classList.remove("nocover");
+    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.remove("show");
+  }
+</script>
+
+      
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
+      sqlmap使用笔记
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a class='author' href="https://secriy.com" rel="nofollow">
+    <img no-lazy src="https://secriy.oss-cn-shanghai.aliyuncs.com/image/avatar.PNG">
+    <p>Secriy</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>使用笔记</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2020年5月9日</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          
+          <div class="note quote cyan">
+            <p>sqlmap使用笔记。</p>
+          </div>
+
+<a id="more"></a>
+
+<h1 id="基础指令"><a href="#基础指令" class="headerlink" title="基础指令"></a>基础指令</h1><h2 id="检测注入"><a href="#检测注入" class="headerlink" title="检测注入"></a>检测注入</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">基本格式:</span><br><span class="line">sqlmap -u <span class="string">"http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#"</span>`</span><br><span class="line"></span><br><span class="line">指定数据库:</span><br><span class="line">sqlmap -u <span class="string">"http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#"</span> --dbms mysql</span><br><span class="line"></span><br><span class="line">设置等级:</span><br><span class="line">sqlmap -u <span class="string">"http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#"</span> --level 1-5</span><br><span class="line"></span><br><span class="line">Cookie注入:</span><br><span class="line">sqlmap -u <span class="string">"http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#"</span> --cookie=<span class="string">"PHPSESSID=1ridq2ikda0rviqnm9pm9bpnb6; security=low"</span></span><br><span class="line"></span><br><span class="line">POST注入:</span><br><span class="line">sqlmap -u <span class="string">"http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=Submit#"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库枚举"><a href="#数据库枚举" class="headerlink" title="数据库枚举"></a>数据库枚举</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">指定:</span><br><span class="line">--D 	指定库 </span><br><span class="line">--T 	指定表</span><br><span class="line">--C		指定字段</span><br><span class="line"></span><br><span class="line">枚举:</span><br><span class="line">--dbs		枚举库</span><br><span class="line">--tables	枚举表</span><br><span class="line">--columns	枚举字段</span><br><span class="line">--schema	枚举数据库管理模式</span><br><span class="line">--batch		自动执行</span><br></pre></td></tr></table></figure>
+
+<h2 id="全部选项"><a href="#全部选项" class="headerlink" title="全部选项"></a>全部选项</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br></pre></td><td class="code"><pre><span class="line">Usage: python sqlmap.py [options]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -h, --<span class="built_in">help</span>            Show basic <span class="built_in">help</span> message and <span class="built_in">exit</span></span><br><span class="line">  -hh                   Show advanced <span class="built_in">help</span> message and <span class="built_in">exit</span></span><br><span class="line">  --version             Show program<span class="string">'s version number and exit</span></span><br><span class="line"><span class="string">  -v VERBOSE            Verbosity level: 0-6 (default 1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Target:</span></span><br><span class="line"><span class="string">    At least one of these options has to be provided to define the</span></span><br><span class="line"><span class="string">    target(s)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    -d DIRECT           Connection string for direct database connection</span></span><br><span class="line"><span class="string">    -u URL, --url=URL   Target URL (e.g. "http://www.site.com/vuln.php?id=1")</span></span><br><span class="line"><span class="string">    -l LOGFILE          Parse target(s) from Burp or WebScarab proxy log file</span></span><br><span class="line"><span class="string">    -m BULKFILE         Scan multiple targets given in a textual file</span></span><br><span class="line"><span class="string">    -r REQUESTFILE      Load HTTP request from a file</span></span><br><span class="line"><span class="string">    -g GOOGLEDORK       Process Google dork results as target URLs</span></span><br><span class="line"><span class="string">    -c CONFIGFILE       Load options from a configuration INI file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Request:</span></span><br><span class="line"><span class="string">    These options can be used to specify how to connect to the target URL</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --method=METHOD     Force usage of given HTTP method (e.g. PUT)</span></span><br><span class="line"><span class="string">    --data=DATA         Data string to be sent through POST (e.g. "id=1")</span></span><br><span class="line"><span class="string">    --param-del=PARA..  Character used for splitting parameter values (e.g. &amp;)</span></span><br><span class="line"><span class="string">    --cookie=COOKIE     HTTP Cookie header value (e.g. "PHPSESSID=a8d127e..")</span></span><br><span class="line"><span class="string">    --cookie-del=COO..  Character used for splitting cookie values (e.g. ;)</span></span><br><span class="line"><span class="string">    --load-cookies=L..  File containing cookies in Netscape/wget format</span></span><br><span class="line"><span class="string">    --drop-set-cookie   Ignore Set-Cookie header from response</span></span><br><span class="line"><span class="string">    --user-agent=AGENT  HTTP User-Agent header value</span></span><br><span class="line"><span class="string">    --random-agent      Use randomly selected HTTP User-Agent header value</span></span><br><span class="line"><span class="string">    --host=HOST         HTTP Host header value</span></span><br><span class="line"><span class="string">    --referer=REFERER   HTTP Referer header value</span></span><br><span class="line"><span class="string">    -H HEADER, --hea..  Extra header (e.g. "X-Forwarded-For: 127.0.0.1")</span></span><br><span class="line"><span class="string">    --headers=HEADERS   Extra headers (e.g. "Accept-Language: fr\nETag: 123")</span></span><br><span class="line"><span class="string">    --auth-type=AUTH..  HTTP authentication type (Basic, Digest, NTLM or PKI)</span></span><br><span class="line"><span class="string">    --auth-cred=AUTH..  HTTP authentication credentials (name:password)</span></span><br><span class="line"><span class="string">    --auth-file=AUTH..  HTTP authentication PEM cert/private key file</span></span><br><span class="line"><span class="string">    --ignore-code=IG..  Ignore (problematic) HTTP error code (e.g. 401)</span></span><br><span class="line"><span class="string">    --ignore-proxy      Ignore system default proxy settings</span></span><br><span class="line"><span class="string">    --ignore-redirects  Ignore redirection attempts</span></span><br><span class="line"><span class="string">    --ignore-timeouts   Ignore connection timeouts</span></span><br><span class="line"><span class="string">    --proxy=PROXY       Use a proxy to connect to the target URL</span></span><br><span class="line"><span class="string">    --proxy-cred=PRO..  Proxy authentication credentials (name:password)</span></span><br><span class="line"><span class="string">    --proxy-file=PRO..  Load proxy list from a file</span></span><br><span class="line"><span class="string">    --tor               Use Tor anonymity network</span></span><br><span class="line"><span class="string">    --tor-port=TORPORT  Set Tor proxy port other than default</span></span><br><span class="line"><span class="string">    --tor-type=TORTYPE  Set Tor proxy type (HTTP, SOCKS4 or SOCKS5 (default))</span></span><br><span class="line"><span class="string">    --check-tor         Check to see if Tor is used properly</span></span><br><span class="line"><span class="string">    --delay=DELAY       Delay in seconds between each HTTP request</span></span><br><span class="line"><span class="string">    --timeout=TIMEOUT   Seconds to wait before timeout connection (default 30)</span></span><br><span class="line"><span class="string">    --retries=RETRIES   Retries when the connection timeouts (default 3)</span></span><br><span class="line"><span class="string">    --randomize=RPARAM  Randomly change value for given parameter(s)</span></span><br><span class="line"><span class="string">    --safe-url=SAFEURL  URL address to visit frequently during testing</span></span><br><span class="line"><span class="string">    --safe-post=SAFE..  POST data to send to a safe URL</span></span><br><span class="line"><span class="string">    --safe-req=SAFER..  Load safe HTTP request from a file</span></span><br><span class="line"><span class="string">    --safe-freq=SAFE..  Test requests between two visits to a given safe URL</span></span><br><span class="line"><span class="string">    --skip-urlencode    Skip URL encoding of payload data</span></span><br><span class="line"><span class="string">    --csrf-token=CSR..  Parameter used to hold anti-CSRF token</span></span><br><span class="line"><span class="string">    --csrf-url=CSRFURL  URL address to visit for extraction of anti-CSRF token</span></span><br><span class="line"><span class="string">    --force-ssl         Force usage of SSL/HTTPS</span></span><br><span class="line"><span class="string">    --hpp               Use HTTP parameter pollution method</span></span><br><span class="line"><span class="string">    --eval=EVALCODE     Evaluate provided Python code before the request (e.g.</span></span><br><span class="line"><span class="string">                        "import hashlib;id2=hashlib.md5(id).hexdigest()")</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Optimization:</span></span><br><span class="line"><span class="string">    These options can be used to optimize the performance of sqlmap</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    -o                  Turn on all optimization switches</span></span><br><span class="line"><span class="string">    --predict-output    Predict common queries output</span></span><br><span class="line"><span class="string">    --keep-alive        Use persistent HTTP(s) connections</span></span><br><span class="line"><span class="string">    --null-connection   Retrieve page length without actual HTTP response body</span></span><br><span class="line"><span class="string">    --threads=THREADS   Max number of concurrent HTTP(s) requests (default 1)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Injection:</span></span><br><span class="line"><span class="string">    These options can be used to specify which parameters to test for,</span></span><br><span class="line"><span class="string">    provide custom injection payloads and optional tampering scripts</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    -p TESTPARAMETER    Testable parameter(s)</span></span><br><span class="line"><span class="string">    --skip=SKIP         Skip testing for given parameter(s)</span></span><br><span class="line"><span class="string">    --skip-static       Skip testing parameters that not appear to be dynamic</span></span><br><span class="line"><span class="string">    --param-exclude=..  Regexp to exclude parameters from testing (e.g. "ses")</span></span><br><span class="line"><span class="string">    --dbms=DBMS         Force back-end DBMS to provided value</span></span><br><span class="line"><span class="string">    --dbms-cred=DBMS..  DBMS authentication credentials (user:password)</span></span><br><span class="line"><span class="string">    --os=OS             Force back-end DBMS operating system to provided value</span></span><br><span class="line"><span class="string">    --invalid-bignum    Use big numbers for invalidating values</span></span><br><span class="line"><span class="string">    --invalid-logical   Use logical operations for invalidating values</span></span><br><span class="line"><span class="string">    --invalid-string    Use random strings for invalidating values</span></span><br><span class="line"><span class="string">    --no-cast           Turn off payload casting mechanism</span></span><br><span class="line"><span class="string">    --no-escape         Turn off string escaping mechanism</span></span><br><span class="line"><span class="string">    --prefix=PREFIX     Injection payload prefix string</span></span><br><span class="line"><span class="string">    --suffix=SUFFIX     Injection payload suffix string</span></span><br><span class="line"><span class="string">    --tamper=TAMPER     Use given script(s) for tampering injection data</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Detection:</span></span><br><span class="line"><span class="string">    These options can be used to customize the detection phase</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --level=LEVEL       Level of tests to perform (1-5, default 1)</span></span><br><span class="line"><span class="string">    --risk=RISK         Risk of tests to perform (1-3, default 1)</span></span><br><span class="line"><span class="string">    --string=STRING     String to match when query is evaluated to True</span></span><br><span class="line"><span class="string">    --not-string=NOT..  String to match when query is evaluated to False</span></span><br><span class="line"><span class="string">    --regexp=REGEXP     Regexp to match when query is evaluated to True</span></span><br><span class="line"><span class="string">    --code=CODE         HTTP code to match when query is evaluated to True</span></span><br><span class="line"><span class="string">    --text-only         Compare pages based only on the textual content</span></span><br><span class="line"><span class="string">    --titles            Compare pages based only on their titles</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Techniques:</span></span><br><span class="line"><span class="string">    These options can be used to tweak testing of specific SQL injection</span></span><br><span class="line"><span class="string">    techniques</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --technique=TECH    SQL injection techniques to use (default "BEUSTQ")</span></span><br><span class="line"><span class="string">    --time-sec=TIMESEC  Seconds to delay the DBMS response (default 5)</span></span><br><span class="line"><span class="string">    --union-cols=UCOLS  Range of columns to test for UNION query SQL injection</span></span><br><span class="line"><span class="string">    --union-char=UCHAR  Character to use for bruteforcing number of columns</span></span><br><span class="line"><span class="string">    --union-from=UFROM  Table to use in FROM part of UNION query SQL injection</span></span><br><span class="line"><span class="string">    --dns-domain=DNS..  Domain name used for DNS exfiltration attack</span></span><br><span class="line"><span class="string">    --second-url=SEC..  Resulting page URL searched for second-order response</span></span><br><span class="line"><span class="string">    --second-req=SEC..  Load second-order HTTP request from file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Fingerprint:</span></span><br><span class="line"><span class="string">    -f, --fingerprint   Perform an extensive DBMS version fingerprint</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Enumeration:</span></span><br><span class="line"><span class="string">    These options can be used to enumerate the back-end database</span></span><br><span class="line"><span class="string">    management system information, structure and data contained in the</span></span><br><span class="line"><span class="string">    tables. Moreover you can run your own SQL statements</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    -a, --all           Retrieve everything</span></span><br><span class="line"><span class="string">    -b, --banner        Retrieve DBMS banner</span></span><br><span class="line"><span class="string">    --current-user      Retrieve DBMS current user</span></span><br><span class="line"><span class="string">    --current-db        Retrieve DBMS current database</span></span><br><span class="line"><span class="string">    --hostname          Retrieve DBMS server hostname</span></span><br><span class="line"><span class="string">    --is-dba            Detect if the DBMS current user is DBA</span></span><br><span class="line"><span class="string">    --users             Enumerate DBMS users</span></span><br><span class="line"><span class="string">    --passwords         Enumerate DBMS users password hashes</span></span><br><span class="line"><span class="string">    --privileges        Enumerate DBMS users privileges</span></span><br><span class="line"><span class="string">    --roles             Enumerate DBMS users roles</span></span><br><span class="line"><span class="string">    --dbs               Enumerate DBMS databases</span></span><br><span class="line"><span class="string">    --tables            Enumerate DBMS database tables</span></span><br><span class="line"><span class="string">    --columns           Enumerate DBMS database table columns</span></span><br><span class="line"><span class="string">    --schema            Enumerate DBMS schema</span></span><br><span class="line"><span class="string">    --count             Retrieve number of entries for table(s)</span></span><br><span class="line"><span class="string">    --dump              Dump DBMS database table entries</span></span><br><span class="line"><span class="string">    --dump-all          Dump all DBMS databases tables entries</span></span><br><span class="line"><span class="string">    --search            Search column(s), table(s) and/or database name(s)</span></span><br><span class="line"><span class="string">    --comments          Check for DBMS comments during enumeration</span></span><br><span class="line"><span class="string">    -D DB               DBMS database to enumerate</span></span><br><span class="line"><span class="string">    -T TBL              DBMS database table(s) to enumerate</span></span><br><span class="line"><span class="string">    -C COL              DBMS database table column(s) to enumerate</span></span><br><span class="line"><span class="string">    -X EXCLUDE          DBMS database identifier(s) to not enumerate</span></span><br><span class="line"><span class="string">    -U USER             DBMS user to enumerate</span></span><br><span class="line"><span class="string">    --exclude-sysdbs    Exclude DBMS system databases when enumerating tables</span></span><br><span class="line"><span class="string">    --pivot-column=P..  Pivot column name</span></span><br><span class="line"><span class="string">    --where=DUMPWHERE   Use WHERE condition while table dumping</span></span><br><span class="line"><span class="string">    --start=LIMITSTART  First dump table entry to retrieve</span></span><br><span class="line"><span class="string">    --stop=LIMITSTOP    Last dump table entry to retrieve</span></span><br><span class="line"><span class="string">    --first=FIRSTCHAR   First query output word character to retrieve</span></span><br><span class="line"><span class="string">    --last=LASTCHAR     Last query output word character to retrieve</span></span><br><span class="line"><span class="string">    --sql-query=QUERY   SQL statement to be executed</span></span><br><span class="line"><span class="string">    --sql-shell         Prompt for an interactive SQL shell</span></span><br><span class="line"><span class="string">    --sql-file=SQLFILE  Execute SQL statements from given file(s)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Brute force:</span></span><br><span class="line"><span class="string">    These options can be used to run brute force checks</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --common-tables     Check existence of common tables</span></span><br><span class="line"><span class="string">    --common-columns    Check existence of common columns</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  User-defined function injection:</span></span><br><span class="line"><span class="string">    These options can be used to create custom user-defined functions</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --udf-inject        Inject custom user-defined functions</span></span><br><span class="line"><span class="string">    --shared-lib=SHLIB  Local path of the shared library</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  File system access:</span></span><br><span class="line"><span class="string">    These options can be used to access the back-end database management</span></span><br><span class="line"><span class="string">    system underlying file system</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --file-read=FILE..  Read a file from the back-end DBMS file system</span></span><br><span class="line"><span class="string">    --file-write=FIL..  Write a local file on the back-end DBMS file system</span></span><br><span class="line"><span class="string">    --file-dest=FILE..  Back-end DBMS absolute filepath to write to</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Operating system access:</span></span><br><span class="line"><span class="string">    These options can be used to access the back-end database management</span></span><br><span class="line"><span class="string">    system underlying operating system</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --os-cmd=OSCMD      Execute an operating system command</span></span><br><span class="line"><span class="string">    --os-shell          Prompt for an interactive operating system shell</span></span><br><span class="line"><span class="string">    --os-pwn            Prompt for an OOB shell, Meterpreter or VNC</span></span><br><span class="line"><span class="string">    --os-smbrelay       One click prompt for an OOB shell, Meterpreter or VNC</span></span><br><span class="line"><span class="string">    --os-bof            Stored procedure buffer overflow exploitation</span></span><br><span class="line"><span class="string">    --priv-esc          Database process user privilege escalation</span></span><br><span class="line"><span class="string">    --msf-path=MSFPATH  Local path where Metasploit Framework is installed</span></span><br><span class="line"><span class="string">    --tmp-path=TMPPATH  Remote absolute path of temporary files directory</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Windows registry access:</span></span><br><span class="line"><span class="string">    These options can be used to access the back-end database management</span></span><br><span class="line"><span class="string">    system Windows registry</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    --reg-read          Read a Windows registry key value</span></span><br><span class="line"><span class="string">    --reg-add           Write a Windows registry key value data</span></span><br><span class="line"><span class="string">    --reg-del           Delete a Windows registry key value</span></span><br><span class="line"><span class="string">    --reg-key=REGKEY    Windows registry key</span></span><br><span class="line"><span class="string">    --reg-value=REGVAL  Windows registry key value</span></span><br><span class="line"><span class="string">    --reg-data=REGDATA  Windows registry key value data</span></span><br><span class="line"><span class="string">    --reg-type=REGTYPE  Windows registry key value type</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  General:</span></span><br><span class="line"><span class="string">    These options can be used to set some general working parameters</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    -s SESSIONFILE      Load session from a stored (.sqlite) file</span></span><br><span class="line"><span class="string">    -t TRAFFICFILE      Log all HTTP traffic into a textual file</span></span><br><span class="line"><span class="string">    --answers=ANSWERS   Set predefined answers (e.g. "quit=N,follow=N")</span></span><br><span class="line"><span class="string">    --base64=BASE64P..  Parameter(s) containing Base64 encoded data</span></span><br><span class="line"><span class="string">    --batch             Never ask for user input, use the default behavior</span></span><br><span class="line"><span class="string">    --binary-fields=..  Result fields having binary values (e.g. "digest")</span></span><br><span class="line"><span class="string">    --check-internet    Check Internet connection before assessing the target</span></span><br><span class="line"><span class="string">    --crawl=CRAWLDEPTH  Crawl the website starting from the target URL</span></span><br><span class="line"><span class="string">    --crawl-exclude=..  Regexp to exclude pages from crawling (e.g. "logout")</span></span><br><span class="line"><span class="string">    --csv-del=CSVDEL    Delimiting character used in CSV output (default ",")</span></span><br><span class="line"><span class="string">    --charset=CHARSET   Blind SQL injection charset (e.g. "0123456789abcdef")</span></span><br><span class="line"><span class="string">    --dump-format=DU..  Format of dumped data (CSV (default), HTML or SQLITE)</span></span><br><span class="line"><span class="string">    --encoding=ENCOD..  Character encoding used for data retrieval (e.g. GBK)</span></span><br><span class="line"><span class="string">    --eta               Display for each output the estimated time of arrival</span></span><br><span class="line"><span class="string">    --flush-session     Flush session files for current target</span></span><br><span class="line"><span class="string">    --forms             Parse and test forms on target URL</span></span><br><span class="line"><span class="string">    --fresh-queries     Ignore query results stored in session file</span></span><br><span class="line"><span class="string">    --har=HARFILE       Log all HTTP traffic into a HAR file</span></span><br><span class="line"><span class="string">    --hex               Use hex conversion during data retrieval</span></span><br><span class="line"><span class="string">    --output-dir=OUT..  Custom output directory path</span></span><br><span class="line"><span class="string">    --parse-errors      Parse and display DBMS error messages from responses</span></span><br><span class="line"><span class="string">    --preprocess=PRE..  Use given script(s) for preprocessing of response data</span></span><br><span class="line"><span class="string">    --repair            Redump entries having unknown character marker (?)</span></span><br><span class="line"><span class="string">    --save=SAVECONFIG   Save options to a configuration INI file</span></span><br><span class="line"><span class="string">    --scope=SCOPE       Regexp to filter targets from provided proxy log</span></span><br><span class="line"><span class="string">    --test-filter=TE..  Select tests by payloads and/or titles (e.g. ROW)</span></span><br><span class="line"><span class="string">    --test-skip=TEST..  Skip tests by payloads and/or titles (e.g. BENCHMARK)</span></span><br><span class="line"><span class="string">    --update            Update sqlmap</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Miscellaneous:</span></span><br><span class="line"><span class="string">    -z MNEMONICS        Use short mnemonics (e.g. "flu,bat,ban,tec=EU")</span></span><br><span class="line"><span class="string">    --alert=ALERT       Run host OS command(s) when SQL injection is found</span></span><br><span class="line"><span class="string">    --beep              Beep on question and/or when SQL injection is found</span></span><br><span class="line"><span class="string">    --cleanup           Clean up the DBMS from sqlmap specific UDF and tables</span></span><br><span class="line"><span class="string">    --dependencies      Check for missing (optional) sqlmap dependencies</span></span><br><span class="line"><span class="string">    --disable-coloring  Disable console output coloring</span></span><br><span class="line"><span class="string">    --gpage=GOOGLEPAGE  Use Google dork results from specified page number</span></span><br><span class="line"><span class="string">    --identify-waf      Make a thorough testing for a WAF/IPS protection</span></span><br><span class="line"><span class="string">    --list-tampers      Display list of available tamper scripts</span></span><br><span class="line"><span class="string">    --mobile            Imitate smartphone through HTTP User-Agent header</span></span><br><span class="line"><span class="string">    --offline           Work in offline mode (only use session data)</span></span><br><span class="line"><span class="string">    --purge             Safely remove all content from sqlmap data directory</span></span><br><span class="line"><span class="string">    --skip-waf          Skip heuristic detection of WAF/IPS protection</span></span><br><span class="line"><span class="string">    --smart             Conduct thorough tests only if positive heuristic(s)</span></span><br><span class="line"><span class="string">    --sqlmap-shell      Prompt for an interactive sqlmap shell</span></span><br><span class="line"><span class="string">    --tmp-dir=TMPDIR    Local directory for storing temporary files</span></span><br><span class="line"><span class="string">    --web-root=WEBROOT  Web server document root directory (e.g. "/var/www")</span></span><br><span class="line"><span class="string">    --wizard            Simple wizard interface for beginner users</span></span><br></pre></td></tr></table></figure>
+
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>本文永久链接是：<a href=https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/>https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/</a></p>
+          
+        
+          
+            <p>如果文章帮到了您，不妨请作者喝杯奶茶。</p>
+
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/alipay.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-27T14:14:00+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年7月27日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>信息安全</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=sqlmap使用笔记 - Secriy's Blog&summary=
+            sqlmap使用笔记。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=sqlmap使用笔记 - Secriy's Blog&summary=
+            sqlmap使用笔记。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/05/09/sqlmap%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=sqlmap使用笔记 - Secriy's Blog&summary=
+            sqlmap使用笔记。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Windows代理环境配置</p>
+                <p class='content'>
+
+代理软件
+V2Ray
+  12socks5：127.0.0.1:1080http：127.0.0.1:1081
+
+SSR
+
+
+配置代理
+git clone（GitHub）
+
+HTTP/HTT...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/'>
+                <p class='title'>计算机网络笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+            学习计算机网络能够理解网络协议的原理和具体实现，加深对计算机网络体系的认知。
+          
+
+
+
+基础概念计算机网络计算机网络由若干结点和连接这些结点的链路组成...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    
+  <article class="post white-box reveal comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      <section id="comments">
+        <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+      </section>
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#检测注入"><span class="toc-text">检测注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库枚举"><span class="toc-text">数据库枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全部选项"><span class="toc-text">全部选项</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+    </div>
+    
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='320px'
+      server='netease'
+      type='playlist'
+      id='741934630'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:me@secriy.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://github.com/secriy"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://music.163.com/#/user/home?id=494386912"
+                class="social fas fa-headphones-alt flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        本站使用
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        作为主题，总访问量为
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          次
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://secriy.com">Copyright © 2018-2020 Secriy</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <div>
+    
+      
+  
+
+  <div id="rightmenu-wrapper">
+    <ul class="list-v rightmenu" id="rightmenu-content">
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' 
+        
+        
+        
+          onclick="menuCopy()"
+        
+        
+          id="menu-copy"
+        >
+        <i class='fa fa-copy fa-fw'></i> 复制文本
+      </a>
+    </li>
+  
+        
+      
+        
+          <li class='navigation'>
+            <a class='nav' onclick='history.back()'><i class='fa fa-arrow-left fa-fw'></i></a>
+            <a class='nav' onclick='history.forward()'><i class='fa fa-arrow-right fa-fw'></i></a>
+            <a class='nav' onclick='window.location.reload()'><i class='fa fa-redo fa-fw'></i></a>
+            <a class='nav fix-cursor-default' href='/'><i class='fa fa-home fa-fw'></i></a>
+          </li>
+        
+      
+        
+          <hr>
+        
+      
+        
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/faqs/
+        
+        
+        
+        
+          id="https:volantisjsorgfaqs"
+        >
+        <i class='fa fa-question fa-fw'></i> 常见问题
+      </a>
+    </li>
+  
+        
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/examples/
+        
+        
+        
+        
+          id="https:volantisjsorgexamples"
+        >
+        <i class='fa fa-rss fa-fw'></i> 示例博客
+      </a>
+    </li>
+  
+        
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' href=https://volantis.js.org/contributors/
+        
+        
+        
+        
+          id="https:volantisjsorgcontributors"
+        >
+        <i class='fa fa-fan fa-spin fa-fw'></i> 加入社区
+      </a>
+    </li>
+  
+        
+      
+        
+          <hr>
+        
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' href=https://github.com/volantis-x/volantis-docs/
+        
+        
+        
+        
+          id="https:githubcomvolantis-xvolantis-docs"
+        >
+        <i class='fa fa-code-branch fa-fw'></i> 本站源码
+      </a>
+    </li>
+  
+        
+      
+        
+          
+    <li>
+      <a class='vlts-menu fix-cursor-default' href=https://github.com/volantis-x/hexo-theme-volantis/
+        
+        
+        
+        
+          id="https:githubcomvolantis-xhexo-theme-volantis"
+        >
+        <i class='fa fa-code-branch fa-fw'></i> 主题源码
+      </a>
+    </li>
+  
+        
+      
+        
+          <hr>
+        
+      
+        
+          <li class='music name'>
+            <p class='nav music-title'></p>
+          </li>
+          <li class='music ctrl'>
+            <a class='nav backward' onclick='aplayerBackward()'><i class='fa fa-step-backward fa-fw'></i></a>
+            <a class='nav toggle' onclick='aplayerToggle()'><i class='fa fa-play fa-fw'></i></a>
+            <a class='nav forward' onclick='aplayerForward()'><i class='fa fa-step-forward fa-fw'></i></a>
+          </li>
+          <li class='music volume'>
+            <a class='nav volume'>
+              <div class="aplayer-volume-bar-wrap">
+                <div class="aplayer-volume-bar fix-cursor-pointer">
+                  <div class="aplayer-volume"></div>
+                  <i class='left fa fa-volume-off fa-fw'></i>
+                  <i class='right fa fa-volume-up fa-fw'></i>
+                </div>
+              </div>
+            </a>
+          </li>
+        
+      
+    </ul>
+  </div>
+
+  <script>
+    window.document.oncontextmenu = function () {
+      return false;
+    };
+    document.addEventListener("click", function (event) {
+      var mymenu = document.getElementById('rightmenu-wrapper');
+      mymenu.style.display = "none";
+    });
+    function popMenu(event) {
+      var copy = document.getElementById('menu-copy');
+      var select = window.getSelection().toString(); // 鼠标选中的文本
+      copy.style.display = select == "" ? "none" : "block";
+      var mymenu = document.getElementById('rightmenu-wrapper');
+      var menuContent = document.getElementById('rightmenu-content');
+      var mouseClientX = event.clientX;
+      var mouseClientY = event.clientY;
+      var menuWidth = menuContent.offsetWidth == 0 ? 150 : menuContent.offsetWidth;
+      var menuHeight = menuContent.offsetHeight == 0 ? 242 : menuContent.offsetHeight;
+      var screenWidth = document.documentElement.clientWidth || document.body.clientWidth;
+      var screenHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      var showLeft = mouseClientX + menuWidth > screenWidth ? mouseClientX - menuWidth + 10 : mouseClientX;
+      var showTop = mouseClientY + menuHeight > screenHeight ? mouseClientY - menuHeight + 10 : mouseClientY;
+      mymenu.style.left = showLeft + "px"; // 获取鼠标位置
+      mymenu.style.top = showTop + "px";
+      mymenu.style.display = 'block';
+      if (true == true) {
+        // 如果有aplayer，初始化一下
+      	try {
+      		checkAPlayer();
+          updateTitle();
+      	} catch (error) {
+      		console.log(error);
+      	}
+      }
+      return false; // 该行代码确保系统自带的右键菜单不会被调出
+    }
+    function hideMenu() {
+      document.getElementById('rightmenu-wrapper').style.display = 'none';
+    }
+    function menuCopy() {
+      document.execCommand("Copy");
+    }
+  </script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/scene.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  <script>
+    let APlayerController = new Object();
+    APlayerController.id = '741934630';  // 设定全局音乐播放ID
+    APlayerController.volume = '0.7';
+  </script>
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+    
+<script src="/js/aplayer.js"></script>
+
+  
+
+
+
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4/dist/Valine.min.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    var valinePath = $.trim($('#valine-path').text()) === "none" ?
+            window.location.pathname : $.trim($('#valine-path').text());
+
+    var valinePlaceholder = $.trim($('#valine-placeholder').text()) === "none" ?
+            "快来评论吧~" : $.trim($('#valine-placeholder').text());
+
+    var ALLPATH = '';
+    if(ALLPATH != '') valinePath = ALLPATH;
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: valinePlaceholder,
+      path: valinePath,
+      appId: "2vPmpbITcoNLH4pYUREeHcUG-gzGzoHsz",
+      appKey: "kez3VpW1ATEYJA2JNBudkNLs",
+      pageSize: '10',
+      avatar: 'retro',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+<!-- darkmodejs -->
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+<!-- scrollreveal -->
+
+<!-- ******************************** -->
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+<!-- ******************************** -->
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@3.0/js/search.js"></script>
+
+  
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js" data-pjax></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+
+    
+      
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+<!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+    <div id="loading-bar-wrapper"><script>NProgress.configure({parent:"#loading-bar-wrapper",trickleSpeed: 100})</script></div>
+    <script>
+      window.ShowLoading = function() {
+        NProgress.start();
+      };
+      window.HideLoading = function() {
+        NProgress.done();
+      }
+    </script>
+  
+</div>
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+      $.fancybox.close();    // 关闭弹窗
+      $('.nav-main').find('.list-v').not('.menu-phone').css("display","none"); // 移除小尾巴
+      $('.menu-phone.list-v').css("display","none"); // 移除小尾巴
+      $('.l_header .switcher .s-search').removeClass('active'); // 关闭移动端激活的搜索框
+      $('.l_header').removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      $('.wrapper').removeClass('sub'); // 跳转页面时关闭二级导航
+
+      $('.s-top').unbind('click');   // 解绑
+      $('.menu a').unbind('click');  // 解绑
+      $(window).unbind('resize');    // 解绑
+      $(window).unbind('scroll');    // 解绑
+      $(document).unbind('scroll');  // 解绑
+      $(document).unbind('click');   // 解绑
+      $('body').unbind('click');     // 解绑
+      window.ShowLoading();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      // 关于百度统计对 SPA 页面的处理：
+      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
+      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
+      // 
+      // _hmt.push(['_trackPageview', document.location.pathname]);
+      // 
+
+      // 关于谷歌统计对 SPA 页面的处理：
+      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+      
+
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+
+      try{
+        pjax_fancybox();
+        
+          
+          if ('.cover') {
+            $('.cover').backstretch("resize");
+          } else {
+            $.backstretch("resize");
+          }
+        
+        
+        
+        
+          pjax_initCopyCode();
+        
+        
+          pjax_valine();
+        
+        
+        
+        
+        
+      } catch (e) {
+        console.log(e);
+      }
+      window.HideLoading();
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.HideLoading();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+
+    
+  </div>
+  
+    <script src="https://cdn.jsdelivr.net/gh/inkss/common@master/hexo/js/cookie.min.js"></script>
+  
+</body>
+</html>
