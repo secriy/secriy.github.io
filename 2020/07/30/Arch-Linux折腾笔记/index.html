@@ -753,7 +753,13 @@
 
 </li>
 </ol>
-<h2 id="常用软件的安装"><a href="#常用软件的安装" class="headerlink" title="常用软件的安装"></a>常用软件的安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 方便写注释，因此拆分命令，实际上一行命令就行</span></span><br><span class="line">sudo pacman -S neofetch</span><br><span class="line">sudo pacman -S google-chrome # Chrome浏览器</span><br><span class="line">sudo pacman -S netease-cloud-music # 网易云音乐</span><br><span class="line">sudo pacman -S fcitx fcitx-configtool fcitx-cloudpinyin # 输入法</span><br><span class="line">sudo pacman -S xsettingsd # 安装xsettingsd并手动将其设为开机自启动，解决KDE下wine程序不能运行的问题</span><br><span class="line">sudo pacman -S deepin.com.qq.office # 安装Tim</span><br><span class="line">sudo pacman -S wps-office # WPS Office</span><br><span class="line">sudo pacman -S ttf-wps-fonts # WPS 必需字体</span><br></pre></td></tr></table></figure>
+<h2 id="常用软件的安装"><a href="#常用软件的安装" class="headerlink" title="常用软件的安装"></a>常用软件的安装</h2><p>输入法（fcitx5）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx5 fcitx5-configtool</span><br><span class="line">sudo pacman -S fcitx5-chinese-addons # 输入法引擎</span><br><span class="line">sudo pacman -S fcitx5-qt fcitx5-gtk # 输入法模块</span><br></pre></td></tr></table></figure>
+
+<p>配置输入法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.pam_environment</span><br><span class="line"><span class="meta">#</span><span class="bash"> 写入以下文字，保存并退出后重新登录</span></span><br><span class="line">INPUT_METHOD  DEFAULT=fcitx5</span><br><span class="line">GTK_IM_MODULE DEFAULT=fcitx5</span><br><span class="line">QT_IM_MODULE  DEFAULT=fcitx5</span><br><span class="line">XMODIFIERS    DEFAULT=@im=fcitx5</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 方便写注释，因此拆分命令，实际上一行命令就行</span></span><br><span class="line">sudo pacman -S neofetch</span><br><span class="line">sudo pacman -S google-chrome # Chrome浏览器</span><br><span class="line">sudo pacman -S netease-cloud-music # 网易云音乐</span><br><span class="line">sudo pacman -S xsettingsd # 安装xsettingsd并手动将其设为开机自启动，解决KDE下wine程序不能运行的问题</span><br><span class="line">sudo pacman -S deepin.com.qq.office # 安装Tim</span><br><span class="line">sudo pacman -S wps-office # WPS Office</span><br><span class="line">sudo pacman -S ttf-wps-fonts # WPS 必需字体</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 开发工具</span></span><br><span class="line">sudo pacman -S docker</span><br><span class="line">yay -S visual-studio-code-bin</span><br><span class="line">sudo pacman -S nodejs npm go</span><br></pre></td></tr></table></figure>
 
@@ -851,10 +857,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-01T18:50:23+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-04T15:36:26+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年8月1日</p>
+    <p>更新于：2020年8月4日</p>
   </a>
 </div>
 
