@@ -13,7 +13,7 @@
       
       <categories>
           
-          <category> 实用工具 </category>
+          <category> 食用笔记 </category>
           
       </categories>
       
@@ -140,7 +140,7 @@
       
       <categories>
           
-          <category> 软件分享 </category>
+          <category> 软件工具 </category>
           
       </categories>
       
@@ -190,7 +190,7 @@
       
       <categories>
           
-          <category> 操作笔记 </category>
+          <category> 食用笔记 </category>
           
       </categories>
       
@@ -206,7 +206,7 @@
     
     
     <entry>
-      <title>计算机网络笔记</title>
+      <title>计算机网络学习笔记</title>
       <link href="/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/"/>
       <url>/2020/04/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/</url>
       
@@ -265,7 +265,7 @@
       
       <categories>
           
-          <category> 软件分享 </category>
+          <category> 软件工具 </category>
           
       </categories>
       
@@ -315,7 +315,7 @@
       
       <categories>
           
-          <category> 经验记录 </category>
+          <category> 踩坑记录 </category>
           
       </categories>
       
@@ -340,16 +340,16 @@
       
       <categories>
           
-          <category> 操作笔记 </category>
+          <category> 食用笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Kali Linux </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Kali Linux </tag>
             
         </tags>
       
@@ -367,16 +367,16 @@
       
       <categories>
           
-          <category> 操作笔记 </category>
+          <category> 食用笔记 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Aircrack-ng </tag>
-            
             <tag> Kali Linux </tag>
+            
+            <tag> Aircrack-ng </tag>
             
         </tags>
       
@@ -394,7 +394,7 @@
       
       <categories>
           
-          <category> 操作笔记 </category>
+          <category> 食用笔记 </category>
           
       </categories>
       
@@ -410,11 +410,11 @@
     
     
     <entry>
-      <title>无线攻击笔记</title>
+      <title>无线渗透笔记</title>
       <link href="/2019/07/14/%E6%97%A0%E7%BA%BF%E6%94%BB%E5%87%BB%E7%AC%94%E8%AE%B0/"/>
       <url>/2019/07/14/%E6%97%A0%E7%BA%BF%E6%94%BB%E5%87%BB%E7%AC%94%E8%AE%B0/</url>
       
-        <content type="html"><![CDATA[<div class="note quote cyan">            <p>使用Aircrack-ng套件进行无线测试攻击。</p>          </div><a id="more"></a><h2 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h2><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的4种工作模式"><a href="#无线网卡的4种工作模式" class="headerlink" title="无线网卡的4种工作模式"></a>无线网卡的4种工作模式</h4><ul><li><p>Managed：用于设备与AP直接连接， <strong>无线网卡的驱动程序依赖无线AP管理整个通信过程。</strong> </p></li><li><p>Ad hoc：当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担WAP的职责。</p></li><li><p>Master：主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的WAP。</p></li><li><p>Monitor：监听模式，停止收发数据，监听无线数据包。</p></li></ul><h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h3><h4 id="切换为监听模式"><a href="#切换为监听模式" class="headerlink" title="切换为监听模式"></a>切换为监听模式</h4><ul><li><p>使用Airmon-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line">airmon-ng start wlx70f11c280f23# airmon-ng start wlan0</span><br></pre></td></tr></table></figure></li><li><p>关闭Network Manager</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager stop</span><br></pre></td></tr></table></figure></li><li><p>开启Network Manager</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager restart</span><br></pre></td></tr></table></figure></li></ul><h4 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h4><ul><li><p>使用Airodump-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng wlan0mon</span><br></pre></td></tr></table></figure></li></ul><h4 id="捕获数据"><a href="#捕获数据" class="headerlink" title="捕获数据"></a>捕获数据</h4><ul><li><p>Wireshark：选择监听网卡捕获数据</p></li><li><p>Airodump-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng -c 1 wlan0mon -w data# -c信道 -w输出目录名</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+        <content type="html"><![CDATA[<div class="note quote cyan">            <p>使用Aircrack-ng套件进行无线攻击测试。</p>          </div><a id="more"></a><h2 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h2><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的4种工作模式"><a href="#无线网卡的4种工作模式" class="headerlink" title="无线网卡的4种工作模式"></a>无线网卡的4种工作模式</h4><ul><li><p>Managed：用于设备与AP直接连接， <strong>无线网卡的驱动程序依赖无线AP管理整个通信过程。</strong> </p></li><li><p>Ad hoc：当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担WAP的职责。</p></li><li><p>Master：主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的WAP。</p></li><li><p>Monitor：监听模式，停止收发数据，监听无线数据包。</p></li></ul><h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h3><h4 id="切换为监听模式"><a href="#切换为监听模式" class="headerlink" title="切换为监听模式"></a>切换为监听模式</h4><ul><li><p>使用Airmon-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line">airmon-ng start wlx70f11c280f23# airmon-ng start wlan0</span><br></pre></td></tr></table></figure></li><li><p>关闭Network Manager</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager stop</span><br></pre></td></tr></table></figure></li><li><p>开启Network Manager</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager restart</span><br></pre></td></tr></table></figure></li></ul><h4 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h4><ul><li><p>使用Airodump-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng wlan0mon</span><br></pre></td></tr></table></figure></li></ul><h4 id="捕获数据"><a href="#捕获数据" class="headerlink" title="捕获数据"></a>捕获数据</h4><ul><li><p>Wireshark：选择监听网卡捕获数据</p></li><li><p>Airodump-ng</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng -c 1 wlan0mon -w data# -c信道 -w输出目录名</span><br></pre></td></tr></table></figure></li></ul>]]></content>
       
       
       <categories>
