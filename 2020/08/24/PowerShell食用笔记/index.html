@@ -16,14 +16,14 @@
 
   <!-- 页面元数据 -->
   
-  <title>Git笔记 - Secriy&#39;s Blog</title>
+  <title>PowerShell食用笔记 - Secriy&#39;s Blog</title>
   
-    <meta name="keywords" content="Git">
+    <meta name="keywords" content="Windows">
   
 
   
     <meta name="description" content="
-            Git简单使用的笔记。
+            PowerShell的操作。
           ">
   
 
@@ -467,9 +467,9 @@
 
 <div id="pjax-data" style="display: none">
   <div id="pjax-ispage">true</div>
-  <div id="pjax-pageTitle">Git笔记</div>
+  <div id="pjax-pageTitle">PowerShell食用笔记</div>
   <div id="pjax-enable-cover">true</div>
-  <div id="pjax-permalink">https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/</div>
+  <div id="pjax-permalink">https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/</div>
   
   <div id="valine-path">none</div>
   <div id="valine-placeholder">none</div>
@@ -519,8 +519,8 @@
         
           
   <h1 class="title">
-    <a href="/2019/10/19/Git%E7%AC%94%E8%AE%B0/">
-      Git笔记
+    <a href="/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/">
+      PowerShell食用笔记
     </a>
   </h1>
 
@@ -545,9 +545,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E6%93%8D%E4%BD%9C%E7%AC%94%E8%AE%B0/' rel="nofollow">
+    <a href='/categories/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>操作笔记</p>
+      <p>实用工具</p>
     </a>
   </div>
 
@@ -558,7 +558,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2019年10月19日</p>
+    <p>发布于：2020年8月24日</p>
   </a>
 </div>
 
@@ -583,49 +583,27 @@
           
           
           <div class="note quote cyan">
-            <p>Git简单使用的笔记。</p>
+            <p>PowerShell的操作。</p>
           </div>
 
 <a id="more"></a>
 
-<h4 id="Git指令"><a href="#Git指令" class="headerlink" title="Git指令"></a>Git指令</h4><ul>
-<li>git init    #在当前目录创建Git仓库</li>
-<li>git config –global user.name XXX    #配置用户名</li>
-<li>git config –global user.email XXX    #配置邮箱</li>
-<li>git config –list    #查看配置信息</li>
-<li>git add [path]</li>
-<li>git add .</li>
-<li>git commit -m “XXX”</li>
-<li>git status</li>
-<li>git log</li>
-<li>git log –graph</li>
-<li>git show</li>
-<li>git reset</li>
-<li>git reset –hard</li>
-<li>git push origin</li>
-<li>git stash</li>
-<li>git clone/pull</li>
-<li>git branch</li>
-<li>git checkout</li>
-</ul>
-<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
-<li><p>创建版本库</p>
-<ul>
-<li><p>选择/创建空目录</p>
-</li>
-<li><p>使用<strong>git init</strong> 创建仓库</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加文件到仓库</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add readme.md</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>提交文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m "注释"</span><br></pre></td></tr></table></figure>
+<h2 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h2><p>PowerShel脚本l实际很强大，不过用的人相对来说少了点。平时可以用来执行一系列指令，蛮方便的。</p>
+<p>例如Hexo的提交，可以在Hexo目录创建一个名为<em>deploy.ps1</em>的文件，写入如下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-</li>
-</ul>
+<p>这样就完成了Hexo的提交操作。</p>
+<p>另外，每次手动打开Hexo目录下的文章很是麻烦，可以在Hexo目录下创建名为<em>edit.ps1</em>的文件，写入如下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typora .\source\_posts</span><br></pre></td></tr></table></figure>
+
+<p>这样直接运行脚本就能以Typora打开整个文章文件夹，当然<strong>首先要把Typora目录加入到Windows环境变量中</strong>。</p>
+<p>但是这样写有一点不好，当关闭终端的时候，Typora也会跟着关闭，因为Typora是从终端启动的，并会取得程序的输出。另外处于同样的原因，终端不再接受命令执行，只有Ctrl+C终止任务，如下图。</p>
+<p><img src="/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/image-20200824025602301.png" alt="image-20200824025602301"></p>
+<p>然而我连这个步骤都不想干，于是找了个完美的办法——屏蔽输出结果。</p>
+<p>修改如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$null</span> = typora .\source\_posts</span><br></pre></td></tr></table></figure>
+
+<p>这样程序执行的输出就不会在终端里显示了，完美解决以上问题。</p>
 
           
             <div class='article_footer'>
@@ -657,7 +635,7 @@
       <blockquote>
         
           
-            <p>本文永久链接是：<a href=https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/>https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/</a></p>
+            <p>本文永久链接是：<a href=https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/>https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/</a></p>
           
         
           
@@ -713,7 +691,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-24T02:34:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-24T03:01:02+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年8月24日</p>
@@ -725,7 +703,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Git/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Git</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Windows/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Windows</p></a></div>
 
 
         
@@ -743,8 +721,8 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/&title=Git笔记 - Secriy's Blog&summary=
-            Git简单使用的笔记。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/&title=PowerShell食用笔记 - Secriy's Blog&summary=
+            PowerShell的操作。
           "
           
           >
@@ -757,8 +735,8 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/&title=Git笔记 - Secriy's Blog&summary=
-            Git简单使用的笔记。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/&title=PowerShell食用笔记 - Secriy's Blog&summary=
+            PowerShell的操作。
           "
           
           >
@@ -771,8 +749,8 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2019/10/19/Git%E7%AC%94%E8%AE%B0/&title=Git笔记 - Secriy's Blog&summary=
-            Git简单使用的笔记。
+          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/&title=PowerShell食用笔记 - Secriy's Blog&summary=
+            PowerShell的操作。
           "
           
           >
@@ -797,32 +775,24 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2019/10/19/WiFiCrack/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>WiFiCrack</p>
+            
+              <a class='next' href='/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/'>
+                <p class='title'>Arch Linux折腾笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>
-            WiFiCrack笔记。
+            本文参考：Arch Wiki装完系统累死我了，淦！
           
 
 
 
-开启监听1airmon-ng start wlan0
+系统安装
+镜像
+  页面中有国内镜像下载方式
+  
 
-扫描信号1airodump-ng wlan0mon
-
-选定...</p>
-              </a>
-            
-            
-              <a class='next' href='/2019/07/14/%E6%97%A0%E7%BA%BF%E6%94%BB%E5%87%BB%E7%AC%94%E8%AE%B0/'>
-                <p class='title'>无线攻击笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>
-            使用Aircrack-ng套件进行无线测试攻击。
-          
+U盘
 
 
-
-无线监听技术原理无线网卡的4种工作模式
-Managed：用于设备与AP直接连接， 无线网卡...</p>
+写入镜像本次使用U盘写入...</p>
               </a>
             
           </div>
@@ -874,7 +844,7 @@ Managed：用于设备与AP直接连接， 无线网卡...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Git指令"><span class="toc-text">Git指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PowerShell脚本"><span class="toc-text">PowerShell脚本</span></a></li></ol>
     </div>
   </section>
 
