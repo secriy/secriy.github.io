@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,9 +16,15 @@
 
   <!-- 页面元数据 -->
   
-  <title>归档：2020/6 - Secriy&#39;s Blog</title>
+  <title>数据库系统概论学习笔记 - Secriy&#39;s Blog</title>
+  
+    <meta name="keywords" content="数据库">
   
 
+  
+    <meta name="description" content="
+            实际上是复习笔记。。。
+          ">
   
 
   <!-- feed -->
@@ -86,7 +90,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover ' style="display: none;">
+    <cover class='cover post' style="display: none;">
       <div class='cover-body'>
   <div class='a'>
     
@@ -453,7 +457,7 @@
   
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper' id="pjax-container">
       
         <!--此文件用来存放一些不方便取值的变量-->
@@ -462,10 +466,10 @@
 
 
 <div id="pjax-data" style="display: none">
-  <div id="pjax-ispage">false</div>
-  <div id="pjax-pageTitle"></div>
+  <div id="pjax-ispage">true</div>
+  <div id="pjax-pageTitle">数据库系统概论学习笔记</div>
   <div id="pjax-enable-cover">true</div>
-  <div id="pjax-permalink"></div>
+  <div id="pjax-permalink">https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</div>
   
   <div id="valine-path">none</div>
   <div id="valine-placeholder">none</div>
@@ -476,16 +480,16 @@
 
 <script>
   // 处理封面 此时 jquery 还没加载
-  if ("blog" == "none") { // 移除封面
+  if ("none" == "none") { // 移除封面
     document.getElementsByClassName('cover')[0].style.display = "none";
     document.getElementsByClassName('l_body')[0].classList.add("nocover");
     document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
   } else {
-    if ("blog" == "blog") { // 半屏
+    if ("none" == "blog") { // 半屏
       document.getElementsByClassName('cover')[0].classList.remove("full");
       document.getElementsByClassName('cover')[0].classList.add("half");
       document.getElementsByClassName('scroll-down')[0].style.display = "none";
-    } else if ("blog" == "docs") { // 全屏
+    } else if ("none" == "docs") { // 全屏
       document.getElementsByClassName('cover')[0].classList.remove("half");
       document.getElementsByClassName('cover')[0].classList.add("full");
       document.getElementsByClassName('scroll-down')[0].style.display = "";
@@ -500,24 +504,11 @@
       
 
 <div class='l_main'>
-	
-		
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow floatable reveal ">
   
+
+  
+    <article id="post" class="post white-box reveal shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -527,11 +518,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/">
-      RevoUninstallerPro安装破解
+  <h1 class="title">
+    <a href="/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+      数据库系统概论学习笔记
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -554,9 +545,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/' rel="nofollow">
+    <a href='/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>软件工具</p>
+      <p>学习笔记</p>
     </a>
   </div>
 
@@ -567,58 +558,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年6月17日</p>
+    <p>发布于：2020年9月13日</p>
   </a>
 </div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：271字</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：1分钟</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-  <div class="new-meta-item browse valine">
-    <a class='notlink'>
-      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
-      
-      <span id="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/" class="leancloud_visitors" data-flag-title="RevoUninstallerPro安装破解">
-      <p>
-        <span class="leancloud-visitors-count"></span>
-      </p>
-      </span>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-<div class="new-meta-item comments-count">
-  
-  <a href="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/#comments">
-    <i class="fas fa-comment-dots fa-fw"></i>
-    <span class="valine-comment-count" data-xid="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/">0</span>
-    <span class="leancloud-comments-count">&nbsp;</span>
-  </a>
-</div>
-
 
             
           
@@ -636,264 +578,145 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div class="note quote cyan">
-            <p>Revo Uninstaller Pro是一个用于卸载电脑上其他软件的程序，支持卸载时附带清理注册表和相关文件</p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          
+          <div class="note quote cyan">
+            <p>实际上是复习笔记。。。</p>
           </div>
-      
-    </div>
-    
-      
-        <a class= "readmore" href="/2020/06/17/RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/">
-          阅读全文 <i class="fas fa-chevron-right"></i>
-        </a>
-      
-    
-  </section>
-</article>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow floatable reveal ">
-  
+<a id="more"></a>
 
-
-  <section class='meta'>
-    
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h2 class="title">
-    <a href="/2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-      Windows代理环境配置
-    </a>
-  </h2>
-
-
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a class='author' href="https://secriy.com" rel="nofollow">
-    <img no-lazy src="https://secriy.oss-cn-shanghai.aliyuncs.com/image/avatar.PNG">
-    <p>Secriy</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>经验技巧</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年6月2日</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：114字</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：1分钟</p>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-  <div class="new-meta-item browse valine">
-    <a class='notlink'>
-      <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
-      
-      <span id="/2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="leancloud_visitors" data-flag-title="Windows代理环境配置">
-      <p>
-        <span class="leancloud-visitors-count"></span>
-      </p>
-      </span>
-    </a>
-  </div>
-
-
-            
-          
-            
-              
-<div class="new-meta-item comments-count">
-  
-  <a href="/2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#comments">
-    <i class="fas fa-comment-dots fa-fw"></i>
-    <span class="valine-comment-count" data-xid="/2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">0</span>
-    <span class="leancloud-comments-count">&nbsp;</span>
-  </a>
-</div>
-
-
-            
-          
-            
-              
-
-            
-          
-        </div>
-        
-          <hr>
-        
-      </div>
-    
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <a id="more"></a>
-
-<h2 id="代理软件"><a href="#代理软件" class="headerlink" title="代理软件"></a>代理软件</h2><ul>
-<li><p>V2Ray</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">socks5：127.0.0.1:10808</span><br><span class="line">http：127.0.0.1:10809</span><br></pre></td></tr></table></figure>
-
-
-</li>
+<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="数据库系统"><a href="#数据库系统" class="headerlink" title="数据库系统"></a>数据库系统</h2><h3 id="数据（Data）"><a href="#数据（Data）" class="headerlink" title="数据（Data）"></a>数据（Data）</h3><p>描述事物的符号记录称为数据。</p>
+<h3 id="数据库（Database）"><a href="#数据库（Database）" class="headerlink" title="数据库（Database）"></a>数据库（Database）</h3><p>数据库是长期存在计算机内、有组织的、可共享的、大量数据的集合。数据库中的数据按一定的数据模型组织、描述和储存，具有较小的冗余度、较高的数据独立性和易扩展性，并可为各种用户共享。</p>
+<h3 id="数据库管理系统（DBMS）"><a href="#数据库管理系统（DBMS）" class="headerlink" title="数据库管理系统（DBMS）"></a>数据库管理系统（DBMS）</h3><p>数据库管理系统属于计算机软件。</p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ul>
+<li>数据库定义</li>
+<li>数据组织、存储和管理</li>
+<li>数据操纵<br>  提供数据操纵语言（DML）实现对数据库的基本操作</li>
+<li>数据库的事务管理和运行管理</li>
+<li>数据库的建立和维护</li>
+<li>其他</li>
 </ul>
-<h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><ul>
-<li><p>git clone（GitHub）</p>
+<h3 id="数据库系统（DBS）"><a href="#数据库系统（DBS）" class="headerlink" title="数据库系统（DBS）"></a>数据库系统（DBS）</h3><p>由<strong>数据库</strong>、<strong>数据库管理系统</strong>（包括其应用开发工具）、<strong>应用程序</strong>和<strong>数据库管理员（DBA）</strong>组成的存储、管理、处理和维护数据的系统。</p>
+<h2 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h2><p>数据模型（Data Model）是<strong>对现实世界数据特征的抽象</strong>。</p>
+<p>数据模型是数据库系统的<strong>核心和基础</strong>。</p>
+<p><em>将现实世界抽象为信息世界，然后将信息世界转换为机器世界。</em></p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>概念模型<br>  <strong>用于数据库设计</strong></li>
+<li>逻辑模型和物理模型<br>  <strong>用于数据库管理系统的实现</strong></li>
+</ul>
+<h3 id="组成要素"><a href="#组成要素" class="headerlink" title="组成要素"></a><strong>组成要素</strong></h3><ul>
+<li><strong>数据结构</strong><br>  描述数据库的组成对象以及对象之间的联系</li>
+<li><strong>数据操作</strong><br>  对数据库中各种对象（型）的实例（值）允许执行的操作的集合<br>  包括<strong>数据操作及有关的操作规则</strong></li>
+<li><strong>数据的完整性约束条件</strong><br>  一组完整性规则</li>
+</ul>
+<h3 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h3><h4 id="信息世界中的基本概念"><a href="#信息世界中的基本概念" class="headerlink" title="信息世界中的基本概念"></a>信息世界中的基本概念</h4><ul>
+<li>实体：客观存在并可相互区别的事物</li>
+<li>属性：实体所具有的某一特征</li>
+<li>码：唯一标识实体的属性集</li>
+<li>实体型：用实体名及其属性名集合来抽象和刻画同类实体</li>
+<li>实体集：同一类型实体的集合</li>
+<li>联系：实体之间的联系通常是指不同实体集之间的联系，有<strong>一对一</strong>、<strong>一对多</strong>、<strong>多对多</strong></li>
+</ul>
+<h4 id="实体-联系方法（E-R模型）"><a href="#实体-联系方法（E-R模型）" class="headerlink" title="实体-联系方法（E-R模型）"></a>实体-联系方法（E-R模型）</h4><p>实体-联系方法是概念模型的一种表示方法</p>
+<h3 id="逻辑模型"><a href="#逻辑模型" class="headerlink" title="逻辑模型"></a>逻辑模型</h3><ul>
+<li><p>层次模型</p>
+</li>
+<li><p>网状模型</p>
+</li>
+<li><p>关系模型</p>
+<p>  1970年，美国IBM公司San Jose研究室的研究员<strong>Edgar Frank Codd</strong>首次提出数据库系统的关系模型，开创了数据库关系方法和关系数据理论的研究，为数据库技术奠定了理论基础，于1981年获得ACM图灵奖。</p>
+<p>  数据结构：</p>
 <ul>
-<li><p>HTTP/HTTPS</p>
-<p>  <code>C:\Users\用户名\.gitconfig</code></p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[http &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:10808</span><br><span class="line">[https &quot;https:&#x2F;&#x2F;github.com&quot;]</span><br><span class="line">proxy &#x3D; socks5:&#x2F;&#x2F;127.0.0.1:10808</span><br></pre></td></tr></table></figure>
+<li><p>关系</p>
 </li>
-<li><p>SSH</p>
-<p>  <code>C:\Users\用户名\.ssh\config</code></p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">	User git</span><br><span class="line">	ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</span><br></pre></td></tr></table></figure>
+<li><p>元组</p>
+</li>
+<li><p>属性</p>
+</li>
+<li><p>码</p>
+</li>
+<li><p>域</p>
+</li>
+<li><p>分量</p>
+<p>操作：</p>
+</li>
+<li><p>增（插入）</p>
+</li>
+<li><p>删（删除）</p>
+</li>
+<li><p>查（查询）</p>
+</li>
+<li><p>改（更新）</p>
+<p>完整性约束：</p>
+</li>
+<li><p>实体完整性</p>
+</li>
+<li><p>参照完整性</p>
+</li>
+<li><p>用户定义的完整性</p>
 </li>
 </ul>
 </li>
-<li><p>npm<br>  <code>C:\Users\用户名\.npmrc</code></p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy&#x3D;http:&#x2F;&#x2F;localhost:10809</span><br><span class="line">https-proxy&#x3D;http:&#x2F;&#x2F;localhost:10809</span><br></pre></td></tr></table></figure>
+<li><p>面向对象模型</p>
+</li>
+<li><p>对象关系数据模型</p>
+</li>
+<li><p>半结构化数据模型</p>
 </li>
 </ul>
-
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-
-  
-
-
-	
-</div>
-<aside class='l_side'>
-  
+<h2 id="数据库系统的结构"><a href="#数据库系统的结构" class="headerlink" title="数据库系统的结构"></a>数据库系统的结构</h2><h3 id="三级模式"><a href="#三级模式" class="headerlink" title="三级模式"></a>三级模式</h3><p>数据库系统模式：数据库中全体数据的逻辑结构和特征的描述（仅涉及type的描述，不涉及具体value）</p>
+<ul>
+<li>模式（schema）</li>
+<li>外模式（external schema）</li>
+<li>内模式（internal schema）</li>
+</ul>
+<h3 id="二级映像"><a href="#二级映像" class="headerlink" title="二级映像"></a>二级映像</h3><ul>
+<li>外模式/模式映像<br>  数据的逻辑独立性</li>
+<li>模式/内模式映像<br>  数据的物理独立性</li>
+</ul>
+<h1 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h1>
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow floatable desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
-      
-        <a class='avatar flat-box circle' href='/about/'>
-          <img no-lazy src='https://secriy.oss-cn-shanghai.aliyuncs.com/image/avatar.PNG'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">Secriy's Blog</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
+      <blockquote>
         
           
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>本文永久链接是：<a href=https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/>https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
           
         
           
-            <a href="mailto:me@secriy.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
+            <p>如果文章帮到了您，不妨请作者喝杯奶茶。</p>
+
           
         
-          
-            <a href="https://github.com/secriy"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/user/home?id=494386912"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-            </a>
-          
-        
-      </div>
+      </blockquote>
     
   </div>
 </section>
@@ -903,78 +726,190 @@
   
     
     
+
+<section class="widget qrcode  desktop mobile">
   
 
-  <section class="widget category shadow floatable desktop">
+  <div class='content article-entry'>
     
-  <header>
+      
+        <div class='fancybox'><img src='https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/alipay.png'
+        
+          height='64px'
+        ></div>
+      
     
-      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      
+        <div class='fancybox'><img src='https://secriy.oss-cn-shanghai.aliyuncs.com/cdn/img/wechat.jpg'
+        
+          height='64px'
+        ></div>
+      
     
-  </header>
+  </div>
+</section>
+
+  
 
 
-    <div class='content'>
-      <ul class="entry navigation">
+              
+            </div>
+          
+        </div>
         
-          <li><a class="flat-box"
-            title="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"
-            id="categoriesE4BFA1E681AFE5AE89E585A8"
-            ><div class='name'>信息安全</div><div class='badge'>(1)</div></a></li>
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
         
-          <li><a class="flat-box"
-            title="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
-            id="categoriesE5ADA6E4B9A0E7AC94E8AEB0"
-            ><div class='name'>学习笔记</div><div class='badge'>(3)</div></a></li>
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-11T16:07:56+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2020年10月11日</p>
+  </a>
+</div>
+
         
-          <li><a class="flat-box"
-            title="/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/" href="/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/"
-            id="categoriesE7BB8FE9AA8CE68A80E5B7A7"
-            ><div class='name'>经验技巧</div><div class='badge'>(2)</div></a></li>
+      
         
-          <li><a class="flat-box"
-            title="/categories/%E7%BE%8E%E6%9C%AF%E8%AE%BE%E8%AE%A1/" href="/categories/%E7%BE%8E%E6%9C%AF%E8%AE%BE%E8%AE%A1/"
-            id="categoriesE7BE8EE69CAFE8AEBEE8AEA1"
-            ><div class='name'>美术设计</div><div class='badge'>(1)</div></a></li>
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据库</p></a></div>
+
+
         
-          <li><a class="flat-box"
-            title="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" href="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"
-            id="categoriesE8B8A9E59D91E8AEB0E5BD95"
-            ><div class='name'>踩坑记录</div><div class='badge'>(4)</div></a></li>
+      
         
-          <li><a class="flat-box"
-            title="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/" href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/"
-            id="categoriesE8BDAFE4BBB6E5B7A5E585B7"
-            ><div class='name'>软件工具</div><div class='badge'>(2)</div></a></li>
+          
+
         
-          <li><a class="flat-box"
-            title="/categories/%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/" href="/categories/%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/"
-            id="categoriesE9A39FE794A8E7AC94E8AEB0"
-            ><div class='name'>食用笔记</div><div class='badge'>(5)</div></a></li>
+      
         
-      </ul>
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=数据库系统概论学习笔记 - Secriy's Blog&summary=
+            实际上是复习笔记。。。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=数据库系统概论学习笔记 - Secriy's Blog&summary=
+            实际上是复习笔记。。。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://secriy.com/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=数据库系统概论学习笔记 - Secriy's Blog&summary=
+            实际上是复习笔记。。。
+          "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
     </div>
   </section>
 
 
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/'>
+                <p class='title'>PowerShell食用笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+            PowerShell的操作
+          
+
+
+
+PowerShell脚本PowerShel脚本实际很强大，不过用的人相对来说少了点。平时可以用来执行一系列指令，...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
   
 
   
     
-    
+  <article class="post white-box reveal comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      <section id="comments">
+        <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+      </section>
+    </section>
+  </article>
+
+
   
 
-  <section class="widget tagcloud shadow floatable desktop mobile">
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <a href="/tags/Aircrack-ng/" style="font-size: 14px; color: #999">Aircrack-ng</a> <a href="/tags/CSGO/" style="font-size: 14px; color: #999">CSGO</a> <a href="/tags/CTF/" style="font-size: 14px; color: #999">CTF</a> <a href="/tags/Git/" style="font-size: 14px; color: #999">Git</a> <a href="/tags/Hexo/" style="font-size: 14px; color: #999">Hexo</a> <a href="/tags/Kali-Linux/" style="font-size: 24px; color: #555">Kali Linux</a> <a href="/tags/Linux/" style="font-size: 19px; color: #777">Linux</a> <a href="/tags/Proxy/" style="font-size: 14px; color: #999">Proxy</a> <a href="/tags/Windows/" style="font-size: 19px; color: #777">Windows</a> <a href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" style="font-size: 14px; color: #999">信息安全</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 19px; color: #777">数据库</a> <a href="/tags/%E6%97%A0%E7%BA%BF%E6%94%BB%E5%87%BB/" style="font-size: 14px; color: #999">无线攻击</a> <a href="/tags/%E6%B8%85%E7%90%86%E4%BC%98%E5%8C%96/" style="font-size: 14px; color: #999">清理优化</a> <a href="/tags/%E8%89%B2%E5%BD%A9/" style="font-size: 14px; color: #999">色彩</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 14px; color: #999">计算机网络</a> <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 14px; color: #999">设计</a> <a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 14px; color: #999">音乐</a>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库系统"><span class="toc-text">数据库系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据（Data）"><span class="toc-text">数据（Data）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库（Database）"><span class="toc-text">数据库（Database）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库管理系统（DBMS）"><span class="toc-text">数据库管理系统（DBMS）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#功能"><span class="toc-text">功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库系统（DBS）"><span class="toc-text">数据库系统（DBS）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据模型"><span class="toc-text">数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组成要素"><span class="toc-text">组成要素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#概念模型"><span class="toc-text">概念模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#信息世界中的基本概念"><span class="toc-text">信息世界中的基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实体-联系方法（E-R模型）"><span class="toc-text">实体-联系方法（E-R模型）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑模型"><span class="toc-text">逻辑模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库系统的结构"><span class="toc-text">数据库系统的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三级模式"><span class="toc-text">三级模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二级映像"><span class="toc-text">二级映像</span></a></li></ol></li></ol>
     </div>
   </section>
 
@@ -984,14 +919,6 @@
 
 </aside>
 
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
     </div>
