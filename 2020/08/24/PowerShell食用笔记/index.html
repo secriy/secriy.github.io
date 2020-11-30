@@ -478,19 +478,18 @@
 
 <h2 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h2><p>PowerShel脚本实际很强大，不过用的人相对来说少了点。平时可以用来执行一系列指令，蛮方便的。</p>
 <p>例如Hexo的提交，可以在Hexo目录创建一个名为<em>deploy.ps1</em>的文件，写入如下命令：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
+<pre><code class="powershell">hexo clean
+hexo g
+hexo d</code></pre>
 <p>这样就完成了Hexo的提交操作。</p>
 <p>另外，每次手动打开Hexo目录下的文章很是麻烦，可以在Hexo目录下创建名为<em>edit.ps1</em>的文件，写入如下命令：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typora .\source\_posts</span><br></pre></td></tr></table></figure>
-
+<pre><code class="powershell">typora .\source\_posts</code></pre>
 <p>这样直接运行脚本就能以Typora打开整个文章文件夹，当然<strong>首先要把Typora目录加入到Windows环境变量中</strong>。</p>
 <p>但是这样写有一点不好，当关闭终端的时候，Typora也会跟着关闭，因为Typora是从终端启动的，并会取得程序的输出。另外处于同样的原因，终端不再接受命令执行，只有Ctrl+C终止任务，如下图。</p>
 <p><img src="/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/image-20200824025602301.png" class="lazyload" data-srcset="/2020/08/24/PowerShell%E9%A3%9F%E7%94%A8%E7%AC%94%E8%AE%B0/image-20200824025602301.png" srcset="data:image/png;base64,666" alt="image-20200824025602301"></p>
 <p>然而我连这个步骤都不想干，于是找了个完美的办法——屏蔽输出结果。</p>
 <p>修改如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$null</span> = typora .\source\_posts</span><br></pre></td></tr></table></figure>
-
+<pre><code class="powershell">$null = typora .\source\_posts</code></pre>
 <p>这样程序执行的输出就不会在终端里显示了，完美解决以上问题。</p>
 
   

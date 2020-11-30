@@ -477,25 +477,84 @@
 <a id="more"></a>
 
 <h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><p>Nmap支持主机名,ip,网段的表示方式例如:<code>blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-iL filename                    从文件中读取待检测的目标,文件中的表示方法支持机名,ip,网段</span><br><span class="line">-iR hostnum                     随机选取,进行扫描.如果-iR指定为0,则是无休止的扫描</span><br><span class="line">--exclude host1[, host2]        从扫描任务中需要排除的主机           </span><br><span class="line">--exculdefile exclude_file      排除文件中的IP,格式和-iL指定扫描文件的格式相同</span><br></pre></td></tr></table></figure>
+<pre><code class="bash">-iL filename                    从文件中读取待检测的目标,文件中的表示方法支持机名,ip,网段
+-iR hostnum                     随机选取,进行扫描.如果-iR指定为0,则是无休止的扫描
+--exclude host1[, host2]        从扫描任务中需要排除的主机           
+--exculdefile exclude_file      排除文件中的IP,格式和-iL指定扫描文件的格式相同</code></pre>
+<h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><pre><code class="bash">-sL                     仅仅是显示,扫描的IP数目,不会进行任何扫描
+-sn                     ping扫描,即主机发现
+-Pn                     不检测主机存活
+-PS/PA/PU/PY[portlist]  TCP SYN Ping/TCP ACK Ping/UDP Ping发现
+-PE/PP/PM               使用ICMP echo, timestamp and netmask 请求包发现主机
+-PO[prococol list]      使用IP协议包探测对方主机是否开启   
+-n/-R                   不对IP进行域名反向解析/为所有的IP都进行域名的反响解析</code></pre>
+<h3 id="扫描技巧"><a href="#扫描技巧" class="headerlink" title="扫描技巧"></a>扫描技巧</h3><pre><code class="bash">-sS/sT/sA/sW/sM                 TCP SYN/TCP connect()/ACK/TCP窗口扫描/TCP Maimon扫描
+-sU                             UDP扫描
+-sN/sF/sX                       TCP NullFINand Xmas扫描
+--scanflags                     自定义TCP包中的flags
+-sI zombie host[:probeport]     Idlescan
+-sY/sZ                          SCTP INIT/COOKIE-ECHO 扫描
+-sO                             使用IP protocol 扫描确定目标机支持的协议类型
+-b “FTP relay host”             使用FTP bounce scan</code></pre>
+<h3 id="指定端口和扫描顺序"><a href="#指定端口和扫描顺序" class="headerlink" title="指定端口和扫描顺序"></a>指定端口和扫描顺序</h3><pre><code class="bash">-p                      特定的端口 -p80,443 或者 -p1-65535
+-p U:PORT               扫描udp的某个端口, -p U:53
+-F                      快速扫描模式,比默认的扫描端口还少
+-r                      不随机扫描端口,默认是随机扫描的
+--top-ports &quot;number&quot;    扫描开放概率最高的number个端口,出现的概率需要参考nmap-services文件,ubuntu中该文件位于/usr/share/nmap.nmap默认扫前1000个
+--port-ratio &quot;ratio&quot;    扫描指定频率以上的端口</code></pre>
+<h3 id="服务版本识别"><a href="#服务版本识别" class="headerlink" title="服务版本识别"></a>服务版本识别</h3><pre><code class="bash">-sV                             开放版本探测,可以直接使用-A同时打开操作系统探测和版本探测
+--version-intensity &quot;level&quot;     设置版本扫描强度,强度水平说明了应该使用哪些探测报文。数值越高服务越有可能被正确识别。默认是7
+--version-light                 打开轻量级模式,为--version-intensity 2的别名
+--version-all                   尝试所有探测,为--version-intensity 9的别名
+--version-trace                 显示出详细的版本侦测过程信息</code></pre>
+<h3 id="脚本扫描"><a href="#脚本扫描" class="headerlink" title="脚本扫描"></a>脚本扫描</h3><pre><code class="bash">-sC                             根据端口识别的服务,调用默认脚本
+--script=”Lua scripts”          调用的脚本名
+--script-args=n1=v1,[n2=v2]     调用的脚本传递的参数
+--script-args-file=filename     使用文本传递参数
+--script-trace                  显示所有发送和接收到的数据
+--script-updatedb               更新脚本的数据库
+--script-help=”Lua script”      显示指定脚本的帮助</code></pre>
+<h3 id="OS识别"><a href="#OS识别" class="headerlink" title="OS识别"></a>OS识别</h3><pre><code class="bash">-O              启用操作系统检测,-A来同时启用操作系统检测和版本检测
+--osscan-limit  针对指定的目标进行操作系统检测(至少需确知该主机分别有一个open和closed的端口)
+--osscan-guess  推测操作系统检测结果,当Nmap无法确定所检测的操作系统时会尽可能地提供最相近的匹配Nmap默认进行这种匹配</code></pre>
+<h4 id="防火墙-IDS躲避和哄骗"><a href="#防火墙-IDS躲避和哄骗" class="headerlink" title="防火墙/IDS躲避和哄骗"></a>防火墙/IDS躲避和哄骗</h4><pre><code class="bash">-f; --mtu value                 指定使用分片、指定数据包的MTU.
+-D decoy1,decoy2,ME             使用诱饵隐蔽扫描
+-S IP-ADDRESS                   源地址欺骗
+-e interface                    使用指定的接口
+-g/ --source-port PROTNUM       使用指定源端口  
+--proxies url1,[url2],...       使用HTTP或者SOCKS4的代理 
 
-<h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-sL                     仅仅是显示,扫描的IP数目,不会进行任何扫描</span><br><span class="line">-sn                     ping扫描,即主机发现</span><br><span class="line">-Pn                     不检测主机存活</span><br><span class="line">-PS/PA/PU/PY[portlist]  TCP SYN Ping/TCP ACK Ping/UDP Ping发现</span><br><span class="line">-PE/PP/PM               使用ICMP <span class="built_in">echo</span>, timestamp and netmask 请求包发现主机</span><br><span class="line">-PO[prococol list]      使用IP协议包探测对方主机是否开启   </span><br><span class="line">-n/-R                   不对IP进行域名反向解析/为所有的IP都进行域名的反响解析</span><br></pre></td></tr></table></figure>
+--data-length NUM               填充随机数据让数据包长度达到NUM
+--ip-options OPTIONS            使用指定的IP选项来发送数据包
+--ttl VALUE                     设置IP time-to-live域
+--spoof-mac ADDR/PREFIX/VEBDOR  MAC地址伪装
+--badsum                        使用错误的checksum来发送数据包</code></pre>
+<h3 id="Nmap-输出"><a href="#Nmap-输出" class="headerlink" title="Nmap 输出"></a>Nmap 输出</h3><pre><code class="bash">-oN                     将标准输出直接写入指定的文件
+-oX                     输出xml文件
+-oS                     将所有的输出都改为大写
+-oG                     输出便于通过bash或者perl处理的格式,非xml
+-oA BASENAME            可将扫描结果以标准格式、XML格式和Grep格式一次性输出
+-v                      提高输出信息的详细度
+-d level                设置debug级别,最高是9
+--reason                显示端口处于带确认状态的原因
+--open                  只输出端口状态为open的端口
+--packet-trace          显示所有发送或者接收到的数据包
+--iflist                显示路由信息和接口,便于调试
+--log-errors            把日志等级为errors/warings的日志输出
+--append-output         追加到指定的文件
+--resume FILENAME       恢复已停止的扫描
+--stylesheet PATH/URL   设置XSL样式表转换XML输出
+--webxml                从namp.org得到XML的样式
+--no-sytlesheet         忽略XML声明的XSL样式表</code></pre>
+<h3 id="其他nmap选项"><a href="#其他nmap选项" class="headerlink" title="其他nmap选项"></a>其他nmap选项</h3><pre><code class="bash">-6                      开启IPv6
+-A                      OS识别,版本探测,脚本扫描和traceroute
+--datedir DIRNAME       说明用户Nmap数据文件位置
+--send-eth / --send-ip  使用原以太网帧发送/在原IP层发送
+--privileged            假定用户具有全部权限
+--unprovoleged          假定用户不具有全部权限,创建原始套接字需要root权限
+-V                      打印版本信息
+-h                      输出帮助</code></pre>
 
-<h3 id="扫描技巧"><a href="#扫描技巧" class="headerlink" title="扫描技巧"></a>扫描技巧</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-sS/sT/sA/sW/sM                 TCP SYN/TCP connect()/ACK/TCP窗口扫描/TCP Maimon扫描</span><br><span class="line">-sU                             UDP扫描</span><br><span class="line">-sN/sF/sX                       TCP NullFINand Xmas扫描</span><br><span class="line">--scanflags                     自定义TCP包中的flags</span><br><span class="line">-sI zombie host[:probeport]     Idlescan</span><br><span class="line">-sY/sZ                          SCTP INIT/COOKIE-ECHO 扫描</span><br><span class="line">-sO                             使用IP protocol 扫描确定目标机支持的协议类型</span><br><span class="line">-b “FTP relay host”             使用FTP bounce scan</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定端口和扫描顺序"><a href="#指定端口和扫描顺序" class="headerlink" title="指定端口和扫描顺序"></a>指定端口和扫描顺序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-p                      特定的端口 -p80,443 或者 -p1-65535</span><br><span class="line">-p U:PORT               扫描udp的某个端口, -p U:53</span><br><span class="line">-F                      快速扫描模式,比默认的扫描端口还少</span><br><span class="line">-r                      不随机扫描端口,默认是随机扫描的</span><br><span class="line">--top-ports <span class="string">&quot;number&quot;</span>    扫描开放概率最高的number个端口,出现的概率需要参考nmap-services文件,ubuntu中该文件位于/usr/share/nmap.nmap默认扫前1000个</span><br><span class="line">--port-ratio <span class="string">&quot;ratio&quot;</span>    扫描指定频率以上的端口</span><br></pre></td></tr></table></figure>
-
-<h3 id="服务版本识别"><a href="#服务版本识别" class="headerlink" title="服务版本识别"></a>服务版本识别</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-sV                             开放版本探测,可以直接使用-A同时打开操作系统探测和版本探测</span><br><span class="line">--version-intensity <span class="string">&quot;level&quot;</span>     设置版本扫描强度,强度水平说明了应该使用哪些探测报文。数值越高服务越有可能被正确识别。默认是7</span><br><span class="line">--version-light                 打开轻量级模式,为--version-intensity 2的别名</span><br><span class="line">--version-all                   尝试所有探测,为--version-intensity 9的别名</span><br><span class="line">--version-trace                 显示出详细的版本侦测过程信息</span><br></pre></td></tr></table></figure>
-
-<h3 id="脚本扫描"><a href="#脚本扫描" class="headerlink" title="脚本扫描"></a>脚本扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-sC                             根据端口识别的服务,调用默认脚本</span><br><span class="line">--script=”Lua scripts”          调用的脚本名</span><br><span class="line">--script-args=n1=v1,[n2=v2]     调用的脚本传递的参数</span><br><span class="line">--script-args-file=filename     使用文本传递参数</span><br><span class="line">--script-trace                  显示所有发送和接收到的数据</span><br><span class="line">--script-updatedb               更新脚本的数据库</span><br><span class="line">--script-help=”Lua script”      显示指定脚本的帮助</span><br></pre></td></tr></table></figure>
-
-<h3 id="OS识别"><a href="#OS识别" class="headerlink" title="OS识别"></a>OS识别</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-O              启用操作系统检测,-A来同时启用操作系统检测和版本检测</span><br><span class="line">--osscan-limit  针对指定的目标进行操作系统检测(至少需确知该主机分别有一个open和closed的端口)</span><br><span class="line">--osscan-guess  推测操作系统检测结果,当Nmap无法确定所检测的操作系统时会尽可能地提供最相近的匹配Nmap默认进行这种匹配</span><br></pre></td></tr></table></figure>
-
-<h4 id="防火墙-IDS躲避和哄骗"><a href="#防火墙-IDS躲避和哄骗" class="headerlink" title="防火墙/IDS躲避和哄骗"></a>防火墙/IDS躲避和哄骗</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-f; --mtu value                 指定使用分片、指定数据包的MTU.</span><br><span class="line">-D decoy1,decoy2,ME             使用诱饵隐蔽扫描</span><br><span class="line">-S IP-ADDRESS                   源地址欺骗</span><br><span class="line">-e interface                    使用指定的接口</span><br><span class="line">-g/ --source-port PROTNUM       使用指定源端口  </span><br><span class="line">--proxies url1,[url2],...       使用HTTP或者SOCKS4的代理 </span><br><span class="line"></span><br><span class="line">--data-length NUM               填充随机数据让数据包长度达到NUM</span><br><span class="line">--ip-options OPTIONS            使用指定的IP选项来发送数据包</span><br><span class="line">--ttl VALUE                     设置IP time-to-live域</span><br><span class="line">--spoof-mac ADDR/PREFIX/VEBDOR  MAC地址伪装</span><br><span class="line">--badsum                        使用错误的checksum来发送数据包</span><br></pre></td></tr></table></figure>
-
-<h3 id="Nmap-输出"><a href="#Nmap-输出" class="headerlink" title="Nmap 输出"></a>Nmap 输出</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-oN                     将标准输出直接写入指定的文件</span><br><span class="line">-oX                     输出xml文件</span><br><span class="line">-oS                     将所有的输出都改为大写</span><br><span class="line">-oG                     输出便于通过bash或者perl处理的格式,非xml</span><br><span class="line">-oA BASENAME            可将扫描结果以标准格式、XML格式和Grep格式一次性输出</span><br><span class="line">-v                      提高输出信息的详细度</span><br><span class="line">-d level                设置debug级别,最高是9</span><br><span class="line">--reason                显示端口处于带确认状态的原因</span><br><span class="line">--open                  只输出端口状态为open的端口</span><br><span class="line">--packet-trace          显示所有发送或者接收到的数据包</span><br><span class="line">--iflist                显示路由信息和接口,便于调试</span><br><span class="line">--log-errors            把日志等级为errors/warings的日志输出</span><br><span class="line">--append-output         追加到指定的文件</span><br><span class="line">--resume FILENAME       恢复已停止的扫描</span><br><span class="line">--stylesheet PATH/URL   设置XSL样式表转换XML输出</span><br><span class="line">--webxml                从namp.org得到XML的样式</span><br><span class="line">--no-sytlesheet         忽略XML声明的XSL样式表</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他nmap选项"><a href="#其他nmap选项" class="headerlink" title="其他nmap选项"></a>其他nmap选项</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-6                      开启IPv6</span><br><span class="line">-A                      OS识别,版本探测,脚本扫描和traceroute</span><br><span class="line">--datedir DIRNAME       说明用户Nmap数据文件位置</span><br><span class="line">--send-eth / --send-ip  使用原以太网帧发送/在原IP层发送</span><br><span class="line">--privileged            假定用户具有全部权限</span><br><span class="line">--unprovoleged          假定用户不具有全部权限,创建原始套接字需要root权限</span><br><span class="line">-V                      打印版本信息</span><br><span class="line">-h                      输出帮助</span><br></pre></td></tr></table></figure>
   
   
     
@@ -620,11 +679,9 @@
 
 
 
-开启监听1airmon-ng start wlan0
-
-扫描信号1airodump-ng wlan0mon
-
-选定Wi-Fi监听1airodump-ng wlan0...</p>
+开启监听airmon-ng start wlan0
+扫描信号airodump-ng wlan0mon
+选定Wi-Fi监听airodump-ng wlan0mon -...</p>
         </a>
       
     </div>

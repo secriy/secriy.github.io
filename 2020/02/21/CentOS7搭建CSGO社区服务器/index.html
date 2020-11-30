@@ -491,44 +491,50 @@
 </ul>
 <h2 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h2><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><ol>
 <li><p>创建新用户</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd -m steam	# 创建名为steam的新用户</span><br><span class="line">passwd steam		# 为新用户设置密码</span><br><span class="line">su steam			# 切换到新用户</span><br><span class="line">cd /home/steam/		# 进入用户目录</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">useradd -m steam    # 创建名为steam的新用户
+passwd steam        # 为新用户设置密码
+su steam            # 切换到新用户
+cd /home/steam/        # 进入用户目录</code></pre>
 </li>
 <li><p>安装steamcmd</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir steamcmd</span><br><span class="line">cd steamcmd			</span><br><span class="line">wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz</span><br><span class="line">tar -zxvf steamcmd_linux.tar.gz</span><br><span class="line">rm steamcmd_linux.tar.gz</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">mkdir steamcmd
+cd steamcmd            
+wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+tar -zxvf steamcmd_linux.tar.gz
+rm steamcmd_linux.tar.gz</code></pre>
 </li>
 <li><p><em>自行安装steamcmd运行依赖项</em></p>
 </li>
 <li><p>运行steamcmd</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./steamcmd.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">./steamcmd.sh</code></pre>
 <p> 成功运行会进入下图状态：</p>
 <p> <img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" srcset="data:image/png;base64,666"></p>
 </li>
 </ol>
-<h3 id="安装CSGO"><a href="#安装CSGO" class="headerlink" title="安装CSGO"></a>安装CSGO</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">login anonymous						<span class="comment"># 以匿名身份登录</span></span><br><span class="line">force_install_dir ./csgo_server		<span class="comment"># 设置安装文件夹路径</span></span><br><span class="line">app_update 740 validate				<span class="comment"># 安装CSGO服务端，等待完成</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="安装CSGO"><a href="#安装CSGO" class="headerlink" title="安装CSGO"></a>安装CSGO</h3><pre><code class="sh">login anonymous                        # 以匿名身份登录
+force_install_dir ./csgo_server        # 设置安装文件夹路径
+app_update 740 validate                # 安装CSGO服务端，等待完成</code></pre>
 <p>出现<strong>Success！</strong>即安装完成，执行<code>quit</code>退出</p>
 <h3 id="一键更新脚本"><a href="#一键更新脚本" class="headerlink" title="一键更新脚本"></a>一键更新脚本</h3><p><strong>该脚本用于CSGO服务端的后期更新</strong></p>
 <ol>
 <li><p>在“/home/steam/steamcmd”下执行以下操作</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim update.txt</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">vim update.txt</code></pre>
 <p> 写入以下文本，保存并退出</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login anonymous</span><br><span class="line">force_install_dir ./csgo_server</span><br><span class="line">app_update 740</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
-
-
+<pre><code class="sh">login anonymous
+force_install_dir ./csgo_server
+app_update 740
+quit</code></pre>
 </li>
 </ol>
 <ol start="2">
 <li><p>创建运行脚本</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim csgo_update.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">vim csgo_update.sh</code></pre>
 <p> 写入以下文本，保存并退出</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">./steamcmd.sh +runscript update.txt</span><br></pre></td></tr></table></figure>
+<pre><code class="sh">#!/bin/bash
+./steamcmd.sh +runscript update.txt</code></pre>
 </li>
 <li><p>测试脚本</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./csgo_update.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">./csgo_update.sh</code></pre>
 </li>
 </ol>
 <h2 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h2><ol>
@@ -538,20 +544,25 @@
 <li><p>在<em>csgo_server/csgo/cfg</em>路径下创建配置文件<strong>server.cfg</strong></p>
 </li>
 <li><p>写入必要参数</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment"># 步骤1获取的服务器令牌ID</span></span><br><span class="line">	sv_setsteamaccount <span class="string">&quot;XXXXXXXXXXXXXXXXXXXXXXXXX&quot;</span></span><br><span class="line">	<span class="comment"># 服务器名</span></span><br><span class="line">	hostname <span class="string">&quot;wdnmd&quot;</span></span><br><span class="line">	<span class="comment"># 服务器管理密码</span></span><br><span class="line">rcon_password <span class="string">&quot;12345678&quot;</span></span><br><span class="line">	<span class="comment"># 服务器连接密码</span></span><br><span class="line">	sv_password <span class="string">&quot;23333333&quot;</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="sh"># 步骤1获取的服务器令牌ID
+sv_setsteamaccount &quot;XXXXXXXXXXXXXXXXXXXXXXXXX&quot;
+# 服务器名
+hostname &quot;wdnmd&quot;
+# 服务器管理密码
+rcon_password &quot;12345678&quot;
+# 服务器连接密码
+sv_password &quot;23333333&quot;</code></pre>
 <p> 其他参数请根据需要自行修改/添加</p>
 </li>
 </ol>
 <h2 id="服务端启动"><a href="#服务端启动" class="headerlink" title="服务端启动"></a>服务端启动</h2><ol>
 <li><p>安装screen</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install screen</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">sudo yum install screen</code></pre>
 </li>
 <li><p>创建启动脚本</p>
 <p> <strong>使用脚本启动方便修改启动项</strong></p>
 <p> 进入*/home/steam/steamcmd/csgo_server/*路径，新建<strong>run.sh</strong>文件，写入以下形式的文本</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">screen ./srcds_run -console -game csgo -usercon -noipx -nomaster</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">screen ./srcds_run -console -game csgo -usercon -noipx -nomaster</code></pre>
 <blockquote>
 <p>部分启动项说明：</p>
 <p>-console    打开游戏控制台</p>
@@ -563,8 +574,7 @@
 </blockquote>
 </li>
 <li><p>启动服务器</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./run.sh</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">./run.sh</code></pre>
 <p> <img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" srcset="data:image/png;base64,666"></p>
 <p> 当出现上图显示的文字，服务器启动成功</p>
 </li>

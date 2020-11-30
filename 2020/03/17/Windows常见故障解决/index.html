@@ -482,7 +482,7 @@
 <li><p>解决方法：</p>
 <ul>
 <li><p>Powershell中输入命令：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-AppxPackage</span> | % &#123; <span class="built_in">Add-AppxPackage</span> <span class="literal">-DisableDevelopmentMode</span> <span class="literal">-Register</span> <span class="string">&quot;<span class="variable">$</span>(<span class="variable">$_</span>.InstallLocation)\AppxManifest.xml&quot;</span> <span class="literal">-verbose</span> &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="powershell">Get-AppxPackage | % &#123; Add-AppxPackage -DisableDevelopmentMode -Register &quot;$($_.InstallLocation)\AppxManifest.xml&quot; -verbose &#125;</code></pre>
 </li>
 </ul>
 </li>

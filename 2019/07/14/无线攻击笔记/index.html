@@ -488,27 +488,27 @@
 </ul>
 <h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h3><h4 id="切换为监听模式"><a href="#切换为监听模式" class="headerlink" title="切换为监听模式"></a>切换为监听模式</h4><ul>
 <li><p>使用Airmon-ng</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwconfig</span><br><span class="line">airmon-ng start wlx70f11c280f23	# airmon-ng start wlan0</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">iwconfig
+airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
 </li>
 <li><p>关闭Network Manager</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager stop</span><br></pre></td></tr></table></figure>
+<pre><code class="shell">service network-manager stop</code></pre>
 </li>
 <li><p>开启Network Manager</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service network-manager restart</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">service network-manager restart</code></pre>
 </li>
 </ul>
 <h4 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h4><ul>
 <li><p>使用Airodump-ng</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng wlan0mon</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">airodump-ng wlan0mon</code></pre>
 </li>
 </ul>
 <h4 id="捕获数据"><a href="#捕获数据" class="headerlink" title="捕获数据"></a>捕获数据</h4><ul>
 <li><p>Wireshark：选择监听网卡捕获数据</p>
 </li>
 <li><p>Airodump-ng</p>
-  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airodump-ng -c 1 wlan0mon -w data	# -c信道 -w输出目录名</span><br></pre></td></tr></table></figure></li>
+<pre><code class="shell">airodump-ng -c 1 wlan0mon -w data    # -c信道 -w输出目录名</code></pre>
+</li>
 </ul>
 
   
