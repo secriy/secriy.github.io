@@ -881,19 +881,21 @@ var loadCSS = function( href, before, media, attributes ){
 </script>
 <script>
   
-  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  loadCSS("https://upyun.secriy.com/cdn/blog/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
   
   
-  loadCSS("https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css", window.volantis.loadcss);
+  loadCSS("https://upyun.secriy.com/cdn/blog/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css", window.volantis.loadcss);
   
   
-  loadCSS("https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css", window.volantis.loadcss);
+  loadCSS("https://upyun.secriy.com/cdn/blog/npm/node-waves@0.7.6/dist/waves.min.css", window.volantis.loadcss);
   
+  
+  loadCSS("https://upyun.secriy.com/cdn/blog/npm/highlight.js@9.18.1/styles/solarized-light.css", window.volantis.loadcss);
   
 </script>
 <!-- required -->
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+<script src="https://upyun.secriy.com/cdn/blog/npm/jquery@3.5/dist/jquery.min.js"></script>
 
 <script>
   function pjax_fancybox() {
@@ -955,7 +957,7 @@ var loadCSS = function( href, before, media, attributes ){
 
 
 
-  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+  <script defer src="https://upyun.secriy.com/cdn/blog/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
 <script>
   // https://www.npmjs.com/package/vanilla-lazyload
   // Set the options globally
@@ -994,13 +996,13 @@ var loadCSS = function( href, before, media, attributes ){
         hoverDelay: 25
       };
     </script>
-    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+    <script defer src="https://upyun.secriy.com/cdn/blog/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
   
 
 
 
 
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+  <script src="https://upyun.secriy.com/cdn/blog/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script>
     var clipboard = new ClipboardJS('.btn-copy', {
         target: function (trigger) {
@@ -1057,6 +1059,23 @@ var loadCSS = function( href, before, media, attributes ){
 
 
 
+   <script src="https://upyun.secriy.com/cdn/blog/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+<script type="text/javascript">
+  function pjax_scrollrebeal() {
+    ScrollReveal().reveal('.l_main .reveal', {
+      distance: '32px',
+      duration: '800',
+      interval: '20',
+      scale: '1',
+      easing: 'ease-out'
+    });
+  }
+  $(function () {
+    pjax_scrollrebeal();
+  });
+</script>
+
+
 
 
   <script>
@@ -1065,9 +1084,9 @@ var loadCSS = function( href, before, media, attributes ){
   APlayerController.volume = '0.7';
   loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css", window.volantis.loadcss);
 
-  loadScript("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js")
+  loadScript("https://upyun.secriy.com/cdn/blog/npm/aplayer@1.10/dist/APlayer.min.js")
 
-  loadScript("https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js")
+  loadScript("https://upyun.secriy.com/cdn/blog/npm/meting@2.0/dist/Meting.min.js")
 
 
 </script>
@@ -1190,7 +1209,7 @@ function setSearchService() {
 
 
   
-<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+<script src="https://upyun.secriy.com/cdn/blog/npm/node-waves@0.7.6/dist/waves.min.js"></script>
 
   <script type="text/javascript">
     $(function () {
@@ -1207,10 +1226,17 @@ function setSearchService() {
 
 
   
-<script src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@2/js/comment_typing.js"></script>
+<script src="https://upyun.secriy.com/cdn/blog/gh/volantis-x/cdn-volantis@2/js/comment_typing.js"></script>
 
 
 
+
+  
+    
+<script src="https://upyun.secriy.com/cdn/blog/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+  
 
 
 
@@ -1727,6 +1753,12 @@ document.addEventListener("pjax:success", listennSidebarTOC);
           }
         
         
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+        
+        
+          pjax_scrollrebeal();
         
         
         
