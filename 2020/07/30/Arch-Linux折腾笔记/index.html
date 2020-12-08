@@ -521,11 +521,10 @@ ping baidu.com # 测试下网络连接是否正常</code></pre>
 <li>物理块 (PE)<br>一个卷组中最小的连续区域(默认为4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
 </ul>
 <p>这里使用<strong>cfdisk</strong>工具分区，将需要的分区类型设置为LVM（Type选项），选择Write写入分区表。</p>
-<pre><code class="shell"># 以下命令参照自身情况自行修改
- cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图
- cfdisk /dev/nvme0n1
- cfdisk /dev/sda</code></pre>
-<p> <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Documents/Hexo/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Documents/Hexo/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" srcset="data:image/png;base64,666"></p>
+<pre><code class="shell"></code></pre>
+<h1 id="以下命令参照自身情况自行修改"><a href="#以下命令参照自身情况自行修改" class="headerlink" title="以下命令参照自身情况自行修改"></a>以下命令参照自身情况自行修改</h1><p> cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图<br> cfdisk /dev/nvme0n1<br> cfdisk /dev/sda</p>
+<pre><code>
+ ![](/home/Secriy/Documents/Hexo/Arch-Linux折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)</code></pre>
 </li>
 </ol>
 <ul>
@@ -544,8 +543,7 @@ vgdisplay # 查看已创建卷组</code></pre>
 lvcreate -l +100%FREE -n lvswap # 分配剩余空间给swap分区
 lvcreate -l +100%FREE -n lvhome # 分配全部空间给home分区</code></pre>
 </li>
-<li><p>挂载分区</p>
-<p>  <strong>boot所在分区我个人使用的大小是200M，千万不能太小，不然无法使用LVM方式！</strong></p>
+<li><p>挂载分区<br><strong>boot所在分区我个人使用的大小是200M，千万不能太小，不然无法使用LVM方式！</strong></p>
 <pre><code class="shell">mount /dev/vgp/lvroot /mnt
 mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
@@ -564,17 +562,17 @@ Server = http://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch</code></pr
 <pre><code class="shell">genfstab -L /mnt &gt;&gt; /mnt/etc/fstab</code></pre>
 <h4 id="进入Chroot环境"><a href="#进入Chroot环境" class="headerlink" title="进入Chroot环境"></a>进入Chroot环境</h4><pre><code class="shell">arch-chroot /mnt</code></pre>
 <h4 id="配置mkinitcpio"><a href="#配置mkinitcpio" class="headerlink" title="配置mkinitcpio"></a>配置mkinitcpio</h4><p>由于根文件系统基于LVM，因此需要启用mkinitcpio钩子，否则系统可能无法启动。</p>
-<p>编辑<code>/etc/mkinitcpio.conf</code>文件，在<em>block</em>和<em>filesystems</em>之间插入<em>lvm2</em>。</p>
-<p><code>/etc/mkinitcpio.conf</code></p>
+<p>编辑*/etc/mkinitcpio.conf<em>文件，在</em>block<em>和</em>filesystems<em>之间插入</em>lvm2*。</p>
+<p><em>/etc/mkinitcpio.conf</em></p>
 <pre><code>HOOKS=&quot;base udev ... block lvm2 filesystems ... &quot; # &#39;...&#39;是我省略了的内容，不要写省略号上去！</code></pre>
 <p>然后重新生成initramfs：</p>
 <pre><code class="shell">mkinitcpio -p linux</code></pre>
 <p>如果报错请自行检查，记得要把boot分区至少设置为200MB，否则会报空间不足的错误。</p>
 <h4 id="更改时区"><a href="#更改时区" class="headerlink" title="更改时区"></a>更改时区</h4><pre><code class="shell">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 hwclock --systohc</code></pre>
-<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p><code>/etc/hostname</code></p>
+<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p><em>/etc/hostname</em></p>
 <pre><code>Secriy-Laptop</code></pre>
-<p><code>/etc/hosts</code></p>
+<p><em>/etc/hosts</em></p>
 <pre><code>127.0.0.1    localhost
 ::1            localhost
 127.0.1.1    Secriy-Laptop.localdomain    Secriy-Laptop</code></pre>
@@ -595,7 +593,7 @@ reboot # 重启</code></pre>
 grub-mkconfig -o /boot/grub/grub.cfg
 reboot</code></pre>
 <h3 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h3><p>配置NetworkManager使用iwd</p>
-<p><code>/etc/NetworkManager/NetworkManager.conf</code></p>
+<p><em>/etc/NetworkManager/NetworkManager.conf</em></p>
 <pre><code>[device]
 wifi.backend=iwd</code></pre>
 <p>启动wpa_supplicant</p>
@@ -630,7 +628,7 @@ systemctl enable sddm</code></pre>
 curl -O https://blackarch.org/strap.sh
 sudo chmod +x strap.sh
 ./strap.sh</code></pre>
-<p><code>/etc/pacman.conf</code></p>
+<p><em>/etc/pacman.conf</em></p>
 <pre><code># archlinuxcn源
 [archlinuxcn]
 SigLevel=TrustedOnly
@@ -681,12 +679,12 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 <li><p>执行install.sh自动安装</p>
 </li>
 <li><p>修改分辨率</p>
-<p> <code>/etc/default/grub</code></p>
+<p> <em>/etc/default/grub</em></p>
 <pre><code>GRUB_GFXMODE=1920x1080</code></pre>
 </li>
 <li><p>修改字体</p>
 <pre><code class="shell">sudo grub-mkfont -s 16 -o /boot/grub/fonts/Monaco_Linux.pf2 /usr/share/fonts/TTF/Monaco_Linux.ttf</code></pre>
-<p> <code>/etc/default/grub</code></p>
+<p> <em>/etc/default/grub</em></p>
 <pre><code>GRUB_FONT=&quot;/bot/grub/fonts/Monaco_Linux.pf2&quot;</code></pre>
 <pre><code>
  ```shell
@@ -698,12 +696,12 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 sudo pacman -S fcitx5-chinese-addons # 输入法引擎
 sudo pacman -S fcitx5-qt fcitx5-gtk # 输入法模块</code></pre>
 <p>配置输入法</p>
-<p><code>~/.pam_environment</code></p>
+<p><em>~/.pam_environment</em></p>
 <pre><code>INPUT_METHOD  DEFAULT=fcitx5
 GTK_IM_MODULE DEFAULT=fcitx5
 QT_IM_MODULE  DEFAULT=fcitx5
 XMODIFIERS    DEFAULT=@im=fcitx5</code></pre>
-<p><code>~/.xprofile</code></p>
+<p><em>~/.xprofile</em></p>
 <pre><code>export GTK_IM_MODULE=fcitx5
 export XMODIFIERS=@im=fcitx5
 export QT_IM_MODULE=fcitx5
@@ -787,10 +785,10 @@ LC_ALL=</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-10-22T20:55:00+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T12:10:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年10月22日</p>
+    <p>更新于：2020年12月8日</p>
   </a>
 </div>
 
