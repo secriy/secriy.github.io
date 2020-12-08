@@ -479,12 +479,12 @@
 <h2 id="起因-amp-需求"><a href="#起因-amp-需求" class="headerlink" title="起因&amp;需求"></a>起因&amp;需求</h2><p>由于校园网网速过慢（只有50Mbps），以及限速策略不方便，Steam满速下载时基本上就干不了其他事情了，看个视频都卡得一批，于是就有了提速和分流的想法。</p>
 <p>关于提速有想过单线多拨，但苦于钱包空空，没法用软路由的解决方案，暂时作罢。分流的话，主要是因为我有网线+无线网络两种解决方案，如果能让部分应用使用其他网卡上网，岂不是解决了下载时速度被占满的问题？</p>
 <h2 id="方案一：修改路由表"><a href="#方案一：修改路由表" class="headerlink" title="方案一：修改路由表"></a>方案一：修改路由表</h2><p>先查看Windows上的路由表：</p>
-<pre><code class="shell">route print</code></pre>
+<pre><code class="powershell">route print</code></pre>
 <p><img src="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208114218499.png" class="lazyload" data-srcset="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208114218499.png" srcset="data:image/png;base64,666"></p>
 <p>我的电脑上有两个网卡，分别是ip 172.22.22.2对应的有线网卡和ip 10.4.x.x的无线网卡，后者由学校的无线网络分配。因此解决的方法也就是将指定的目的ip和网卡接口ip的对应规则添加进路由表。</p>
-<pre><code class="shell">route add 60.167.222.0 mask 255.255.255.0 172.22.22.2</code></pre>
+<pre><code class="powershell">route add 60.167.222.0 mask 255.255.255.0 172.22.22.2</code></pre>
 <p>软件具体走了哪些ip可以通过netstat命令查看：</p>
-<pre><code class="shell">netstat -ano | findstr 16744 # 16744是进程的PID</code></pre>
+<pre><code class="powershell">netstat -ano | findstr 16744 # 16744是进程的PID</code></pre>
 <p>PID可以在任务管理器中查看：</p>
 <p><img src="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208115136918.png" class="lazyload" data-srcset="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208115136918.png" srcset="data:image/png;base64,666"></p>
 <p><strong>可以看出这个方案很粗暴，我肯定不想用，首先很麻烦，其次ip可能出现变动还要改。因此我使用软件控的方案。</strong></p>
@@ -497,7 +497,7 @@
 <h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>命令行调用ForceBindIP启动指定程序：</p>
 <p><code>[ForceBindIP程序路径] [网卡IP] [可执行应用程序路径]</code></p>
 <p>例如：</p>
-<pre><code class="shell">&quot;F:\Utility\ForceBindIP\ForceBindIP.exe&quot; 172.22.22.2 &quot;C:\Program Files X\Steam\steam.exe&quot;</code></pre>
+<pre><code class="powershell">&quot;F:\Utility\ForceBindIP\ForceBindIP.exe&quot; 172.22.22.2 &quot;C:\Program Files X\Steam\steam.exe&quot;</code></pre>
 <p>可以把这行指令放入快捷方式中，这样每次就自动通过ForceBindIP启动了：</p>
 <p><img src="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208121555647.png" class="lazyload" data-srcset="/2020/12/08/Windows%E7%A8%8B%E5%BA%8F%E7%BD%91%E5%8D%A1%E5%88%86%E6%B5%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/image-20201208121555647.png" srcset="data:image/png;base64,666" alt="image-20201208121555647"></p>
 <p>亲测可用，美滋滋。</p>
@@ -535,7 +535,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T12:48:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T13:25:39+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年12月8日</p>

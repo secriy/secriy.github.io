@@ -521,18 +521,20 @@ ping baidu.com # 测试下网络连接是否正常</code></pre>
 <li>物理块 (PE)<br>一个卷组中最小的连续区域(默认为4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
 </ul>
 <p>这里使用<strong>cfdisk</strong>工具分区，将需要的分区类型设置为LVM（Type选项），选择Write写入分区表。</p>
-<pre><code class="shell"></code></pre>
-<h1 id="以下命令参照自身情况自行修改"><a href="#以下命令参照自身情况自行修改" class="headerlink" title="以下命令参照自身情况自行修改"></a>以下命令参照自身情况自行修改</h1><p> cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图<br> cfdisk /dev/nvme0n1<br> cfdisk /dev/sda</p>
-<pre><code>
- ![](/home/Secriy/Documents/Hexo/Arch-Linux折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)</code></pre>
 </li>
 </ol>
+<h1 id="以下命令参照自身情况自行修改"><a href="#以下命令参照自身情况自行修改" class="headerlink" title="以下命令参照自身情况自行修改"></a>以下命令参照自身情况自行修改</h1><pre><code class="shell">cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图
+cfdisk /dev/nvme0n1
+cfdisk /dev/sda</code></pre>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" srcset="data:image/png;base64,666"></p>
 <ul>
 <li><p>创建物理卷</p>
 <pre><code class="shell">pvcreate /dev/nvme1n1p1
 pvcreate /dev/sda4
 pvdisplay # 查看已创建物理卷</code></pre>
 </li>
+</ul>
+<ul>
 <li><p>创建卷组</p>
 <pre><code class="shell">vgcreate vgp /dev/nvme1n1p1
 vgcreate vgq /dev/sda4
@@ -785,7 +787,7 @@ LC_ALL=</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T12:10:13+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T13:25:58+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2020年12月8日</p>
