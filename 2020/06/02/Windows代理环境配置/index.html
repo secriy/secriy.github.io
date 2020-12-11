@@ -480,26 +480,26 @@ http：127.0.0.1:10809</code></pre>
 <li><p>git clone（GitHub）</p>
 <ul>
 <li><p>HTTP/HTTPS</p>
-<p>  <em>C:\Users\用户名.gitconfig</em></p>
+<p>  <em>C:\Users\用户名\.gitconfig</em></p>
 <pre><code>[http &quot;https://github.com&quot;]
 proxy = socks5://127.0.0.1:10808
 [https &quot;https://github.com&quot;]
 proxy = socks5://127.0.0.1:10808</code></pre>
 </li>
 <li><p>SSH</p>
-<p>  <em>C:\Users\用户名.ssh\config</em></p>
+<p>  <em>C:\Users\用户名\.ssh\config</em></p>
 <pre><code>Host github.com
     User git
     ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</code></pre>
 </li>
 </ul>
 </li>
-<li><p>npm<br>  <em>C:\Users\用户名.npmrc</em></p>
+<li><p>npm<br>  <em>C:\Users\用户名\.npmrc</em></p>
 <pre><code>proxy=http://localhost:10809
 https-proxy=http://localhost:10809  </code></pre>
 </li>
 <li><p>conda</p>
-<p>  <em>C:\Users\用户名.condarc</em></p>
+<p>  <em>C:\Users\用户名\.condarc</em></p>
 <pre><code>ssl_verify: true
 channels:
   - defaults
@@ -547,10 +547,10 @@ proxy = http://127.0.0.1:10809</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-08T13:25:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-11T12:58:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年12月8日</p>
+    <p>更新于：2020年12月11日</p>
   </a>
 </div>
 
