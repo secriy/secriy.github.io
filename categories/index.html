@@ -874,11 +874,17 @@ var loadCSS = function( href, before, media, attributes ){
   APlayerController.id = '741934630';  // 设定全局音乐播放ID
   APlayerController.volume = '0.7';
   loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css", window.volantis.loadcss);
-
-  loadScript("https://upyun.secriy.com/cdn/blog/npm/aplayer@1.10/dist/APlayer.min.js")
-
-  loadScript("https://upyun.secriy.com/cdn/blog/npm/meting@2.0/dist/Meting.min.js")
-
+  // APlayer 需要在  MetingJS 之前加载
+  loadScript("")
+  window.volantis.LoadMetingJS=0
+  var checkAPlayer = setInterval(function () {
+    if (!window.APlayer) return
+    clearInterval(checkAPlayer)
+	if (!window.volantis.LoadMetingJS&&!window.MetingJSElement){
+	  window.LoadMetingJS=1
+      loadScript("")
+	  }
+  }, 2500)
 
 </script>
 
@@ -1557,6 +1563,7 @@ document.addEventListener("pjax:success", listennSidebarTOC);
         
         
           pjax_valine();
+        
         
         
         

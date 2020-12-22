@@ -600,19 +600,27 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2020/07/25/%E4%B9%90%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>乐理学习笔记</p>
-          <p class='content'>简单记录
+        <a class='prev' href='/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Arch Linux折腾笔记</p>
+          <p class='content'>本文参考：Arch Wiki装完系统累死我了，淦！
 
 
 
-基础乐理音程</p>
+系统安装
+镜像
+  页面中有国内镜像下载方式
+  
+
+U盘
+
+
+写入镜像本次使用U盘写入，并且由于我电脑已经存在Manjaro，决定直接...</p>
         </a>
       
       
         <a class='next' href='/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/'>
           <p class='title'>Manjaro环境搭建<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>Manjaro Linux安装及开发环境搭建
+          <p class='content'>Manjaro Linux安装及开发环境搭建。
 
 
 
@@ -624,7 +632,7 @@ Manjaro镜像（KDE）
 写入镜像
 打开Rufus3.1
 
-选择镜像，配置选项...</p>
+选择镜像，配置选...</p>
         </a>
       
     </div>
@@ -1083,11 +1091,17 @@ var loadCSS = function( href, before, media, attributes ){
   APlayerController.id = '741934630';  // 设定全局音乐播放ID
   APlayerController.volume = '0.7';
   loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css", window.volantis.loadcss);
-
-  loadScript("https://upyun.secriy.com/cdn/blog/npm/aplayer@1.10/dist/APlayer.min.js")
-
-  loadScript("https://upyun.secriy.com/cdn/blog/npm/meting@2.0/dist/Meting.min.js")
-
+  // APlayer 需要在  MetingJS 之前加载
+  loadScript("")
+  window.volantis.LoadMetingJS=0
+  var checkAPlayer = setInterval(function () {
+    if (!window.APlayer) return
+    clearInterval(checkAPlayer)
+	if (!window.volantis.LoadMetingJS&&!window.MetingJSElement){
+	  window.LoadMetingJS=1
+      loadScript("")
+	  }
+  }, 2500)
 
 </script>
 
@@ -1766,6 +1780,7 @@ document.addEventListener("pjax:success", listennSidebarTOC);
         
         
           pjax_valine();
+        
         
         
         
