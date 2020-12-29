@@ -1,0 +1,26 @@
+- name: 主页
+  icon: fas fa-rss
+  url: /
+- name: 归档
+  icon: fas fa-archive
+  url: archives/
+  rel: nofollow
+- name: 分类
+  icon: fas fa-folder-open
+  url: categories/
+  rel: nofollow
+- name: 标签
+  icon: fas fa-hashtag
+  url: tags/
+  rel: nofollow
+- name: 项目
+  icon: fas fa-code-branch
+  url: projects/
+- name: 友链
+  icon: fas fa-link
+  url: friends/
+  rel: nofollow
+- name: 关于
+  icon: fas fa-info-circle
+  url: about/
+  rel: nofollow

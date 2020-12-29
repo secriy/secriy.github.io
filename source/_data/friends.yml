@@ -1,0 +1,9 @@
+- group: 博客
+  description:
+  items:
+    - title: Finch
+      avatar: https://portrait.gitee.com/uploads/avatars/user/210/632560_Finch1_1587315906.png!avatar200
+      url: https://finch1.gitee.io/
+      screenshot: # 截图
+      keywords: # 关键词
+      description: # 描述
