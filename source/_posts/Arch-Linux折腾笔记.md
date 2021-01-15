@@ -568,3 +568,10 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 2. 无线网络冲突
 
    经常遇到连接无线网需要超级长时间的问题，并且大多数情况都会失败。后来发现是网络工具冲突，wpa_supplicant和NetworkManager不要分开安装，直接安装NetworkManager即可，另外将NetworkManager的backend替换为iwd。具体原因细节我没有深究，文章已经修改为正确的步骤。
+
+3. Tim部分中文显示异常（显示为方块）
+   修改*/opt/deepinwine/tools/run.sh*，将**WINE_CMD**改为以下文本：
+
+   ```sh
+   WINE_CMD="LC_ALL=zh_CN.UTF-8 deepin-wine
+   ```

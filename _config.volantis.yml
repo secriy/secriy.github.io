@@ -5,8 +5,8 @@
 use_cdn: true
 info:
   theme_name: Volantis # This is theme's name.
-  theme_version: "4.1.6" # This is theme's version.
-  theme_docs: https://volantis-x.github.io/ # This is theme's URL.
+  theme_version: "4.3.0" # This is theme's version.
+  theme_docs: https://volantis.js.org/ # This is theme's URL.
   theme_repo: https://github.com/volantis-x/hexo-theme-volantis
   cdn:
     js:
@@ -16,6 +16,7 @@ info:
 ########################################################################
 
 ############################### Navigation Bar ############################### > start
+# 注意事项：建议规范全站路径 URL 最后带一个 "/" 例如 "about/"
 navbar:
   visiable: auto # always, auto
   logo: # choose [img] or [icon + title]
@@ -221,24 +222,23 @@ article:
 comments:
   title: <i class='fas fa-comments'></i> 评论
   subtitle:
-  service: valine # valine, minivaline, disqus, gitalk, vssue, livere, isso, hashover
+  service: valine # valine, twikoo, waline, minivaline, disqus, disqusjs, gitalk, vssue, livere, isso, hashover
   # Valine
   # https://valine.js.org/
   valine:
     appId: 2vPmpbITcoNLH4pYUREeHcUG-gzGzoHsz
     appKey: kez3VpW1ATEYJA2JNBudkNLs
-    js: https://upyun.secriy.com/statics/js/Valine.min.js
+    # js: https://upyun.secriy.com/statics/js/Valine.min.js
     path: # 全局评论地址
     placeholder: 快来评论吧~ # 评论占位提示
-    meta: nick,mail,link # valine comment header info
-    requiredFields: ["nick", "mail"]
+    meta: [nick, mail, link] # valine comment header info
+    requiredFields: [nick, mail]
     enableQQ: true # Unstable avatar link
-    recordIP: false # Record commenter IP
+    recordIP: true # Record commenter IP
     avatar: retro # gravatar style https://valine.js.org/avatar
     pageSize: 10 # comment list page size
     lang: zh-cn
     highlight: true
-    visitor: true
     mathJax: false
   # MiniValine
   # https://github.com/MiniValine/MiniValine
@@ -324,6 +324,15 @@ comments:
   # https://www.barkdull.org/software/hashover
   hashover:
     src: https://example.com/(path/)comments.php
+  # Twikoo
+  # https://twikoo.js.org/
+  twikoo:
+    js: https://cdn.jsdelivr.net/npm/twikoo@latest # 建议锁定版本
+    path: # 全局评论地址
+    # 其他配置项按照yml格式继续填写即可 除了 [el path] 选项
+    envId: xxxxxxxxxxxxxxx # 腾讯云环境id
+  # Waline
+  # https://waline.js.org/
 ############################### Comments ############################### > end
 
 ############################### Sidebar ############################### > start
