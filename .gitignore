@@ -6,3 +6,4 @@ public/
 .deploy*/
 *.log
 *.ps1
+*.sh
