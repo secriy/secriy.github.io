@@ -52,6 +52,6 @@ deploy:
   type: git
   repo:
     github: "git@github.com:secriy/secriy.github.io.git"
-    gitee: "git@gitee.com:secriy/secriy.git"
+    # gitee: "git@gitee.com:secriy/secriy.git"
   branch: master
 baidu_analytics_key: 5213c4b7580d2b4b637d22dcbe0965e5
