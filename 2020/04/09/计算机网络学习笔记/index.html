@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN,default">
-  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.1.6'>
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.0'>
   <meta charset="utf-8">
   <!-- SEO相关 -->
   
@@ -948,7 +948,7 @@ Get-AppxPackage | % &#1...</p>
     
       
         本站使用
-        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.1.6" target="_blank" class="codename">Volantis</a>
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.0" target="_blank" class="codename">Volantis</a>
         作为主题
       
     
@@ -1118,7 +1118,7 @@ var loadCSS = function( href, before, media, attributes ){
     if ($(".md").find(".issues-api").length == 0) return;
     setTimeout(function() {
 	
-	  loadScript('https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.1.6/source/js/issues.min.js');
+	  loadScript('https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.3.0/source/js/issues.min.js');
 	
     }, 1);
   };
@@ -1279,7 +1279,7 @@ var loadCSS = function( href, before, media, attributes ){
 
   
   
-<script src="https://upyun.secriy.com/statics/js/Valine.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.3.0/source/js/valine.min.js"></script>
 
 
 <script>
@@ -1311,7 +1311,7 @@ var loadCSS = function( href, before, media, attributes ){
       path = defaultPath || decodeURI(window.location.pathname);
     }
     var valine = new Valine();
-    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"2vPmpbITcoNLH4pYUREeHcUG-gzGzoHsz","appKey":"kez3VpW1ATEYJA2JNBudkNLs","meta":"nick,mail,link","requiredFields":["nick","mail"],"enableQQ":true,"recordIP":false,"avatar":"retro","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false,"js":"https://upyun.secriy.com/statics/js/Valine.min.js","visitor":true}, {
+    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"2vPmpbITcoNLH4pYUREeHcUG-gzGzoHsz","appKey":"kez3VpW1ATEYJA2JNBudkNLs","meta":["nick","mail","link"],"requiredFields":["nick","mail"],"enableQQ":true,"recordIP":true,"avatar":"retro","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false}, {
       el: '#valine_container',
       path: path,
       placeholder: pagePlaceholder,
@@ -1330,7 +1330,7 @@ var loadCSS = function( href, before, media, attributes ){
 
 
   
-<script src="https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.1.6/source/js/app.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.3.0/source/js/app.min.js"></script>
 
 
 
@@ -1342,7 +1342,7 @@ const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
 
 $('.input.u-search-input').one('focus',function(){
 	
-		loadScript('https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.1.6/source/js/search/hexo.min.js',setSearchService);
+		loadScript('https://cdn.jsdelivr.net/npm/hexo-theme-volantis@4.3.0/source/js/search/hexo.min.js',setSearchService);
 	
 })
 
