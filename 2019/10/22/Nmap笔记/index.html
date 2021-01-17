@@ -28,7 +28,7 @@
   
 
   
-    <meta name="description" content="Nmap操作笔记。">
+    <meta name="description" content="Nmap 操作笔记。">
   
 
   <!-- feed -->
@@ -481,21 +481,21 @@
 
   
   
-  <div class="note quote cyan"><p>Nmap操作笔记。</p></div>
+  <div class="note quote cyan"><p>Nmap 操作笔记。</p></div>
 
 <a id="more"></a>
 
-<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><p>Nmap支持主机名,ip,网段的表示方式例如:<code>blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254</code></p>
+<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><p>Nmap 支持主机名,ip,网段的表示方式例如:<code>blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254</code></p>
 <pre><code class="bash">-iL filename                    从文件中读取待检测的目标,文件中的表示方法支持机名,ip,网段
 -iR hostnum                     随机选取,进行扫描.如果-iR指定为0,则是无休止的扫描
---exclude host1[, host2]        从扫描任务中需要排除的主机           
+--exclude host1[, host2]        从扫描任务中需要排除的主机
 --exculdefile exclude_file      排除文件中的IP,格式和-iL指定扫描文件的格式相同</code></pre>
 <h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><pre><code class="bash">-sL                     仅仅是显示,扫描的IP数目,不会进行任何扫描
 -sn                     ping扫描,即主机发现
 -Pn                     不检测主机存活
 -PS/PA/PU/PY[portlist]  TCP SYN Ping/TCP ACK Ping/UDP Ping发现
 -PE/PP/PM               使用ICMP echo, timestamp and netmask 请求包发现主机
--PO[prococol list]      使用IP协议包探测对方主机是否开启   
+-PO[prococol list]      使用IP协议包探测对方主机是否开启
 -n/-R                   不对IP进行域名反向解析/为所有的IP都进行域名的反响解析</code></pre>
 <h3 id="扫描技巧"><a href="#扫描技巧" class="headerlink" title="扫描技巧"></a>扫描技巧</h3><pre><code class="bash">-sS/sT/sA/sW/sM                 TCP SYN/TCP connect()/ACK/TCP窗口扫描/TCP Maimon扫描
 -sU                             UDP扫描
@@ -523,15 +523,15 @@
 --script-trace                  显示所有发送和接收到的数据
 --script-updatedb               更新脚本的数据库
 --script-help=”Lua script”      显示指定脚本的帮助</code></pre>
-<h3 id="OS识别"><a href="#OS识别" class="headerlink" title="OS识别"></a>OS识别</h3><pre><code class="bash">-O              启用操作系统检测,-A来同时启用操作系统检测和版本检测
+<h3 id="OS-识别"><a href="#OS-识别" class="headerlink" title="OS 识别"></a>OS 识别</h3><pre><code class="bash">-O              启用操作系统检测,-A来同时启用操作系统检测和版本检测
 --osscan-limit  针对指定的目标进行操作系统检测(至少需确知该主机分别有一个open和closed的端口)
 --osscan-guess  推测操作系统检测结果,当Nmap无法确定所检测的操作系统时会尽可能地提供最相近的匹配Nmap默认进行这种匹配</code></pre>
-<h4 id="防火墙-IDS躲避和哄骗"><a href="#防火墙-IDS躲避和哄骗" class="headerlink" title="防火墙/IDS躲避和哄骗"></a>防火墙/IDS躲避和哄骗</h4><pre><code class="bash">-f; --mtu value                 指定使用分片、指定数据包的MTU.
+<h4 id="防火墙-IDS-躲避和哄骗"><a href="#防火墙-IDS-躲避和哄骗" class="headerlink" title="防火墙/IDS 躲避和哄骗"></a>防火墙/IDS 躲避和哄骗</h4><pre><code class="bash">-f; --mtu value                 指定使用分片、指定数据包的MTU.
 -D decoy1,decoy2,ME             使用诱饵隐蔽扫描
 -S IP-ADDRESS                   源地址欺骗
 -e interface                    使用指定的接口
--g/ --source-port PROTNUM       使用指定源端口  
---proxies url1,[url2],...       使用HTTP或者SOCKS4的代理 
+-g/ --source-port PROTNUM       使用指定源端口
+--proxies url1,[url2],...       使用HTTP或者SOCKS4的代理
 
 --data-length NUM               填充随机数据让数据包长度达到NUM
 --ip-options OPTIONS            使用指定的IP选项来发送数据包
@@ -555,7 +555,7 @@
 --stylesheet PATH/URL   设置XSL样式表转换XML输出
 --webxml                从namp.org得到XML的样式
 --no-sytlesheet         忽略XML声明的XSL样式表</code></pre>
-<h3 id="其他nmap选项"><a href="#其他nmap选项" class="headerlink" title="其他nmap选项"></a>其他nmap选项</h3><pre><code class="bash">-6                      开启IPv6
+<h3 id="其他-nmap-选项"><a href="#其他-nmap-选项" class="headerlink" title="其他 nmap 选项"></a>其他 nmap 选项</h3><pre><code class="bash">-6                      开启IPv6
 -A                      OS识别,版本探测,脚本扫描和traceroute
 --datedir DIRNAME       说明用户Nmap数据文件位置
 --send-eth / --send-ip  使用原以太网帧发送/在原IP层发送
@@ -597,10 +597,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-29T14:42:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:55:53+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年12月29日</p>
+    <p>更新于：2021年1月17日</p>
   </a>
 </div>
 
@@ -622,7 +622,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap操作笔记。"
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap 操作笔记。"
           
           >
           
@@ -634,7 +634,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap操作笔记。"
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap 操作笔记。"
           
           >
           
@@ -646,7 +646,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap操作笔记。"
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/&title=Nmap笔记 - Secriy's Blog&summary=Nmap 操作笔记。"
           
           >
           
@@ -678,19 +678,19 @@
       
         <a class='prev' href='/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/'>
           <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>云服务器搭建Hexo博客</p>
-          <p class='content'>一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pag...</p>
+          <p class='content'>一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Git...</p>
         </a>
       
       
         <a class='next' href='/2019/10/19/WiFiCrack/'>
           <p class='title'>WiFiCrack<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>WiFiCrack笔记。
+          <p class='content'>WiFiCrack 笔记。
 
 
 
 开启监听airmon-ng start wlan0
 扫描信号airodump-ng wlan0mon
-选定Wi-Fi监听airodump-ng wlan0mon ...</p>
+选定 Wi-Fi 监听airodump-ng wlan0m...</p>
         </a>
       
     </div>
@@ -733,7 +733,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">参数详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E6%8A%80%E5%B7%A7"><span class="toc-text">扫描技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%E5%92%8C%E6%89%AB%E6%8F%8F%E9%A1%BA%E5%BA%8F"><span class="toc-text">指定端口和扫描顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%89%88%E6%9C%AC%E8%AF%86%E5%88%AB"><span class="toc-text">服务版本识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E6%89%AB%E6%8F%8F"><span class="toc-text">脚本扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OS%E8%AF%86%E5%88%AB"><span class="toc-text">OS识别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99-IDS%E8%BA%B2%E9%81%BF%E5%92%8C%E5%93%84%E9%AA%97"><span class="toc-text">防火墙&#x2F;IDS躲避和哄骗</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-%E8%BE%93%E5%87%BA"><span class="toc-text">Nmap 输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96nmap%E9%80%89%E9%A1%B9"><span class="toc-text">其他nmap选项</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">参数详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E6%8A%80%E5%B7%A7"><span class="toc-text">扫描技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%E5%92%8C%E6%89%AB%E6%8F%8F%E9%A1%BA%E5%BA%8F"><span class="toc-text">指定端口和扫描顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%89%88%E6%9C%AC%E8%AF%86%E5%88%AB"><span class="toc-text">服务版本识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E6%89%AB%E6%8F%8F"><span class="toc-text">脚本扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OS-%E8%AF%86%E5%88%AB"><span class="toc-text">OS 识别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99-IDS-%E8%BA%B2%E9%81%BF%E5%92%8C%E5%93%84%E9%AA%97"><span class="toc-text">防火墙&#x2F;IDS 躲避和哄骗</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-%E8%BE%93%E5%87%BA"><span class="toc-text">Nmap 输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96-nmap-%E9%80%89%E9%A1%B9"><span class="toc-text">其他 nmap 选项</span></a></li></ol></li></ol>
     </div>
   </section>
 

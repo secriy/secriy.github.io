@@ -28,7 +28,7 @@
   
 
   
-    <meta name="description" content="使用Aircrack-ng套件进行无线攻击测试。">
+    <meta name="description" content="使用 Aircrack-ng 套件进行无线攻击测试。">
   
 
   <!-- feed -->
@@ -481,39 +481,39 @@
 
   
   
-  <div class="note quote cyan"><p>使用Aircrack-ng套件进行无线攻击测试。</p></div>
+  <div class="note quote cyan"><p>使用 Aircrack-ng 套件进行无线攻击测试。</p></div>
 
 <a id="more"></a>
 
-<h2 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h2><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的4种工作模式"><a href="#无线网卡的4种工作模式" class="headerlink" title="无线网卡的4种工作模式"></a>无线网卡的4种工作模式</h4><ul>
-<li><p>Managed：用于设备与AP直接连接， <strong>无线网卡的驱动程序依赖无线AP管理整个通信过程。</strong> </p>
+<h2 id="无线监听"><a href="#无线监听" class="headerlink" title="无线监听"></a>无线监听</h2><h3 id="技术原理"><a href="#技术原理" class="headerlink" title="技术原理"></a>技术原理</h3><h4 id="无线网卡的-4-种工作模式"><a href="#无线网卡的-4-种工作模式" class="headerlink" title="无线网卡的 4 种工作模式"></a>无线网卡的 4 种工作模式</h4><ul>
+<li><p>  Managed：用于设备与 AP 直接连接， <strong>无线网卡的驱动程序依赖无线 AP 管理整个通信过程。</strong></p>
 </li>
-<li><p>Ad hoc：当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担WAP的职责。</p>
+<li><p>  Ad hoc：当你的网络由<strong>互相直连的设备组成</strong>时，就使用这个模式。在这个模式中，无线通信双方共同承担 WAP 的职责。</p>
 </li>
-<li><p>Master：主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的WAP。</p>
+<li><p>  Master：主模式，允许无线网卡使用特制的驱动程序和软件工作，作为其他设备的 WAP。</p>
 </li>
-<li><p>Monitor：监听模式，停止收发数据，监听无线数据包。</p>
+<li><p>  Monitor：监听模式，停止收发数据，监听无线数据包。</p>
 </li>
 </ul>
 <h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h3><h4 id="切换为监听模式"><a href="#切换为监听模式" class="headerlink" title="切换为监听模式"></a>切换为监听模式</h4><ul>
-<li><p>使用Airmon-ng</p>
+<li><p>使用 Airmon-ng</p>
 <pre><code class="shell">iwconfig
 airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
 </li>
-<li><p>关闭Network Manager</p>
+<li><p>关闭 Network Manager</p>
 <pre><code class="shell">service network-manager stop</code></pre>
 </li>
-<li><p>开启Network Manager</p>
+<li><p>开启 Network Manager</p>
 <pre><code class="shell">service network-manager restart</code></pre>
 </li>
 </ul>
 <h4 id="开启监听"><a href="#开启监听" class="headerlink" title="开启监听"></a>开启监听</h4><ul>
-<li><p>使用Airodump-ng</p>
+<li><p>使用 Airodump-ng</p>
 <pre><code class="shell">airodump-ng wlan0mon</code></pre>
 </li>
 </ul>
 <h4 id="捕获数据"><a href="#捕获数据" class="headerlink" title="捕获数据"></a>捕获数据</h4><ul>
-<li><p>Wireshark：选择监听网卡捕获数据</p>
+<li><p>  Wireshark：选择监听网卡捕获数据</p>
 </li>
 <li><p>Airodump-ng</p>
 <pre><code class="shell">airodump-ng -c 1 wlan0mon -w data    # -c信道 -w输出目录名</code></pre>
@@ -553,10 +553,10 @@ airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-29T14:42:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:56:07+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年12月29日</p>
+    <p>更新于：2021年1月17日</p>
   </a>
 </div>
 
@@ -578,7 +578,7 @@ airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用Aircrack-ng套件进行无线攻击测试。"
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用 Aircrack-ng 套件进行无线攻击测试。"
           
           >
           
@@ -590,7 +590,7 @@ airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用Aircrack-ng套件进行无线攻击测试。"
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用 Aircrack-ng 套件进行无线攻击测试。"
           
           >
           
@@ -602,7 +602,7 @@ airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用Aircrack-ng套件进行无线攻击测试。"
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2019/07/14/%E6%97%A0%E7%BA%BF%E6%B8%97%E9%80%8F%E7%AC%94%E8%AE%B0/&title=无线渗透笔记 - Secriy's Blog&summary=使用 Aircrack-ng 套件进行无线攻击测试。"
           
           >
           
@@ -634,14 +634,14 @@ airmon-ng start wlx70f11c280f23    # airmon-ng start wlan0</code></pre>
       
         <a class='prev' href='/2019/10/19/Git%E7%AC%94%E8%AE%B0/'>
           <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Git笔记</p>
-          <p class='content'>Git简单使用的笔记。
+          <p class='content'>Git 简单使用的笔记。
 
 
 
-Git指令
-git init    #在当前目录创建Git仓库
-git config –global user.name XXX    #配置用户名
-git con...</p>
+Git 指令
+  git init #在当前目录创建 Git 仓库
+  git config –global user.name XXX #配置用户名
+  git...</p>
         </a>
       
       
@@ -685,7 +685,7 @@ git con...</p>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%9B%91%E5%90%AC"><span class="toc-text">无线监听</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E7%9A%844%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-text">无线网卡的4种工作模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="toc-text">执行步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E4%B8%BA%E7%9B%91%E5%90%AC%E6%A8%A1%E5%BC%8F"><span class="toc-text">切换为监听模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E7%9B%91%E5%90%AC"><span class="toc-text">开启监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8D%95%E8%8E%B7%E6%95%B0%E6%8D%AE"><span class="toc-text">捕获数据</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%9B%91%E5%90%AC"><span class="toc-text">无线监听</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-text">技术原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E5%8D%A1%E7%9A%84-4-%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-text">无线网卡的 4 种工作模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="toc-text">执行步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E4%B8%BA%E7%9B%91%E5%90%AC%E6%A8%A1%E5%BC%8F"><span class="toc-text">切换为监听模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E7%9B%91%E5%90%AC"><span class="toc-text">开启监听</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8D%95%E8%8E%B7%E6%95%B0%E6%8D%AE"><span class="toc-text">捕获数据</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 

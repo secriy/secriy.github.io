@@ -28,7 +28,7 @@
   
 
   
-    <meta name="description" content="一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。">
+    <meta name="description" content="一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Gitee Pages 的解决方案。">
   
 
   <!-- feed -->
@@ -481,26 +481,26 @@
 
   
   
-  <div class="note quote cyan"><p>一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。</p></div>
+  <div class="note quote cyan"><p>一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Gitee Pages 的解决方案。</p></div>
 
 <a id="more"></a>
 
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
-<li>本地端安装配置Hexo</li>
+<li>本地端安装配置 Hexo</li>
 <li>服务器端安装宝塔面板</li>
-<li>服务器端安装Git、Node.js、npm等</li>
+<li>服务器端安装 Git、Node.js、npm 等</li>
 </ol>
 <h2 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h2><ul>
-<li><p>连接服务器</p>
+<li><p>  连接服务器</p>
 </li>
 <li><p>执行：</p>
 <pre><code class="shell">useradd git
 passwd git #输入自定义密码并确认
 chmod 740 /etc/sudoers #修改文件权限</code></pre>
 </li>
-<li><p>编辑*/etc/sudoers*文件，在<strong>root     ALL=(ALL)     ALL</strong>下添加<strong>git     ALL=(ALL)     ALL</strong></p>
+<li><p>  编辑*/etc/sudoers*文件，在<strong>root ALL=(ALL) ALL</strong>下添加<strong>git ALL=(ALL) ALL</strong></p>
 </li>
-<li><p>执行<code>chmod 400 /etc/sudoers</code>改回文件权限</p>
+<li><p>  执行<code>chmod 400 /etc/sudoers</code>改回文件权限</p>
 </li>
 <li><p>执行：</p>
 <pre><code class="shell">su git                                #切换至git用户
@@ -523,18 +523,18 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
 <li><p><strong>修改*/www/wwwroot/blog*目录权限</strong>：</p>
 <pre><code class="shell">chown -R git:git /www/wwwroot/blog</code></pre>
 </li>
-<li><p>宝塔面板新建网站，添加域名、配置根目录（即*/www/wwwroot/blog*）</p>
+<li><p>  宝塔面板新建网站，添加域名、配置根目录（即*/www/wwwroot/blog*）</p>
 </li>
 </ul>
 <h2 id="本地端配置"><a href="#本地端配置" class="headerlink" title="本地端配置"></a>本地端配置</h2><p>配置<em>_config.yml</em>文件：</p>
 <ul>
-<li><p>打开Git Bash</p>
+<li><p>  打开 Git Bash</p>
 </li>
-<li><p>执行<code>ssh-copy-id -i C:/Users/用户名/.ssh/id_rsa.pub git@服务器IP</code></p>
+<li><p>  执行<code>ssh-copy-id -i C:/Users/用户名/.ssh/id_rsa.pub git@服务器IP</code></p>
 </li>
-<li><p>执行<code>ssh git@服务器ip</code>测试能否免密远程连接</p>
+<li><p>  执行<code>ssh git@服务器ip</code>测试能否免密远程连接</p>
 </li>
-<li><p>修改deploy配置（注意空格）：</p>
+<li><p>修改 deploy 配置（注意空格）：</p>
 <pre><code class="yml">deploy:
     type: git
     repository: git@服务器IP:/home/git/repos/hexo.git
@@ -575,10 +575,10 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-29T14:42:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:56:05+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年12月29日</p>
+    <p>更新于：2021年1月17日</p>
   </a>
 </div>
 
@@ -600,7 +600,7 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。"
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Gitee Pages 的解决方案。"
           
           >
           
@@ -612,7 +612,7 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。"
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Gitee Pages 的解决方案。"
           
           >
           
@@ -624,7 +624,7 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般Hexo搭建在GItHub上，然而国内访问稍慢，Gitee免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了GitHub Pages+Gitee Pages的解决方案。"
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/2020/02/03/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2/&title=云服务器搭建Hexo博客 - Secriy's Blog&summary=一般 Hexo 搭建在 GItHub 上，然而国内访问稍慢，Gitee 免费版又不能自动更新，选择在服务器上搭建也是个办法。不过我觉得很浪费资源，最终还是选择了 GitHub Pages+Gitee Pages 的解决方案。"
           
           >
           
@@ -656,24 +656,24 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
       
         <a class='prev' href='/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/'>
           <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>CentOS7搭建CSGO社区服务器</p>
-          <p class='content'>想和很多朋友一起玩CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建CSGO社区服。
+          <p class='content'>想和很多朋友一起玩 CSGO，苦于本地房间两地延迟太高无法正常游戏，因此用闲置服务器搭建 CSGO 社区服。
 
 
 
 准备工作
 云服务器：个人使用阿里云学生机（轻量应用服务器）
 
-开放UDP 27015...</p>
+开放 UDP 2...</p>
         </a>
       
       
         <a class='next' href='/2019/10/22/Nmap%E7%AC%94%E8%AE%B0/'>
           <p class='title'>Nmap笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>Nmap操作笔记。
+          <p class='content'>Nmap 操作笔记。
 
 
 
-参数详解Nmap支持主机名,ip,网段的表示方式例如:blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-...</p>
+参数详解Nmap 支持主机名,ip,网段的表示方式例如:blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25....</p>
         </a>
       
     </div>
