@@ -7,7 +7,7 @@ tags: 信息安全
 
 {% noteblock quote cyan %}
 
-sqlmap使用笔记。
+sqlmap 使用笔记。
 
 {% endnoteblock %}
 
@@ -38,7 +38,7 @@ sqlmap -u "http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit#"
 
 ```bash
 指定:
---D 	指定库 
+--D 	指定库
 --T 	指定表
 --C		指定字段
 
@@ -313,4 +313,3 @@ Options:
     --web-root=WEBROOT  Web server document root directory (e.g. "/var/www")
     --wizard            Simple wizard interface for beginner users
 ```
-

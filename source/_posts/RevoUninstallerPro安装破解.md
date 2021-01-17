@@ -7,7 +7,7 @@ tags: 清理优化
 
 {% noteblock quote cyan %}
 
-Revo Uninstaller Pro是一个用于卸载电脑上其他软件的程序，支持卸载时附带清理注册表和相关文件。
+Revo Uninstaller Pro 是一个用于卸载电脑上其他软件的程序，支持卸载时附带清理注册表和相关文件。
 
 {% endnoteblock %}
 
@@ -15,7 +15,7 @@ Revo Uninstaller Pro是一个用于卸载电脑上其他软件的程序，支持
 
 ## 下载地址
 
-- [Revo Uninstaller Pro](https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/RevoUninProSetup.exe)
+-   [Revo Uninstaller Pro](https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/RevoUninProSetup.exe)
 
 ## 安装软件
 
@@ -23,19 +23,17 @@ Revo Uninstaller Pro是一个用于卸载电脑上其他软件的程序，支持
 
 ## 破解软件
 
-1. 进入*C:\ProgramData\VS Revo Group\Revo Uninstaller Pro*目录，如果没有ProgramData文件夹请点击顶部**查看**按钮并勾选下图**隐藏的项目**选项
+1. 进入*C:\ProgramData\VS Revo Group\Revo Uninstaller Pro*目录，如果没有 ProgramData 文件夹请点击顶部**查看**按钮并勾选下图**隐藏的项目**选项
 
-	![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191142607.png)
-
-	
+    ![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191142607.png)
 
 2. 找到下图中的文件，右键-->属性，勾选**只读**选项，最后点击**应用**或**确定**即破解完成
 
-	![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191313815.png)
+    ![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191313815.png)
 
-3. 破解完成，可以正常使用Revo Uninstaller Pro，永久激活
+3. 破解完成，可以正常使用 Revo Uninstaller Pro，永久激活
 
 ## 注意事项
 
-- 必须使用本页面提供的软件，其他版本的软件未经测试不一定适用此方法破解
-- 请严格按照教程安装，安装完不能直接打开软件，如果不小心启动了请卸载重装并删除*C:\ProgramData\VS Revo Group*目录
+-   必须使用本页面提供的软件，其他版本的软件未经测试不一定适用此方法破解
+-   请严格按照教程安装，安装完不能直接打开软件，如果不小心启动了请卸载重装并删除*C:\ProgramData\VS Revo Group*目录

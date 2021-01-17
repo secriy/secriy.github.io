@@ -2,14 +2,14 @@
 title: Nmap笔记
 date: 2019-10-22 01:19:15
 categories: 食用笔记
-tags: 
-- CTF
-- Kali Linux
+tags:
+    - CTF
+    - Kali Linux
 ---
 
 {% noteblock quote cyan %}
 
-Nmap操作笔记。
+Nmap 操作笔记。
 
 {% endnoteblock %}
 
@@ -17,12 +17,12 @@ Nmap操作笔记。
 
 ## 参数详解
 
-Nmap支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254`
+Nmap 支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254`
 
 ```bash
 -iL filename                    从文件中读取待检测的目标,文件中的表示方法支持机名,ip,网段
 -iR hostnum                     随机选取,进行扫描.如果-iR指定为0,则是无休止的扫描
---exclude host1[, host2]        从扫描任务中需要排除的主机           
+--exclude host1[, host2]        从扫描任务中需要排除的主机
 --exculdefile exclude_file      排除文件中的IP,格式和-iL指定扫描文件的格式相同
 ```
 
@@ -34,7 +34,7 @@ Nmap支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org
 -Pn                     不检测主机存活
 -PS/PA/PU/PY[portlist]  TCP SYN Ping/TCP ACK Ping/UDP Ping发现
 -PE/PP/PM               使用ICMP echo, timestamp and netmask 请求包发现主机
--PO[prococol list]      使用IP协议包探测对方主机是否开启   
+-PO[prococol list]      使用IP协议包探测对方主机是否开启
 -n/-R                   不对IP进行域名反向解析/为所有的IP都进行域名的反响解析
 ```
 
@@ -84,7 +84,7 @@ Nmap支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org
 --script-help=”Lua script”      显示指定脚本的帮助
 ```
 
-### OS识别
+### OS 识别
 
 ```bash
 -O              启用操作系统检测,-A来同时启用操作系统检测和版本检测
@@ -92,15 +92,15 @@ Nmap支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org
 --osscan-guess  推测操作系统检测结果,当Nmap无法确定所检测的操作系统时会尽可能地提供最相近的匹配Nmap默认进行这种匹配
 ```
 
-#### 防火墙/IDS躲避和哄骗
+#### 防火墙/IDS 躲避和哄骗
 
 ```bash
 -f; --mtu value                 指定使用分片、指定数据包的MTU.
 -D decoy1,decoy2,ME             使用诱饵隐蔽扫描
 -S IP-ADDRESS                   源地址欺骗
 -e interface                    使用指定的接口
--g/ --source-port PROTNUM       使用指定源端口  
---proxies url1,[url2],...       使用HTTP或者SOCKS4的代理 
+-g/ --source-port PROTNUM       使用指定源端口
+--proxies url1,[url2],...       使用HTTP或者SOCKS4的代理
 
 --data-length NUM               填充随机数据让数据包长度达到NUM
 --ip-options OPTIONS            使用指定的IP选项来发送数据包
@@ -131,7 +131,7 @@ Nmap支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org
 --no-sytlesheet         忽略XML声明的XSL样式表
 ```
 
-### 其他nmap选项
+### 其他 nmap 选项
 
 ```bash
 -6                      开启IPv6
