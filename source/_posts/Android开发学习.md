@@ -29,7 +29,7 @@ tags: Android
 
 新建一个Project，模板选择Empty Activity，接着填写基本信息：
 
-![Create New Project](/home/Secriy/Working/Hexo/source/_posts/Android开发学习/image-20210118215350109.png)
+![Create New Project](Android%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/image-20210118215350109.png)
 
 其中，Name是项目名；Package Name是包名；Save Location为项目路径；Language是编程语言，可以选择Java和Kotlin；Minimum SDK指的是选择能最低兼容的SDK版本，这里我选择API23即最低兼容Android6.0，如图所示目前可以运行在约84.9%的机器上。
 
