@@ -17,7 +17,7 @@ Navicat Premium 是一套多连接数据库开发工具，让你在单一应用�
 
 -   [Navicat Premium 15](http://download.navicat.com.cn/download/navicat150_premium_cs_x64.exe)
 
--   [破解程序](https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/Navicat%20Keygen%20Patch%20v5.6.0%20DFoX.exe)
+-   [破解程序](https://upyun.secriy.com/downloads/Navicat%20Keygen%20Patch%20v5.6.0%20DFoX.exe)
 
 ## 安装软件
 

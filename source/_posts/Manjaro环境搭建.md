@@ -17,7 +17,7 @@ Manjaro Linux 安装及开发环境搭建。
 
 ### 准备
 
--   安装[Rufus3.1](https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/rufus-3.1.exe)（镜像写入工具）
+-   安装[Rufus3.1](https://upyun.secriy.com/downloads/rufus-3.1p.exe)（镜像写入工具）
 -   U 盘
 -   Manjaro[镜像](https://manjaro.org/downloads/official/kde/)（KDE）
 
