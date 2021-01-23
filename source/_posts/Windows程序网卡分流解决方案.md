@@ -3,8 +3,8 @@ title: Windows程序网卡分流解决方案
 date: 2020-12-08 11:33:56
 categories: 经验技巧
 tags:
-    - Windows
-    - 网络
+  - Windows
+  - 网络
 ---
 
 {% noteblock quote cyan %}
@@ -57,8 +57,8 @@ PID 可以在任务管理器中查看：
 
 任选其一即可：
 
--   https://r1ch.net/assets/forcebindip/ForceBindIP-1.32-Setup.exe
--   https://upyun.secriy.com/download/ForceBindIP-1.32-Setup.exe
+- https://r1ch.net/assets/forcebindip/ForceBindIP-1.32-Setup.exe
+- https://upyun.secriy.com/download/ForceBindIP-1.32-Setup.exe
 
 ### 使用方式
 

@@ -7,64 +7,64 @@ tags: Proxy
 
 ## 代理软件
 
--   V2Ray
+- V2Ray
 
-    ```
-    socks5：127.0.0.1:10808
-    http：127.0.0.1:10809
-    ```
+  ```
+  socks5：127.0.0.1:10808
+  http：127.0.0.1:10809
+  ```
 
 ## 配置代理
 
--   git clone（GitHub）
+- git clone（GitHub）
 
-    -   HTTP/HTTPS
+  - HTTP/HTTPS
 
-        _C:\Users\用户名\\.gitconfig_
-
-        ```
-        [http "https://github.com"]
-        proxy = socks5://127.0.0.1:10808
-        [https "https://github.com"]
-        proxy = socks5://127.0.0.1:10808
-        ```
-
-    -   SSH
-
-        _C:\Users\用户名\\.ssh\config_
-
-        ```
-        Host github.com
-        	User git
-        	ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p
-        ```
-
--   npm
-    _C:\Users\用户名\\.npmrc_
+    _C:\Users\用户名\\.gitconfig_
 
     ```
-    proxy=http://localhost:10809
-    https-proxy=http://localhost:10809
+    [http "https://github.com"]
+    proxy = socks5://127.0.0.1:10808
+    [https "https://github.com"]
+    proxy = socks5://127.0.0.1:10808
     ```
 
--   conda
+  - SSH
 
-    _C:\Users\用户名\\.condarc_
-
-    ```
-    ssl_verify: true
-    channels:
-      - defaults
-    proxy_servers:
-      http: http://127.0.0.1:10809
-      https: https://127.0.0.1:10809
-    ```
-
--   pip
-
-    _C:\Users\用户名\pip\pip.ini_
+    _C:\Users\用户名\\.ssh\config_
 
     ```
-    [global]
-    proxy = http://127.0.0.1:10809
+    Host github.com
+    	User git
+    	ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p
     ```
+
+- npm
+  _C:\Users\用户名\\.npmrc_
+
+  ```
+  proxy=http://localhost:10809
+  https-proxy=http://localhost:10809
+  ```
+
+- conda
+
+  _C:\Users\用户名\\.condarc_
+
+  ```
+  ssl_verify: true
+  channels:
+    - defaults
+  proxy_servers:
+    http: http://127.0.0.1:10809
+    https: https://127.0.0.1:10809
+  ```
+
+- pip
+
+  _C:\Users\用户名\pip\pip.ini_
+
+  ```
+  [global]
+  proxy = http://127.0.0.1:10809
+  ```

@@ -19,13 +19,13 @@ tags: Linux
 
 ### 准备工作
 
--   [镜像](https://www.archlinux.org/download/)
+- [镜像](https://www.archlinux.org/download/)
 
-    页面中有国内镜像下载方式
+  页面中有国内镜像下载方式
 
-    ![](Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png)
+  ![](Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png)
 
--   U 盘
+- U 盘
 
 ### 写入镜像
 
@@ -46,90 +46,90 @@ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
 
 3. 检查引导方式
 
-    ```shell
-    ls /sys/firmware/efi/efivars
-    # 如果不存在结果则是BIOS引导，反之是UEFI启动
-    ```
+   ```shell
+   ls /sys/firmware/efi/efivars
+   # 如果不存在结果则是BIOS引导，反之是UEFI启动
+   ```
 
 4. 连接网络（无线网络）
 
-    ```shell
-    iwctl
-    device list # 显示网络设备，比如我是wlan0
-    station wlan0 scan # 扫描无线网络
-    station wlan0 get-networks # 获取无线网络
-    station wlan0 connect SSID # 连接网络，SSID自行修改
-    # 如果存在密码会让你输入，照做即可
-    # 退出iwctl
-    ping baidu.com # 测试下网络连接是否正常
-    ```
+   ```shell
+   iwctl
+   device list # 显示网络设备，比如我是wlan0
+   station wlan0 scan # 扫描无线网络
+   station wlan0 get-networks # 获取无线网络
+   station wlan0 connect SSID # 连接网络，SSID自行修改
+   # 如果存在密码会让你输入，照做即可
+   # 退出iwctl
+   ping baidu.com # 测试下网络连接是否正常
+   ```
 
 5. 磁盘分区
 
-    ```shell
-    lsblk # 查看磁盘
-    ```
+   ```shell
+   lsblk # 查看磁盘
+   ```
 
-    这里我使用[LVM 分区](<https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。
+   这里我使用[LVM 分区](<https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。
 
-    LVM 的基本组成部分如下：
+   LVM 的基本组成部分如下：
 
-    - 物理卷 (PV)
-      一个可供存储 LVM 的块设备. 例如: 一块硬盘, 一个 MBR 或 GPT 分区, 一个回环文件, 一个被内核映射的设备 (例如 dm-crypt).它包含一个特殊的 LVM 头。
-    - 卷组 (VG)
-      物理卷的一个组，作为存放逻辑卷的容器。
-    - 逻辑卷 (LV)
-      "虚拟/逻辑卷"存放在一个卷组中并由物理块组成。是一个类似于物理设备的块设备，例如，你可以直接在它上面创建一个文件系统文件系统。
-    - 物理块 (PE)
-      一个卷组中最小的连续区域(默认为 4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。
+   - 物理卷 (PV)
+     一个可供存储 LVM 的块设备. 例如: 一块硬盘, 一个 MBR 或 GPT 分区, 一个回环文件, 一个被内核映射的设备 (例如 dm-crypt).它包含一个特殊的 LVM 头。
+   - 卷组 (VG)
+     物理卷的一个组，作为存放逻辑卷的容器。
+   - 逻辑卷 (LV)
+     "虚拟/逻辑卷"存放在一个卷组中并由物理块组成。是一个类似于物理设备的块设备，例如，你可以直接在它上面创建一个文件系统文件系统。
+   - 物理块 (PE)
+     一个卷组中最小的连续区域(默认为 4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。
 
-    这里使用**cfdisk**工具分区，将需要的分区类型设置为 LVM（Type 选项），选择 Write 写入分区表。
+   这里使用**cfdisk**工具分区，将需要的分区类型设置为 LVM（Type 选项），选择 Write 写入分区表。
 
-    **以下命令参照自身情况自行修改：**
+   **以下命令参照自身情况自行修改：**
 
-    ```shell
-    cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图
-    cfdisk /dev/nvme0n1
-    cfdisk /dev/sda
-    ```
+   ```shell
+   cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图
+   cfdisk /dev/nvme0n1
+   cfdisk /dev/sda
+   ```
 
-    ![](Arch-Linux折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)
+   ![](Arch-Linux折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)
 
-    - 创建物理卷
+   - 创建物理卷
 
-        ```shell
-        pvcreate /dev/nvme1n1p1
-        pvcreate /dev/sda4
-        pvdisplay # 查看已创建物理卷
-        ```
+     ```shell
+     pvcreate /dev/nvme1n1p1
+     pvcreate /dev/sda4
+     pvdisplay # 查看已创建物理卷
+     ```
 
-    - 创建卷组
+   - 创建卷组
 
-        ```
-        vgcreate vgp /dev/nvme1n1p1
-        vgcreate vgq /dev/sda4
-        vgdisplay # 查看已创建卷组
-        ```
+     ```
+     vgcreate vgp /dev/nvme1n1p1
+     vgcreate vgq /dev/sda4
+     vgdisplay # 查看已创建卷组
+     ```
 
-    - 创建逻辑卷
+   - 创建逻辑卷
 
-        ```shell
-        lvcreate -L 225G vgp -n lvroot # 分配225G空间给root分区
-        lvcreate -l +100%FREE -n lvswap # 分配剩余空间给swap分区
-        lvcreate -l +100%FREE -n lvhome # 分配全部空间给home分区
-        ```
+     ```shell
+     lvcreate -L 225G vgp -n lvroot # 分配225G空间给root分区
+     lvcreate -l +100%FREE -n lvswap # 分配剩余空间给swap分区
+     lvcreate -l +100%FREE -n lvhome # 分配全部空间给home分区
+     ```
 
-    - 挂载分区
+   - 挂载分区
 
-        **boot 所在分区我个人使用的大小是 200M，千万不能太小，不然无法使用 LVM 方式！**
+     **boot 所在分区我个人使用的大小是 200M，千万不能太小，不然无法使用 LVM 方式！**
 
-        ```shell
-        mount /dev/vgp/lvroot /mnt
-        mkdir /mnt/boot
-        mount /dev/nvme0n1p1 /mnt/boot
-        mkdir /mnt/home
-        mount /dev/vgq/lvhome /mnt/home
-        ```
+     ```shell
+     mount /dev/vgp/lvroot /mnt
+     mkdir /mnt/boot
+     mount /dev/nvme0n1p1 /mnt/boot
+     mkdir /mnt/home
+     mount /dev/vgq/lvhome /mnt/home
+     ```
 
 ### 开始安装
 
@@ -278,24 +278,24 @@ systemctl restart NetworkManager.service
 
 1. 添加用户
 
-    ```shell
-    useradd -m -G wheel secriy # 创建用户
-    passwd secriy # 设置密码
-    usermod -d /home/Secriy -m secriy # 修改用户目录名
-    ```
+   ```shell
+   useradd -m -G wheel secriy # 创建用户
+   passwd secriy # 设置密码
+   usermod -d /home/Secriy -m secriy # 修改用户目录名
+   ```
 
 2. 配置 sudo 权限
 
-    ```shell
-    pacman -S sudo # 安装sudo
-    EDITOR=vim visudo # 使用vim编辑sudoers文件
-    ```
+   ```shell
+   pacman -S sudo # 安装sudo
+   EDITOR=vim visudo # 使用vim编辑sudoers文件
+   ```
 
 3. 将以下文字取消注释
 
-    ```
-    %wheel ALL=(ALL) NOPASSWD: ALL
-    ```
+   ```
+   %wheel ALL=(ALL) NOPASSWD: ALL
+   ```
 
 ### 安装显卡驱动
 
@@ -383,19 +383,19 @@ sudo vim ~/.zshrc # 修改配置文件
 
 插件：
 
--   git
+- git
 
--   zsh-autosuggestions
+- zsh-autosuggestions
 
-    ```shell
-    git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-    ```
+  ```shell
+  git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+  ```
 
--   zsh-syntax-highlighting
+- zsh-syntax-highlighting
 
-    ```shell
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    ```
+  ```shell
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  ```
 
 ### 字体安装
 
@@ -407,23 +407,23 @@ sudo pacman -S ttf-monaco adobe-source-han-sans-cn-fonts
 
 #### Plasma
 
--   Widgets
+- Widgets
 
-    -   Active Window Control
-    -   Application Title
-    -   Global Menu
-    -   Netspeed
-    -   System Loader View
-    -   Thermal Monitor
-    -   Color Picker
-    -   Digital Clock
-    -   Application Dashboard
+  - Active Window Control
+  - Application Title
+  - Global Menu
+  - Netspeed
+  - System Loader View
+  - Thermal Monitor
+  - Color Picker
+  - Digital Clock
+  - Application Dashboard
 
--   Latte Dock
+- Latte Dock
 
-    ```shell
-    sudo pacman -S latte-dock
-    ```
+  ```shell
+  sudo pacman -S latte-dock
+  ```
 
 #### Grub
 
@@ -441,27 +441,27 @@ sudo pacman -S grub-customizer
 
 4. 修改分辨率
 
-    _/etc/default/grub_
+   _/etc/default/grub_
 
-    ```
-    GRUB_GFXMODE=1920x1080
-    ```
+   ```
+   GRUB_GFXMODE=1920x1080
+   ```
 
 5. 修改字体
 
-    ```shell
-    sudo grub-mkfont -s 16 -o /boot/grub/fonts/Monaco_Linux.pf2 /usr/share/fonts/TTF/Monaco_Linux.ttf
-    ```
+   ```shell
+   sudo grub-mkfont -s 16 -o /boot/grub/fonts/Monaco_Linux.pf2 /usr/share/fonts/TTF/Monaco_Linux.ttf
+   ```
 
-    _/etc/default/grub_
+   _/etc/default/grub_
 
-    ```
-    GRUB_FONT="/bot/grub/fonts/Monaco_Linux.pf2"
-    ```
+   ```
+   GRUB_FONT="/bot/grub/fonts/Monaco_Linux.pf2"
+   ```
 
-    ```shell
-    grub-mkconfig -o /boot/grub/grub.cfg
-    ```
+   ```shell
+   grub-mkconfig -o /boot/grub/grub.cfg
+   ```
 
 ## 软件安装&配置
 
@@ -470,9 +470,11 @@ sudo pacman -S grub-customizer
 安装
 
 ```shell
-sudo pacman -S fcitx5 fcitx5-configtool
+sudo pacman -S fcitx5 fcitx5-configtool # 主程序、配置工具
 sudo pacman -S fcitx5-chinese-addons # 输入法引擎
 sudo pacman -S fcitx5-qt fcitx5-gtk # 输入法模块
+sudo pacman -S fcitx5-pinyin-zhwiki # 肥猫制作的维基百万词库
+sudo pacman -S fcitx5-pinyin-moegirl # 萌娘百科词库
 ```
 
 配置
@@ -499,51 +501,61 @@ fcitx5 &
 
 ### 软件/工具
 
--   日常
+- 日常
 
-    -   google-chrome **Chrome 浏览器**
-    -   firefox-i18n-zh-cn **FireFox**
-    -   netease-cloud-music **网易云音乐**
-    -   deepin.com.qq.office **Tim**
-    -   telegram-desktop **Telegram**
-    -   flameshot **截图工具**
-    -   ranger **文件管理器**
-    -   vmware-workstation **VMware 虚拟机**
-    -   qv2ray **v2ray 工具**
+  - netease-cloud-music：网易云音乐
+  - deepin.com.qq.office：Tim
+  - deepin-wine-wechat：微信
+  - telegram-desktop：Telegram
+  - flameshot：截图工具
+  - ranger：文件管理器
+  - vmware-workstation：VMware 虚拟机
+  - steam：Steam 客户端
+  - baidunetdisk-bin：百度网盘
+  - calibre：Calibre 图书管理
 
--   开发
+- 开发
 
-    -   visual-studio-code-bin **VS Code**
-    -   intellij-idea-ultimate-edition **IDEA**
-    -   android-studio
-    -   leafpad
-    -   vim
-    -   sublime-text
-    -   goland
-    -   ipython
+  - visual-studio-code-bin
+  - intellij-idea-ultimate-edition
+  - android-studio
+  - matlab
+  - leafpad
+  - vim
+  - sublime-text
+  - postman
 
-    -   docker
-    -   nodejs
-    -   npm
-    -   go
+- goland
+  - ipython
+  - docker
+  - nodejs
+  - npm
+- go
+- 网络
+  - google-chrome：Chrome 浏览器
+  - firefox-i18n-zh-cn：FireFox 浏览器
+  - qv2ray：v2ray 工具
+  - aria2：下载工具
+  - uget：下载器 GUI
+- 办公
+- wps-office
+- 安全
+- charles：抓包工具
+  - ghex：16 进制查看器
+  - wireshark：流量分析
+- 工具
+- flameshot：截图工具
+  - filezilla：FTP 工具
+  - neofetch：输出本机信息
+- lolcat：以彩色输出
+- 其他
 
--   办公
-
-    -   wps-office **WPS Office**
-
--   小工具
-
-    -   neofetch **输出本机信息**
-    -   lolcat **以彩色输出**
-
--   其他
-
-    -   xsettingsd **解决 KDE 下 wine 程序不能运行的问题**
-    -   ttf-wps-fonts **WPS 必需字体**
+  - xsettingsd：解决 KDE 下 wine 程序不能运行的问题
+  - ttf-wps-fonts：WPS 必需字体
 
 ### 其他配置
 
--   启动 SSH 服务
+- 启动 SSH 服务
 
 ```shell
 sudo systemctl enable sshd.service
@@ -571,48 +583,48 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 
 1. 无法使用中文
 
-    根据上文的输入法配置，软件基本上都是能够正常使用中文的。由于我的系统语言是默认的英文，终端无法显示中文字符，将语言格式化改为 UTF8 格式即可。
+   根据上文的输入法配置，软件基本上都是能够正常使用中文的。由于我的系统语言是默认的英文，终端无法显示中文字符，将语言格式化改为 UTF8 格式即可。
 
-    ```shell
-    $ locale
-    LANG=en_US.UTF-8
-    LC_CTYPE="en_US.UTF-8"
-    LC_NUMERIC=en_US.UTF-8
-    LC_TIME=en_US.UTF-8
-    LC_COLLATE="en_US.UTF-8"
-    LC_MONETARY="en_US.UTF-8"
-    LC_MESSAGES="en_US.UTF-8"
-    LC_PAPER="en_US.UTF-8"
-    LC_NAME="en_US.UTF-8"
-    LC_ADDRESS="en_US.UTF-8"
-    LC_TELEPHONE="en_US.UTF-8"
-    LC_MEASUREMENT=zh_CN.UTF-8
-    LC_IDENTIFICATION="en_US.UTF-8"
-    LC_ALL=
-    ```
+   ```shell
+   $ locale
+   LANG=en_US.UTF-8
+   LC_CTYPE="en_US.UTF-8"
+   LC_NUMERIC=en_US.UTF-8
+   LC_TIME=en_US.UTF-8
+   LC_COLLATE="en_US.UTF-8"
+   LC_MONETARY="en_US.UTF-8"
+   LC_MESSAGES="en_US.UTF-8"
+   LC_PAPER="en_US.UTF-8"
+   LC_NAME="en_US.UTF-8"
+   LC_ADDRESS="en_US.UTF-8"
+   LC_TELEPHONE="en_US.UTF-8"
+   LC_MEASUREMENT=zh_CN.UTF-8
+   LC_IDENTIFICATION="en_US.UTF-8"
+   LC_ALL=
+   ```
 
-    ![](Arch-Linux折腾笔记/DeepinScreenshot_select-area_20201011151238.png)
+   ![](Arch-Linux折腾笔记/DeepinScreenshot_select-area_20201011151238.png)
 
-    经测试，Tim 和各类软件均能够正常输入中文。
+   经测试，Tim 和各类软件均能够正常输入中文。
 
 2. 无线网络冲突
 
-    经常遇到连接无线网需要超级长时间的问题，并且大多数情况都会失败。后来发现是网络工具冲突，wpa_supplicant 和 NetworkManager 不要分开安装，直接安装 NetworkManager 即可，另外将 NetworkManager 的 backend 替换为 iwd。具体原因细节我没有深究，文章已经修改为正确的步骤。
+   经常遇到连接无线网需要超级长时间的问题，并且大多数情况都会失败。后来发现是网络工具冲突，wpa_supplicant 和 NetworkManager 不要分开安装，直接安装 NetworkManager 即可，另外将 NetworkManager 的 backend 替换为 iwd。具体原因细节我没有深究，文章已经修改为正确的步骤。
 
 3. Tim 部分中文显示异常（显示为方块）
 
-    修改*/opt/deepinwine/tools/run.sh*，将**WINE_CMD**改为以下文本：
+   修改*/opt/deepinwine/tools/run.sh*，将**WINE_CMD**改为以下文本：
 
-    ```sh
-    WINE_CMD="LC_ALL=zh_CN.UTF-8 deepin-wine
-    ```
+   ```sh
+   WINE_CMD="LC_ALL=zh_CN.UTF-8 deepin-wine
+   ```
 
 4. Jetbrains 系列软件无法使用 GlobalMenu（全局菜单）
 
-    通过点击 Help->Show Log in Dolphin 查看日志，发现报错如下：
+   通过点击 Help->Show Log in Dolphin 查看日志，发现报错如下：
 
-    ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230158797.png)
+   ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230158797.png)
 
-    因此可以确定是找不到 JavaFX 环境，在**Plugins Marketplace**下载安装即可。
+   因此可以确定是找不到 JavaFX 环境，在**Plugins Marketplace**下载安装即可。
 
-    ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230358483.png)
+   ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230358483.png)
