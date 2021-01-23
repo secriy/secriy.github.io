@@ -487,10 +487,10 @@
 
 <h2 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
 <li><p><a target="_blank" rel="noopener" href="https://www.archlinux.org/download/">镜像</a></p>
-<p>  页面中有国内镜像下载方式</p>
-<p>  <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png" srcset="data:image/png;base64,666"></p>
+<p>页面中有国内镜像下载方式</p>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png" srcset="data:image/png;base64,666"></p>
 </li>
-<li><p>  U 盘</p>
+<li><p>U 盘</p>
 </li>
 </ul>
 <h3 id="写入镜像"><a href="#写入镜像" class="headerlink" title="写入镜像"></a>写入镜像</h3><p>本次使用 U 盘写入，并且由于我电脑已经存在 Manjaro，决定直接用 Manjaro 写入镜像。</p>
@@ -518,24 +518,20 @@ ping baidu.com # 测试下网络连接是否正常</code></pre>
 </li>
 <li><p>磁盘分区</p>
 <pre><code class="shell">lsblk # 查看磁盘</code></pre>
-<p> 这里我使用<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">LVM 分区</a>分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。</p>
-<p> LVM 的基本组成部分如下：</p>
+<p>这里我使用<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">LVM 分区</a>分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。</p>
+<p>LVM 的基本组成部分如下：</p>
 <ul>
-<li><p>物理卷 (PV)<br>一个可供存储 LVM 的块设备. 例如: 一块硬盘, 一个 MBR 或 GPT 分区, 一个回环文件, 一个被内核映射的设备 (例如 dm-crypt).它包含一个特殊的 LVM 头。</p>
-</li>
-<li><p>卷组 (VG)<br>物理卷的一个组，作为存放逻辑卷的容器。</p>
-</li>
-<li><p>逻辑卷 (LV)<br>“虚拟/逻辑卷”存放在一个卷组中并由物理块组成。是一个类似于物理设备的块设备，例如，你可以直接在它上面创建一个文件系统文件系统。</p>
-</li>
-<li><p>物理块 (PE)<br>一个卷组中最小的连续区域(默认为 4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</p>
-<p>这里使用<strong>cfdisk</strong>工具分区，将需要的分区类型设置为 LVM（Type 选项），选择 Write 写入分区表。</p>
-</li>
+<li>物理卷 (PV)<br>一个可供存储 LVM 的块设备. 例如: 一块硬盘, 一个 MBR 或 GPT 分区, 一个回环文件, 一个被内核映射的设备 (例如 dm-crypt).它包含一个特殊的 LVM 头。</li>
+<li>卷组 (VG)<br>物理卷的一个组，作为存放逻辑卷的容器。</li>
+<li>逻辑卷 (LV)<br>“虚拟/逻辑卷”存放在一个卷组中并由物理块组成。是一个类似于物理设备的块设备，例如，你可以直接在它上面创建一个文件系统文件系统。</li>
+<li>物理块 (PE)<br>一个卷组中最小的连续区域(默认为 4 MiB)，多个物理块将被分配给一个逻辑卷。你可以把它看成物理卷的一部分，这部分可以被分配给一个逻辑卷。</li>
 </ul>
-<p> <strong>以下命令参照自身情况自行修改：</strong></p>
+<p>这里使用<strong>cfdisk</strong>工具分区，将需要的分区类型设置为 LVM（Type 选项），选择 Write 写入分区表。</p>
+<p><strong>以下命令参照自身情况自行修改：</strong></p>
 <pre><code class="shell">cfdisk /dev/nvme1n1 # 修改nvme1n1（SSD）的分区，如下图
 cfdisk /dev/nvme0n1
 cfdisk /dev/sda</code></pre>
-<p> <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" srcset="data:image/png;base64,666"></p>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_plasmashell_20201022011144.png" srcset="data:image/png;base64,666"></p>
 <ul>
 <li><p>创建物理卷</p>
 <pre><code class="shell">pvcreate /dev/nvme1n1p1
@@ -553,7 +549,7 @@ lvcreate -l +100%FREE -n lvswap # 分配剩余空间给swap分区
 lvcreate -l +100%FREE -n lvhome # 分配全部空间给home分区</code></pre>
 </li>
 <li><p>挂载分区</p>
-<p>  <strong>boot 所在分区我个人使用的大小是 200M，千万不能太小，不然无法使用 LVM 方式！</strong></p>
+<p><strong>boot 所在分区我个人使用的大小是 200M，千万不能太小，不然无法使用 LVM 方式！</strong></p>
 <pre><code class="shell">mount /dev/vgp/lvroot /mnt
 mkdir /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
@@ -659,7 +655,7 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 <p>主题：ys</p>
 <p>插件：</p>
 <ul>
-<li><p>  git</p>
+<li><p>git</p>
 </li>
 <li><p>zsh-autosuggestions</p>
 <pre><code class="shell">git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions</code></pre>
@@ -672,15 +668,15 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 <h3 id="系统美化"><a href="#系统美化" class="headerlink" title="系统美化"></a>系统美化</h3><h4 id="Plasma"><a href="#Plasma" class="headerlink" title="Plasma"></a>Plasma</h4><ul>
 <li><p>Widgets</p>
 <ul>
-<li>  Active Window Control</li>
-<li>  Application Title</li>
-<li>  Global Menu</li>
-<li>  Netspeed</li>
-<li>  System Loader View</li>
-<li>  Thermal Monitor</li>
-<li>  Color Picker</li>
-<li>  Digital Clock</li>
-<li>  Application Dashboard</li>
+<li>Active Window Control</li>
+<li>Application Title</li>
+<li>Global Menu</li>
+<li>Netspeed</li>
+<li>System Loader View</li>
+<li>Thermal Monitor</li>
+<li>Color Picker</li>
+<li>Digital Clock</li>
+<li>Application Dashboard</li>
 </ul>
 </li>
 <li><p>Latte Dock</p>
@@ -697,20 +693,22 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 <li><p>执行 install.sh 自动安装</p>
 </li>
 <li><p>修改分辨率</p>
-<p> <em>/etc/default/grub</em></p>
+<p><em>/etc/default/grub</em></p>
 <pre><code>GRUB_GFXMODE=1920x1080</code></pre>
 </li>
 <li><p>修改字体</p>
 <pre><code class="shell">sudo grub-mkfont -s 16 -o /boot/grub/fonts/Monaco_Linux.pf2 /usr/share/fonts/TTF/Monaco_Linux.ttf</code></pre>
-<p> <em>/etc/default/grub</em></p>
+<p><em>/etc/default/grub</em></p>
 <pre><code>GRUB_FONT=&quot;/bot/grub/fonts/Monaco_Linux.pf2&quot;</code></pre>
 <pre><code class="shell">grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
 </li>
 </ol>
 <h2 id="软件安装-amp-配置"><a href="#软件安装-amp-配置" class="headerlink" title="软件安装&amp;配置"></a>软件安装&amp;配置</h2><h3 id="输入法（fcitx5）"><a href="#输入法（fcitx5）" class="headerlink" title="输入法（fcitx5）"></a>输入法（fcitx5）</h3><p>安装</p>
-<pre><code class="shell">sudo pacman -S fcitx5 fcitx5-configtool
+<pre><code class="shell">sudo pacman -S fcitx5 fcitx5-configtool # 主程序、配置工具
 sudo pacman -S fcitx5-chinese-addons # 输入法引擎
-sudo pacman -S fcitx5-qt fcitx5-gtk # 输入法模块</code></pre>
+sudo pacman -S fcitx5-qt fcitx5-gtk # 输入法模块
+sudo pacman -S fcitx5-pinyin-zhwiki # 肥猫制作的维基百万词库
+sudo pacman -S fcitx5-pinyin-moegirl # 萌娘百科词库</code></pre>
 <p>配置</p>
 <p>_~/.pam_environment_</p>
 <pre><code>INPUT_METHOD  DEFAULT=fcitx5
@@ -726,65 +724,80 @@ fcitx5 &amp;</code></pre>
 <h3 id="软件-工具"><a href="#软件-工具" class="headerlink" title="软件/工具"></a>软件/工具</h3><ul>
 <li><p>日常</p>
 <ul>
-<li>  google-chrome <strong>Chrome 浏览器</strong></li>
-<li>  firefox-i18n-zh-cn <strong>FireFox</strong></li>
-<li>  netease-cloud-music <strong>网易云音乐</strong></li>
-<li>  deepin.com.qq.office <strong>Tim</strong></li>
-<li>  telegram-desktop <strong>Telegram</strong></li>
-<li>  flameshot <strong>截图工具</strong></li>
-<li>  ranger <strong>文件管理器</strong></li>
-<li>  vmware-workstation <strong>VMware 虚拟机</strong></li>
-<li>  qv2ray <strong>v2ray 工具</strong></li>
+<li>netease-cloud-music：网易云音乐</li>
+<li>deepin.com.qq.office：Tim</li>
+<li>deepin-wine-wechat：微信</li>
+<li>telegram-desktop：Telegram</li>
+<li>flameshot：截图工具</li>
+<li>ranger：文件管理器</li>
+<li>vmware-workstation：VMware 虚拟机</li>
+<li>steam：Steam 客户端</li>
+<li>baidunetdisk-bin：百度网盘</li>
+<li>calibre：Calibre 图书管理</li>
 </ul>
 </li>
 <li><p>开发</p>
 <ul>
-<li><p>  visual-studio-code-bin <strong>VS Code</strong></p>
+<li>visual-studio-code-bin</li>
+<li>intellij-idea-ultimate-edition</li>
+<li>android-studio</li>
+<li>matlab</li>
+<li>leafpad</li>
+<li>vim</li>
+<li>sublime-text</li>
+<li>postman</li>
+</ul>
 </li>
-<li><p>  intellij-idea-ultimate-edition <strong>IDEA</strong></p>
+<li><p>goland</p>
+<ul>
+<li>ipython</li>
+<li>docker</li>
+<li>nodejs</li>
+<li>npm</li>
+</ul>
 </li>
-<li><p>  android-studio</p>
+<li><p>go</p>
 </li>
-<li><p>  leafpad</p>
-</li>
-<li><p>  vim</p>
-</li>
-<li><p>  sublime-text</p>
-</li>
-<li><p>  goland</p>
-</li>
-<li><p>  ipython</p>
-</li>
-<li><p>  docker</p>
-</li>
-<li><p>  nodejs</p>
-</li>
-<li><p>  npm</p>
-</li>
-<li><p>  go</p>
-</li>
+<li><p>网络</p>
+<ul>
+<li>google-chrome：Chrome 浏览器</li>
+<li>firefox-i18n-zh-cn：FireFox 浏览器</li>
+<li>qv2ray：v2ray 工具</li>
+<li>aria2：下载工具</li>
+<li>uget：下载器 GUI</li>
 </ul>
 </li>
 <li><p>办公</p>
+</li>
+<li><p>wps-office</p>
+</li>
+<li><p>安全</p>
+</li>
+<li><p>charles：抓包工具</p>
 <ul>
-<li>  wps-office <strong>WPS Office</strong></li>
+<li>ghex：16 进制查看器</li>
+<li>wireshark：流量分析</li>
 </ul>
 </li>
-<li><p>小工具</p>
+<li><p>工具</p>
+</li>
+<li><p>flameshot：截图工具</p>
 <ul>
-<li>  neofetch <strong>输出本机信息</strong></li>
-<li>  lolcat <strong>以彩色输出</strong></li>
+<li>filezilla：FTP 工具</li>
+<li>neofetch：输出本机信息</li>
 </ul>
+</li>
+<li><p>lolcat：以彩色输出</p>
 </li>
 <li><p>其他</p>
 <ul>
-<li>  xsettingsd <strong>解决 KDE 下 wine 程序不能运行的问题</strong></li>
-<li>  ttf-wps-fonts <strong>WPS 必需字体</strong></li>
+<li>xsettingsd：解决 KDE 下 wine 程序不能运行的问题</li>
+<li>ttf-wps-fonts：WPS 必需字体</li>
 </ul>
 </li>
 </ul>
 <h3 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h3><ul>
-<li>  启动 SSH 服务</li>
+<li>启动 SSH 服务</li>
 </ul>
 <pre><code class="shell">sudo systemctl enable sshd.service
 sudo systemctl start sshd.service</code></pre>
@@ -794,7 +807,7 @@ sudo systemctl start sshd.service</code></pre>
 sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包</code></pre>
 <h2 id="踩坑记录"><a href="#踩坑记录" class="headerlink" title="踩坑记录"></a>踩坑记录</h2><ol>
 <li><p>无法使用中文</p>
-<p> 根据上文的输入法配置，软件基本上都是能够正常使用中文的。由于我的系统语言是默认的英文，终端无法显示中文字符，将语言格式化改为 UTF8 格式即可。</p>
+<p>根据上文的输入法配置，软件基本上都是能够正常使用中文的。由于我的系统语言是默认的英文，终端无法显示中文字符，将语言格式化改为 UTF8 格式即可。</p>
 <pre><code class="shell">$ locale
 LANG=en_US.UTF-8
 LC_CTYPE=&quot;en_US.UTF-8&quot;
@@ -810,21 +823,21 @@ LC_TELEPHONE=&quot;en_US.UTF-8&quot;
 LC_MEASUREMENT=zh_CN.UTF-8
 LC_IDENTIFICATION=&quot;en_US.UTF-8&quot;
 LC_ALL=</code></pre>
-<p> <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20201011151238.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20201011151238.png" srcset="data:image/png;base64,666"></p>
-<p> 经测试，Tim 和各类软件均能够正常输入中文。</p>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20201011151238.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20201011151238.png" srcset="data:image/png;base64,666"></p>
+<p>经测试，Tim 和各类软件均能够正常输入中文。</p>
 </li>
 <li><p>无线网络冲突</p>
-<p> 经常遇到连接无线网需要超级长时间的问题，并且大多数情况都会失败。后来发现是网络工具冲突，wpa_supplicant 和 NetworkManager 不要分开安装，直接安装 NetworkManager 即可，另外将 NetworkManager 的 backend 替换为 iwd。具体原因细节我没有深究，文章已经修改为正确的步骤。</p>
+<p>经常遇到连接无线网需要超级长时间的问题，并且大多数情况都会失败。后来发现是网络工具冲突，wpa_supplicant 和 NetworkManager 不要分开安装，直接安装 NetworkManager 即可，另外将 NetworkManager 的 backend 替换为 iwd。具体原因细节我没有深究，文章已经修改为正确的步骤。</p>
 </li>
 <li><p>Tim 部分中文显示异常（显示为方块）</p>
-<p> 修改*/opt/deepinwine/tools/run.sh*，将<strong>WINE_CMD</strong>改为以下文本：</p>
+<p>修改*/opt/deepinwine/tools/run.sh*，将<strong>WINE_CMD</strong>改为以下文本：</p>
 <pre><code class="sh">WINE_CMD=&quot;LC_ALL=zh_CN.UTF-8 deepin-wine</code></pre>
 </li>
 <li><p>Jetbrains 系列软件无法使用 GlobalMenu（全局菜单）</p>
-<p> 通过点击 Help-&gt;Show Log in Dolphin 查看日志，发现报错如下：</p>
-<p> <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230158797.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230158797.png" srcset="data:image/png;base64,666"></p>
-<p> 因此可以确定是找不到 JavaFX 环境，在<strong>Plugins Marketplace</strong>下载安装即可。</p>
-<p> <img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230358483.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230358483.png" srcset="data:image/png;base64,666"></p>
+<p>通过点击 Help-&gt;Show Log in Dolphin 查看日志，发现报错如下：</p>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230158797.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230158797.png" srcset="data:image/png;base64,666"></p>
+<p>因此可以确定是找不到 JavaFX 环境，在<strong>Plugins Marketplace</strong>下载安装即可。</p>
+<p><img src="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230358483.png" class="lazyload" data-srcset="/2020/07/30/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/Secriy/Working/Hexo/source/_posts/Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20210117230358483.png" srcset="data:image/png;base64,666"></p>
 </li>
 </ol>
 
@@ -861,10 +874,10 @@ LC_ALL=</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T23:06:20+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-23T19:34:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月17日</p>
+    <p>更新于：2021年1月23日</p>
   </a>
 </div>
 

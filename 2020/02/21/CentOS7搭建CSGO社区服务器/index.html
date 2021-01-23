@@ -488,14 +488,13 @@
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
 <li><p>云服务器：个人使用<strong>阿里云学生机（轻量应用服务器）</strong></p>
 <ul>
-<li><p>开放 UDP 27015 端口</p>
+<li>开放 UDP 27015 端口</li>
+</ul>
 <blockquote>
 <p>我是 5Mbps 1U1G 的机器，亲测七八个人没问题，十个人应该也可以。</p>
 </blockquote>
 </li>
-</ul>
-</li>
-<li><p>  Xshell：用于连接服务器，其他同类软件皆可</p>
+<li><p>Xshell：用于连接服务器，其他同类软件皆可</p>
 </li>
 </ul>
 <h2 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h2><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><ol>
@@ -516,8 +515,8 @@ rm steamcmd_linux.tar.gz</code></pre>
 </li>
 <li><p>运行 steamcmd</p>
 <pre><code class="shell">./steamcmd.sh</code></pre>
-<p> 成功运行会进入下图状态：</p>
-<p> <img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" srcset="data:image/png;base64,666"></p>
+<p>成功运行会进入下图状态：</p>
+<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221004214677.png" srcset="data:image/png;base64,666"></p>
 </li>
 </ol>
 <h3 id="安装-CSGO"><a href="#安装-CSGO" class="headerlink" title="安装 CSGO"></a>安装 CSGO</h3><pre><code class="sh">login anonymous                        # 以匿名身份登录
@@ -528,7 +527,7 @@ app_update 740 validate                # 安装CSGO服务端，等待完成</cod
 <ol>
 <li><p>在“/home/steam/steamcmd”下执行以下操作</p>
 <pre><code class="shell">vim update.txt</code></pre>
-<p> 写入以下文本，保存并退出</p>
+<p>写入以下文本，保存并退出</p>
 <pre><code class="sh">login anonymous
 force_install_dir ./csgo_server
 app_update 740
@@ -536,7 +535,7 @@ quit</code></pre>
 </li>
 <li><p>创建运行脚本</p>
 <pre><code class="shell">vim csgo_update.sh</code></pre>
-<p> 写入以下文本，保存并退出</p>
+<p>写入以下文本，保存并退出</p>
 <pre><code class="sh">#!/bin/bash
 ./steamcmd.sh +runscript update.txt</code></pre>
 </li>
@@ -566,8 +565,8 @@ quit</code></pre>
 <pre><code class="shell">sudo yum install screen</code></pre>
 </li>
 <li><p>创建启动脚本</p>
-<p> <strong>使用脚本启动方便修改启动项</strong></p>
-<p> 进入*/home/steam/steamcmd/csgo_server/*路径，新建<strong>run.sh</strong>文件，写入以下形式的文本</p>
+<p><strong>使用脚本启动方便修改启动项</strong></p>
+<p>进入*/home/steam/steamcmd/csgo_server/*路径，新建<strong>run.sh</strong>文件，写入以下形式的文本</p>
 <pre><code class="shell">screen ./srcds_run -console -game csgo -usercon -noipx -nomaster</code></pre>
 <blockquote>
 <p>部分启动项说明：</p>
@@ -581,8 +580,8 @@ quit</code></pre>
 </li>
 <li><p>启动服务器</p>
 <pre><code class="shell">./run.sh</code></pre>
-<p> <img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" srcset="data:image/png;base64,666"></p>
-<p> 当出现上图显示的文字，服务器启动成功</p>
+<p><img src="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" class="lazyload" data-srcset="/2020/02/21/CentOS7%E6%90%AD%E5%BB%BACSGO%E7%A4%BE%E5%8C%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/image-20200221012223811.png" srcset="data:image/png;base64,666"></p>
+<p>当出现上图显示的文字，服务器启动成功</p>
 </li>
 </ol>
 <h2 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h2><p>在控制台中输入<code>connect IP地址;password 连接密码</code>即可连接</p>
@@ -620,10 +619,10 @@ quit</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:54:37+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-23T19:34:20+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月17日</p>
+    <p>更新于：2021年1月23日</p>
   </a>
 </div>
 

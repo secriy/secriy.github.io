@@ -491,16 +491,16 @@
 <li>服务器端安装 Git、Node.js、npm 等</li>
 </ol>
 <h2 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h2><ul>
-<li><p>  连接服务器</p>
+<li><p>连接服务器</p>
 </li>
 <li><p>执行：</p>
 <pre><code class="shell">useradd git
 passwd git #输入自定义密码并确认
 chmod 740 /etc/sudoers #修改文件权限</code></pre>
 </li>
-<li><p>  编辑*/etc/sudoers*文件，在<strong>root ALL=(ALL) ALL</strong>下添加<strong>git ALL=(ALL) ALL</strong></p>
+<li><p>编辑*/etc/sudoers*文件，在<strong>root ALL=(ALL) ALL</strong>下添加<strong>git ALL=(ALL) ALL</strong></p>
 </li>
-<li><p>  执行<code>chmod 400 /etc/sudoers</code>改回文件权限</p>
+<li><p>执行<code>chmod 400 /etc/sudoers</code>改回文件权限</p>
 </li>
 <li><p>执行：</p>
 <pre><code class="shell">su git                                #切换至git用户
@@ -523,16 +523,16 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
 <li><p><strong>修改*/www/wwwroot/blog*目录权限</strong>：</p>
 <pre><code class="shell">chown -R git:git /www/wwwroot/blog</code></pre>
 </li>
-<li><p>  宝塔面板新建网站，添加域名、配置根目录（即*/www/wwwroot/blog*）</p>
+<li><p>宝塔面板新建网站，添加域名、配置根目录（即*/www/wwwroot/blog*）</p>
 </li>
 </ul>
 <h2 id="本地端配置"><a href="#本地端配置" class="headerlink" title="本地端配置"></a>本地端配置</h2><p>配置<em>_config.yml</em>文件：</p>
 <ul>
-<li><p>  打开 Git Bash</p>
+<li><p>打开 Git Bash</p>
 </li>
-<li><p>  执行<code>ssh-copy-id -i C:/Users/用户名/.ssh/id_rsa.pub git@服务器IP</code></p>
+<li><p>执行<code>ssh-copy-id -i C:/Users/用户名/.ssh/id_rsa.pub git@服务器IP</code></p>
 </li>
-<li><p>  执行<code>ssh git@服务器ip</code>测试能否免密远程连接</p>
+<li><p>执行<code>ssh git@服务器ip</code>测试能否免密远程连接</p>
 </li>
 <li><p>修改 deploy 配置（注意空格）：</p>
 <pre><code class="yml">deploy:
@@ -575,10 +575,10 @@ chown -R git:git /home/git/repos/hexo.git</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:56:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-23T19:34:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月17日</p>
+    <p>更新于：2021年1月23日</p>
   </a>
 </div>
 

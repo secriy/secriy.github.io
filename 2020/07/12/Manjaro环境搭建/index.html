@@ -486,25 +486,25 @@
 <a id="more"></a>
 
 <h2 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul>
-<li>  安装<a target="_blank" rel="noopener" href="https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/win-software/rufus-3.1.exe">Rufus3.1</a>（镜像写入工具）</li>
-<li>  U 盘</li>
-<li>  Manjaro<a target="_blank" rel="noopener" href="https://manjaro.org/downloads/official/kde/">镜像</a>（KDE）</li>
+<li>安装<a target="_blank" rel="noopener" href="https://upyun.secriy.com/downloads/rufus-3.1p.exe">Rufus3.1</a>（镜像写入工具）</li>
+<li>U 盘</li>
+<li>Manjaro<a target="_blank" rel="noopener" href="https://manjaro.org/downloads/official/kde/">镜像</a>（KDE）</li>
 </ul>
 <h3 id="写入镜像"><a href="#写入镜像" class="headerlink" title="写入镜像"></a>写入镜像</h3><ol>
 <li><p>打开 Rufus3.1</p>
 </li>
 <li><p>选择镜像，配置选项</p>
 <ul>
-<li><p>按照图上配置，对分区类型有疑问请自行百度</p>
+<li>按照图上配置，对分区类型有疑问请自行百度</li>
+</ul>
 <p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png" class="lazyload" data-srcset="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png" srcset="data:image/png;base64,666"></p>
-</li>
-<li><p>以下部分默认即可</p>
+<ul>
+<li>以下部分默认即可</li>
+</ul>
 <p><img src="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png" class="lazyload" data-srcset="/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png" srcset="data:image/png;base64,666"></p>
 </li>
-</ul>
-</li>
 <li><p>点击开始，写入镜像</p>
-<p> <strong>务必要使用 DD 模式写入！！！</strong></p>
+<p><strong>务必要使用 DD 模式写入！！！</strong></p>
 </li>
 </ol>
 <h3 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h3><ol>
@@ -548,20 +548,20 @@ yay --aururl &quot;https://aur.tuna.tsinghua.edu.cn&quot; --save</code></pre>
 <pre><code class="shell">sudo pacman -Sy fcitx
 sudo pacman -S fcitx-sunpinyin # 输入法
 sudo pacman -S fcitx-configtool # 配置工具</code></pre>
-<p> 创建<code>.xprofile</code>文件</p>
+<p>创建<code>.xprofile</code>文件</p>
 <pre><code class="shell">sudo vim ~/.xprofile</code></pre>
-<p> 写入内容：</p>
+<p>写入内容：</p>
 <pre><code class="shell">export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=&quot;@im=fcitx&quot;</code></pre>
-<p> 重启设备</p>
+<p>重启设备</p>
 </li>
 <li><p>oh-my-zsh</p>
 <pre><code class="shell">chsh -s /usr/bin/zsh # 修改默认shell
 sh -C &quot;$(wget https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/install.sh -O -)&quot;
 sudo vim ~/.zshrc # 修改配置文件</code></pre>
-<p> 主题：ys</p>
-<p> 插件：</p>
+<p>主题：ys</p>
+<p>插件：</p>
 <ul>
 <li>git</li>
 <li>zsh-autosuggestions</li>
@@ -571,7 +571,7 @@ sudo vim ~/.zshrc # 修改配置文件</code></pre>
 </ol>
 <h4 id="其他软件"><a href="#其他软件" class="headerlink" title="其他软件"></a>其他软件</h4><ol>
 <li><p>V2RAY</p>
-<p> <a target="_blank" rel="noopener" href="https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md">V2RAY 配置说明</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md">V2RAY 配置说明</a></p>
 <pre><code class="shell"># 安装
 yay -S v2ray
 # 配置
@@ -591,16 +591,16 @@ sudo systemctl stop v2ray.service</code></pre>
 yay -S ttf-wps-fonts</code></pre>
 </li>
 <li><p>deepin-screenshot</p>
-<p> 截图工具</p>
+<p>截图工具</p>
 <pre><code class="shell">yay -S deepin-screenshot</code></pre>
 </li>
 </ol>
 <h3 id="KDE-美化"><a href="#KDE-美化" class="headerlink" title="KDE 美化"></a>KDE 美化</h3><ul>
 <li><p>Plasma Widgets</p>
 <ul>
-<li>  Active Window Control</li>
-<li>  Global Menu</li>
-<li>  Application Dashboard</li>
+<li>Active Window Control</li>
+<li>Global Menu</li>
+<li>Application Dashboard</li>
 </ul>
 </li>
 <li><p>Latte Dock</p>
@@ -642,10 +642,10 @@ yay -S ttf-wps-fonts</code></pre>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-17T22:55:48+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-23T19:34:23+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月17日</p>
+    <p>更新于：2021年1月23日</p>
   </a>
 </div>
 
@@ -734,10 +734,10 @@ yay -S ttf-wps-fonts</code></pre>
 
 
 下载地址
-  Revo Uninstaller Pro
+Revo Uninstaller Pro
 
 安装软件
-直接...</p>
+直接运行...</p>
         </a>
       
     </div>
