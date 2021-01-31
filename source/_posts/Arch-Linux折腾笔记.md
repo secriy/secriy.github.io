@@ -499,59 +499,10 @@ fcitx5 &
 
 注销后重新登录
 
-### 软件/工具
+### 必需软件
 
-- 日常
-
-  - netease-cloud-music：网易云音乐
-  - deepin.com.qq.office：Tim
-  - deepin-wine-wechat：微信
-  - telegram-desktop：Telegram
-  - flameshot：截图工具
-  - ranger：文件管理器
-  - vmware-workstation：VMware 虚拟机
-  - steam：Steam 客户端
-  - baidunetdisk-bin：百度网盘
-  - calibre：Calibre 图书管理
-
-- 开发
-
-  - visual-studio-code-bin
-  - intellij-idea-ultimate-edition
-  - android-studio
-  - matlab
-  - leafpad
-  - vim
-  - sublime-text
-  - postman
-
-- goland
-  - ipython
-  - docker
-  - nodejs
-  - npm
-- go
-- 网络
-  - google-chrome：Chrome 浏览器
-  - firefox-i18n-zh-cn：FireFox 浏览器
-  - qv2ray：v2ray 工具
-  - aria2：下载工具
-  - uget：下载器 GUI
-- 办公
-- wps-office
-- 安全
-- charles：抓包工具
-  - ghex：16 进制查看器
-  - wireshark：流量分析
-- 工具
-- flameshot：截图工具
-  - filezilla：FTP 工具
-  - neofetch：输出本机信息
-- lolcat：以彩色输出
-- 其他
-
-  - xsettingsd：解决 KDE 下 wine 程序不能运行的问题
-  - ttf-wps-fonts：WPS 必需字体
+- xsettingsd：解决 KDE 下 wine 程序不能运行的问题
+- ttf-wps-fonts：WPS 必需字体
 
 ### 其他配置
 
