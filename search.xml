@@ -4,11 +4,36 @@
   
     
     <entry>
-      <title>Linux常用软件</title>
-      <link href="2021/01/31/Linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"/>
-      <url>2021/01/31/Linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
+      <title>MATLAB学习笔记</title>
+      <link href="2021/02/01/MATLAB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <url>2021/02/01/MATLAB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
       
-        <content type="html"><![CDATA[<div class="note quote cyan"><p>简单记录下个人使用的软件和工具以及对应的 Arch Linux 软件包，以备留用。</p></div><a id="more"></a><h2 id="日常软件"><a href="#日常软件" class="headerlink" title="日常软件"></a>日常软件</h2><h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><ul><li>浏览器：<ul><li>Chrome：google-chrome</li><li>FireFox：firefox-i18n-zh-cn</li><li>Tor Browser：torbrowser-launcher</li></ul></li><li>v2ray GUI：qv2ray</li><li>邮箱管理：thunderbird</li><li>网盘：<ul><li>百度网盘：baidunetdisk-bin</li><li>MEGA Sync：megasync</li></ul></li><li>下载:<ul><li>aria2</li><li>uget</li><li>qBittorrent：qbittorrent</li></ul></li></ul><h3 id="通讯"><a href="#通讯" class="headerlink" title="通讯"></a>通讯</h3><ul><li>Tim：deepin.com.qq.office</li><li>Telegram：telegram-desktop</li><li>微信：deepin-wine-wechat</li></ul><h3 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h3><ul><li>VLC：vlc</li></ul><h3 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h3><ul><li>网易云音乐：netease-cloud-music</li></ul><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><ul><li>Gwenview：gwenview</li></ul><h3 id="办公"><a href="#办公" class="headerlink" title="办公"></a>办公</h3><ul><li>WPS Office：wps-office</li></ul><h3 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h3><ul><li>Typora：typora</li><li>Calibre：calibre</li><li>PDF 阅读器：<ul><li>Evince：envice</li></ul></li><li>翻译器：<ul><li>Crow Tanslate</li></ul></li></ul><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul><li>输入法：fcitx5</li><li>VMware 虚拟机：vmware-workstation</li><li>截图工具：flameshot</li><li>文件管理器：<ul><li>dolphin</li><li>ranger</li></ul></li><li>FTP 工具：filezilla</li><li>单词记忆：anki</li><li>密码管理：keepass</li><li>输出本机信息：neofetch</li><li>彩色输出：lolcat</li></ul><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><h3 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h3><ul><li>Node.js：nodejs</li><li>Golang：go</li><li>Python3：python</li></ul><h3 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h3><ul><li>vim</li><li>leafpad</li><li>Visual Studio Code：visual-studio-code-bin</li><li>Sublime Text 3：sublime-text</li></ul><h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul><li>Intellij-IDEA：intellij-idea-ultimate-edition</li><li>Goland：goland</li><li>Android Studio：android-studio</li><li>Matlab</li></ul><h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul><li>SQLite：sqlite</li><li>MariaDB：mariadb</li><li>Navicat15 Premium</li></ul><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul><li>Postman：postman</li></ul><h3 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h3><ul><li>GitHub Desktop：github-desktop-bin</li><li>Git：git</li></ul><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul><li>Zeal：zeal<br>离线文档阅读器</li><li>iPython：ipython</li><li>Docker：docker</li><li>npm</li></ul><h2 id="安全工具"><a href="#安全工具" class="headerlink" title="安全工具"></a>安全工具</h2><ul><li>HTTP 抓包<ul><li>Charles：charles</li></ul></li><li>流量分析<ul><li>Wireshark：wireshark</li></ul></li><li>信息查看<ul><li>GHex：ghex<br>十六进制查看器</li></ul></li></ul>]]></content>
+        <content type="html"><![CDATA[<div class="note quote cyan"><p>仅作参考的MATLAB学习笔记。</p></div><a id="more"></a>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数学建模 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Arch Linux常用软件</title>
+      <link href="2021/01/31/Arch-Linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/"/>
+      <url>2021/01/31/Arch-Linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<div class="note quote cyan"><p>简单记录下个人使用的软件和工具以及对应的 Arch Linux 软件包，以备留用。</p></div><a id="more"></a><h2 id="日常软件"><a href="#日常软件" class="headerlink" title="日常软件"></a>日常软件</h2><h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><ul><li>浏览器：<ul><li>Chrome</li><li>Chromium</li><li>FireFox</li><li>Tor Browser</li></ul></li><li>v2ray GUI：Qv2ray</li><li>邮箱：Thunderbird + birdtray</li><li>网盘：<ul><li>百度网盘</li><li>MEGA Sync</li></ul></li><li>下载:<ul><li>aria2</li><li>uget</li><li>qBittorrent：qbittorrent</li></ul></li></ul><h3 id="通讯"><a href="#通讯" class="headerlink" title="通讯"></a>通讯</h3><ul><li>Telegram</li><li>Tim：deepin.com.qq.office</li><li>微信：deepin-wine-wechat</li></ul><h3 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h3><ul><li>VLC</li></ul><h3 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h3><ul><li>网易云音乐</li></ul><h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><ul><li>Gwenview</li></ul><h3 id="办公"><a href="#办公" class="headerlink" title="办公"></a>办公</h3><ul><li>WPS Office</li></ul><h3 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h3><ul><li>Typora</li><li>Calibre</li><li>电子书阅读器：<ul><li>Foliate</li></ul></li><li>PDF 阅读器：<ul><li>Evince</li></ul></li><li>翻译器：<ul><li>Crow Tanslate</li></ul></li></ul><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul><li>输入法：fcitx5</li><li>虚拟机：VMware Workstation</li><li>截图：flameshot</li><li>文件管理器：<ul><li>dolphin</li><li>ranger</li></ul></li><li>FTP 工具：FileZilla</li><li>单词记忆：Anki</li><li>密码管理：KeePassXC</li><li>计算器：SpeedCrunch</li><li>输出本机信息：neofetch</li><li>彩色输出：lolcat</li></ul><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><h3 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h3><ul><li>Node.js</li><li>Golang</li><li>Python3/2</li></ul><h3 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h3><ul><li>vim</li><li>leafpad</li><li>Visual Studio Code</li><li>Sublime Text 3</li><li>TeX Live</li><li>TeX Studio</li></ul><h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul><li>Intellij-IDEA</li><li>Goland</li><li>PyCharm</li><li>Android Studio</li><li>Matlab</li></ul><h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><ul><li>SQLite</li><li>MariaDB</li><li>Navicat15 Premium</li><li>DB Browser for SQLite</li></ul><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul><li>Postman</li></ul><h3 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h3><ul><li>GitHub Desktop</li><li>Git</li></ul><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul><li>Zeal：zeal<br>离线文档阅读器</li><li>iPython：ipython</li><li>Docker：docker</li><li>npm</li></ul><h2 id="安全工具"><a href="#安全工具" class="headerlink" title="安全工具"></a>安全工具</h2><ul><li>HTTP 抓包<ul><li>Charles：charles</li></ul></li><li>流量分析<ul><li>Wireshark：wireshark</li></ul></li><li>信息查看<ul><li>GHex：ghex<br>十六进制查看器</li></ul></li></ul>]]></content>
       
       
       <categories>
@@ -237,7 +262,7 @@
       <link href="2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
       <url>2020/06/02/Windows%E4%BB%A3%E7%90%86%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
       
-        <content type="html"><![CDATA[<h2 id="代理软件"><a href="#代理软件" class="headerlink" title="代理软件"></a>代理软件</h2><ul><li><p>V2Ray</p><pre><code>socks5：127.0.0.1:10808http：127.0.0.1:10809</code></pre></li></ul><h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><ul><li><p>git clone（GitHub）</p><ul><li><p>HTTP/HTTPS</p><p><em>C:\Users\用户名\.gitconfig</em></p><pre><code>[http &quot;https://github.com&quot;]proxy = socks5://127.0.0.1:10808[https &quot;https://github.com&quot;]proxy = socks5://127.0.0.1:10808</code></pre></li><li><p>SSH</p><p><em>C:\Users\用户名\.ssh\config</em></p><pre><code>Host github.com    User git    ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</code></pre></li></ul></li><li><p>npm<br><em>C:\Users\用户名\.npmrc</em></p><pre><code>proxy=http://localhost:10809https-proxy=http://localhost:10809</code></pre></li><li><p>conda</p><p><em>C:\Users\用户名\.condarc</em></p><pre><code>ssl_verify: truechannels:  - defaultsproxy_servers:  http: http://127.0.0.1:10809  https: https://127.0.0.1:10809</code></pre></li><li><p>pip</p><p><em>C:\Users\用户名\pip\pip.ini</em></p><pre><code>[global]proxy = http://127.0.0.1:10809</code></pre></li></ul>]]></content>
+        <content type="html"><![CDATA[<div class="note quote cyan"><p>Windows下代理环境配置。</p></div><a id="more"></a><h2 id="代理软件"><a href="#代理软件" class="headerlink" title="代理软件"></a>代理软件</h2><ul><li><p>V2Ray</p><pre><code>socks5：127.0.0.1:10808http：127.0.0.1:10809</code></pre></li></ul><h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><ul><li><p>git clone（GitHub）</p><ul><li><p>HTTP/HTTPS</p><p><em>C:\Users\用户名\.gitconfig</em></p><pre><code>[http &quot;https://github.com&quot;]proxy = socks5://127.0.0.1:10808[https &quot;https://github.com&quot;]proxy = socks5://127.0.0.1:10808</code></pre></li><li><p>SSH</p><p><em>C:\Users\用户名\.ssh\config</em></p><pre><code>Host github.com    User git    ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p</code></pre></li></ul></li><li><p>npm<br><em>C:\Users\用户名\.npmrc</em></p><pre><code>proxy=http://localhost:10809https-proxy=http://localhost:10809</code></pre></li><li><p>conda</p><p><em>C:\Users\用户名\.condarc</em></p><pre><code>ssl_verify: truechannels:  - defaultsproxy_servers:  http: http://127.0.0.1:10809  https: https://127.0.0.1:10809</code></pre></li><li><p>pip</p><p><em>C:\Users\用户名\pip\pip.ini</em></p><pre><code>[global]proxy = http://127.0.0.1:10809</code></pre></li></ul>]]></content>
       
       
       <categories>
