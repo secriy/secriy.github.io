@@ -1,5 +1,5 @@
 ---
-title: Linux常用软件
+title: Arch Linux常用软件
 date: 2021-01-31 20:05:01
 categories: 软件工具
 tags: Linux
@@ -18,14 +18,15 @@ tags: Linux
 ### 网络
 
 - 浏览器：
-  - Chrome：google-chrome
-  - FireFox：firefox-i18n-zh-cn
-  - Tor Browser：torbrowser-launcher
-- v2ray GUI：qv2ray
-- 邮箱管理：thunderbird
+  - Chrome
+  - Chromium
+  - FireFox
+  - Tor Browser
+- v2ray GUI：Qv2ray
+- 邮箱：Thunderbird + birdtray
 - 网盘：
-  - 百度网盘：baidunetdisk-bin
-  - MEGA Sync：megasync
+  - 百度网盘
+  - MEGA Sync
 - 下载:
   - aria2
   - uget
@@ -33,46 +34,49 @@ tags: Linux
 
 ### 通讯
 
+- Telegram
 - Tim：deepin.com.qq.office
-- Telegram：telegram-desktop
 - 微信：deepin-wine-wechat
 
 ### 视频
 
-- VLC：vlc
+- VLC
 
 ### 音频
 
-- 网易云音乐：netease-cloud-music
+- 网易云音乐
 
 ### 图像
 
-- Gwenview：gwenview
+- Gwenview
 
 ### 办公
 
-- WPS Office：wps-office
+- WPS Office
 
 ### 阅读
 
-- Typora：typora
-- Calibre：calibre
+- Typora
+- Calibre
+- 电子书阅读器：
+  - Foliate
 - PDF 阅读器：
-  - Evince：envice
+  - Evince
 - 翻译器：
   - Crow Tanslate
 
 ### 工具
 
 - 输入法：fcitx5
-- VMware 虚拟机：vmware-workstation
-- 截图工具：flameshot
+- 虚拟机：VMware Workstation
+- 截图：flameshot
 - 文件管理器：
   - dolphin
   - ranger
-- FTP 工具：filezilla
-- 单词记忆：anki
-- 密码管理：keepass
+- FTP 工具：FileZilla
+- 单词记忆：Anki
+- 密码管理：KeePassXC
+- 计算器：SpeedCrunch
 - 输出本机信息：neofetch
 - 彩色输出：lolcat
 
@@ -80,38 +84,42 @@ tags: Linux
 
 ### 语言
 
-- Node.js：nodejs
-- Golang：go
-- Python3：python
+- Node.js
+- Golang
+- Python3/2
 
 ### 编辑
 
 - vim
 - leafpad
-- Visual Studio Code：visual-studio-code-bin
-- Sublime Text 3：sublime-text
+- Visual Studio Code
+- Sublime Text 3
+- TeX Live
+- TeX Studio
 
 ### IDE
 
-- Intellij-IDEA：intellij-idea-ultimate-edition
-- Goland：goland
-- Android Studio：android-studio
+- Intellij-IDEA
+- Goland
+- PyCharm
+- Android Studio
 - Matlab
 
 ### 数据库
 
-- SQLite：sqlite
-- MariaDB：mariadb
+- SQLite
+- MariaDB
 - Navicat15 Premium
+- DB Browser for SQLite
 
 ### 测试
 
-- Postman：postman
+- Postman
 
 ### 管理
 
-- GitHub Desktop：github-desktop-bin
-- Git：git
+- GitHub Desktop
+- Git
 
 ### 其他
 
