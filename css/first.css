@@ -44,7 +44,7 @@
   --color-site-footer: #66bfbf;
   --color-card: #f6f6f6;
   --color-text: #53cde2;
-  --color-block: #e7ece8;
+  --color-block: #f8f1f1;
   --color-inlinecode: #c74f00;
   --color-codeblock: #ffe9c1;
   --color-h1: #42ba78;
@@ -360,25 +360,25 @@ table:not([class]) {
   vertical-align: text-top;
 }
 table:not([class]) th {
-  background-color: #e1e7e3;
+  background-color: #f5eaea;
 }
 table:not([class]) td,
 table:not([class]) th {
   padding: 8px 16px;
-  border: 2px solid #e1e7e3;
+  border: 2px solid #f5eaea;
   line-height: 1.5;
   font-size: 90%;
 }
 table:not([class]) tr {
   word-break: keep-all;
-  background-color: #f0f3f0;
+  background-color: #fdfbfb;
   transition: all 0.28s ease;
   -moz-transition: all 0.28s ease;
   -webkit-transition: all 0.28s ease;
   -o-transition: all 0.28s ease;
 }
 table:not([class]) tr:hover {
-  background-color: #e1e7e3;
+  background-color: #f5eaea;
 }
 td,
 th {

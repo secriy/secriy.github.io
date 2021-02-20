@@ -1618,7 +1618,7 @@ div.timenode .body >*:last-child {
   margin-bottom: 0.25em;
 }
 div.timenode .body .highlight {
-  border: 1px solid #d8e8e7;
+  border: 1px solid #e7edef;
 }
 div.timenode:hover .meta {
   color: var(--color-text);
@@ -1776,7 +1776,7 @@ pre {
   position: sticky;
   left: 0;
   padding: 4px 8px 4px 8px;
-  background: #dae2dc;
+  background: #f0e1e1;
   border-top-left-radius: calc(4px - 1px);
   border-top-right-radius: calc(4px - 1px);
 }
@@ -1829,7 +1829,7 @@ pre {
   position: sticky;
   left: 0;
   z-index: 1;
-  background: #d9e1da;
+  background: #efe0e0;
 }
 .highlight >table .gutter pre {
   color: var(--color-meta);
@@ -2626,12 +2626,12 @@ article#comments #valine_container .vwrap .vpreview i {
 }
 article#comments #valine_container .vwrap .vemojis i:hover,
 article#comments #valine_container .vwrap .vpreview i:hover {
-  background: #edf1ed;
+  background: #fbf8f8;
   box-shadow: 1px 1px 2px rgba(0,0,0,0.1), -1px -1px 2px rgba(255,255,255,0.5), inset 8px 8px 16px rgba(0,0,0,0.05), inset -8px -8px 16px rgba(255,255,255,0.4);
 }
 article#comments #valine_container .vwrap .vemojis i:active,
 article#comments #valine_container .vwrap .vpreview i:active {
-  background: #e1e7e3;
+  background: #f5eaea;
   box-shadow: 0px 0px 0px rgba(0,0,0,0.1), 0px 0px 0px rgba(255,255,255,0.8), inset 2px 2px 4px rgba(0,0,0,0.1), inset -2px -2px 4px #fff, inset -8px -8px 16px rgba(255,255,255,0.4);
 }
 article#comments #valine_container .vwrap .vedit .vctrl span {
@@ -2658,7 +2658,7 @@ article#comments #valine_container button {
   border: none;
   padding: 4px 2rem;
   border-radius: 4px;
-  background: #e1e7e3;
+  background: #f5eaea;
   color: var(--color-text);
   line-height: 2;
   font-size: 14px;
@@ -2697,10 +2697,10 @@ article#comments #valine_container .vcards .vimg {
   background: var(--color-block);
 }
 article#comments #valine_container .vcards .vcontent.expand:before {
-  background: linear-gradient(180deg, rgba(246,246,246,0.9), rgba(231,236,232,0.9));
+  background: linear-gradient(180deg, rgba(246,246,246,0.9), rgba(248,241,241,0.9));
 }
 article#comments #valine_container .vcards .vcontent.expand:after {
-  background: rgba(231,236,232,0.9);
+  background: rgba(248,241,241,0.9);
   color: var(--color-text);
 }
 article#comments #valine_container .vcards .vhead span.vnick {
@@ -3047,9 +3047,9 @@ article#tag .all-tags ul li span:before {
 }
 .article kbd {
   border-radius: 4px;
-  border: 1px solid #c9e5e6;
+  border: 1px solid #d7e9ee;
   border-bottom-width: 2px;
-  background: #eef1ef;
+  background: #f7f3f3;
   padding-left: 4px;
   padding-right: 4px;
 }
@@ -4913,7 +4913,7 @@ img.lazyload:not(.placeholder).loaded {
     right: 16px;
     border-radius: 4px;
     box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
-    border: 1px solid #d6ded8;
+    border: 1px solid #edd;
     visibility: hidden;
     transform: scale(0, 0);
     transform-origin: right top;
