@@ -1,21 +1,19 @@
 ---
-title: 个人项目
-meta:
-  header: false
-  footer: false
+comments: false
+header: false
+footer: false
 ---
 
-## ACGFATE 网站后端项目
+{% p center logo large green, 个人项目 %}
 
-- [GitHub](https://github.com/secriy/acgfate)
-- [Gitee](https://gitee.com/secriy/acgfate)
+### ACGFATE 网站后端项目
 
-## ACGFATE 网站前端项目
+{% ghcard Secriy/acgfate, theme=buefy %}
 
-- [GitHub](https://github.com/secriy/acgfate-vue)
+### ACGFATE 网站前端项目
 
-## CloudMusic-LevelUp 网易云音乐打卡脚本
+{% ghcard Secriy/acgfate-vue, theme=buefy %}
 
-- [GitHub](https://github.com/Secriy/CloudMusic-LevelUp)
+### CloudMusic-LevelUp 网易云音乐打卡脚本
 
 {% ghcard Secriy/CloudMusic-LevelUp, theme=buefy %}

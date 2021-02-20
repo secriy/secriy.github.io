@@ -39,12 +39,28 @@ navbar:
     - name: 友链
       icon: fas fa-link
       url: friends/
+    - name: 项目
+      icon: fas fa-code-branch
+      url: projects/
     - name: 关于
       icon: fas fa-info-circle
       url: about/
-    - name: 暗黑模式 # 可自定义
-      icon: fas fa-moon # 可自定义
-      toggle: darkmode
+    - name: 其他
+      icon: fas fa-ellipsis-v
+      rows:
+        - name: 私有云盘
+          icon: fas fa-cloud
+          url: https://cloud.secriy.com/
+          target: _blank
+        - name: 个人图床
+          icon: fas fa-images
+          url: https://h.acgfate.com/
+          target: _blank
+        - name: hr
+        - name: 暗黑模式 # 可自定义
+          icon: fas fa-moon # 可自定义
+          toggle: darkmode
+
   search: Search... # Search bar placeholder
 ############################### Navigation Bar ############################### > end
 
@@ -104,7 +120,7 @@ article:
   body:
     # 文章顶部信息
     # 从 meta_library 中取
-    top_meta: [author, category, date, counter] #启用评论数量需在此添加
+    top_meta: [author, category, date, counter, valinecount] #启用评论数量需在此添加
     # ----------------
     # 文章页脚组件
     footer_widget:
@@ -125,16 +141,15 @@ article:
         enable: false
         title: 相关文章
         icon: fas fa-bookmark
-        max_count: 5
+        max_count: 2
         # 设为空则不使用文章头图
         placeholder_img:
       # ----------------
       # 版权声明组件 (for layout: post)
       copyright:
         enable: true
-        permalink: "本文永久链接是："
+        permalink: "本文永久链接："
         content:
-          - "博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议"
           - permalink
       # ----------------
       # 打赏组件 (for layout: post)
@@ -309,7 +324,7 @@ sidebar:
   # 主页、分类、归档等独立页面
   for_page: [blogger, category, tagcloud, webinfo]
   # layout: docs/post 这类文章页面
-  for_post: [toc]
+  for_post: [toc, attention]
   # 侧边栏组件库
   widget_library:
     # ---------------------------------------
@@ -327,7 +342,7 @@ sidebar:
         - icon: fas fa-rss
           url: /atom.xml
         - icon: fas fa-envelope
-          url: mailto:me@xxx.com
+          url: mailto:me@secriy.com
         - icon: fab fa-github
           url: https://github.com/Secriy
         - icon: fas fa-headphones-alt
@@ -413,6 +428,16 @@ sidebar:
           friendlyShow: true # 更友好的时间显示
           text: "最后活动时间："
           unit: "日"
+    # ---------------------------------------
+    # attention widget
+    attention:
+      class: text
+      display: [desktop]
+      header:
+        icon: fas fa-exclamation-triangle
+        title: 注意
+      content:
+        - "本文内容可能存在滞后性，请自行确认相关内容是否仍可用。"
 ############################### Sidebar ############################### > end
 
 ############################### Tag Plugins ############################### > start
@@ -755,7 +780,7 @@ color_scheme:
     text: "#53cde2"
 
     # 区块和代码块背景色
-    block: "#e7ece8"
+    block: "#f8f1f1"
     # 代码块高亮时的背景色
     codeblock: "#ffe9c1"
     # 行内代码颜色

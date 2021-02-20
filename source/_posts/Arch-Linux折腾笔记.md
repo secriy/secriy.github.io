@@ -3,11 +3,14 @@ title: Arch Linux折腾笔记
 date: 2020-07-30 10:29:44
 categories: 踩坑记录
 tags: Linux
+references:
+  - title: Arch Wiki
+    url: https://wiki.archlinux.org/
+  - title: Manjaro 环境搭建
+    url: https://blog.secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/
 ---
 
 {% noteblock quote cyan %}
-
-本文参考：[Arch Wiki](https://wiki.archlinux.org/)
 
 装完系统累死我了，淦！
 
