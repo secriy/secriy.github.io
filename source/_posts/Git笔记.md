@@ -7,7 +7,7 @@ tags: Git
 
 {% noteblock quote cyan %}
 
-Git 简单使用的笔记。
+Git 简单使用笔记。
 
 {% endnoteblock %}
 
