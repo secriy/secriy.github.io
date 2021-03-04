@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-var SearchService = "";
-
-(function($) {
-=======
 var SearchService = '';
 
 (function($) {
 
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
   /**
    * A super class of common logics for all search services
    * @param options : (object)
@@ -16,36 +10,6 @@ var SearchService = '';
     var self = this;
 
     self.config = $.extend({
-<<<<<<< HEAD
-      per_page: 10,
-      selectors: {
-        body: "body",
-        form: ".u-search-form",
-        input: ".u-search-input",
-        container: "#u-search",
-        modal: "#u-search .modal",
-        modal_body: "#u-search .modal-body",
-        modal_footer: "#u-search .modal-footer",
-        modal_overlay: "#u-search .modal-overlay",
-        modal_results: "#u-search .modal-results",
-        modal_metadata: "#u-search .modal-metadata",
-        modal_error: "#u-search .modal-error",
-        modal_loading_bar: "#u-search .modal-loading-bar",
-        modal_ajax_content: "#u-search .modal-ajax-content",
-        modal_logo: '#u-search .modal-footer .logo',
-        btn_close: "#u-search .btn-close",
-        btn_next: "#u-search .btn-next",
-        btn_prev: "#u-search .btn-prev"
-      },
-      brands: {
-        'hexo': {logo: '', url: ''},
-        'google': {logo: 'google.svg', url: 'https://cse.google.com'},
-        'algolia': {logo: 'algolia.svg', url: 'https://www.algolia.com'},
-        'baidu': {logo: 'baidu.svg', url: 'http://zn.baidu.com/cse/home/index'},
-        'azure': {logo: 'azure.svg', url: 'https://azure.microsoft.com/en-us/services/search/'}
-      },
-      imagePath: "https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/logo/"
-=======
       per_page : 10,
       selectors: {
         body              : 'body',
@@ -74,25 +38,16 @@ var SearchService = '';
         'azure'  : {logo: 'azure.svg', url: 'https://azure.microsoft.com/en-us/services/search/'}
       },
       imagePath: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/logo/'
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
     }, options);
 
     self.dom = {};
     self.percentLoaded = 0;
     self.open = false;
-<<<<<<< HEAD
-    self.queryText = "";
-    self.nav = {
-      next: -1,
-      prev: -1,
-      total: 0,
-=======
     self.queryText = '';
     self.nav = {
       next   : -1,
       prev   : -1,
       total  : 0,
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       current: 1
     };
 
@@ -108,11 +63,7 @@ var SearchService = '';
         // self.dom.body.addClass('modal-active');
         // 上面的是去除了文章的滚动条，我觉得没必要
       }
-<<<<<<< HEAD
-      self.dom.input.each(function(index,elem) {
-=======
       self.dom.input.each(function(index, elem) {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).val(self.queryText);
       });
       document.activeElement.blur();
@@ -137,14 +88,8 @@ var SearchService = '';
         self.query(self.queryText, startIndex, function() {
           self.afterQuery();
         });
-<<<<<<< HEAD
-      }
-      else {
-        console.log("query() does not exist.");
-=======
       } else {
         console.log('query() does not exist.');
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.onQueryError(self.queryText, '');
         self.afterQuery();
       }
@@ -156,19 +101,11 @@ var SearchService = '';
      * @param status: (string)
      */
     self.onQueryError = function(queryText, status) {
-<<<<<<< HEAD
-      var errMsg = "";
-      if (status === "success") errMsg = "No result found for \"" +queryText+ "\".";
-      else if (status === "timeout") errMsg = "Unfortunate timeout.";
-      else errMsg = "Mysterious failure.";
-      self.dom.modal_results.html("");
-=======
       var errMsg = '';
       if (status === 'success') errMsg = 'No result found for "' + queryText + '".';
       else if (status === 'timeout') errMsg = 'Unfortunate timeout.';
       else errMsg = 'Mysterious failure.';
       self.dom.modal_results.html('');
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       self.dom.modal_error.html(errMsg);
       self.dom.modal_error.show();
     };
@@ -185,17 +122,6 @@ var SearchService = '';
       }
     };
 
-<<<<<<< HEAD
-    self.getUrlRelativePath = function (url) {
-      var arrUrl = url.split("//");
-      var start = arrUrl[1].indexOf("/");
-      var relUrl = arrUrl[1].substring(start);
-      if (relUrl.indexOf("?") != -1) {
-        relUrl = relUrl.split("?")[0];
-      }
-      return relUrl;
-    }
-=======
     self.getUrlRelativePath = function(url) {
       var arrUrl = url.split('//');
       var start = arrUrl[1].indexOf('/');
@@ -205,7 +131,6 @@ var SearchService = '';
       }
       return relUrl;
     };
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
 
     /**
      * Generate html for one result
@@ -213,17 +138,6 @@ var SearchService = '';
      * @param title : (string) title
      * @param digest : (string) digest
      */
-<<<<<<< HEAD
-    self.buildResult = function (url, title, digest) {
-      var result = self.getUrlRelativePath(url);
-      var html = "";
-      html = "<li>";
-      html += "<a class='result' href='" + result + "'>";
-      html += "<span class='title'>" + title + "</span>";
-      if (digest !== "") html += "<span class='digest'>" + digest + "</span>";
-      html += "</a>";
-      html += "</li>";
-=======
     self.buildResult = function(url, title, digest) {
       var result = self.getUrlRelativePath(url);
       var html = '';
@@ -233,7 +147,6 @@ var SearchService = '';
       if (digest !== '') html += '<span class=\'digest\'>' + digest + '</span>';
       html += '</a>';
       html += '</li>';
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       return html;
     };
 
@@ -266,13 +179,8 @@ var SearchService = '';
     self.startLoading = function() {
       self.dom.modal_loading_bar.show();
       self.loadingTimer = setInterval(function() {
-<<<<<<< HEAD
-        self.percentLoaded = Math.min(self.percentLoaded+5,95);
-        self.dom.modal_loading_bar.css('width', self.percentLoaded+'%');
-=======
         self.percentLoaded = Math.min(self.percentLoaded + 5, 95);
         self.dom.modal_loading_bar.css('width', self.percentLoaded + '%');
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       }, 100);
     };
 
@@ -295,29 +203,17 @@ var SearchService = '';
      * @param service {String} service name
      */
     self.addLogo = function(service) {
-<<<<<<< HEAD
-      var html = "";
-      if (self.config.brands[service] && self.config.brands[service].logo) {
-        html += "<a href='" +self.config.brands[service].url+ "' class='" +service+ "'>";
-        html +=    '<img src="' +self.config.imagePath+self.config.brands[service].logo+ '" />';
-        html += "</a>";
-=======
       var html = '';
       if (self.config.brands[service] && self.config.brands[service].logo) {
         html += '<a href=\'' + self.config.brands[service].url + '\' class=\'' + service + '\'>';
         html +=    '<img src="' + self.config.imagePath + self.config.brands[service].logo + '" />';
         html += '</a>';
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.dom.modal_logo.html(html);
       }
     };
 
     self.destroy = function() {
-<<<<<<< HEAD
-      self.dom.form.each(function(index,elem) {
-=======
       self.dom.form.each(function(index, elem) {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).off('submit');
       });
       self.dom.modal_overlay.off('click');
@@ -335,11 +231,7 @@ var SearchService = '';
       $('body').append(template);
       self.parseSelectors();
       self.dom.modal_footer.show();
-<<<<<<< HEAD
-      self.dom.form.each(function(index,elem) {
-=======
       self.dom.form.each(function(index, elem) {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).on('submit', self.onSubmit);
       });
       self.dom.modal_overlay.on('click', self.close);
@@ -365,11 +257,7 @@ var AlgoliaSearch;
   AlgoliaSearch = function(options) {
     SearchService.apply(this, arguments);
     var self = this;
-<<<<<<< HEAD
-    var endpoint = "https://" +self.config.appId+ "-dsn.algolia.net/1/indexes/" + self.config.indexName;
-=======
     var endpoint = 'https://' + self.config.appId + '-dsn.algolia.net/1/indexes/' + self.config.indexName;
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
     self.addLogo('algolia');
 
     /**
@@ -377,30 +265,17 @@ var AlgoliaSearch;
      * @param data : (array) result items
      */
     self.buildResultList = function(data) {
-<<<<<<< HEAD
-      var html = "";
-      $.each(data, function(index, row) {
-        var url = row.permalink || row.path || "";
-=======
       var html = '';
       $.each(data, function(index, row) {
         var url = row.permalink || row.path || '';
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         if (!row.permalink && row.path) {
           url = ROOT + url;
         }
         var title = row.title;
-<<<<<<< HEAD
-        var digest = "";
-        html += self.buildResult(url, title, digest, index+1);
-      });
-      html += "<script>try{pjax.refresh(document.querySelector('#u-search'));document.addEventListener('pjax:send',function(){$('#u-search').fadeOut(500);$('body').removeClass('modal-active')});}catch(e){$('#u-search').fadeOut(500);}</script>";
-=======
         var digest = '';
         html += self.buildResult(url, title, digest, index + 1);
       });
       html += '<script>try{pjax.refresh(document.querySelector(\'#u-search\'));document.addEventListener(\'pjax:send\',function(){$(\'#u-search\').fadeOut(500);$(\'body\').removeClass(\'modal-active\')});}catch(e){$(\'#u-search\').fadeOut(500);}</script>';
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       return html;
     };
 
@@ -413,21 +288,6 @@ var AlgoliaSearch;
       self.nav.currentCount = data.hits.length;
       self.nav.total = parseInt(data.nbHits);
       self.dom.modal_metadata.children('.total').html(self.nav.total);
-<<<<<<< HEAD
-      self.dom.modal_metadata.children('.range').html(self.nav.current + "-" + (self.nav.current+self.nav.currentCount-1));
-      if (self.nav.total > 0) {
-        self.dom.modal_metadata.show();
-      }
-      else {
-        self.dom.modal_metadata.hide();
-      }
-
-      if (data.page < data.nbPages-1) {
-        self.nav.next = (data.page+1)+1;
-        self.dom.btn_next.show();
-      }
-      else {
-=======
       self.dom.modal_metadata.children('.range').html(self.nav.current + '-' + (self.nav.current + self.nav.currentCount - 1));
       if (self.nav.total > 0) {
         self.dom.modal_metadata.show();
@@ -439,21 +299,13 @@ var AlgoliaSearch;
         self.nav.next = (data.page + 1) + 1;
         self.dom.btn_next.show();
       } else {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.nav.next = -1;
         self.dom.btn_next.hide();
       }
       if (data.page > 0) {
-<<<<<<< HEAD
-        self.nav.prev = (data.page+1)-1;
-        self.dom.btn_prev.show();
-      }
-      else {
-=======
         self.nav.prev = (data.page + 1) - 1;
         self.dom.btn_prev.show();
       } else {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.nav.prev = -1;
         self.dom.btn_prev.hide();
       }
@@ -467,29 +319,16 @@ var AlgoliaSearch;
      */
     self.query = function(queryText, page, callback) {
       $.get(endpoint, {
-<<<<<<< HEAD
-        query: queryText,
-        page: page-1,
-        hitsPerPage: self.config.per_page,
-        "x-algolia-application-id": self.config.appId,
-        "x-algolia-api-key": self.config.apiKey
-=======
         query                     : queryText,
         page                      : page - 1,
         hitsPerPage               : self.config.per_page,
         'x-algolia-application-id': self.config.appId,
         'x-algolia-api-key'       : self.config.apiKey
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       }, function(data, status) {
         if (status === 'success' && data.hits && data.hits.length > 0) {
           var results = self.buildResultList(data.hits);
           self.dom.modal_results.html(results);
-<<<<<<< HEAD
-        }
-        else {
-=======
         } else {
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
           self.onQueryError(queryText, status);
         }
         self.buildMetadata(data);
@@ -502,8 +341,4 @@ var AlgoliaSearch;
     return self;
   };
 
-<<<<<<< HEAD
 })(jQuery);
-=======
-})(jQuery);
->>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
