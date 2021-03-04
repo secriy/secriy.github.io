@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 var SearchService = "";
 
 (function($) {
+=======
+var SearchService = '';
+
+(function($) {
+
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
   /**
    * A super class of common logics for all search services
    * @param options : (object)
@@ -9,6 +16,7 @@ var SearchService = "";
     var self = this;
 
     self.config = $.extend({
+<<<<<<< HEAD
       per_page: 10,
       selectors: {
         body: "body",
@@ -37,16 +45,54 @@ var SearchService = "";
         'azure': {logo: 'azure.svg', url: 'https://azure.microsoft.com/en-us/services/search/'}
       },
       imagePath: "https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/logo/"
+=======
+      per_page : 10,
+      selectors: {
+        body              : 'body',
+        form              : '.u-search-form',
+        input             : '.u-search-input',
+        container         : '#u-search',
+        modal             : '#u-search .modal',
+        modal_body        : '#u-search .modal-body',
+        modal_footer      : '#u-search .modal-footer',
+        modal_overlay     : '#u-search .modal-overlay',
+        modal_results     : '#u-search .modal-results',
+        modal_metadata    : '#u-search .modal-metadata',
+        modal_error       : '#u-search .modal-error',
+        modal_loading_bar : '#u-search .modal-loading-bar',
+        modal_ajax_content: '#u-search .modal-ajax-content',
+        modal_logo        : '#u-search .modal-footer .logo',
+        btn_close         : '#u-search .btn-close',
+        btn_next          : '#u-search .btn-next',
+        btn_prev          : '#u-search .btn-prev'
+      },
+      brands: {
+        'hexo'   : {logo: '', url: ''},
+        'google' : {logo: 'google.svg', url: 'https://cse.google.com'},
+        'algolia': {logo: 'algolia.svg', url: 'https://www.algolia.com'},
+        'baidu'  : {logo: 'baidu.svg', url: 'http://zn.baidu.com/cse/home/index'},
+        'azure'  : {logo: 'azure.svg', url: 'https://azure.microsoft.com/en-us/services/search/'}
+      },
+      imagePath: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/logo/'
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
     }, options);
 
     self.dom = {};
     self.percentLoaded = 0;
     self.open = false;
+<<<<<<< HEAD
     self.queryText = "";
     self.nav = {
       next: -1,
       prev: -1,
       total: 0,
+=======
+    self.queryText = '';
+    self.nav = {
+      next   : -1,
+      prev   : -1,
+      total  : 0,
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       current: 1
     };
 
@@ -62,7 +108,11 @@ var SearchService = "";
         // self.dom.body.addClass('modal-active');
         // 上面的是去除了文章的滚动条，我觉得没必要
       }
+<<<<<<< HEAD
       self.dom.input.each(function(index,elem) {
+=======
+      self.dom.input.each(function(index, elem) {
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).val(self.queryText);
       });
       document.activeElement.blur();
@@ -87,9 +137,14 @@ var SearchService = "";
         self.query(self.queryText, startIndex, function() {
           self.afterQuery();
         });
+<<<<<<< HEAD
       }
       else {
         console.log("query() does not exist.");
+=======
+      } else {
+        console.log('query() does not exist.');
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.onQueryError(self.queryText, '');
         self.afterQuery();
       }
@@ -101,11 +156,19 @@ var SearchService = "";
      * @param status: (string)
      */
     self.onQueryError = function(queryText, status) {
+<<<<<<< HEAD
       var errMsg = "";
       if (status === "success") errMsg = "No result found for \"" +queryText+ "\".";
       else if (status === "timeout") errMsg = "Unfortunate timeout.";
       else errMsg = "Mysterious failure.";
       self.dom.modal_results.html("");
+=======
+      var errMsg = '';
+      if (status === 'success') errMsg = 'No result found for "' + queryText + '".';
+      else if (status === 'timeout') errMsg = 'Unfortunate timeout.';
+      else errMsg = 'Mysterious failure.';
+      self.dom.modal_results.html('');
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       self.dom.modal_error.html(errMsg);
       self.dom.modal_error.show();
     };
@@ -122,6 +185,7 @@ var SearchService = "";
       }
     };
 
+<<<<<<< HEAD
     self.getUrlRelativePath = function (url) {
       var arrUrl = url.split("//");
       var start = arrUrl[1].indexOf("/");
@@ -131,6 +195,17 @@ var SearchService = "";
       }
       return relUrl;
     }
+=======
+    self.getUrlRelativePath = function(url) {
+      var arrUrl = url.split('//');
+      var start = arrUrl[1].indexOf('/');
+      var relUrl = arrUrl[1].substring(start);
+      if (relUrl.indexOf('?') != -1) {
+        relUrl = relUrl.split('?')[0];
+      }
+      return relUrl;
+    };
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
 
     /**
      * Generate html for one result
@@ -138,6 +213,7 @@ var SearchService = "";
      * @param title : (string) title
      * @param digest : (string) digest
      */
+<<<<<<< HEAD
     self.buildResult = function (url, title, digest) {
       var result = self.getUrlRelativePath(url);
       var html = "";
@@ -147,6 +223,17 @@ var SearchService = "";
       if (digest !== "") html += "<span class='digest'>" + digest + "</span>";
       html += "</a>";
       html += "</li>";
+=======
+    self.buildResult = function(url, title, digest) {
+      var result = self.getUrlRelativePath(url);
+      var html = '';
+      html = '<li>';
+      html += '<a class=\'result\' href=\'' + result + '\'>';
+      html += '<span class=\'title\'>' + title + '</span>';
+      if (digest !== '') html += '<span class=\'digest\'>' + digest + '</span>';
+      html += '</a>';
+      html += '</li>';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       return html;
     };
 
@@ -179,8 +266,13 @@ var SearchService = "";
     self.startLoading = function() {
       self.dom.modal_loading_bar.show();
       self.loadingTimer = setInterval(function() {
+<<<<<<< HEAD
         self.percentLoaded = Math.min(self.percentLoaded+5,95);
         self.dom.modal_loading_bar.css('width', self.percentLoaded+'%');
+=======
+        self.percentLoaded = Math.min(self.percentLoaded + 5, 95);
+        self.dom.modal_loading_bar.css('width', self.percentLoaded + '%');
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       }, 100);
     };
 
@@ -203,17 +295,29 @@ var SearchService = "";
      * @param service {String} service name
      */
     self.addLogo = function(service) {
+<<<<<<< HEAD
       var html = "";
       if (self.config.brands[service] && self.config.brands[service].logo) {
         html += "<a href='" +self.config.brands[service].url+ "' class='" +service+ "'>";
         html +=    '<img src="' +self.config.imagePath+self.config.brands[service].logo+ '" />';
         html += "</a>";
+=======
+      var html = '';
+      if (self.config.brands[service] && self.config.brands[service].logo) {
+        html += '<a href=\'' + self.config.brands[service].url + '\' class=\'' + service + '\'>';
+        html +=    '<img src="' + self.config.imagePath + self.config.brands[service].logo + '" />';
+        html += '</a>';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         self.dom.modal_logo.html(html);
       }
     };
 
     self.destroy = function() {
+<<<<<<< HEAD
       self.dom.form.each(function(index,elem) {
+=======
+      self.dom.form.each(function(index, elem) {
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).off('submit');
       });
       self.dom.modal_overlay.off('click');
@@ -231,7 +335,11 @@ var SearchService = "";
       $('body').append(template);
       self.parseSelectors();
       self.dom.modal_footer.show();
+<<<<<<< HEAD
       self.dom.form.each(function(index,elem) {
+=======
+      self.dom.form.each(function(index, elem) {
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         $(elem).on('submit', self.onSubmit);
       });
       self.dom.modal_overlay.on('click', self.close);
@@ -257,9 +365,15 @@ var HexoSearch;
   HexoSearch = function(options) {
     SearchService.apply(this, arguments);
     var self = this;
+<<<<<<< HEAD
     self.config.endpoint = ROOT + ((options||{}).endpoint || "content.json");
     self.config.endpoint = self.config.endpoint.replace("//","/"); //make sure the url is correct
     self.cache = "";
+=======
+    self.config.endpoint = ROOT + ((options || {}).endpoint || 'content.json');
+    self.config.endpoint = self.config.endpoint.replace('//', '/'); //make sure the url is correct
+    self.cache = '';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
 
     /**
      * Search queryText in title and content of a post
@@ -268,6 +382,7 @@ var HexoSearch;
      * @param queryText : the search query
      */
     self.contentSearch = function(post, queryText) {
+<<<<<<< HEAD
       var post_title = post.title.trim().toLowerCase(),
           post_content = post.text.trim().toLowerCase(),
           keywords = queryText.trim().toLowerCase().split(" "),
@@ -275,14 +390,27 @@ var HexoSearch;
           index_title = -1,
           index_content = -1,
           first_occur = -1;
+=======
+      var post_title = post.title.trim().toLowerCase();
+      var post_content = post.text.trim().toLowerCase();
+      var keywords = queryText.trim().toLowerCase().split(' ');
+      var foundMatch = false;
+      var index_title = -1;
+      var index_content = -1;
+      var first_occur = -1;
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       if (post_title !== '' && post_content !== '') {
         $.each(keywords, function(index, word) {
           index_title = post_title.indexOf(word);
           index_content = post_content.indexOf(word);
           if (index_title < 0 && index_content < 0) {
             foundMatch = false;
+<<<<<<< HEAD
           }
           else {
+=======
+          } else {
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
             foundMatch = true;
             if (index_content < 0) {
               index_content = 0;
@@ -293,6 +421,7 @@ var HexoSearch;
           }
           if (foundMatch) {
             post_content = post.text.trim();
+<<<<<<< HEAD
             var start = 0, end = 0;
             if (first_occur >= 0) {
               start = Math.max(first_occur-40, 0);
@@ -305,6 +434,19 @@ var HexoSearch;
               post.digest = match_content + "......";
             }
             else {
+=======
+            var start = 0; var end = 0;
+            if (first_occur >= 0) {
+              start = Math.max(first_occur - 40, 0);
+              end = start === 0 ? Math.min(200, post_content.length) : Math.min(first_occur + 120, post_content.length);
+              var match_content = post_content.substring(start, end);
+              keywords.forEach(function(keyword) {
+                var regS = new RegExp(keyword, 'gi');
+                match_content = match_content.replace(regS, '<b mark>' + keyword + '</b>');
+              });
+              post.digest = match_content + '......';
+            } else {
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
               end = Math.min(200, post_content.length);
               post.digest = post_content.trim().substring(0, end);
             }
@@ -319,6 +461,7 @@ var HexoSearch;
      * @param data : (array) result items
      */
     self.buildResultList = function(data, queryText) {
+<<<<<<< HEAD
       var results = [],
         html = "";
       $.each(data, function (index, post) {
@@ -326,6 +469,14 @@ var HexoSearch;
           html += self.buildResult(post.permalink, post.title, post.digest);
       });
       html += "<script>try{pjax.refresh(document.querySelector('#u-search'));document.addEventListener('pjax:send',function(){$('#u-search').fadeOut(500);$('body').removeClass('modal-active')});}catch(e){$('#u-search').fadeOut(500);}</script>";
+=======
+      var results = [];
+      var html = '';
+      $.each(data, function(index, post) {
+        if (self.contentSearch(post, queryText)) { html += self.buildResult(post.permalink, post.title, post.digest); }
+      });
+      html += '<script>try{pjax.refresh(document.querySelector(\'#u-search\'));document.addEventListener(\'pjax:send\',function(){$(\'#u-search\').fadeOut(500);$(\'body\').removeClass(\'modal-active\')});}catch(e){$(\'#u-search\').fadeOut(500);}</script>';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
       return html;
     };
 
@@ -346,6 +497,7 @@ var HexoSearch;
     self.query = function(queryText, startIndex, callback) {
       if (!self.cache) {
         $.get(self.config.endpoint, {
+<<<<<<< HEAD
           key: self.config.apiKey,
           cx: self.config.engineId,
           q: queryText,
@@ -362,6 +514,23 @@ var HexoSearch;
           else {
             self.cache = data;
             var results = "";
+=======
+          key  : self.config.apiKey,
+          cx   : self.config.engineId,
+          q    : queryText,
+          start: startIndex,
+          num  : self.config.per_page
+        }, function(data, status) {
+          if (status !== 'success'
+              || !data
+              || (!data.posts && !data.pages)
+              || (data.posts.length < 1 && data.pages.length < 1)
+          ) {
+            self.onQueryError(queryText, status);
+          } else {
+            self.cache = data;
+            var results = '';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
             results += self.buildResultList(data.pages, queryText);
             results += self.buildResultList(data.posts, queryText);
             self.dom.modal_results.html(results);
@@ -371,9 +540,14 @@ var HexoSearch;
             callback(data);
           }
         });
+<<<<<<< HEAD
       }
       else {
         var results = "";
+=======
+      } else {
+        var results = '';
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
         results += self.buildResultList(self.cache.pages, queryText);
         results += self.buildResultList(self.cache.posts, queryText);
         self.dom.modal_results.html(results);
@@ -387,4 +561,8 @@ var HexoSearch;
     return self;
   };
 
+<<<<<<< HEAD
 })(jQuery);
+=======
+})(jQuery);
+>>>>>>> 787d6a6816e192d3e12cd69ead547e4a5c981a21
