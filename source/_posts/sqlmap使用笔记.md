@@ -1,7 +1,7 @@
 ---
 title: sqlmap使用笔记
 date: 2020-05-09 23:28:14
-categories: 食用笔记
+categories: 操作手册
 tags: 信息安全
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: CentOS7搭建CSGO社区服务器
 date: 2020-02-21 00:19:08
-categories: 踩坑记录
+categories: 经验教程
 tags: CSGO
 ---
 

@@ -1,14 +1,14 @@
 ---
-title: Windows代理环境配置
+title: Windows代理配置
 date: 2020-06-02 13:15:22
-categories: 经验技巧
+categories: 经验教程
 tags: Proxy
 pin: true
 ---
 
 {% noteblock quote cyan %}
 
-Windows下代理环境配置。
+Windows 下代理环境配置。
 
 {% endnoteblock %}
 
