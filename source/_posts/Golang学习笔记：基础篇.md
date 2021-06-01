@@ -2015,8 +2015,10 @@ func main() {
 }
 
 func run(i int) {
-	fmt.Print(i) // 9183467502
+	fmt.Print(i)
 }
+
+// 9183467502
 ```
 
 输出的结果每次都是不一样的，这是因为这些 Goroutine 并发执行，其顺序完全由调度器决定，并不唯一确定。
@@ -2045,6 +2047,237 @@ value := <- ch // 接收channel ch的值并为value初始化
 ch := make(chan int) // channel of int
 ```
 
+默认情况下，Channel 的发送和接收操作在其中一端未就绪时会被阻塞：
+
+```go
+func main() {
+	ch := make(chan string)
+	go push(ch)
+	fmt.Println(<-ch) // 延迟输出了 abc
+}
+
+func push(ch chan string) {
+	time.Sleep(3 * time.Second)
+	ch <- "abc"
+}
+```
+
+上面的程序中，`push`函数在三秒后往 Channel 内写入字符串`abc`，因此在这段时间内 Channel 的接收者一直处于阻塞状态直到 Channel 中有值。同样地，当接收者未就绪时发送者也会阻塞。
+
+通过这个特性可以很好地对并发执行顺序进行管理，下面的代码就解决了前面并发执行输出结果顺序不定的问题：
+
+```go
+func main() {
+	ch := make(chan int)
+	go add(ch)
+	for i := 0; i < 10; i++ {
+		fmt.Print(<-ch)
+	}
+}
+
+func add(ch chan int) {
+	for i := 0; i < 10; i++ {
+		ch <- i
+	}
+}
+
+// 0123456789
+```
+
+#### 带缓冲区的 Channel
+
+Channel 创建时默认是不带缓冲区的，也就是前面说的接收端和发送端必须都就绪的原因，然而可以选择创建带缓冲区的 Channel 在不同场景下解决某些问题：
+
+```go
+func main() {
+	ch := make(chan int, 10)
+	go add(ch)
+	time.Sleep(3 * time.Second)
+	for i := 0; i < 10; i++ {
+		fmt.Print(<-ch)
+	}
+}
+
+func add(ch chan int) {
+	for i := 0; i < 10; i++ {
+		ch <- i
+	}
+	fmt.Println("Completed!")
+}
+
+// Completed!
+// 0123456789
+```
+
+程序的输出中，后一行要晚出现几秒，这时候 Channel 内已经有 10 个元素了。再看一下不带缓冲区的 Channel：
+
+```go
+func main() {
+	ch := make(chan int)
+	go add(ch)
+	time.Sleep(3 * time.Second)
+	for i := 0; i < 10; i++ {
+		fmt.Print(<-ch)
+	}
+}
+
+func add(ch chan int) {
+	for i := 0; i < 10; i++ {
+		ch <- i
+	}
+	fmt.Println("Completed!")
+}
+
+// 0123456789Completed! 或 0123456789
+```
+
+不带缓冲区的 Channel 发送和接收必须同时进行，因此`add`函数只能等待`main`函数休眠结束接收数据。而当最后一次循环结束后，`main`函数立即退出，如果在此之前`fmt.Println("Completed!")`没能执行的话，程序的输出结果就不包含*Completed!*了。
+
+这里有一个地方要注意，并发执行的程序当缓冲区装满时，接收者会先将其中的元素全部接收，然后再对其进行发送操作，直到全部数据元素操作完毕。
+
+在顺序执行的单个 Goroutine 中，往满 Channel 里写入元素会直接报错：
+
+```go
+func main() {
+	ch := make(chan int) // 等同于make(chan int, 0)
+	ch <- 1
+	fmt.Println(<-ch)
+}
+
+// fatal error: all goroutines are asleep - deadlock!
+```
+
+#### Channel 的关闭
+
+发送者可以使用`close`函数关闭一个 Channel 来表示这个 Channel 不再有值被传入，接收者也可以知道 Channel 是否关闭：
+
+```go
+func main() {
+	ch := make(chan int, 10)
+	go push(ch)
+	for i := 0; i < 10; i++ {
+		if v, ok := <-ch; ok {
+			fmt.Print(v)
+		}
+	}
+}
+
+func push(ch chan int) {
+	for i := 0; i < 10; i++ {
+		if i == 5 {
+			close(ch)
+			break
+		}
+		ch <- i
+	}
+}
+
+// 01234
+```
+
+注意，只有发送者可以关闭 Channel，对已被关闭的 Channel 进行发送操作会引发`panic`，但对关闭的 Channel 进行接收不会，接收已关闭的 Channel 只会得到类型零值：
+
+```go
+func main() {
+	ch := make(chan int)
+	go push(ch)
+	for i := 0; i < 10; i++ {
+		fmt.Print(<-ch)
+	}
+}
+
+func push(ch chan int) {
+	for i := 0; i < 10; i++ {
+		if i == 5 {
+			close(ch)
+			break
+		}
+		ch <- i
+	}
+}
+
+// 0123400000
+```
+
+Close 操作用于告知接收者无值可传，是非必须的操作，与 I/O 操作中的 Close 释放资源并不相似。
+
+#### Channel 的 range 操作
+
+`for i := range ch`语句能够接收 Channel 中的值直到 Channel 被关闭：
+
+```go
+func main() {
+	ch := make(chan int, 10)
+	go push(ch)
+	for i := range ch {
+		fmt.Print(i)
+	}
+}
+
+// 01234
+```
+
+### Select
+
+`select`语句可以让一个 Goroutine 等待多个通信操作：
+
+```go
+func main() {
+	ch := make(chan int)
+	signal := make(chan int)
+
+	go input(ch, signal)
+
+	for {
+		select {
+		case v := <-ch:
+			fmt.Printf("%d ", v)
+		case <-signal:
+			fmt.Print("Done")
+			return
+		}
+	}
+
+}
+
+func input(ch, sig chan int) {
+	for i := 0; i < 10; i++ {
+		ch <- i
+		if i == 5 {
+			sig <- 0
+			break
+		}
+	}
+}
+
+// 0 1 2 3 4 5 Done
+```
+
+可以设置`default`关键字用于设置无接收时的输出：
+
+```go
+func main() {
+	tick := time.Tick(100 * time.Millisecond)
+	boom := time.After(500 * time.Millisecond)
+	for {
+		select {
+		case <-tick:
+			fmt.Print("tick")
+		case <-boom:
+			fmt.Print("BOOM!")
+			return
+		default:
+			fmt.Print(".")
+			time.Sleep(50 * time.Millisecond)
+		}
+	}
+}
+
+// ..tick..tick.tick..tick..BOOM!
+```
+
+### sync.Mutex
+
 ## 参考
 
 - [CGO_ENABLED 环境变量对 Go 静态编译机制的影响](https://johng.cn/cgo-enabled-affect-go-static-compile/)
@@ -2056,3 +2289,4 @@ ch := make(chan int) // channel of int
 - 斐波那契闭包
 - Readers 练习
 - Images
+- 等价二叉树练习
