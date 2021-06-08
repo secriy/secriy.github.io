@@ -2,7 +2,8 @@
 title: Arch Linux折腾笔记
 date: 2020-07-30 10:29:44
 categories: 经验教程
-tags: Linux
+tags: 
+  - Linux
 references:
   - title: Arch Wiki
     url: https://wiki.archlinux.org/

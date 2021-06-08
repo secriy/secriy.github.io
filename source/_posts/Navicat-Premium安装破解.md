@@ -2,7 +2,9 @@
 title: Navicat Premium安装破解
 date: 2020-03-10 17:04:47
 categories: 软件工具
-tags: 数据库
+tags:
+  - Database
+  - Crack
 ---
 
 {% noteblock quote cyan %}

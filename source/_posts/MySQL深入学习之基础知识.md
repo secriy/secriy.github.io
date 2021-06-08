@@ -1,5 +1,5 @@
 ---
-title: MySQL深入学习：基础知识
+title: MySQL深入学习之基础知识
 date: 2021-04-21 19:03:12
 categories: 学习笔记
 tags:

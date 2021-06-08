@@ -1,10 +1,15 @@
 ---
-title: Golang学习笔记：基础篇
+title: Golang学习之基础篇
 date: 2021-04-17 09:16:22
 categories: 学习笔记
 tags:
   - Golang
   - Programming
+references:
+  - title: CGO_ENABLED 环境变量对 Go 静态编译机制的影响
+    url: https://johng.cn/cgo-enabled-affect-go-static-compile/
+  - title: A Tour of Go
+    url: https://tour.golang.org/
 ---
 
 {% noteblock quote cyan %}
@@ -15,7 +20,7 @@ tags:
 
 ## 命令行操作
 
-Golang 提供了完整的操作命令，用于管理和操作项目。配置好 Golang 环境后，可以直接输入`Go`命令查看 Golang 提供的所有命令：
+Golang 提供了完整的操作命令，用于管理和操作项目。配置好 Golang 环境后，可以直接输入`go`命令查看 Golang 提供的所有命令：
 
 | command  | info                                                |
 | :------: | :-------------------------------------------------- |
@@ -37,7 +42,20 @@ Golang 提供了完整的操作命令，用于管理和操作项目。配置好 
 | version  | print Go version                                    |
 |   vet    | report likely mistakes in packages                  |
 
+使用`go help <command>`查询某个命令的详细信息：
+
+```shell
+go help build
+```
+
+```
+usage: go build [-o output] [build flags] [packages]
+...
+```
+
 ### 命令详解
+
+> 只对命令常用用法和用途做介绍，详细使用方法需要参照命令行提示信息。
 
 #### bug
 
@@ -72,51 +90,17 @@ go build main.go
 Golang 支持在很多环境下编译运行，使用`go tool dist list`命令可以查看 Golang 支持的平台：
 
 ```shell
-$ go tool dist list
+go tool dist list
+```
+
+```
 aix/ppc64
 android/386
 android/amd64
 android/arm
 android/arm64
 darwin/amd64
-darwin/arm64
-dragonfly/amd64
-freebsd/386
-freebsd/amd64
-freebsd/arm
-freebsd/arm64
-illumos/amd64
-ios/amd64
-ios/arm64
-js/wasm
-linux/386
-linux/amd64
-linux/arm
-linux/arm64
-linux/mips
-linux/mips64
-linux/mips64le
-linux/mipsle
-linux/ppc64
-linux/ppc64le
-linux/riscv64
-linux/s390x
-netbsd/386
-netbsd/amd64
-netbsd/arm
-netbsd/arm64
-openbsd/386
-openbsd/amd64
-openbsd/arm
-openbsd/arm64
-openbsd/mips64
-plan9/386
-plan9/amd64
-plan9/arm
-solaris/amd64
-windows/386
-windows/amd64
-windows/arm
+...
 ```
 
 很多时候需要跨系统环境编译，比如在 Windows 下开发可能需要编译 Linux 可以使用的可执行版本，这时候就需要交叉编译：
@@ -167,15 +151,35 @@ windows/arm
 
 #### clean
 
+从包源码目录中移除对象文件，例如编译生成的二进制文件以及由其他工具生成的各种文件和目录。
+
 #### doc
+
+利用格式化的注释生成文档。
 
 #### env
 
+查询`golang`的环境变量配置。
+
 #### fix
+
+将包中使用的 API 更新为新版本用法，与`go tool fix`等同。
 
 #### fmt
 
+格式化源码风格，是对**gofmt**工具进行的封装，与`gofmt -l -w `等同。
+
 #### generate
+
+根据代码中的格式化注释来在执行编译过程。
+
+注释格式如下：
+
+```go
+//go:generate command argument...
+```
+
+使用`go generate`命令时会自动执行上述注释中的代码。
 
 #### get
 
@@ -187,27 +191,44 @@ windows/arm
 
 #### list
 
-该命令用于列出包名和模块名
+该命令用于列出包名和模块名。
 
 #### mod
 
-该命令用于管理 Golang 的包，自 Go1.11 开始启用，实现 Modules 管理。将环境变量 GO111MODULE 设置为 on 或 auto 打开（未来会删除，默认启用 Go Modules）。
+该命令用于管理 Golang 的包，自 Go1.11 开始启用，实现 Modules 管理。将环境变量 **\$GO111MODULE** 设置为 on 或 auto 打开（未来会删除，默认启用 Go Modules）。
 
 ##### 常用操作
 
-1. `go mod init [package name]`：初始化 Go Modules 项目
-2. `go mod download [modules name]`：下载指定的模块
-3. `go mod tidy`：自动添加缺失的模块并移除未使用的模块
+- `go mod init [package name]`：初始化 Go Modules 项目
+
+- `go mod download [modules name]`：下载指定的模块
+- `go mod tidy`：自动添加缺失的模块并移除未使用的模块
 
 #### run
 
+编译并运行 Golang 程序。
+
+用法：
+
+```shell
+go run [build flags] [-exec xprog] package [arguments...]
+```
+
 #### test
+
+进行单元测试和性能测试。
 
 #### tool
 
+运行 Golang 提供的工具。
+
 #### version
 
+查询 Golang 版本。
+
 #### vet
+
+用于报告包中可能存在的错误，分析当前包中的代码是否正确，等同于`go tool vet`。
 
 ## 语言基础
 
@@ -1074,7 +1095,7 @@ func printSlice(s []int) {
 
 上述代码的四个切片底层共用一个数组，他们各自包含了起始元素的地址、切片长度和切片容量：
 
-![slice](Golang学习笔记：基础篇/slice.png)
+![slice](Golang学习之基础篇/slice.png)
 
 - 切片`s`从数组的首位开始，长度和容量均等于数组的大小
 - 切片`s1`从数组的首位开始，长度为 0，但从首位开始计算数组的长度为 6，即切片的容量为 6
@@ -2278,10 +2299,27 @@ func main() {
 
 ### sync.Mutex
 
-## 参考
+## 要点
 
-- [CGO_ENABLED 环境变量对 Go 静态编译机制的影响](https://johng.cn/cgo-enabled-affect-go-static-compile/)
-- [A Tour of Go](https://tour.golang.org/)
+### 不能使用`nil`初始化无类型变量
+
+`nil`可作为一些类型的零值，但是不能直接给无类型的变量赋`nil`，需要先指定其类型：
+
+```go
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+    // 错误示范
+    tmp := nil // use of untyped nil
+    // 正确示范
+    var tmp *Person = nil
+
+    fmt.Println(tmp) // <nil>
+}
+```
 
 ## TODO
 
