@@ -2,7 +2,7 @@
 title: Arch Linux折腾笔记
 date: 2020-07-30 10:29:44
 categories: 经验教程
-tags: 
+tags:
   - Linux
 references:
   - title: Arch Wiki
@@ -541,19 +541,19 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 #### 网络
 
 - 浏览器：
-	- Chrome
-	- Chromium
-	- FireFox
-	- Tor Browser
+  - Chrome
+  - Chromium
+  - FireFox
+  - Tor Browser
 - v2ray GUI：Qv2ray
 - 邮箱：Thunderbird + birdtray
 - 网盘：
-	- 百度网盘
-	- MEGA Sync
+  - 百度网盘
+  - MEGA Sync
 - 下载:
-	- aria2
-	- uget
-	- qBittorrent：qbittorrent
+  - aria2
+  - uget
+  - qBittorrent：qbittorrent
 
 #### 通讯
 
@@ -582,11 +582,11 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 - Typora
 - Calibre
 - 电子书阅读器：
-	- Foliate
+  - Foliate
 - PDF 阅读器：
-	- Evince
+  - Evince
 - 翻译器：
-	- Crow Tanslate
+  - Crow Tanslate
 
 #### 其他
 
@@ -594,8 +594,8 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 - 虚拟机：VMware Workstation
 - 截图：flameshot
 - 文件管理器：
-	- dolphin
-	- ranger
+  - dolphin
+  - ranger
 - FTP 工具：FileZilla
 - 单词记忆：Anki
 - 密码管理：KeePassXC
@@ -647,7 +647,7 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 #### 其他
 
 - Zeal：zeal
-	离线文档阅读器
+  离线文档阅读器
 - iPython：ipython
 - Docker：docker
 - npm
@@ -655,12 +655,12 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 ### 安全工具
 
 - HTTP 抓包
-	- Charles：charles
+  - Charles：charles
 - 流量分析
-	- Wireshark：wireshark
+  - Wireshark：wireshark
 - 信息查看
-	- GHex：ghex
-		十六进制查看器
+  - GHex：ghex
+    十六进制查看器
 
 ## 踩坑记录
 
@@ -706,8 +706,8 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 
    通过点击 Help->Show Log in Dolphin 查看日志，发现报错如下：
 
-   ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230158797.png)
+   ![](Arch-Linux折腾笔记/image-20210117230158797.png)
 
    因此可以确定是找不到 JavaFX 环境，在**Plugins Marketplace**下载安装即可。
 
-   ![](/home/Secriy/Working/Hexo/source/_posts/Arch-Linux折腾笔记/image-20210117230358483.png)
+   ![](Arch-Linux折腾笔记/image-20210117230358483.png)

@@ -138,7 +138,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-
+   
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```
@@ -276,7 +276,18 @@ func main() {
 }
 ```
 
-当导入包却不使用时，可以用`_`作为包的别名（当只需要调用包的`init()`函数和包级变量时会这么做，后面会讲到）：
+使用`.`导入包可以省略包名调用包内实体：
+
+```go
+import . "math"
+
+func main() {
+    x := Sqrt(6) // 原为 math.Sqrt()
+    fmt.Println(x)
+}
+```
+
+当导入包却不使用时，可以用`_`作为包的别名（当只需要调用包的`init`函数和包级变量时会这么做，后面会讲到）：
 
 ```go
 import _ "fmt"
@@ -298,6 +309,26 @@ func main() {
 	fmt.Println(math.pi) // 导出名首字母大写，因此这段代码会报错，将pi改为Pi即可
 }
 ```
+
+### 程序入口
+
+Golang 程序中`main`包的`main`函数作为其入口，在执行`main`函数之前会先执行`init`函数：
+
+```go
+package main
+
+var a int
+
+func init() {
+    a = 23
+}
+
+func main() {
+    fmt.Println(a) // 23
+}
+```
+
+因此在实际编程时常常在`init`函数内进行一些初始化操作，例如读取配置文件等。
 
 ### 基础数据类型
 
@@ -1448,7 +1479,7 @@ func main() {
 }
 ```
 
-方法和普通的函数唯一的区别就是方法默认指定了第一个参数并把它放到了函数名前面，上面的`getName()`方法就等同于下面的`getName()`函数：
+方法和普通的函数唯一的区别就是方法默认指定了第一个参数并把它放到了函数名前面，上面的`getName`方法就等同于下面的`getName`函数：
 
 ```go
 func getName(p Person) string {
@@ -1590,7 +1621,7 @@ func main() {
 }
 ```
 
-上述代码中定义了一个接口`Sender`，两个结构体`message`和`mail`，其中`message`有两个方法`Send()`和`From()`，因此`message`实现了`Sender`接口。
+上述代码中定义了一个接口`Sender`，两个结构体`message`和`mail`，其中`message`有两个方法`Send`和`From，因此`message`实现了`Sender`接口。
 
 接口可以接收实现它的类型的值，因此可以将`&message{}`赋值给接口变量`s`，这个变量可以操作其定义的所有方法。当有其他类型实现这个接口时也是同样的操作。
 
@@ -1618,7 +1649,7 @@ func main() {
 
 ```
 
-可以看到上述代码中因为`T`有一个方法`M()`而自动隐式实现了接口`I`，这其中并未有显式的声明。
+可以看到上述代码中因为`T`有一个方法`M`而自动隐式实现了接口`I`，这其中并未有显式的声明。
 
 #### 接口的值
 
@@ -1706,7 +1737,7 @@ func main() {
 type i interface{}
 ```
 
-空接口可以包含任何类型，因此它常用于处理未知类型的变量，我们可以从`fmt.Println()`函数了解它的用法：
+空接口可以包含任何类型，因此它常用于处理未知类型的变量，我们可以从`fmt.Println`函数了解它的用法：
 
 ```go
 // Println formats using the default formats for its operands and writes to standard output.
@@ -1717,7 +1748,7 @@ func Println(a ...interface{}) (n int, err error) {
 }
 ```
 
-可以看到标准库中的`fmt.Println()`函数接收多个类型为`interface{}`的值，然后我们往下寻找程序代码中具体处理`interface{}`类型变量的代码：
+可以看到标准库中的`fmt.Println`函数接收多个类型为`interface{}`的值，然后我们往下寻找程序代码中具体处理`interface{}`类型变量的代码：
 
 ```go
 // Some types can be done without reflection.
@@ -1884,7 +1915,7 @@ func main() {
 // Jack 11
 ```
 
-可以看到无需显式调用，`String()`方法就自动被调用了，我们修改一下方法名：
+可以看到无需显式调用，`String`方法就自动被调用了，我们修改一下方法名：
 
 ```go
 type Person struct {
@@ -1905,7 +1936,7 @@ func main() {
 // &{Tom 12}&{Jack 11}
 ```
 
-上述代码并没有调用`Format()`方法。
+上述代码并没有调用`Format`方法。
 
 ### 错误处理
 
@@ -1919,7 +1950,7 @@ type error interface {
 }
 ```
 
-参考`Stringers`，`fmt`包也会去寻找`error`接口并调用它的`Error()`方法：
+参考`Stringers`，`fmt`包也会去寻找`error`接口并调用它的`Error`方法：
 
 ```go
 type MyError struct {
@@ -1995,7 +2026,7 @@ func main() {
 // b[:n] = ""
 ```
 
-上面的代码中，`strings.NewReader()`方法生成了一个`strings.Reader`结构体，其内部字符串值为`"Hello, Reader!"`，并将其赋值给变量`r`。另外有一个 8 字节长度的字节切片`b`。
+上面的代码中，`strings.NewReader`方法生成了一个`strings.Reader`结构体，其内部字符串值为`"Hello, Reader!"`，并将其赋值给变量`r`。另外有一个 8 字节长度的字节切片`b`。
 
 `for`循环体中，`Read`方法读取`r`的内容将其写到`b`中，并传回写入的字节长度给`n`。并且，它每次读取`r`的值后都会记录读取结束的位置，当下一次调用时就会从上次结束的位置开始读取。
 
