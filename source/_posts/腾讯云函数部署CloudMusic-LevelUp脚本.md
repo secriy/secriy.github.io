@@ -17,13 +17,19 @@ tags:
 
 ### 下载仓库
 
+```shell
+git clone https://github.com/Secriy/CloudMusic-LevelUp.git
+```
+
 ### 创建云函数
 
 1. 打开[腾讯云官网](https://cloud.tencent.com/)，登录，在产品中找到云函数入口
 
 2. 进入云函数管理控制台，在函数服务中新建云函数，按图中说明配置基础设置：
 
-   ![image-20210612194839032](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612194839032.png)
+   {% gallery %}
+   ![figue1](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612194839032.png)
+   {% endgallery %}
 
 3. 将高级配置中的环境配置-内存改为 64MB，执行超时时间改为 900，其他默认不改动，点击创建
 
@@ -31,7 +37,9 @@ tags:
 
 1. 创建完成后进入函数管理页面，在在线 IDE 中打开一个终端：
 
+   {% gallery %}
    ![image-20210612195607701](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612195607701.png)
+   {% endgallery %}
 
 2. 在终端中执行如下指令安装依赖：
 
@@ -44,7 +52,9 @@ tags:
 4. 修改*index.py*文件，将其中的`infos`变量各值修改为脚本所需参数（参数说明见 README），除账号密码外其余参数可选填
 
 5. 所有项目修改完成后，点击部署：
+   {% gallery %}
    ![image-20210612200259590](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612200259590.png)
+   {% endgallery %}
 
 ### 测试
 
@@ -52,12 +62,16 @@ tags:
 
 正常的日志输出如下：
 
+{% gallery %}
 ![image-20210612200659717](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612200659717.png)
+{% endgallery %}
 
 ### 配置触发器
 
 在触发管理-创建触发器中按下图填写（定时任务名称使用默认即可）：
 
+{% gallery %}
 ![image-20210612201012958](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612201012958.png)
+{% endgallery %}
 
 其中触发周期可以自定义，选择自定义出发周期可以使用 Cron 表达式创建，最后点击提交即可。

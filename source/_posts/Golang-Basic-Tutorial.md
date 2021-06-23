@@ -1,5 +1,5 @@
 ---
-title: Golang学习之基础篇
+title: Golang Basic Tutorial
 date: 2021-04-17 09:16:22
 categories: 学习笔记
 tags:
@@ -138,7 +138,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-   
+
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```
@@ -1126,7 +1126,7 @@ func printSlice(s []int) {
 
 上述代码的四个切片底层共用一个数组，他们各自包含了起始元素的地址、切片长度和切片容量：
 
-![slice](Golang学习之基础篇/slice.png)
+![slice](Golang-Basic-Tutorial/slice.png)
 
 - 切片`s`从数组的首位开始，长度和容量均等于数组的大小
 - 切片`s1`从数组的首位开始，长度为 0，但从首位开始计算数组的长度为 6，即切片的容量为 6

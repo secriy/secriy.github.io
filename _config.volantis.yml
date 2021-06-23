@@ -483,7 +483,7 @@ site_footer:
     <span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span>
     <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span>
   # site copyright
-  copyright: "[Copyright © 2018-2020 Secriy](https://blog.secriy.com)"
+  copyright: "[Copyright © 2018-2021 Secriy](https://blog.secriy.com)"
   # You can add your own property here. (Support markdown, for example: br: '<br>')
   br: "<br>"
 ############################### Site Footer ############################### > end
@@ -523,7 +523,7 @@ plugins:
   highlightjs:
     enable: true # Please set hexo.config.highlight.enable = false !!!
     js: https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js
-    css: https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css
+    css: https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/monokai.min.css
     # more: https://www.jsdelivr.com/package/npm/highlight.js?path=styles
 
   # https://scrollrevealjs.org/api/reveal.html
@@ -544,7 +544,7 @@ plugins:
 
   # npm i hexo-wordcount
   wordcount:
-    enable: #true
+    enable: true
 
   ######## Plugins for ...
   # Button Ripple Effect
@@ -891,12 +891,12 @@ custom_css:
     button: 4px
   fontsize:
     root: 16px
-    h1: 1.5rem # 不推荐用在文章中
+    h1: 1.9rem # 不推荐用在文章中
     h2: 1.8rem
-    h3: 1.45rem
-    h4: 1.2rem
-    h5: 1rem
-    h6: 1rem
+    h3: 1.5rem
+    h4: 1.3rem
+    h5: 1.2rem
+    h6: 1.15rem
     list: .9375rem
     meta: .875rem
     code: 1rem

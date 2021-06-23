@@ -74,11 +74,8 @@ import (
 func main() {
 	var a = "golang"
 	var b = a[:]
-	fmt.Println(&a)	\\ 0xc00003e240
-	fmt.Println(&b)	\\ 0xc00003e250
+	fmt.Println(&a)	// 0xc00003e240
+	fmt.Println(&b)	// 0xc00003e250
 }
 ```
 
-### 拼接
-
-字符串拼接操作会调用`runtime.concatstrings`，先遍历传入的切片，过滤空字符串后计算拼接之后的字符串长度。

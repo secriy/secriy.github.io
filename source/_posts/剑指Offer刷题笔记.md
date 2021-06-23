@@ -136,4 +136,91 @@ func printListFromTailToHead( head *ListNode ) []int {
 
 ### 思路
 
+
+
+### 题解
+
+## JZ05：用两个栈实现队列
+
+> 用两个栈来实现一个队列，分别完成在队列尾部插入整数(push)和在队列头部删除整数(pop)的功能。 队列中的元素为int类型。保证操作合法，即保证pop操作时队列内已有元素。
+
+### 思路
+
+入队操作即往Stack1中放入数字。
+
+出队操作先把Stack1中数字全部弹出放入Stack2，再弹出Stack2中数字。
+
+### 题解
+
+```go
+func Push(node int) {
+    stack1 = append(stack1, node)
+}
+
+func Pop() int{
+    if len(stack2) == 0 {
+        for i:= len(stack1)-1; i>=0; i-- {
+            stack2 = append(stack2, stack1[i])
+        }
+        stack1 = []int{}
+    }
+    length := len(stack2)
+    ret := stack2[length-1]
+    stack2 = stack2[:length-1]
+    return ret
+}
+```
+
+## JZ06：旋转数组的最小数字
+
+>
+>
+>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+>输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+>NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+
+### 思路
+
+数组正常应为递增排列，旋转数组后会存在后一元素小于前一元素的现象。
+
+遍历数组，发现有元素其后一元素小于自身的，则后一元素为最小值，返回。
+
+如果没有发现旋转，则返回数组首元素。
+
+### 题解
+
+```go
+func minNumberInRotateArray( rotateArray []int ) int {
+    length := len(rotateArray)
+    if length == 0 {
+        return 0
+    }
+    for k, v := range rotateArray {
+        if k == length-1 {
+            break
+        }
+        if v > rotateArray[k+1] {
+            return rotateArray[k+1]
+        }
+    }
+    return rotateArray[0]
+}
+```
+
+## JZ07：斐波那契数列
+
+>
+>
+>大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0，第1项是1）。
+>
+>$n\leq39$
+
+### 思路
+
+### 题解
+
+## JZ08：跳台阶
+
+### 思路
+
 ### 题解

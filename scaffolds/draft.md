@@ -4,12 +4,3 @@ date: {{ date }}
 categories: 
 tags: 
 ---
-
-{% noteblock quote cyan %}
-
-
-
-{% endnoteblock %}
-
-<!-- more -->
-
