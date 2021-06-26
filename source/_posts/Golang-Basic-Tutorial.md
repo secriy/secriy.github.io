@@ -138,7 +138,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-
+   
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```
@@ -2326,30 +2326,6 @@ func main() {
 }
 
 // ..tick..tick.tick..tick..BOOM!
-```
-
-### sync.Mutex
-
-## 要点
-
-### 不能使用`nil`初始化无类型变量
-
-`nil`可作为一些类型的零值，但是不能直接给无类型的变量赋`nil`，需要先指定其类型：
-
-```go
-type Person struct {
-	Name string
-	Age  int
-}
-
-func main() {
-    // 错误示范
-    tmp := nil // use of untyped nil
-    // 正确示范
-    var tmp *Person = nil
-
-    fmt.Println(tmp) // <nil>
-}
 ```
 
 ## TODO

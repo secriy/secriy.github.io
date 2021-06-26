@@ -78,4 +78,3 @@ func main() {
 	fmt.Println(&b)	// 0xc00003e250
 }
 ```
-
