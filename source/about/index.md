@@ -5,7 +5,7 @@ meta:
   header: false
   footer: false
 valine:
-  placeholder: 有什么骚话赶紧说
+  placeholder: 大佬轻喷~
 music:
   server: netease
   type: song
@@ -16,24 +16,24 @@ sidebar: false
 {% p center logo large, 关于我，和我的博客 %}
 
 {% noteblock %}
-孜世，当代著名教育家、宅在家、睡在家，曾著有《富婆不要爱上我》、《我和富婆有个约会》等多篇浪漫文学作品，均发表于《说说》期刊。留洋多次，足迹遍及八大菜系。
+一个会写代码的后端菜鸡，安全专业，爱好广泛，精通摸鱼。
 {% endnoteblock %}
 
-{% checkbox red checked, 爱好：看书（辅助睡眠）、睡觉、搬砖、不务正业…… %}
+{% checkbox red checked, 爱好：看书（辅助睡眠）、搬砖、不务正业…… %}
 
-{% checkbox yellow checked, 编程：C、JAVA、Golang、C#、JavaScript、Python语言的Hello World。 %}
+{% checkbox yellow checked, 编程：主要使用 Golang，业余 C 和 Python。 %}
 
-{% checkbox green checked, 音乐：会使用DAW进行绘画，竹笛通马桶。 %}
+{% checkbox green checked, 音乐：喜欢听我喜欢听的我喜欢的曲子。 %}
 
-{% checkbox cyan checked, 美术：会使用WACOM数位板记笔记，Illustrator练打字，SAI打草稿，Photoshop做表情包。 %}
+{% checkbox cyan checked, 美术：一窍不通。 %}
 
-{% checkbox blue checked, 文学：你在教我作诗啊？ %}
+{% checkbox blue checked, 文学：故事会。 %}
 
-{% folding 啊这 %}
-{% note warning, 什么也没有 %}
+{% folding 点我 %}
+{% image https://upyun.secriy.com/statics/img/avatar.png, alt=Secriy, bg=占位颜色（可选） %}
 {% endfolding %}
 
-{% note success, 一口一个奥里给！  %}
+{% note success, 希望明天能过得更好。  %}
 
 {% btns circle center grid5 %}
 <a href=''>
