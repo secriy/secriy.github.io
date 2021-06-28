@@ -224,3 +224,93 @@ func minNumberInRotateArray( rotateArray []int ) int {
 ### 思路
 
 ### 题解
+
+## JZ14：链表中倒数最后k个结点
+
+>   输入一个链表，输出一个链表，该输出链表包含原链表中从倒数第k个结点至尾节点的全部节点。
+>
+>   如果该链表长度小于k，请返回一个长度为 0 的链表。
+
+### 思路
+
+1.  由于是倒数k个节点，因此可以先遍历一遍链表得到链表长度，再减去k得到结果链表的起始位置，最后将从该位置开始的链表返回即可。
+2.  双指针的思路是首先遍历到链表第k个节点，然后再用一个指针去从头遍历，第二个指针遍历的过程中第一个指针也同步往后移动，直到指向末尾，返回第二个指针。
+
+### 题解
+
+#### 计算长度
+
+```go
+func FindKthToTail( pHead *ListNode ,  k int ) *ListNode {
+    count := 0
+    p := pHead
+    for p != nil {
+        count++
+        p = p.Next
+    }
+    if count < k {
+        return nil
+    }
+    for i := 0; i <count-k; i++{
+        pHead = pHead.Next
+    }
+    
+    return pHead
+}
+```
+
+#### 双指针
+
+```go
+func FindKthToTail( pHead *ListNode ,  k int ) *ListNode {
+    if pHead == nil {
+        return nil
+    }
+    p := pHead
+    for ; k>0; k-- {
+        if p == nil {
+            return nil
+        }
+        p = p.Next
+    }
+    for p != nil {
+        p = p.Next
+        pHead = pHead.Next
+    }
+     
+    return pHead
+}
+```
+
+## JZ15：反转链表
+
+>   输入一个链表，反转链表后，输出新链表的表头。
+
+### 思路
+
+基本思路是从头到尾遍历链表，依次将链表指针指向前一个结点（首先把前一个结点记录下来）。
+
+### 题解
+
+```go
+func ReverseList( pHead *ListNode ) *ListNode {
+    var pre, tmp *ListNode // pre用来记录前一个结点，初始为nil
+    for pHead != nil {
+        tmp = pHead // tmp是临时存储后一个结点的指针
+        pHead = pHead.Next
+        tmp.Next = pre
+        pre = tmp
+    }
+    
+    return pre
+}
+```
+
+## JZ16：合并两个排序的链表
+
+>   输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+
+### 思路
+
+### 题解
+
