@@ -49,11 +49,14 @@ git clone https://github.com/Secriy/CloudMusic-LevelUp.git
 
 3. 依赖安装完毕之后可以看到左侧目录项多出了很多文件夹，说明依赖安装成功
 
-4. 修改*index.py*文件，将其中的`infos`变量各值修改为脚本所需参数（参数说明见 README），除账号密码外其余参数可选填
+4. 修改*index.py*文件，将其中的`infos`变量各值修改为脚本所需参数（参数说明见 README），除账号密码外其余参数可选填，选填的内容需要先取消注释后进行填写，**不需要的参数请不要取消注释！**
+   {% gallery %}
+   ![image-20210708141358892](%E8%85%BE%E8%AE%AF%E4%BA%91%E5%87%BD%E6%95%B0%E9%83%A8%E7%BD%B2CloudMusic-LevelUp%E8%84%9A%E6%9C%AC/image-20210708141358892.png)
+   {% endgallery %}
 
 5. 所有项目修改完成后，点击部署：
    {% gallery %}
-   ![image-20210612200259590](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612200259590.png)
+   ![image-20210708141601513](%E8%85%BE%E8%AE%AF%E4%BA%91%E5%87%BD%E6%95%B0%E9%83%A8%E7%BD%B2CloudMusic-LevelUp%E8%84%9A%E6%9C%AC/image-20210708141601513.png)
    {% endgallery %}
 
 ### 测试
