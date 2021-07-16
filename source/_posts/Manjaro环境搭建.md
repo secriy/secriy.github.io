@@ -1,8 +1,8 @@
 ---
-title: Manjaro环境搭建
+title: "Manjaro环境搭建"
 date: 2020-07-12 20:07:22
 categories: 经验教程
-tags: 
+tags:
   - Linux
 ---
 

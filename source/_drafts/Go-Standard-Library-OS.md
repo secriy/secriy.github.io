@@ -1,10 +1,9 @@
 ---
-title: 'Golang Standard Library: OS'
+title: 'Go Standard Library: OS'
 date: 2021-06-24 18:26:34
 categories: 学习笔记
 tags: 
-  - Golang
-  - Standard Library
+  - Go
 ---
 
 ## Overview

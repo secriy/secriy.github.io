@@ -1,8 +1,6 @@
 ---
-title: 腾讯云函数部署CloudMusic-LevelUp脚本
+title: "腾讯云函数部署CloudMusic-LevelUp脚本"
 date: 2021-06-12 19:49:22
-categories:
-tags:
 ---
 
 {% noteblock quote cyan %}

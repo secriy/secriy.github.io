@@ -1,10 +1,9 @@
 ---
-title: 'Golang Standard Library: I/O'
+title: 'Go Standard Library: I/O'
 date: 2021-06-24 17:35:25
 categories: 学习笔记
 tags:
-  - GOlang
-  - Standard Library
+  - Go
 ---
 
 ## 总览

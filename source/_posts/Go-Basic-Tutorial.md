@@ -1,9 +1,9 @@
 ---
-title: Golang Basic Tutorial
+title: "Go Basic Tutorial"
 date: 2021-04-17 09:16:22
 categories: 学习笔记
 tags:
-  - Golang
+  - Go
   - Programming
 references:
   - title: CGO_ENABLED 环境变量对 Go 静态编译机制的影响
@@ -13,7 +13,7 @@ references:
 ---
 
 {% noteblock quote cyan %}
-本文是 Golang 的基础学习笔记，大多是对*A Tour of Go* 的翻译总结，自行实现了相关代码并对知识点进行了梳理。
+本文是 Golang 的基础学习笔记，大多是对*[A Tour of Go](https://tour.golang.org/)*的翻译总结，并参考了*[The Go Programming Language](http://www.gopl.io/)*的部分内容自行实现了相关代码并对知识点进行了梳理。
 {% endnoteblock %}
 
 <!-- more -->
@@ -138,7 +138,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-   
+
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```
@@ -354,6 +354,15 @@ complex64 complex128 // 复数
 
 其中，`int`、`uint`、`uintptr`类型的大小会随位宽的不同而不同，比如在 32 位环境下，它们都占 32bit，而在 64 位环境下它们会占 64bit。
 
+### 自定义类型
+
+Golang 支持自定义类型，使用`type`关键字指定，并要求指定其底层类型：
+
+```go
+type MyTypeA int
+type MyTypeB string
+```
+
 ### 变量
 
 变量（Varrible）是编程语言中最基本的量，基本的变量操作有”声明“、”定义“、”初始化“和”赋值“四种。
@@ -393,6 +402,36 @@ func main() {
 
 ```
 xxx\main.go:4:6: a declared but not used
+```
+
+#### 赋值
+
+使用`=`来对变量进行赋值：
+
+```go
+var a int
+a = 12
+```
+
+使用元组赋值可以对多个变量进行赋值：
+
+```go
+var a, b int
+a, b = 1, 2
+
+// a = 1
+// b = 2
+```
+
+利用元组赋值可以进行变量值的交换：
+
+```go
+var a, b int
+a, b = 1, 2
+a, b = b, a
+
+// a = 2
+// b = 1
 ```
 
 #### 初始化
@@ -462,6 +501,8 @@ func add(a int, b int) (int, string) {
 ```
 
 ### 常量
+
+#### 声明
 
 常量（Constant）的声明类似于变量，但使用`const`关键字，常量只可以是字符、字符串、布尔值和数值型，必须是编译期就确定的值。
 
@@ -624,7 +665,7 @@ func main() {
 }
 ```
 
-通过反射也可以得到变量的类型（之后会详细介绍）：
+通过反射也可以得到变量的类型：
 
 ```go
 func main() {
@@ -1126,7 +1167,7 @@ func printSlice(s []int) {
 
 上述代码的四个切片底层共用一个数组，他们各自包含了起始元素的地址、切片长度和切片容量：
 
-![slice](Golang-Basic-Tutorial/slice.png)
+![slice](Go-Basic-Tutorial/slice.png)
 
 - 切片`s`从数组的首位开始，长度和容量均等于数组的大小
 - 切片`s1`从数组的首位开始，长度为 0，但从首位开始计算数组的长度为 6，即切片的容量为 6
@@ -1226,7 +1267,7 @@ append 的第一个参数是原切片，其后一个或多个参数是需要添�
 
 当切片的底层数组大小不足时会分配一个更大的数组，返回的切片会指向这个新分配的数组。
 
-#### 遍历
+#### 遍历切片
 
 内建函数`range`用于在`for`循环中遍历`slice`和`map`：
 
@@ -1283,7 +1324,7 @@ fmt.Println(m)
 // panic: assignment to entry in nil map
 ```
 
-#### 创建 map
+#### 创建 Map
 
 Golang 提供了内建的`make`方法，可以用来创建一个 map：
 
@@ -1303,7 +1344,7 @@ fmt.Println(m1 == nil) // true
 fmt.Println(m2 == nil) // false
 ```
 
-#### map 字面量
+#### Map 字面量
 
 map 字面量类似于 struct 字面量，但必须要指定 Key：
 
@@ -1340,7 +1381,7 @@ fmt.Println(m1)
 fmt.Println(m2)
 ```
 
-#### map 操作
+#### Map 操作
 
 插入一个键值对：
 
@@ -1383,6 +1424,28 @@ if value, ok := m["Jerry"]; ok {
 ```
 
 当键值对不存在时，map 返回值数据类型的零值。
+
+#### 遍历 map
+
+使用内建函数`range`对 Map 进行遍历：
+
+```go
+num := map[string]int{
+    "a": 1,
+    "b": 2,
+    "c": 3,
+}
+
+for k, v := range num {
+    fmt.Printf("Index:%q Value:%d\n", k, v)
+}
+
+// Index:"b" Value:2
+// Index:"c" Value:3
+// Index:"a" Value:1
+```
+
+多次执行可以发现，其遍历的结果并非有序，这其实是有意为之，强制要求程序不会依赖 Map 底层具体的哈希函数实现。
 
 ### 函数值
 

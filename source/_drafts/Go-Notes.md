@@ -1,9 +1,9 @@
 ---
-title: Golang Notes
+title: "Go Notes"
 date: 2021-06-22 19:35:31
 categories: 学习笔记
 tags:
-  - Golang
+  - Go
   - Programming
 ---
 

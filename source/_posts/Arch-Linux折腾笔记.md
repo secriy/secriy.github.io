@@ -1,5 +1,5 @@
 ---
-title: Arch Linux折腾笔记
+title: "Arch Linux折腾笔记"
 date: 2020-07-30 10:29:44
 categories: 经验教程
 tags:
@@ -608,7 +608,7 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 #### 语言
 
 - Node.js
-- Golang
+- Go
 - Python3/2
 
 #### 编辑

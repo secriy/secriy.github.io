@@ -1,8 +1,8 @@
 ---
-title: Windows代理配置
+title: "Windows代理配置"
 date: 2020-06-02 13:15:22
 categories: 经验教程
-tags: 
+tags:
   - Proxy
   - Network
 ---
@@ -23,7 +23,7 @@ Windows 下代理环境配置。
   socks5：127.0.0.1:10808
   http：127.0.0.1:10809
   ```
-  
+
 - Clash
 
 ## 配置代理

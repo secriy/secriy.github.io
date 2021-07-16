@@ -1,9 +1,9 @@
 ---
-title: Golang学习之defer
+title: "Go Learning: defer"
 date: 2021-04-20 23:12:29
 categories: 学习笔记
 tags:
-  - Golang
+  - Go
   - Programming
 ---
 
