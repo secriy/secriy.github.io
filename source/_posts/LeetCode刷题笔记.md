@@ -15,7 +15,220 @@ LeetCode 刷题记录。
 
 <!-- more -->
 
+## Array
+
+### 15. [3Sum](https://leetcode.com/problems/3sum/description/)
+
+> Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
+>
+> Notice that the solution set must not contain duplicate triplets.
+>
+> **Example 1:**
+>
+> ```
+> Input: nums = [-1,0,1,2,-1,-4]
+> Output: [[-1,-1,2],[-1,0,1]]
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: nums = []
+> Output: []
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: nums = [0]
+> Output: []
+> ```
+>
+> **Constraints:**
+>
+> - `0 <= nums.length <= 3000`
+> - `-10^5 <= nums[i] <= 10^5`
+
+#### Ideas
+
+- 排序+双指针解法。
+
+#### Solutions
+
+- Common
+
+  ```go
+  func threeSum(nums []int) [][]int {
+  	length := len(nums)
+  	res := make([][]int, 0)
+  	if length < 3 {
+  		return res
+  	}
+  	sort.Ints(nums)
+  	for k, v := range nums {
+  		if v > 0 {
+  			return res
+  		}
+  		if k > 0 && v == nums[k-1] {
+  			continue
+  		}
+  		left, right := k+1, length-1
+  		for left < right {
+  			sum := v + nums[left] + nums[right]
+  			if sum == 0 {
+  				res = append(res, []int{v, nums[left], nums[right]})
+  				for left < right && nums[left] == nums[left+1] {
+  					left++
+  				}
+  				for left < right && nums[right] == nums[right-1] {
+  					right--
+  				}
+  				left++
+  				right--
+  			} else if sum > 0 {
+  				right--
+  			} else {
+  				left++
+  			}
+  		}
+
+  	}
+  	return res
+  }
+  ```
+
+### 66. [Plus One](https://leetcode.com/problems/plus-one/description/)
+
+> Given a **non-empty** array of decimal digits representing a non-negative integer, increment one to the integer.
+>
+> The digits are stored such that the most significant digit is at the head of the list, and each element in the array contains a single digit.
+>
+> You may assume the integer does not contain any leading zero, except the number 0 itself.
+>
+> **Example 1:**
+>
+> ```
+> Input: digits = [1,2,3]
+> Output: [1,2,4]
+> Explanation: The array represents the integer 123.
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: digits = [4,3,2,1]
+> Output: [4,3,2,2]
+> Explanation: The array represents the integer 4321.
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: digits = [0]
+> Output: [1]
+> ```
+>
+> **Constraints:**
+>
+> - `1 <= digits.length <= 100`
+> - `0 <= digits[i] <= 9`
+
+#### Ideas
+
+- 从数组末端开始遍历，当当前数字+1 后大于 9 即进位，将当前数字置 0。如果当前位置为数组首端，在数组前面插入一个 1 即可。
+
+#### Solutions
+
+- Common
+
+  ```go
+  func plusOne(digits []int) []int {
+  	for i := len(digits) - 1; i >= 0; i-- {
+          digits[i]++
+  		if digits[i] > 9 {
+  			digits[i] = 0
+  			if i == 0 {
+  				digits = append([]int{1}, digits...)
+  				break
+  			}
+  			continue
+  		}
+  		break
+  	}
+  	return digits
+  }
+  ```
+
 ## String
+
+### 3. [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
+
+> Given a string `s`, find the length of the **longest substring** without repeating characters.
+>
+> **Example 1:**
+>
+> ```
+> Input: s = "abcabcbb"
+> Output: 3
+> Explanation: The answer is "abc", with the length of 3.
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: s = "bbbbb"
+> Output: 1
+> Explanation: The answer is "b", with the length of 1.
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: s = "pwwkew"
+> Output: 3
+> Explanation: The answer is "wke", with the length of 3.
+> Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+> ```
+>
+> **Example 4:**
+>
+> ```
+> Input: s = ""
+> Output: 0
+> ```
+>
+> **Constraints:**
+>
+> - `0 <= s.length <= 5 * 10^4`
+> - `s` consists of English letters, digits, symbols and spaces.
+
+#### Ideas
+
+- 使用滑动窗口解法，利用双指针确定最大的窗口。
+
+#### Solutions
+
+- Sliding-Window
+
+  ```go
+  func lengthOfLongestSubstring(s string) int {
+  	res, left, right := 0, 0, 0
+  	m := make(map[byte]bool, 0)
+  	for right < len(s) {
+  		if _, ok := m[s[right]]; !ok {
+  			m[s[right]] = true
+  			if right-left+1 > res {
+  				res = right - left + 1
+  			}
+  			right++
+  		} else {
+  			delete(m, s[left])
+  			left++
+  		}
+  	}
+  	return res
+  }
+  ```
 
 ### 14. [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/)
 
@@ -48,7 +261,245 @@ LeetCode 刷题记录。
 
 #### Solutions
 
+### 20. [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
+
+> Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.
+>
+> An input string is valid if:
+>
+> 1. Open brackets must be closed by the same type of brackets.
+> 2. Open brackets must be closed in the correct order.
+>
+> **Example 1:**
+>
+> ```
+> Input: s = "()"
+> Output: true
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: s = "()[]{}"
+> Output: true
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: s = "(]"
+> Output: false
+> ```
+>
+> **Example 4:**
+>
+> ```
+> Input: s = "([)]"
+> Output: false
+> ```
+>
+> **Example 5:**
+>
+> ```
+> Input: s = "{[]}"
+> Output: true
+> ```
+>
+> **Constraints:**
+>
+> - `1 <= s.length <= 10^4`
+> - `s` consists of parentheses only `'()[]{}'`.
+
+#### Ideas
+
+- 循环将字符串里的`'{}()[]'`替换为空字符串，最终得到空字符串即为匹配。该解法实际效率较低。
+- 对于括号匹配问题常见的解法是使用栈匹配。
+
+#### Solutions
+
+- Replace
+
+  ```go
+  func isValid(s string) bool {
+  	for strings.Contains(s, "[]") || strings.Contains(s, "{}") || strings.Contains(s, "()") {
+  		s = strings.Replace(s, "[]", "", -1)
+  		s = strings.Replace(s, "{}", "", -1)
+  		s = strings.Replace(s, "()", "", -1)
+  	}
+  	if s == "" {
+  		return true
+  	}
+  	return false
+  }
+  ```
+
+- Stack
+
+  ```go
+  func isValid(s string) bool {
+      stack := make([]byte, 0)
+  	length := 0
+  	for _, v := range []byte(s) {
+  		stack = append(stack, v)
+  		length++
+  		for length > 1 {
+  			left := stack[length-2]		// 仅用于增强代码可读性，可省略
+  			right := stack[length-1]
+  			if (left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']') {
+                  length -= 2
+  				stack = stack[:length]
+  				continue
+  			}
+  			break
+  		}
+  	}
+  	return len(stack) == 0
+  }
+  ```
+
 ## Linked List
+
+### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
+
+> Merge two sorted linked lists and return it as a **sorted** list. The list should be made by splicing together the nodes of the first two lists.
+>
+> **Example 1:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/merge_ex1.jpg)
+>
+> ```
+> Input: l1 = [1,2,4], l2 = [1,3,4]
+> Output: [1,1,2,3,4,4]
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: l1 = [], l2 = []
+> Output: []
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: l1 = [], l2 = [0]
+> Output: [0]
+> ```
+>
+> **Constraints:**
+>
+> - The number of nodes in both lists is in the range `[0, 50]`.
+> - `-100 <= Node.val <= 100`
+> - Both `l1` and `l2` are sorted in **non-decreasing** order.
+
+#### Ideas
+
+- 递归解法。
+
+#### Solutions
+
+- 递归
+
+  ```go
+  func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+  	if l1 == nil {
+  		return l2
+  	}
+  	if l2 == nil {
+  		return l1
+  	}
+  	if l1.Val < l2.Val {
+  		l1.Next = mergeTwoLists(l1.Next, l2)
+  		return l1
+  	} else {
+  		l2.Next = mergeTwoLists(l1, l2.Next)
+  		return l2
+  	}
+  }
+  ```
+
+### 160. [Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
+
+> Given the heads of two singly linked-lists `headA` and `headB`, return _the node at which the two lists intersect_. If the two linked lists have no intersection at all, return `null`.
+>
+> For example, the following two linked lists begin to intersect at node `c1`:
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/160_statement.png)
+>
+> It is **guaranteed** that there are no cycles anywhere in the entire linked structure.
+>
+> **Note** that the linked lists must **retain their original structure** after the function returns.
+>
+> **Example 1:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/160_example_1_1.png)
+>
+> ```
+> Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
+> Output: Intersected at '8'
+> Explanation: The intersected node's value is 8 (note that this must not be 0 if the two lists intersect).
+> From the head of A, it reads as [4,1,8,4,5]. From the head of B, it reads as [5,6,1,8,4,5]. There are 2 nodes before the intersected node in A; There are 3 nodes before the intersected node in B.
+> ```
+>
+> **Example 2:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/160_example_2.png)
+>
+> ```
+> Input: intersectVal = 2, listA = [1,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+> Output: Intersected at '2'
+> Explanation: The intersected node's value is 2 (note that this must not be 0 if the two lists intersect).
+> From the head of A, it reads as [1,9,1,2,4]. From the head of B, it reads as [3,2,4]. There are 3 nodes before the intersected node in A; There are 1 node before the intersected node in B.
+> ```
+>
+> **Example 3:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/160_example_3.png)
+>
+> ```
+> Input: intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+> Output: No intersection
+> Explanation: From the head of A, it reads as [2,6,4]. From the head of B, it reads as [1,5]. Since the two lists do not intersect, intersectVal must be 0, while skipA and skipB can be arbitrary values.
+> Explanation: The two lists do not intersect, so return null.
+> ```
+>
+> **Constraints:**
+>
+> - The number of nodes of `listA` is in the `m`.
+> - The number of nodes of `listB` is in the `n`.
+> - `0 <= m, n <= 3 * 10^4`
+> - `1 <= Node.val <= 10^5`
+> - `0 <= skipA <= m`
+> - `0 <= skipB <= n`
+> - `intersectVal` is `0` if `listA` and `listB` do not intersect.
+> - `intersectVal == listA[skipA + 1] == listB[skipB + 1]` if `listA` and `listB` intersect.
+>
+> **Follow up:** Could you write a solution that runs in `O(n)` time and use only `O(1)` memory?
+
+#### Ideas
+
+- 使用 Map 保存一个链表的所有节点，遍历第二个链表，如果在 Map 中已存在则返回。
+
+#### Solutions
+
+- Map
+
+  ```go
+  func getIntersectionNode(headA, headB *ListNode) *ListNode {
+  	m := make(map[*ListNode]bool)
+  	for headA != nil {
+  		m[headA] = true
+  		headA = headA.Next
+  	}
+  	for headB != nil {
+  		if _, ok := m[headB]; ok {
+  			return headB
+  		}
+  		headB = headB.Next
+  	}
+  	return nil
+  }
+  ```
 
 ### 206. [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/description/)
 
@@ -150,9 +601,9 @@ LeetCode 刷题记录。
 >
 > **Constraints:**
 >
-> - `2 <= nums.length <= 104`
-> - `-109 <= nums[i] <= 109`
-> - `-109 <= target <= 109`
+> - `2 <= nums.length <= 10^4`
+> - `-10^9 <= nums[i] <= 10^9`
+> - `-10^9 <= target <= 10^9`
 > - **Only one valid answer exists.**
 >
 > **Follow-up:** Can you come up with an algorithm that is less than `O(n2) `time complexity?
@@ -198,7 +649,7 @@ LeetCode 刷题记录。
 >
 > **Constraints:**
 >
-> - `1 <= s.length, t.length <= 5 * 104`
+> - `1 <= s.length, t.length <= 5 * 10^4`
 > - `s` and `t` consist of lowercase English letters.
 >
 > **Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
@@ -272,8 +723,8 @@ LeetCode 刷题记录。
 >
 > **Constraints:**
 >
-> - `1 <= k <= nums.length <= 104`
-> - `-104 <= nums[i] <= 104`
+> - `1 <= k <= nums.length <= 10^4`
+> - `-10^4 <= nums[i] <= 10^4`
 
 ## Math
 
@@ -313,7 +764,7 @@ LeetCode 刷题记录。
 >
 > **Constraints:**
 >
-> - `-231 <= x <= 231 - 1`
+> - `-2^31 <= x <= 2^31 - 1`
 
 #### Ideas
 
@@ -376,7 +827,7 @@ LeetCode 刷题记录。
 >
 > **Constraints:**
 >
-> - `-231 <= x <= 231 - 1`
+> - `-2^31 <= x <= 2^31 - 1`
 >
 > **Follow up:** Could you solve it without converting the integer to a string?
 
@@ -626,3 +1077,90 @@ LeetCode 刷题记录。
   	}
   }
   ```
+
+### 69. [Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
+
+> Given a non-negative integer `x`, compute and return _the square root of_ `x`.
+>
+> Since the return type is an integer, the decimal digits are **truncated**, and only **the integer part** of the result is returned.
+>
+> **Note:** You are not allowed to use any built-in exponent function or operator, such as `pow(x, 0.5)` or `x ** 0.5`.
+>
+> **Example 1:**
+>
+> ```
+> Input: x = 4
+> Output: 2
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: x = 8
+> Output: 2
+> Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
+> ```
+>
+> **Constraints:**
+>
+> - `0 <= x <= 2^31 - 1`
+
+#### Ideas
+
+- 采用二分查找的方式，不断缩小范围。
+
+#### Solutions
+
+- Binary Search
+
+  ```go
+  func mySqrt(x int) int {
+  	if x == 1 {
+  		return 1
+  	}
+  	left, right := 0, x
+  	for {
+  		mid := (left + right) / 2
+  		if mid*mid == x || left == right-1 {
+  			return mid
+  		}
+  		if mid*mid > x {
+  			right = mid
+  		} else {
+  			left = mid
+  		}
+
+  	}
+  }
+  ```
+
+## Sorting
+
+### 912. [Sort an Array](https://leetcode.com/problems/sort-an-array/description/)
+
+> Given an array of integers `nums`, sort the array in ascending order.
+>
+> **Example 1:**
+>
+> ```
+> Input: nums = [5,2,3,1]
+> Output: [1,2,3,5]
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: nums = [5,1,1,2,0,0]
+> Output: [0,0,1,1,2,5]
+> ```
+>
+> **Constraints:**
+>
+> - `1 <= nums.length <= 5 * 10^4`
+> - `-5 * 104 <= nums[i] <= 5 * 10^4`
+
+#### Ideas
+
+- 使用快速排序。
+
+#### Solutions
