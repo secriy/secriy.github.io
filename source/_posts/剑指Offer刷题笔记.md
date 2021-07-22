@@ -257,22 +257,21 @@ func FindKthToTail( pHead *ListNode ,  k int ) *ListNode {
 
 ```go
 func FindKthToTail( pHead *ListNode ,  k int ) *ListNode {
-    if pHead == nil {
-        return nil
-    }
+    count := 0
     p := pHead
-    for ; k>0; k-- {
-        if p == nil {
-            return nil
+    for pHead != nil {
+        if count == k {
+            p = p.Next
+        } else {
+            count++
         }
-        p = p.Next
-    }
-    for p != nil {
-        p = p.Next
         pHead = pHead.Next
     }
-
-    return pHead
+    // 防止k大于链表长度
+    if count != k {
+        return nil
+    }
+    return p
 }
 ```
 

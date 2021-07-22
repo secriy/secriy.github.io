@@ -159,6 +159,78 @@ LeetCode 刷题记录。
   }
   ```
 
+### 88. [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)
+
+> You are given two integer arrays `nums1` and `nums2`, sorted in **non-decreasing order**, and two integers `m` and `n`, representing the number of elements in `nums1` and `nums2` respectively.
+>
+> **Merge** `nums1` and `nums2` into a single array sorted in **non-decreasing order**.
+>
+> The final sorted array should not be returned by the function, but instead be _stored inside the array_ `nums1`. To accommodate this, `nums1` has a length of `m + n`, where the first `m` elements denote the elements that should be merged, and the last `n` elements are set to `0` and should be ignored. `nums2` has a length of `n`.
+>
+> **Example 1:**
+>
+> ```
+> Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+> Output: [1,2,2,3,5,6]
+> Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+> The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: nums1 = [1], m = 1, nums2 = [], n = 0
+> Output: [1]
+> Explanation: The arrays we are merging are [1] and [].
+> The result of the merge is [1].
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+> Output: [1]
+> Explanation: The arrays we are merging are [] and [1].
+> The result of the merge is [1].
+> Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+> ```
+>
+> **Constraints:**
+>
+> - `nums1.length == m + n`
+> - `nums2.length == n`
+> - `0 <= m, n <= 200`
+> - `1 <= m + n <= 200`
+> - `-10^9 <= nums1[i], nums2[j] <= 10^9`
+>
+> **Follow up:** Can you come up with an algorithm that runs in `O(m + n)` time?
+
+#### Ideas
+
+- 设置三个指针，分别位于`nums1`（不含 0）末尾、`nums1`（含 0）末尾、`nums2`末尾，从后向前对比两个数组的末尾元素，取大者放入 0 元素位置。
+  - 时间复杂度：$O(m+n)$
+  - 空间复杂度：$O(1)$
+
+#### Solutions
+
+- Three Pointers
+
+  ```go
+  func merge(nums1 []int, m int, nums2 []int, n int) {
+  	index1, empty, index2 := m-1, m+n-1, n-1
+  	for empty >= 0 {
+  		if index2 < 0 || (index1 >= 0 && nums1[index1] >= nums2[index2]) {
+  			nums1[empty] = nums1[index1]
+  			index1--
+  		} else {
+  			nums1[empty] = nums2[index2]
+  			index2--
+  		}
+  		empty--
+  	}
+  }
+  ```
+
 ## String
 
 ### 3. [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
@@ -418,6 +490,178 @@ LeetCode 刷题记录。
   }
   ```
 
+### 141. [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)
+
+> Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
+>
+> There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
+>
+> Return `true` _if there is a cycle in the linked list_. Otherwise, return `false`.
+>
+> **Example 1:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist.png)
+>
+> ```
+> Input: head = [3,2,0,-4], pos = 1
+> Output: true
+> Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+> ```
+>
+> **Example 2:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist_test2.png)
+>
+> ```
+> Input: head = [1,2], pos = 0
+> Output: true
+> Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+> ```
+>
+> **Example 3:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist_test3.png)
+>
+> ```
+> Input: head = [1], pos = -1
+> Output: false
+> Explanation: There is no cycle in the linked list.
+> ```
+>
+> **Constraints:**
+>
+> - The number of the nodes in the list is in the range `[0, 10^4]`.
+> - `-10^5 <= Node.val <= 10^5`
+> - `pos` is `-1` or a **valid index** in the linked-list.
+>
+> **Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
+
+#### Ideas
+
+- 最简单的方法是使用 Map 保存结点，当遇到重复即返回。
+  - 时间复杂度：$O(n)$
+  - 空间复杂度：$O(n)$
+- 使用快慢指针，如果存在循环则二者必然交叉，当遇到交叉即返回。
+  - 时间复杂度：$O(n)$
+  - 空间复杂度：$O(1)$
+
+#### Solutions
+
+- Map
+
+  ```go
+  func hasCycle(head *ListNode) bool {
+  	m := make(map[*ListNode]bool)
+  	for head != nil {
+  		if _, ok := m[head]; ok {
+  			return true
+  		}
+  		m[head] = true
+  		head = head.Next
+  	}
+  	return false
+  }
+  ```
+
+- Slow-Fast Pointer
+
+  ```go
+  func hasCycle(head *ListNode) bool {
+  	slow, fast := head, head
+  	for {
+          // 边界条件
+  		if slow == nil || fast == nil || fast.Next == nil {
+  			return false
+  		}
+  		slow = slow.Next
+  		fast = fast.Next.Next
+  		if slow == fast {
+  			return true
+  		}
+  	}
+  }
+  ```
+
+### 142. [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/description/)
+
+> Given a linked list, return the node where the cycle begins. If there is no cycle, return `null`.
+>
+> There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer. Internally, `pos` is used to denote the index of the node that tail's `next` pointer is connected to. **Note that `pos` is not passed as a parameter**.
+>
+> **Notice** that you **should not modify** the linked list.
+>
+> **Example 1:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist.png)
+>
+> ```
+> Input: head = [3,2,0,-4], pos = 1
+> Output: tail connects to node index 1
+> Explanation: There is a cycle in the linked list, where tail connects to the second node.
+> ```
+>
+> **Example 2:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist_test2.png)
+>
+> ```
+> Input: head = [1,2], pos = 0
+> Output: tail connects to node index 0
+> Explanation: There is a cycle in the linked list, where tail connects to the first node.
+> ```
+>
+> **Example 3:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/circularlinkedlist_test3.png)
+>
+> ```
+> Input: head = [1], pos = -1
+> Output: no cycle
+> Explanation: There is no cycle in the linked list.
+> ```
+>
+> **Constraints:**
+>
+> - The number of the nodes in the list is in the range `[0, 10^4]`.
+> - `-10^5 <= Node.val <= 10^5`
+> - `pos` is `-1` or a **valid index** in the linked-list.
+>
+> **Follow up:** Can you solve it using `O(1)` (i.e. constant) memory?
+
+#### Ideas
+
+- Map 解法同 141 题，记录指针即可。
+
+- 快慢指针解法，当二者第一次相遇时将其中一个指针返回到链开头，二者以同样的速度往下遍历，直到二者相等即返回。
+
+#### Solutions
+
+- 略
+
+- Slow-Fast Pointer
+
+  ```go
+  func detectCycle(head *ListNode) *ListNode {
+  	slow, fast := head, head
+  	for {
+  		if slow == nil || fast == nil || fast.Next == nil {
+  			return nil
+  		}
+  		slow = slow.Next
+  		fast = fast.Next.Next
+  		if slow == fast {
+  			break
+  		}
+  	}
+  	fast = head
+  	for slow != fast {
+  		fast = fast.Next
+  		slow = slow.Next
+  	}
+  	return slow
+  }
+  ```
+
 ### 160. [Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
 
 > Given the heads of two singly linked-lists `headA` and `headB`, return _the node at which the two lists intersect_. If the two linked lists have no intersection at all, return `null`.
@@ -479,6 +723,7 @@ LeetCode 刷题记录。
 #### Ideas
 
 - 使用 Map 保存一个链表的所有节点，遍历第二个链表，如果在 Map 中已存在则返回。
+- 两个链表的长度不同，让二者相遇的办法是让它们的长度变为一致，具体实现是让它们在到达链表末尾后跳转到对方的链首。
 
 #### Solutions
 
@@ -498,6 +743,31 @@ LeetCode 刷题记录。
   		headB = headB.Next
   	}
   	return nil
+  }
+  ```
+
+- Link
+
+  ```go
+  func getIntersectionNode(headA, headB *ListNode) *ListNode {
+      // 边界判断
+  	if headA == nil || headB == nil {
+  		return nil
+  	}
+  	pA, pB := headA, headB
+  	for pA != pB {
+  		if pA != nil {
+  			pA = pA.Next
+  		} else {
+  			pA = headB
+  		}
+  		if pB != nil {
+  			pB = pB.Next
+  		} else {
+  			pB = headA
+  		}
+  	}
+  	return pA
   }
   ```
 
@@ -567,7 +837,63 @@ LeetCode 刷题记录。
 
 ## Binary Tree
 
-## HashTable
+### 101. [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/description/)
+
+> Given the `root` of a binary tree, _check whether it is a mirror of itself_ (i.e., symmetric around its center).
+>
+> **Example 1:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/symtree1.jpg)
+>
+> ```
+> Input: root = [1,2,2,3,4,4,3]
+> Output: true
+> ```
+>
+> **Example 2:**
+>
+> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/symtree2.jpg)
+>
+> ```
+> Input: root = [1,2,2,null,3,null,3]
+> Output: false
+> ```
+>
+> **Constraints:**
+>
+> - The number of nodes in the tree is in the range `[1, 1000]`.
+> - `-100 <= Node.val <= 100`
+>
+> **Follow up:** Could you solve it both recursively and iteratively?
+
+#### Ideas
+
+- 常规递归解法。
+
+#### Solutions
+
+- Recursion
+
+  ```go
+  func isSymmetric(root *TreeNode) bool {
+  	return recursion(root.Left, root.Right)
+  }
+
+  func recursion(p, q *TreeNode) bool {
+  	if p == nil && q == nil {
+  		return true
+  	}
+  	if p == nil || q == nil {
+  		return false
+  	}
+  	if p.Val == q.Val {
+  		return recursion(p.Left, q.Right) && recursion(p.Right, q.Left)
+  	}
+  	return false
+  }
+  ```
+
+## Hash Table
 
 ### 1. [Two Sum](https://leetcode.com/problems/two-sum/description/)
 
@@ -700,31 +1026,6 @@ LeetCode 刷题记录。
    	return true
    }
    ```
-
-### 215. [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
-
-> Given an integer array `nums` and an integer `k`, return _the_ `kth` _largest element in the array_.
->
-> Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.
->
-> **Example 1:**
->
-> ```
-> Input: nums = [3,2,1,5,6,4], k = 2
-> Output: 5
-> ```
->
-> **Example 2:**
->
-> ```
-> Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
-> Output: 4
-> ```
->
-> **Constraints:**
->
-> - `1 <= k <= nums.length <= 10^4`
-> - `-10^4 <= nums[i] <= 10^4`
 
 ## Math
 
@@ -1164,3 +1465,5 @@ LeetCode 刷题记录。
 - 使用快速排序。
 
 #### Solutions
+
+## Dynamic Programming
