@@ -174,17 +174,14 @@ mathjax: true
       Length int
   }
 
-
   func Constructor() CQueue {
       return CQueue{}
   }
-
 
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-
 
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
@@ -790,7 +787,7 @@ mathjax: true
    * obj.Pop();
    * param_3 := obj.Top();
    * param_4 := obj.Min();
-   */
+      */
   ```
 
 ## 31. [栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/)
