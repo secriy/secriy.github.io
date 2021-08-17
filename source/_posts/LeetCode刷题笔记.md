@@ -91,7 +91,7 @@ LeetCode 刷题记录。
   				left++
   			}
   		}
-
+  
   	}
   	return res
   }
@@ -428,8 +428,65 @@ LeetCode 刷题记录。
   	return len(stack) == 0
   }
   ```
+  
+  
 
 ## Linked List
+
+### 19. [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+
+#### Ideas
+
+- **双指针**，第一个指针一直往下走，并将倒数的数值`n`减一，直到`n==0`第二个指针再走，其中用`pre`指针记录第二个指针的原位置。第一个指针到底（为`nil`）时则返回。
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func removeNthFromEnd(head *ListNode, n int) *ListNode {
+      pre, p1, p2 := head, head, head		// pre记录前置节点
+      for p2 != nil {
+          if n == 0 {
+              pre = p1
+              p1 = p1.Next
+          } else {
+              n--
+          }
+          p2 = p2.Next
+      }
+      // 判断是否删除的是链表头节点，若是直接返回下一节点
+      if pre == p1 {
+          return pre.Next
+      }
+      // 删除pre节点后一节点（即p1s）
+      pre.Next = p1.Next
+      return head
+  }
+  ```
+
+- 双指针（改良）
+
+  ```go
+  func removeNthFromEnd(head *ListNode, n int) *ListNode {
+      dummy := new(ListNode)	// 在head前防止虚拟节点，解决删除的是第一个元素的问题
+      dummy.Next = head
+      pre, post:= dummy, head
+      for post.Next != nil {
+          if n > 1 {
+              n--
+          } else {
+              pre = pre.Next
+          }
+          post = post.Next
+      }
+      if post == head {
+          return nil
+      }
+      pre.Next = pre.Next.Next
+      return dummy.Next
+  }
+  ```
 
 ### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
 
@@ -489,6 +546,74 @@ LeetCode 刷题记录。
   	}
   }
   ```
+
+### 61. [Rotate List](https://leetcode.com/problems/rotate-list/)
+
+#### Ideas
+
+- 双指针解法，本题要求得到循环`n`次的链表，循环次数可能比链表本身的长度还要长，因此可以将链表串成循环链表，再将其从中间拆分
+  时间复杂度：$O(n+k)$
+  空间复杂度：$O(1)$
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func rotateRight(head *ListNode, k int) *ListNode {
+      if head == nil {
+          return head
+      }
+      // 定位head前一个结点
+      dummy := new(ListNode)
+      dummy.Next = head
+      count := 0
+      for p := head; ; {
+          count++
+          if p.Next == nil {
+              p.Next = dummy.Next
+              break
+          }
+          p = p.Next
+      }
+      for i := count-(k%count); i > 0; i-- {
+          head = head.Next
+          dummy = dummy.Next
+      }
+      // 截断链表
+      dummy.Next = nil
+      return head
+  }
+  ```
+
+### 92.
+
+#### Ideas
+
+#### Solutions
+
+- 反转
+
+  ```go
+  func reverseBetween(head *ListNode, left, right int) *ListNode {
+      dummy := new(ListNode)
+      dummy.Next = head
+      pre := dummy
+      for i := 1; i < left; i++ {
+  		pre = pre.Next
+      }
+      head = pre.Next
+      for i := left; i < right; i++ {
+          next := head.Next
+  		head.Next = next.Next
+          next.Next = pre.Next
+          pre.Next = next
+      }
+      return dummy.Next
+  }
+  ```
+
+  
 
 ### 141. [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)
 
@@ -809,33 +934,148 @@ LeetCode 刷题记录。
 
 #### Ideas
 
-1. 遍历链表并重新创建一个链表，比较简单粗暴。
-2. 记录前一个结点，并将当前节点指向前一结点。
+- 遍历链表并重新创建一个链表，比较简单粗暴。
+- 记录前一个结点，并将当前节点指向前一结点。
+- 递归
 
 #### Solutions
 
-1. 略
-
-2. 反转
+- 反转
 
    ```go
    func reverseList(head *ListNode) *ListNode {
-   	var pre *ListNode = nil
-
+   	var prev, next *ListNode
    	for {
-   		next := head.Next 	// 存储下一结点
-   		head.Next = pre   	// 改变指针
-   		if next == nil {	// 改变指针过后判断下一结点是否为空，为空则退出
-   			return head
-   		}
-   		pre = head			// 存储当前结点
+   		next = head.Next 	// 存储下一结点
+   		head.Next = prev   	// 改变指针
+   		prev = head			// 存储当前结点
    		head = next			// 跳转到下一个结点
    	}
-   	return nil
+   	return prev
+   }
+   ```
+   
+- 递归
+
+   ```go
+   func reverseList(head *ListNode) *ListNode {
+       if head == nil || head.Next == nil {
+           return head
+       }
+       dummy := reverseList(head.Next)
+       head.Next.Next = head	// 让下一结点指向自己
+       head.Next = nil			// 删除指向下一结点的指针
+       return dummy
    }
    ```
 
 ## Binary Tree
+
+### 94. [Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/description/)
+
+> Given the `root` of a binary tree, return *the inorder traversal of its nodes' values*.
+>
+>  
+>
+> **Example 1:**
+>
+> ![img](https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg)
+>
+> ```
+> Input: root = [1,null,2,3]
+> Output: [1,3,2]
+> ```
+>
+> **Example 2:**
+>
+> ```
+> Input: root = []
+> Output: []
+> ```
+>
+> **Example 3:**
+>
+> ```
+> Input: root = [1]
+> Output: [1]
+> ```
+>
+> **Example 4:**
+>
+> ![img](https://assets.leetcode.com/uploads/2020/09/15/inorder_5.jpg)
+>
+> ```
+> Input: root = [1,2]
+> Output: [2,1]
+> ```
+>
+> **Example 5:**
+>
+> ![img](https://assets.leetcode.com/uploads/2020/09/15/inorder_4.jpg)
+>
+> ```
+> Input: root = [1,null,2]
+> Output: [1,2]
+> ```
+>
+>  
+>
+> **Constraints:**
+>
+> - The number of nodes in the tree is in the range `[0, 100]`.
+> - `-100 <= Node.val <= 100`
+>
+>  
+>
+> **Follow up:** Recursive solution is trivial, could you do it iteratively?
+
+#### Ideas
+
+- 递归
+- 迭代
+
+#### Solutions
+
+- 递归
+
+  ```go
+  func inorderTraversal(root *TreeNode) []int {
+  	result := make([]int, 0)
+  	helper(root, &result)
+  	return result
+  }
+  
+  func helper(root *TreeNode, result *[]int) {
+  	if root == nil {
+  		return
+  	}
+  	helper(root.Left, result)
+  	*result = append(*result, root.Val)
+  	helper(root.Right, result)
+  }
+  ```
+
+- 迭代
+
+  ```go
+  func inorderTraversal(root *TreeNode) []int {
+  	stack := make([]*TreeNode, 0)
+  	result := make([]int, 0)
+  	for root != nil || len(stack) > 0 {
+  		for root != nil {
+  			stack = append(stack, root)
+  			root = root.Left
+  		}
+  		if len(stack) > 0 {
+  			root = stack[len(stack)-1]
+  			stack = stack[:len(stack)-1]
+  			result = append(result, root.Val)
+  			root = root.Right
+  		}
+  	}
+  	return result
+  }
+  ```
 
 ### 101. [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/description/)
 
@@ -878,7 +1118,7 @@ LeetCode 刷题记录。
   func isSymmetric(root *TreeNode) bool {
   	return recursion(root.Left, root.Right)
   }
-
+  
   func recursion(p, q *TreeNode) bool {
   	if p == nil && q == nil {
   		return true
@@ -1344,7 +1584,7 @@ LeetCode 刷题记录。
   	}
   	return result
   }
-
+  
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -1430,7 +1670,7 @@ LeetCode 刷题记录。
   		} else {
   			left = mid
   		}
-
+  
   	}
   }
   ```
@@ -1521,9 +1761,9 @@ LeetCode 刷题记录。
   	{'t', 'u', 'v'},	  // 8
   	{'w', 'x', 'y', 'z'}, // 9
   }
-
+  
   var result []string
-
+  
   func letterCombinations(digits string) []string {
       // 边界判断
   	if len(digits) == 0 {
@@ -1534,7 +1774,7 @@ LeetCode 刷题记录。
   	dfs(digits, 0, "")
   	return result
   }
-
+  
   func dfs(digits string, level int, str string) {
   	// 递归出口
   	if level == len(digits) {
@@ -1549,7 +1789,258 @@ LeetCode 刷题记录。
   		dfs(digits, level+1, str+string(chars[digit-2][i]))
   	}
   }
+  
+  ```
 
+### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
+
+#### Ideas
+
+- 回溯法
+
+#### Solutions
+
+- 回溯
+
+  ```go
+  func combinationSum(candidates []int, target int) [][]int {
+      res := make([][]int, 0)
+      tmp := make([]int, 0)
+      backtracking(candidates, target, 0, &res, &tmp)
+      return res
+  }
+  
+  func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
+      if target <= 0 {
+          if target == 0 {
+          	dst := make([]int, len(*tmp))
+  	        copy(dst, *tmp)
+      	    *res = append(*res, dst)
+          }
+          return
+      }
+      
+      for i := index; i < len(candidates); i++ {
+          target -= candidates[i]
+          *tmp = append(*tmp, candidates[i])
+          backtracking(candidates, target, i, res, tmp)
+          *tmp = (*tmp)[:len(*tmp)-1]
+          target += candidates[i]
+      }
+  }
+  ```
+
+### 46. [Permutations](https://leetcode.com/problems/permutations/)
+
+#### Ideas
+
+- 典型回溯
+
+#### Solutions
+
+- 回溯
+
+  ```go
+  func permute(nums []int) [][]int {
+      res := make([][]int, 0)
+      tmp := make([]int, 0)
+      visited := make([]bool, len(nums))
+      backtracking(nums, &res, &tmp, &visited)
+      return res
+  }
+  
+  func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
+      if len(nums) == 0 {
+          return
+      }
+      if len(*tmp) == len(nums) {
+          dst := make([]int, len(*tmp))
+          copy(dst, *tmp)
+          *res = append(*res, dst)
+          return
+      }
+      for i := 0; i < len(nums); i++ {
+          if (*visited)[i] {
+              continue
+          }
+          *tmp = append(*tmp, nums[i])
+          (*visited)[i] = true
+          backtracking(nums, res, tmp, visited)
+          (*visited)[i] = false
+          *tmp = (*tmp)[:len(*tmp)-1]
+      }
+  }
+  ```
+
+### 47. [Permutations II](https://leetcode.com/problems/permutations-ii/)
+
+#### Ideas
+
+- 回溯，相较于46题，需要跳过重复元素，因此首先要判断元素是否已经存在。
+
+#### Solutions
+
+- 回溯
+
+  ```go
+  func permuteUnique(nums []int) [][]int {
+      sort.Ints(nums)
+      res := make([][]int, 0)
+      tmp := make([]int, 0)
+      visited := make([]bool, len(nums))
+      backtracking(nums, &res, &tmp, &visited)
+      return res
+  }
+  
+  func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
+      if len(nums) == 0 {
+          return
+      }
+      if len(*tmp) == len(nums) {
+          dst := make([]int, len(*tmp))
+          copy(dst, *tmp)
+          *res = append(*res, dst)
+          return
+      }
+      for k, v := range nums {
+          // 当左相邻元素和当前元素相等且未访问过时跳出
+          if (*visited)[k] || k > 0 && !(*visited)[k-1] && v == nums[k-1] {
+              continue
+          }
+          *tmp = append(*tmp, nums[k])
+          (*visited)[k] = true
+          backtracking(nums, res, tmp, visited)
+          (*visited)[k] = false
+          *tmp = (*tmp)[:len(*tmp)-1]
+      }
+  }
   ```
 
 ## Dynamic Programming
+
+### 122. 
+
+#### Ideas
+
+- DP
+- 贪心
+
+#### Solutions
+
+- DP
+
+  ```go
+  func maxProfit(prices []int) int {
+      length := len(prices)
+      // 滚动数组节省空间
+      var dp [2][2]int
+      dp[0][0] = 0			 // cash
+      dp[0][1] = -prices[0] 	 // stock
+      for i := 1; i < length; i++ {
+          dp[1][0] = max(dp[0][0], dp[0][1]+prices[i])
+          dp[1][1] = max(dp[0][1], dp[0][0]-prices[i])
+          dp[0] = dp[1]
+      }
+      return dp[1][0]
+  }
+  
+  func max(a, b int) int {
+      if a > b {
+          return a
+      }
+      return b
+  }
+  ```
+
+- 贪心
+
+
+## Greedy
+
+### 45. [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+
+#### 	Ideas
+
+- 贪心策略，从后找最靠左的能找到自己的位置，从该位置重复上述操作，直到数组开头。
+
+#### Solutions
+
+- 贪心
+
+  ```go
+  func jump(nums []int) int {
+      length := len(nums)
+      if length == 1 {
+          return 0
+      }
+      count := 0
+      for i := length-1; i > 0; i-- {
+          for j := 0; j < i; j++ {
+              if nums[j] >= i-j {
+                  i = j+1
+                  break
+              }
+          }
+          count++
+      }    
+      return count
+  }
+  ```
+
+- ?
+
+  ```go
+  func jump(nums []int) int {
+  	curJump, farthestJump, jumps := 0, 0, 0
+  	for i := 0; i < len(nums)-1; i++ {
+  	    // push index of furthest jump during current iteration
+  		if i+nums[i] > farthestJump {
+  			farthestJump = i + nums[i]
+  		}
+  
+  		// if current iteration is ended - setup the next one
+  		if i == curJump {
+  			jumps, curJump = jumps+1, farthestJump
+  
+  			if curJump >= len(nums)-1 {
+  				return jumps
+  			}
+  		}
+  	}
+  
+  	// it's guaranteed to never hit it
+  	return 0
+  }
+  ```
+
+### 55. [Jump Game](https://leetcode.com/problems/jump-game/)
+
+#### Ideas
+
+#### Solutions
+
+- ?
+
+  ```go
+  func canJump(nums []int) bool {
+      if len(nums) == 1 {
+          return true
+      }
+      cur, further, jumps := 0, 0, 0
+      for i := 0; i < len(nums)-1; i++ {
+          if i+nums[i] > further {
+              further = i+nums[i]
+          }
+          if i == cur {
+              jumps++
+              cur = further
+              if cur >= len(nums)-1 {
+                  return true
+              }
+          }
+      }
+      return false
+  }
+  ```
+
+  

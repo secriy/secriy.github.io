@@ -162,6 +162,31 @@ mathjax: true
   }
   ```
 
+## 7. [重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+
+### Ideas
+
+- 递归
+
+### Solutions
+
+- 递归
+
+  ```go
+  func buildTree(preorder []int, inorder []int) *TreeNode {
+      for k, v := range inorder {
+          if v == preorder[0] {
+              return &TreeNode{
+                  Val: preorder[0],
+                  Left: buildTree(preorder[1:k+1], inorder[:k]),
+                  Right: buildTree(preorder[k+1:], inorder[k+1:]),
+              }
+          }
+      }
+      return nil
+  }
+  ```
+
 ## 9. [用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
 ### Solutions
@@ -612,7 +637,30 @@ mathjax: true
 
 ### Ideas
 
+- 递归
+
 ### Solutions
+
+- 递归
+
+  ```go
+  func isSubStructure(A *TreeNode, B *TreeNode) bool {
+      if A == nil || B == nil {
+          return false
+      }
+      return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
+  }
+
+  func isEqual(A, B *TreeNode) bool {
+      if B == nil {
+          return true
+      }
+      if A == nil || A.Val != B.Val {
+          return false
+      }
+      return isEqual(A.Left, B.Left) && isEqual(A.Right, B.Right)
+  }
+  ```
 
 ## 27. [二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
@@ -890,6 +938,42 @@ mathjax: true
   }
   ```
 
+## 34. [二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
+
+### Ideas
+
+- 回溯法，设置一个二维列表`res`存储结果，设置一个列表`tmp`存放当前路径。
+
+### Solutions
+
+- 回溯法
+
+  ```go
+  func pathSum(root *TreeNode, target int) [][]int {
+      res := make([][]int, 0)
+      tmp := make([]int, 0)
+      backtracking(root, target, &res, &tmp)
+      return res
+  }
+
+  func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
+      if root == nil {
+          return
+      }
+      target -= root.Val
+      *tmp = append(*tmp, root.Val)
+      if target == 0 && root.Left == nil && root.Right == nil {
+          // 深拷贝，防止共用底层数组导致结果重复
+          dest := make([]int, len(*tmp))
+          copy(dest, *tmp)
+          *res = append(*res, dest)
+      }
+      backtracking(root.Left, target, res, tmp)
+      backtracking(root.Right, target, res, tmp)
+      *tmp = (*tmp)[:len(*tmp)-1]
+  }
+  ```
+
 ## 39. [数组中出现次数超过一半的数字](https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/)
 
 ### Ideas
@@ -1162,4 +1246,23 @@ mathjax: true
 
 ### Ideas
 
+- 由于是二叉搜索树，因此从根结点遍历，判断目标节点在其左子树还是右子树，不断遍历直到根结点的值大于小目标值，小于大目标值。
+
 ### Solutions
+
+- Common
+
+  ```go
+  func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+  	for root != nil {
+  		if root.Val < p.Val && root.Val < q.Val {
+  			root = root.Right
+  		} else if root.Val > p.Val && root.Val > q.Val {
+  			root = root.Left
+  		} else {
+  			break
+  		}
+  	}
+  	return root
+  }
+  ```

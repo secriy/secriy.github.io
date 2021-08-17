@@ -1641,6 +1641,78 @@ func main() {
 
 第二点在大型项目中尤为重要，当某一个类型有大量的方法时，不使用指针接收者会导致调用每个方法都需要复制一份该类型的变量值。
 
+#### 嵌入结构体
+
+通过嵌入匿名结构体的方式能够继承这些匿名结构体的方法，从而实现 OOP 的继承特性：
+
+```go
+type Person struct {
+	Name string
+	Age  int
+}
+
+type Student struct {
+	Person
+	Class string
+}
+
+func (p *Person) SetName(name string) {
+	p.Name = name
+}
+
+func (s *Student) SetClass(class string) {
+	s.Class = class
+}
+
+func main() {
+    s := &Student{}
+	s.SetName("John")
+	s.SetClass("class-1")
+	fmt.Println(s)	// &{{John 0} class-1}
+}
+```
+
+#### 方法值&方法表达式
+
+方法和函数一样能够作为值传递给变量或作为参数传递给函数/方法：
+
+```go
+func main() {
+    p := &Person{}
+    setName := p.SetName
+    setName("John")
+    fmt.Println(p)	// &{John 0}
+}
+```
+
+使用类型而不是该类型的实例作为接收者，同样能够调用，比如使用`*T`：
+
+```go
+func main() {
+    p := &Person{}
+    (*Person).SetName(p, "John")
+    fmt.Println(p)	// &{John 0}
+}
+```
+
+这被称为方法表达式。可以看到原本只能接收一个参数的`SetName`函数现在还可以接收一个其接收者类型的变量，也就是说当使用方法表达式时，接收者作为第一个参数传给方法，它现在和普通函数的用法相同了。
+
+同样的，使用`T`：
+
+```go
+func (p Person) SetName(name string) {
+	p.Name = name
+}
+
+func main() {
+    p := Person{}
+    Person.SetName(p, "John")
+    fmt.Println(p)	// { 0}
+}
+```
+
+使用非指针接收者的时候`SetName`修改的是`p`的拷贝，因此并没有修改`p`的字段值。
+
 ### 接口
 
 接口（Interface）定义为一组方法的签名。
