@@ -91,9 +91,44 @@ LeetCode 刷题记录。
   				left++
   			}
   		}
-  
+
   	}
   	return res
+  }
+  ```
+
+### 26. [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+
+#### Ideas
+
+- 双指针
+  - left 移动条件：left 为 0 或 left 元素和 left-1 的元素不相等
+  - right 移动条件：right 和 left 不等（相等则用 right 覆盖 left）
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func removeDuplicates(nums []int) int {
+      left, right := 0, 1
+      for right <= len(nums) {
+          // left 左移条件
+          if left == 0 || nums[left-1] != nums[left] {
+              left++
+          }
+          // right 越界跳出（此时 left 左移条件已经执行了）
+          if right == len(nums) {
+              break
+          }
+          // right 右移条件
+          if nums[left] == nums[right] {
+              right++
+          } else {
+              nums[left] = nums[right]
+          }
+      }
+      return left
   }
   ```
 
@@ -302,6 +337,27 @@ LeetCode 刷题记录。
   }
   ```
 
+  ```go
+  func lengthOfLongestSubstring(s string) int {
+      m := make(map[byte]int)
+      left, right := 0, 0
+      max := 0
+      for left < len(s) && right < len(s) {
+          // duplicate
+          if v, ok := m[s[right]]; ok && v >= left{
+              left = v+1
+          } else {
+              if right-left+1 > max {
+                  max = right-left+1
+              }
+          }
+          m[s[right]] = right
+          right++
+      }
+      return max
+  }
+  ```
+
 ### 14. [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/)
 
 > Write a function to find the longest common prefix string amongst an array of strings.
@@ -428,8 +484,6 @@ LeetCode 刷题记录。
   	return len(stack) == 0
   }
   ```
-  
-  
 
 ## Linked List
 
@@ -469,23 +523,25 @@ LeetCode 刷题记录。
 
   ```go
   func removeNthFromEnd(head *ListNode, n int) *ListNode {
-      dummy := new(ListNode)	// 在head前防止虚拟节点，解决删除的是第一个元素的问题
+      dummy := new(ListNode) // 在 head 前防止虚拟节点，解决删除的是第一个元素的问题
       dummy.Next = head
-      pre, post:= dummy, head
-      for post.Next != nil {
-          if n > 1 {
-              n--
-          } else {
-              pre = pre.Next
-          }
-          post = post.Next
+      p := head	// p 是用于探底的指针
+      head = dummy
+      // p 先走
+      for n > 0 {
+          p = p.Next
+          n--
       }
-      if post == head {
-          return nil
+      // dummy 跟着往后走，直到 p 到底
+      for p != nil {
+          dummy = dummy.Next
+          p = p.Next
       }
-      pre.Next = pre.Next.Next
-      return dummy.Next
+      // 删除结点
+      dummy.Next = dummy.Next.Next
+      return head.Next
   }
+
   ```
 
 ### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
@@ -613,8 +669,6 @@ LeetCode 刷题记录。
   }
   ```
 
-  
-
 ### 141. [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)
 
 > Given `head`, the head of a linked list, determine if the linked list has a cycle in it.
@@ -693,17 +747,14 @@ LeetCode 刷题记录。
   ```go
   func hasCycle(head *ListNode) bool {
   	slow, fast := head, head
-  	for {
-          // 边界条件
-  		if slow == nil || fast == nil || fast.Next == nil {
-  			return false
-  		}
+  	for fast != nil && fast.Next != nil {
   		slow = slow.Next
   		fast = fast.Next.Next
   		if slow == fast {
   			return true
   		}
   	}
+      return false
   }
   ```
 
@@ -767,23 +818,20 @@ LeetCode 刷题记录。
 
   ```go
   func detectCycle(head *ListNode) *ListNode {
-  	slow, fast := head, head
-  	for {
-  		if slow == nil || fast == nil || fast.Next == nil {
-  			return nil
-  		}
-  		slow = slow.Next
-  		fast = fast.Next.Next
-  		if slow == fast {
-  			break
-  		}
-  	}
-  	fast = head
-  	for slow != fast {
-  		fast = fast.Next
-  		slow = slow.Next
-  	}
-  	return slow
+      slow, fast := head, head
+      for fast != nil && fast.Next != nil {
+          slow = slow.Next
+          fast = fast.Next.Next
+          if slow == fast {
+              fast = head
+              for fast != slow {
+                  slow = slow.Next
+                  fast = fast.Next
+              }
+              return fast
+          }
+      }
+      return nil
   }
   ```
 
@@ -942,40 +990,38 @@ LeetCode 刷题记录。
 
 - 反转
 
-   ```go
-   func reverseList(head *ListNode) *ListNode {
-   	var prev, next *ListNode
-   	for {
-   		next = head.Next 	// 存储下一结点
-   		head.Next = prev   	// 改变指针
-   		prev = head			// 存储当前结点
-   		head = next			// 跳转到下一个结点
-   	}
-   	return prev
-   }
-   ```
-   
+  ```go
+  func reverseList(head *ListNode) *ListNode {
+  	var prev, next *ListNode
+  	for {
+  		next = head.Next 	// 存储下一结点
+  		head.Next = prev   	// 改变指针
+  		prev = head			// 存储当前结点
+  		head = next			// 跳转到下一个结点
+  	}
+  	return prev
+  }
+  ```
+
 - 递归
 
-   ```go
-   func reverseList(head *ListNode) *ListNode {
-       if head == nil || head.Next == nil {
-           return head
-       }
-       dummy := reverseList(head.Next)
-       head.Next.Next = head	// 让下一结点指向自己
-       head.Next = nil			// 删除指向下一结点的指针
-       return dummy
-   }
-   ```
+  ```go
+  func reverseList(head *ListNode) *ListNode {
+      if head == nil || head.Next == nil {
+          return head
+      }
+      dummy := reverseList(head.Next)
+      head.Next.Next = head	// 让下一结点指向自己
+      head.Next = nil			// 删除指向下一结点的指针
+      return dummy
+  }
+  ```
 
 ## Binary Tree
 
 ### 94. [Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/description/)
 
-> Given the `root` of a binary tree, return *the inorder traversal of its nodes' values*.
->
->  
+> Given the `root` of a binary tree, return _the inorder traversal of its nodes' values_.
 >
 > **Example 1:**
 >
@@ -1018,14 +1064,10 @@ LeetCode 刷题记录。
 > Output: [1,2]
 > ```
 >
->  
->
 > **Constraints:**
 >
 > - The number of nodes in the tree is in the range `[0, 100]`.
 > - `-100 <= Node.val <= 100`
->
->  
 >
 > **Follow up:** Recursive solution is trivial, could you do it iteratively?
 
@@ -1044,7 +1086,7 @@ LeetCode 刷题记录。
   	helper(root, &result)
   	return result
   }
-  
+
   func helper(root *TreeNode, result *[]int) {
   	if root == nil {
   		return
@@ -1118,7 +1160,7 @@ LeetCode 刷题记录。
   func isSymmetric(root *TreeNode) bool {
   	return recursion(root.Left, root.Right)
   }
-  
+
   func recursion(p, q *TreeNode) bool {
   	if p == nil && q == nil {
   		return true
@@ -1584,7 +1626,7 @@ LeetCode 刷题记录。
   	}
   	return result
   }
-  
+
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -1670,7 +1712,7 @@ LeetCode 刷题记录。
   		} else {
   			left = mid
   		}
-  
+
   	}
   }
   ```
@@ -1761,9 +1803,9 @@ LeetCode 刷题记录。
   	{'t', 'u', 'v'},	  // 8
   	{'w', 'x', 'y', 'z'}, // 9
   }
-  
+
   var result []string
-  
+
   func letterCombinations(digits string) []string {
       // 边界判断
   	if len(digits) == 0 {
@@ -1774,7 +1816,7 @@ LeetCode 刷题记录。
   	dfs(digits, 0, "")
   	return result
   }
-  
+
   func dfs(digits string, level int, str string) {
   	// 递归出口
   	if level == len(digits) {
@@ -1789,7 +1831,7 @@ LeetCode 刷题记录。
   		dfs(digits, level+1, str+string(chars[digit-2][i]))
   	}
   }
-  
+
   ```
 
 ### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
@@ -1809,7 +1851,7 @@ LeetCode 刷题记录。
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-  
+
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -1819,7 +1861,7 @@ LeetCode 刷题记录。
           }
           return
       }
-      
+
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -1848,7 +1890,7 @@ LeetCode 刷题记录。
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-  
+
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1876,7 +1918,7 @@ LeetCode 刷题记录。
 
 #### Ideas
 
-- 回溯，相较于46题，需要跳过重复元素，因此首先要判断元素是否已经存在。
+- 回溯，相较于 46 题，需要跳过重复元素，因此首先要判断元素是否已经存在。
 
 #### Solutions
 
@@ -1891,7 +1933,7 @@ LeetCode 刷题记录。
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-  
+
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1918,7 +1960,7 @@ LeetCode 刷题记录。
 
 ## Dynamic Programming
 
-### 122. 
+### 122.
 
 #### Ideas
 
@@ -1943,7 +1985,7 @@ LeetCode 刷题记录。
       }
       return dp[1][0]
   }
-  
+
   func max(a, b int) int {
       if a > b {
           return a
@@ -1954,12 +1996,11 @@ LeetCode 刷题记录。
 
 - 贪心
 
-
 ## Greedy
 
 ### 45. [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
 
-#### 	Ideas
+#### Ideas
 
 - 贪心策略，从后找最靠左的能找到自己的位置，从该位置重复上述操作，直到数组开头。
 
@@ -1982,7 +2023,7 @@ LeetCode 刷题记录。
               }
           }
           count++
-      }    
+      }
       return count
   }
   ```
@@ -1997,17 +2038,17 @@ LeetCode 刷题记录。
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-  
+
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-  
+
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-  
+
   	// it's guaranteed to never hit it
   	return 0
   }
@@ -2042,5 +2083,3 @@ LeetCode 刷题记录。
       return false
   }
   ```
-
-  

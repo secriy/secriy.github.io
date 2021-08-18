@@ -13,7 +13,7 @@ references:
 ---
 
 {% noteblock quote cyan %}
-本文是 Golang 的基础学习笔记，大多是对*[A Tour of Go](https://tour.golang.org/)*的翻译总结，并参考了*[The Go Programming Language](http://www.gopl.io/)*的部分内容自行实现了相关代码并对知识点进行了梳理。
+本文是 Golang 的基础学习笔记，大多是对[_A Tour of Go_](https://tour.golang.org/)的翻译总结，并参考了[_The Go Programming Language_](http://www.gopl.io/)的部分内容自行实现了相关代码并对知识点进行了梳理。
 {% endnoteblock %}
 
 <!-- more -->
