@@ -132,6 +132,70 @@ LeetCode 刷题记录。
   }
   ```
 
+### 27.[Remove Element](https://leetcode.com/problems/remove-element/)
+
+#### Ideas
+
+- 双指针，左指针一步步走，右指针遇到目标数就跳过数字并跳到下一循环。简单来说就是把除了等于目标数的元素都覆盖到前面去
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func removeElement(nums []int, val int) int {
+      left, right := 0, 0
+      for right < len(nums) {
+          // 跳过
+          if nums[right] == val {
+              right++
+              continue
+          }
+          nums[left] = nums[right]
+          left++
+          right++
+      }
+      return left
+  }
+  ```
+
+### 31. [Next Permutation](https://leetcode.com/problems/next-permutation/)
+
+#### Ideas
+
+- 双指针
+  首先要找到左指针元素比其后一个元素小的位置作为 left，在 left 左侧的元素都不需要变动，其后的值必定是递减的，在这后面的值里找一个大于 left 的最小值，二者交换值，最终再将 left 之后的元素按递增排序
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func nextPermutation(nums []int)  {
+      left, right := len(nums)-2, len(nums)-1
+      // 固定left位置
+      for left >=0 && nums[left] >= nums[left+1] {
+          left--
+      }
+      if left >= 0 {
+          // 查找left右侧大于left的最小值
+          for right >=0 && nums[left] >= nums[right] {
+              right--
+          }
+          // 交换
+          nums[left], nums[right] = nums[right], nums[left]
+      }
+      // 翻转
+      reverse(nums[left+1:])
+  }
+
+  func reverse(nums []int) {
+      for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
+          nums[i], nums[n-i] = nums[n-i], nums[i]
+      }
+  }
+  ```
+
 ### 66. [Plus One](https://leetcode.com/problems/plus-one/description/)
 
 > Given a **non-empty** array of decimal digits representing a non-negative integer, increment one to the integer.
@@ -251,18 +315,16 @@ LeetCode 刷题记录。
 - Three Pointers
 
   ```go
-  func merge(nums1 []int, m int, nums2 []int, n int) {
-  	index1, empty, index2 := m-1, m+n-1, n-1
-  	for empty >= 0 {
-  		if index2 < 0 || (index1 >= 0 && nums1[index1] >= nums2[index2]) {
-  			nums1[empty] = nums1[index1]
-  			index1--
-  		} else {
-  			nums1[empty] = nums2[index2]
-  			index2--
-  		}
-  		empty--
-  	}
+  func merge(nums1 []int, m int, nums2 []int, n int)  {
+      for i:= m+n-1; i >= 0; i-- {
+          if n-1 < 0 || (m-1 >= 0 && nums1[m-1] >= nums2[n-1]) {
+              nums1[i] = nums1[m-1]
+              m--
+          } else {
+              nums1[i] = nums2[n-1]
+              n--
+          }
+      }
   }
   ```
 
@@ -485,6 +547,66 @@ LeetCode 刷题记录。
   }
   ```
 
+### 75. [Sort Colors](https://leetcode.com/problems/sort-colors/)
+
+#### Ideas
+
+- 荷兰国旗问题，使用双指针，参见[漫画：常考的荷兰国旗问题你还不会吗？（初级）](https://cloud.tencent.com/developer/article/1624933)
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func sortColors(nums []int)  {
+      pa, pb := 0, len(nums)-1
+      for i := 0; i <= pb; i++ {
+          if nums[i] == 0 {
+              nums[i], nums[pa] = nums[pa], nums[i]
+              pa++
+          }
+          if nums[i] == 2 {
+              nums[i], nums[pb] = nums[pb], nums[i]
+              pb--
+              i--
+          }
+      }
+  }
+  ```
+
+### 345. [Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/)
+
+#### Ideas
+
+- 双指针，题目要求仅翻转元音字母，字符串翻转通过左右双指针交换即可，让两个指针遇到非元音字母时跳过
+  - 时间复杂度：$O(n)$
+  - 空间复杂度：$O(1)$（Go 中为$O(n)$）
+
+#### Solutions
+
+- 双指针
+
+  ```go
+  func reverseVowels(s string) string {
+      tmp := []byte(s)
+      pa, pb := 0, len(s)-1
+      for pa < pb {
+          for pa < len(s) && !strings.Contains("aeiouAEIOU", string(tmp[pa])) {
+              pa++
+          }
+          for pb > 0 && !strings.Contains("aeiouAEIOU", string(tmp[pb])) {
+              pb--
+          }
+          if pa < pb {
+              tmp[pa], tmp[pb] = tmp[pb], tmp[pa]
+              pa++
+              pb--
+          }
+      }
+      return string(tmp)
+  }
+  ```
+
 ## Linked List
 
 ### 19. [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
@@ -617,28 +739,31 @@ LeetCode 刷题记录。
 
   ```go
   func rotateRight(head *ListNode, k int) *ListNode {
-      if head == nil {
-          return head
+    	if head == nil {
+      	return head
       }
-      // 定位head前一个结点
-      dummy := new(ListNode)
-      dummy.Next = head
+      p := head
+      // 计算链表长度
       count := 0
-      for p := head; ; {
+      for {
           count++
           if p.Next == nil {
-              p.Next = dummy.Next
               break
           }
           p = p.Next
       }
-      for i := count-(k%count); i > 0; i-- {
+      // 连接链表头尾
+      p.Next = head
+      // 定位中断位置
+      k = count - (k%count)
+      for k > 1 {
           head = head.Next
-          dummy = dummy.Next
+          k--
       }
-      // 截断链表
-      dummy.Next = nil
-      return head
+      // 截断循环链表
+      tmp := head.Next
+      head.Next = nil
+      return tmp
   }
   ```
 
@@ -1119,6 +1244,28 @@ LeetCode 刷题记录。
   }
   ```
 
+### 100. [Same Tree](https://leetcode.com/problems/same-tree/)
+
+#### Ideas
+
+- 递归 DFS
+
+#### Solutions
+
+- 递归
+
+  ```go
+  func isSameTree(p *TreeNode, q *TreeNode) bool {
+      if p == nil && q == nil {
+          return true
+      }
+      if p == nil || q == nil || p.Val != q.Val  {
+          return false
+      }
+      return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
+  }
+  ```
+
 ### 101. [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/description/)
 
 > Given the `root` of a binary tree, _check whether it is a mirror of itself_ (i.e., symmetric around its center).
@@ -1158,20 +1305,97 @@ LeetCode 刷题记录。
 
   ```go
   func isSymmetric(root *TreeNode) bool {
-  	return recursion(root.Left, root.Right)
+      if root == nil {
+          return true
+      }
+  	return helper(root.Left, root.Right)
   }
 
-  func recursion(p, q *TreeNode) bool {
-  	if p == nil && q == nil {
-  		return true
-  	}
-  	if p == nil || q == nil {
-  		return false
-  	}
-  	if p.Val == q.Val {
-  		return recursion(p.Left, q.Right) && recursion(p.Right, q.Left)
-  	}
-  	return false
+  func helper(left, right *TreeNode) bool {
+      if left == nil && right == nil {
+          return true
+      }
+      if left == nil || right == nil || left.Val != right.Val {
+          return false
+      }
+      return helper(left.Left, right.Right) && helper(left.Right, right.Left)
+  }
+  ```
+
+### 110.[Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
+
+#### Ideas
+
+- 递归，先递归求左右子树的深度，判断深度差是否满足条件，递归所有子树
+
+#### Solutions
+
+- 递归
+
+  ```go
+  func isBalanced(root *TreeNode) bool {
+      if root == nil {
+          return true
+      }
+      // 求左右子树深度差
+      sub := helper(root.Left) - helper(root.Right)
+      if sub > 1 || sub < -1 {
+          return false
+      } else {
+          // 递归判断子树
+          return isBalanced(root.Left) && isBalanced(root.Right)
+      }
+  }
+
+  // 求二叉树深度，来自 LeetCode 104
+  func helper(root *TreeNode) int {
+      if root == nil {
+          return 0
+      }
+      return max(helper(root.Left), helper(root.Right)) + 1
+  }
+
+  func max(a, b int) int {
+      if a > b {
+          return a
+      }
+      return b
+  }
+  ```
+
+### 113. [Path Sum II](https://leetcode.com/problems/path-sum-ii/)
+
+#### Ideas
+
+- 回溯
+
+#### Solutions
+
+- 回溯
+
+  ```go
+  func pathSum(root *TreeNode, targetSum int) [][]int {
+      results := make([][]int, 0)
+      tmp := make([]int, 0)
+      backtracking(root, targetSum, tmp, &results)
+      return results
+  }
+
+  func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
+      if root == nil {
+          return
+      }
+      tmp = append(tmp, root.Val)
+      // 递归出口
+      if targetSum == root.Val && root.Left == nil && root.Right == nil {
+          dst := make([]int, len(tmp))
+          copy(dst, tmp)
+          *results = append(*results, dst)
+          return
+      }
+      backtracking(root.Left, targetSum-root.Val, tmp, results)
+      backtracking(root.Right, targetSum-root.Val, tmp, results)
+      tmp = tmp[:len(tmp)-1]
   }
   ```
 

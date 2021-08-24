@@ -46,17 +46,16 @@ mathjax: true
   > 难度 3 分
 
   ```go
-  func duplicate( numbers []int ) int {
-      for i := 0; i < len(numbers); i++ {
-          if numbers[i] != i {
-              if numbers[i] == numbers[numbers[i]] {
-                  return numbers[i]
+  func findRepeatNumber(nums []int) int {
+      for i := 0; i < len(nums); i++ {
+          for nums[i] != i {
+              if nums[i] == nums[nums[i]] {
+                  return nums[i]
               }
-              numbers[numbers[i]], numbers[i] = numbers[i], numbers[numbers[i]]
-              i--
-      	}
+              nums[i], nums[nums[i]] = nums[nums[i]], nums[i]
+          }
       }
-      return -1;
+      return -1
   }
   ```
 
@@ -92,7 +91,7 @@ mathjax: true
               row++	// 排除第一行
           }
       }
-  
+
       return false
   }
   ```
@@ -119,7 +118,7 @@ mathjax: true
               newString += string(v)
           }
       }
-  
+
       return newString
   }
   ```
@@ -198,16 +197,16 @@ mathjax: true
       Nums   []int
       Length int
   }
-  
+
   func Constructor() CQueue {
       return CQueue{}
   }
-  
+
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-  
+
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -326,7 +325,7 @@ mathjax: true
       }
       return find
   }
-  
+
   func backtracking(row, col int, board *[][]byte, visited *[][]bool, word *string, idx int, find *bool) {
       if row < 0 || row >= len(*board) || col < 0 || col >= len((*board)[0]) {
           return
@@ -366,7 +365,7 @@ mathjax: true
       }
       return dfs(0, 0, m, n, k, &visited)
   }
-  
+
   func dfs(row, col, m, n, k int, visited *[][]bool) int {
       if row >= m || col >= n || (*visited)[row][col] {
           return 0
@@ -650,7 +649,7 @@ mathjax: true
       }
       return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
   }
-  
+
   func isEqual(A, B *TreeNode) bool {
       if B == nil {
           return true
@@ -710,7 +709,7 @@ mathjax: true
       }
       return helper(root.Left, root.Right)
   }
-  
+
   func helper(node1, node2 *TreeNode) bool {
       if node1 == nil || node2 == nil {
           if node1 == node2 {
@@ -793,19 +792,19 @@ mathjax: true
   	Nums []int
   	Helper []int
   }
-  
+
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-  
+
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-  
+
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -814,15 +813,15 @@ mathjax: true
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-  
+
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-  
+
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-  
+
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -915,7 +914,7 @@ mathjax: true
   func verifyPostorder(postorder []int) bool {
      return verify(postorder, 0, len(postorder)-1)
   }
-  
+
   func verify(postorder []int, left, right int) bool {
       if left >= right {
           return true
@@ -950,7 +949,7 @@ mathjax: true
       backtracking(root, target, &res, &tmp)
       return res
   }
-  
+
   func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
       if root == nil {
           return
@@ -1057,7 +1056,7 @@ mathjax: true
               return byte(v)
           }
       }
-  
+
       return byte(' ')
   }
   ```
@@ -1143,7 +1142,7 @@ mathjax: true
       }
       return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
   }
-  
+
   func max(a, b int) int {
       if a >= b {
           return a
