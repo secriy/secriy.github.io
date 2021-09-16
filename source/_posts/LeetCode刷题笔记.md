@@ -15,87 +15,99 @@ LeetCode 刷题记录。
 
 <!-- more -->
 
-## Array
+## Two Pointers
+
+### 11. [Container With Most Water](https://leetcode.com/problems/container-with-most-water/)
+
+```go
+func maxArea(height []int) int {
+    left, right := 0, len(height)-1
+    max := 0
+    for left < right {
+        capacity, min := 0, 0
+        if height[left] < height[right] {
+            min = height[left]
+            capacity = min * (right - left)
+            left++
+        } else {
+            min = height[right]
+            capacity = min * (right - left)
+            right--
+        }
+        if capacity > max {
+            max = capacity
+        }
+    }
+    return max
+}
+```
 
 ### 15. [3Sum](https://leetcode.com/problems/3sum/description/)
 
-> Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
->
-> Notice that the solution set must not contain duplicate triplets.
->
-> **Example 1:**
->
-> ```
-> Input: nums = [-1,0,1,2,-1,-4]
-> Output: [[-1,-1,2],[-1,0,1]]
-> ```
->
-> **Example 2:**
->
-> ```
-> Input: nums = []
-> Output: []
-> ```
->
-> **Example 3:**
->
-> ```
-> Input: nums = [0]
-> Output: []
-> ```
->
-> **Constraints:**
->
-> - `0 <= nums.length <= 3000`
-> - `-10^5 <= nums[i] <= 10^5`
+```go
+func threeSum(nums []int) [][]int {
+	length := len(nums)
+	res := make([][]int, 0)
+	if length < 3 {
+		return res
+	}
+	sort.Ints(nums)
+	for k, v := range nums {
+		if v > 0 {
+			return res
+		}
+		if k > 0 && v == nums[k-1] {
+			continue
+		}
+		left, right := k+1, length-1
+		for left < right {
+			sum := v + nums[left] + nums[right]
+			if sum == 0 {
+				res = append(res, []int{v, nums[left], nums[right]})
+				for left < right && nums[left] == nums[left+1] {
+					left++
+				}
+				for left < right && nums[right] == nums[right-1] {
+					right--
+				}
+				left++
+				right--
+			} else if sum > 0 {
+				right--
+			} else {
+				left++
+			}
+		}
 
-#### Ideas
+	}
+	return res
+}
+```
 
-- 排序+双指针解法。
+### 80. [Remove Duplicates from Sorted Array II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/)
 
-#### Solutions
+双指针，一个指针不断前进，另一个指针停留在重复的第三个数上，用前者替换后者内容。
 
-- Common
+```go
+func removeDuplicates(nums []int) int {
+    p := 0
+    for i := range nums {
+        if p < 2 || nums[i] != nums[p-2] {
+            nums[p] = nums[i]
+            p++
+        }
+    }
+    return p
+}
+```
 
-  ```go
-  func threeSum(nums []int) [][]int {
-  	length := len(nums)
-  	res := make([][]int, 0)
-  	if length < 3 {
-  		return res
-  	}
-  	sort.Ints(nums)
-  	for k, v := range nums {
-  		if v > 0 {
-  			return res
-  		}
-  		if k > 0 && v == nums[k-1] {
-  			continue
-  		}
-  		left, right := k+1, length-1
-  		for left < right {
-  			sum := v + nums[left] + nums[right]
-  			if sum == 0 {
-  				res = append(res, []int{v, nums[left], nums[right]})
-  				for left < right && nums[left] == nums[left+1] {
-  					left++
-  				}
-  				for left < right && nums[right] == nums[right-1] {
-  					right--
-  				}
-  				left++
-  				right--
-  			} else if sum > 0 {
-  				right--
-  			} else {
-  				left++
-  			}
-  		}
+### 82. [Remove Duplicates from Sorted List II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
 
-  	}
-  	return res
-  }
-  ```
+```go
+
+```
+
+## Array
 
 ### 26. [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
 
@@ -609,6 +621,49 @@ LeetCode 刷题记录。
 
 ## Linked List
 
+### 2. [Add Two Numbers](https://leetcode-cn.com/problems/add-two-numbers/)
+
+#### 常规
+
+用 l1 存加法结果，l1 长度小于 l2 时将 l2 后半部分链表接到 l1 末尾。
+
+```go
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+    carry := 0 // 进位
+    dummy := l1 // 结果
+    var pre *ListNode // 指向最后一个结点
+    for l1 != nil {
+        pre = l1
+        if l1.Next == nil && l2 != nil {
+            // l2 长度大于 l1，将 l2 链接到 l1 上
+            l1.Next = l2.Next
+            l2.Next = nil
+        }
+        if l2 != nil {
+            l1.Val += (l2.Val + carry)
+        } else {
+            l1.Val += carry
+        }
+
+        carry = l1.Val/10
+        l1.Val %= 10
+
+        if l1 != nil {
+            l1 = l1.Next
+        }
+        if l2 != nil {
+            l2 = l2.Next
+        }
+    }
+
+    if carry > 0 {
+        pre.Next = &ListNode{Val: carry}
+    }
+
+    return dummy
+}
+```
+
 ### 19. [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
 
 #### Ideas
@@ -766,6 +821,27 @@ LeetCode 刷题记录。
       return tmp
   }
   ```
+
+### 83. [Remove Duplicates from Sorted List](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+
+```go
+func deleteDuplicates(head *ListNode) *ListNode {
+    dummy := new(ListNode)
+    dummy.Next = head
+
+    slow, fast := dummy, head
+    for slow.Next != nil {
+        fast = slow.Next
+        for fast.Next != nil && slow.Next.Val == fast.Next.Val {
+            slow.Next = fast.Next
+            fast = slow.Next
+        }
+        slow = slow.Next
+    }
+
+    return dummy.Next
+}
+```
 
 ### 92.
 
@@ -1268,33 +1344,6 @@ LeetCode 刷题记录。
 
 ### 101. [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/description/)
 
-> Given the `root` of a binary tree, _check whether it is a mirror of itself_ (i.e., symmetric around its center).
->
-> **Example 1:**
->
-> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/symtree1.jpg)
->
-> ```
-> Input: root = [1,2,2,3,4,4,3]
-> Output: true
-> ```
->
-> **Example 2:**
->
-> ![img](LeetCode%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/symtree2.jpg)
->
-> ```
-> Input: root = [1,2,2,null,3,null,3]
-> Output: false
-> ```
->
-> **Constraints:**
->
-> - The number of nodes in the tree is in the range `[1, 1000]`.
-> - `-100 <= Node.val <= 100`
->
-> **Follow up:** Could you solve it both recursively and iteratively?
-
 #### Ideas
 
 - 常规递归解法。
@@ -1321,6 +1370,33 @@ LeetCode 刷题记录。
       return helper(left.Left, right.Right) && helper(left.Right, right.Left)
   }
   ```
+
+### 105. [Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+#### 递归
+
+```go
+func buildTree(preorder []int, inorder []int) *TreeNode {
+    if len(preorder) == 0 {
+        return nil
+    }
+
+    // 找中序序列左右子树分界点
+    i := 0
+    for ; i < len(inorder); i++ {
+        if preorder[0] == inorder[i] {
+            break
+        }
+    }
+
+    root := &TreeNode{preorder[0], nil, nil}
+    // len(inorder[:i]) 为左子树结点数量
+    root.Left = buildTree(preorder[1:1+len(inorder[:i])], inorder[:i])
+    root.Right = buildTree(preorder[1+len(inorder[:i]):], inorder[i+1:])
+
+    return root
+}
+```
 
 ### 110.[Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
 
@@ -2184,7 +2260,45 @@ LeetCode 刷题记录。
 
 ## Dynamic Programming
 
-### 122.
+### 64. [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
+
+#### DP
+
+简单的动态规划，从判断上、左元素大小，取小值加到当前位置，可以使用原数组存结果：
+
+```
+1	3	1	->	1	4	5
+1   5   1	->	2	7	6
+4	2	1   ->	6	8	7
+```
+
+```go
+func minPathSum(grid [][]int) int {
+    for i := 0; i < len(grid); i++ {
+        for j := 0; j < len(grid[0]); j++ {
+            if i == 0 && j > 0 {
+                // 第一行
+                grid[i][j] = grid[i][j-1] + grid[i][j]
+            } else if  i > 0 && j == 0 {
+                // 第一列
+                grid[i][j] = grid[i-1][j] + grid[i][j]
+            } else if i > 0 {
+                grid[i][j] = min(grid[i-1][j], grid[i][j-1]) + grid[i][j]
+            }
+        }
+    }
+    return grid[len(grid)-1][len(grid[0])-1]
+}
+
+func min(a, b int) int {
+    if a < b {
+        return a
+    }
+    return b
+}
+```
+
+### 122. [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 #### Ideas
 
@@ -2219,6 +2333,27 @@ LeetCode 刷题记录。
   ```
 
 - 贪心
+
+### 338.[Counting Bits](https://leetcode.com/problems/counting-bits/)
+
+- 动态规划，存在如下规律：
+
+  - 对于奇数$i$，其含二进制 1 个数与$i/2$含二进制 1 个数相等
+  - 对于偶数$i$，其含二进制 1 个数等于$i-1$含二进制 1 个数加一
+
+  ```go
+  func countBits(n int) []int {
+      dp := make([]int, n+1)
+      for i := 1; i <= n; i++ {
+          if i%2 == 0 {
+              dp[i] = dp[i/2]
+          } else {
+              dp[i] = dp[i-1] + 1
+          }
+      }
+      return dp
+  }
+  ```
 
 ## Greedy
 
@@ -2307,3 +2442,46 @@ LeetCode 刷题记录。
       return false
   }
   ```
+
+### 781. [Rabbits in Forest](https://leetcode-cn.com/problems/rabbits-in-forest/)
+
+#### 数组
+
+相同数字每`num + 1`个代表`num + 1`个兔子，可以使用 Map 来记录每一种数字出现的次数，当次数为 0，兔子的统计数量加上`num + 1`，非 0 时，则将其减一，不统计。
+
+由题设，`answers[i] < 1000`，因此可以使用一个长度为 1000 的数组来代替 Map。
+
+```go
+func numRabbits(answers []int) int {
+    arr := make([]int, 1000)
+    count := 0
+    for _, v := range answers {
+        if arr[v] == 0 {
+            arr[v] = v
+            count += v + 1
+        } else {
+            arr[v]--
+        }
+    }
+    return count
+}
+```
+
+#### 贪心
+
+先统计所有数字出现的次数，通过公式计算出结果。
+
+如 1 出现了 3 次，则表示有$(x+y)/(y+1)*(y+1)$，$y = 1$，$x = 3$，即 3 个兔子。
+
+```go
+func numRabbits(answers []int) (ans int) {
+    count := map[int]int{}
+    for _, y := range answers {
+        count[y]++
+    }
+    for y, x := range count {
+        ans += (x + y) / (y + 1) * (y + 1)
+    }
+    return
+}
+```

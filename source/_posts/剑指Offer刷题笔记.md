@@ -61,67 +61,53 @@ mathjax: true
 
 ## 4. [二维数组中的查找](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)
 
-### Ideas
+### 常规
 
-- 将这个二维数组看作一个矩阵，其行列都递增排列。很明显解题方法是对比某一中间数字，不断缩小范围，所以要确定对比的数字。
+将这个二维数组看作一个矩阵，其行列都递增排列。很明显解题方法是对比某一中间数字，不断缩小范围，所以要确定对比的数字。
 
-  从左上角入手对比并不会缩小很明显的范围，右下角同理，而左下角和右上角数字满足。
+从左上角入手对比并不会缩小很明显的范围，右下角同理，而左下角和右上角数字满足。
 
-  选取右上角进行对比，当前对比的数字为 num，当 target > num，缩小范围，排除第一行。当 target < num，排除最后一列，直到找到目标数字。
+选取右上角进行对比，当前对比的数字为 num，当 target > num，缩小范围，排除第一行。当 target < num，排除最后一列，直到找到目标数字。
 
-### Solutions
-
-- Common
-
-  ```go
-  func findNumberIn2DArray(matrix [][]int, target int) bool {
-      if len(matrix) == 0 {
-          return false
-      }
-      var row int
-      var col = len(matrix[0])-1
-      for row < len(matrix) && col >= 0{
-          num := matrix[row][col]
-          if num == target {
-              return true	// 找到目标数字
-          }
-          if num > target {
-              col--	// 排除最后一列
-          } else {
-              row++	// 排除第一行
-          }
-      }
-
-      return false
-  }
-  ```
+```go
+func findNumberIn2DArray(matrix [][]int, target int) bool {
+    row, col := len(matrix)-1, 0
+    for row >= 0 && row < len(matrix) && col < len(matrix[0]){
+        if target == matrix[row][col] {
+            return true
+        }
+        if target < matrix[row][col] {
+            row--
+        } else {
+            col++
+        }
+    }
+    return false
+}
+```
 
 ## 5. [替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)
 
-### Ideas
+### 常规
 
 - 对于字符数组（如 C 实现）的原地实现，可以先遍历一遍数组，得出空格个数$x$，则新数组长度为$length+2x$。扩容后使用双指针解法，从最后一个非空元素开始移到数组末尾，遇到空格新增三个目标字符，直到替换完最后一个空格。
 
 - 对于 Golang 非原地实现，可以直接遍历字符串将其替换为*%20*。
 
-### Solutions
+```go
+func replaceSpace( s string ) string {
+    var newString string
+    for _, v := range s {
+        if string(v) == " "{
+            newString += "%20"
+        } else {
+            newString += string(v)
+        }
+    }
 
-- Common
-
-  ```go
-  func replaceSpace( s string ) string {
-      var newString string
-      for _, v := range s {
-          if string(v) == " "{
-              newString += "%20"
-          } else {
-              newString += string(v)
-          }
-      }
-
-      return newString
-  }
-  ```
+    return newString
+}
+```
 
 ## 6. [从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
 
@@ -218,165 +204,192 @@ mathjax: true
   }
   ```
 
-## 10-1. [斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+## [10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-### Ideas
+### 动态规划
 
-- 典型动态规划
+```go
+func fib(n int) int {
+    pre, post := 0, 1
+    for i := 2; i <= n; i++ {
+        pre, post = post, (pre+post)%1000000007
+    }
+    if n == 0 {
+        return pre
+    }
+    return post
+}
+```
 
-### Solutions
+## [10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
 
-- DP
+### 动态规划
 
-  ```go
-  func fib(n int) int {
-      if n <= 1 {
-          return n
-      }
-      pre1, pre2, res := 0, 1, 0
-      for i := 2; i <= n; i++ {
-          res = (pre1 + pre2)%1000000007
-          pre1 = pre2
-          pre2 = res
-      }
-      return res
-  }
-  ```
+斐波那契数列解法，典型动态规划
 
-## 10-2. [青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
-
-### Ideas
-
-- 斐波那契数列解法，典型动态规划
-
-### Solutions
-
-- DP
-
-  ```go
-  func numWays(n int) int {
-      if n == 0 {
-          return 1
-      }
-      if n <= 2 {
-          return n
-      }
-      pre1, pre2, res := 1, 2, 0
-      for i := 3; i <= n; i++ {
-          res = (pre1 + pre2) % 1000000007
-          pre1 = pre2
-          pre2 = res
-      }
-      return res
-  }
-  ```
+```go
+func numWays(n int) int {
+    pre, post := 1, 1
+    for i := 2; i <= n; i++ {
+        pre, post = post, (pre+post)%1000000007
+    }
+    return post
+}
+```
 
 ## 11. [旋转数组的最小数字](https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/)
 
-### Ideas
+### 迭代
 
-- 遍历找到逆序的第一个元素
+遍历找到逆序的第一个元素
 
-### Solutions
+```go
+func minArray(numbers []int) int {
+    pre1, pre2 := 0, 1
+    length := len(numbers)
+    if length < 2 {
+        return numbers[0]
+    }
+    for pre2 < length {
+        if numbers[pre2] < numbers[pre1] {
+            return numbers[pre2]
+        }
+        pre1++
+        pre2++
+    }
+    return numbers[0]
+}
+```
 
-- 高低
+### 二分法
 
-  ```go
-  func minArray(numbers []int) int {
-      pre1, pre2 := 0, 1
-      length := len(numbers)
-      if length < 2 {
-          return numbers[0]
-      }
-      for pre2 < length {
-          if numbers[pre2] < numbers[pre1] {
-              return numbers[pre2]
-          }
-          pre1++
-          pre2++
-      }
-      return numbers[0]
-  }
-  ```
+```go
+func minArray(numbers []int) int {
+    low, high := 0, len(numbers)-1
+    mid := 0
+    for low < high {
+        mid = (low+high)>>1
+        if numbers[mid] < numbers[high] {
+            // 右侧有序
+            high = mid
+        } else if numbers[mid] > numbers[high] {
+            // 左侧有序
+            low = mid + 1
+        } else {
+           	// 去重
+            high--
+        }
+    }
+    return numbers[low]
+}
+```
 
-## 12. [矩阵中的路径](https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/)
+## [12. 矩阵中的路径](https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/)
 
-### Ideas
+### 回溯
 
-- 回溯法
+```go
+func exist(board [][]byte, word string) bool {
+    rows, cols := len(board), len(board[0])
+    // 创建Visited数组
+    visited := make([][]bool, rows)
+    for i := range visited {
+        visited[i] = make([]bool, cols)
+    }
+    var find bool
+    for i := 0; i < rows; i++ {
+        for j := 0; j < cols; j++ {
+            backtracking(i, j, &board, &visited, &word, 0, &find)
+        }
+    }
+    return find
+}
 
-### Solutions
+func backtracking(row, col int, board *[][]byte, visited *[][]bool, word *string, idx int, find *bool) {
+    if row < 0 || row >= len(*board) || col < 0 || col >= len((*board)[0]) {
+        return
+    }
+    if (*board)[row][col] != byte((*word)[idx]) || *find || (*visited)[row][col] {
+        return
+    }
+    if idx == len(*word)-1 {
+        *find = true
+        return
+    }
+    (*visited)[row][col] = true
+    backtracking(row+1, col, board, visited, word, idx+1, find)
+    backtracking(row-1, col, board, visited, word, idx+1, find)
+    backtracking(row, col+1, board, visited, word, idx+1, find)
+    backtracking(row, col-1, board, visited, word, idx+1, find)
+    (*visited)[row][col] = false
+}
+```
 
-- BackTracking
+### 回溯优化
 
-  ```go
-  func exist(board [][]byte, word string) bool {
-      rows, cols := len(board), len(board[0])
-      // 创建Visited数组
-      visited := make([][]bool, rows)
-      for i := range visited {
-          visited[i] = make([]bool, cols)
-      }
-      var find bool
-      for i := 0; i < rows; i++ {
-          for j := 0; j < cols; j++ {
-              backtracking(i, j, &board, &visited, &word, 0, &find)
-          }
-      }
-      return find
-  }
+```go
+func exist(board [][]byte, word string) bool {
+   m, n := len(board), len(board[0])
+   for i := 0; i < m; i++ {
+       for j := 0; j < n; j++ {
+            if dfs(board, i, j, 0, word) {
+                return true
+            }
+        }
+    }
+    return false
+}
 
-  func backtracking(row, col int, board *[][]byte, visited *[][]bool, word *string, idx int, find *bool) {
-      if row < 0 || row >= len(*board) || col < 0 || col >= len((*board)[0]) {
-          return
-      }
-      if (*board)[row][col] != byte((*word)[idx]) || *find || (*visited)[row][col] {
-          return
-      }
-      if idx == len(*word)-1 {
-          *find = true
-          return
-      }
-      (*visited)[row][col] = true
-      backtracking(row+1, col, board, visited, word, idx+1, find)
-      backtracking(row-1, col, board, visited, word, idx+1, find)
-      backtracking(row, col+1, board, visited, word, idx+1, find)
-      backtracking(row, col-1, board, visited, word, idx+1, find)
-      (*visited)[row][col] = false
-  }
-  ```
+func dfs(board [][]byte, row, col, level int, word string) bool {
+    if level == len(word) {
+        return true
+    }
 
-## 13. [机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
+    if row < 0 || col < 0 || row == len(board) || col == len(board[0]) {
+        return false
+    }
 
-### Ideas
+    if board[row][col] != word[level] {
+        return false
+    }
 
-- DFS
-- BFS
+    temp := board[row][col]
+    board[row][col] = ' ' // 将数组元素改为空格来代替 Visited 数组的功能
+    if dfs(board, row, col + 1, level + 1, word) ||
+    dfs(board, row, col - 1, level + 1, word) ||
+    dfs(board, row + 1, col, level + 1, word) ||
+    dfs(board, row - 1, col, level + 1, word)  {
+        return true
+    }
+    board[row][col] = temp
+    return false
+}
+```
 
-### Solutions
+## [13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
 
-- DFS
+### DFS
 
-  ```go
-  func movingCount(m int, n int, k int, ) int {
-      visited := make([][]bool, m)
-      for i := range visited {
-          visited[i] = make([]bool, n)
-      }
-      return dfs(0, 0, m, n, k, &visited)
-  }
+```go
+func movingCount(m int, n int, k int) int {
+    visited := make([][]bool, m)
+    for k := range visited {
+        visited[k] = make([]bool, n)
+    }
+    return dfs(m, n, k, 0, 0, visited)
+}
 
-  func dfs(row, col, m, n, k int, visited *[][]bool) int {
-      if row >= m || col >= n || (*visited)[row][col] {
-          return 0
-      }
-      if row % 10 + row / 10 + col % 10 + col / 10 > k {
-          return 0
-      }
-      (*visited)[row][col] = true
-      return 1 + dfs(row+1, col, m, n, k, visited) + dfs(row, col+1, m, n, k, visited)
-  }
-  ```
+func dfs(m, n, k, row, col int, visited [][]bool) int {
+    if row >= m || col >= n || visited[row][col] {
+        return 0
+    }
+    if row%10 + row/10 + col%10 + col/10 > k {
+        return 0
+    }
+    visited[row][col] = true
+    return dfs(m, n, k, row, col+1, visited) + dfs(m, n, k, row+1, col, visited) + 1
+}
+```
 
 ## 14-1. [剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)
 
@@ -453,13 +466,7 @@ mathjax: true
 
 ## 17. [打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
 
-### Ideas
-
 - 直接生成指定大小的列表，迭代填充后返回
-
-### Solutions
-
-- Common
 
   ```go
   func printNumbers(n int) []int {
@@ -473,11 +480,22 @@ mathjax: true
 
 ## 18. [删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
 
-### Ideas
+- 虚拟结点
 
-- **递归**
-
-### Solutions
+  ```go
+  func deleteNode(head *ListNode, val int) *ListNode {
+      dummy := new(ListNode)
+      dummy.Next = head
+      head = dummy
+      for head != nil && head.Next != nil {
+          if head.Next.Val == val {
+              head.Next = head.Next.Next
+          }
+          head = head.Next
+      }
+      return dummy.Next
+  }
+  ```
 
 - 递归
 
@@ -496,84 +514,72 @@ mathjax: true
 
 ## 21. [调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
-### Ideas
-
-- 头尾双指针
-
-### Solutions
-
 - 头尾双指针
 
   ```go
   func exchange(nums []int) []int {
-      length := len(nums)
-      if length < 2 {
-          return nums
-      }
-      idx1, idx2 := 0, length-1
-      for idx1 < idx2 {
-          if nums[idx1]%2 != 0 {
-              idx1++
-              continue
+      low, high := 0, len(nums) - 1
+      for low < high {
+          if nums[high] % 2 == 0 {
+              high--
           }
-          if nums[idx2]%2 == 0 {
-              idx2--
-              continue
+          if nums[low] % 2 != 0 {
+              low++
           }
-          nums[idx1], nums[idx2] = nums[idx2], nums[idx1]
+          if low < high && nums[low] % 2 == 0 && nums[high] % 2 != 0 {
+              nums[low], nums[high] = nums[high], nums[low]
+          }
       }
       return nums
   }
   ```
 
-## 22. [链表中倒数第 k 个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+## [22. 链表中倒数第 k 个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
-### Ideas
+### 计算长度
 
-- 由于是倒数 k 个节点，因此可以先遍历一遍链表得到链表长度，再减去 k 得到结果链表的起始位置，最后将从该位置开始的链表返回即可。
+由于是倒数 k 个节点，因此可以先遍历一遍链表得到链表长度，再减去 k 得到结果链表的起始位置，最后将从该位置开始的链表返回即可。
 
-- **双指针**的思路是首先遍历到链表第 k 个节点，然后再用一个指针去从头遍历，第二个指针遍历的过程中第一个指针也同步往后移动，直到指向末尾，返回第二个指针。
+$O(n)$|$O(1)$
 
-### Solutions
+```go
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+    count := 0
+    p := head
+    for p != nil {
+        count++
+        p = p.Next
+    }
+    if count < k {
+        return nil
+    }
+    for i := 0; i <count-k; i++{
+        head = head.Next
+    }
 
-- 计算长度
+    return head
+}
+```
 
-  ```go
-  func FindKthToTail( pHead *ListNode ,  k int ) *ListNode {
-      count := 0
-      p := pHead
-      for p != nil {
-          count++
-          p = p.Next
-      }
-      if count < k {
-          return nil
-      }
-      for i := 0; i <count-k; i++{
-          pHead = pHead.Next
-      }
+### 双指针
 
-      return pHead
-  }
-  ```
+首先遍历到链表第 k 个节点，然后再用一个指针去从头遍历，第二个指针遍历的过程中第一个指针也同步往后移动，直到指向末尾，返回第二个指针。
+$O(n)$|$O(1)$
 
-- 双指针
-
-  ```go
-  func getKthFromEnd(head *ListNode, k int) *ListNode {
-      count := 0
-      p := head
-      for head != nil {
-          if count == k {
-              p = p.Next
-          } else {
-              count++
-          }
-          head = head.Next
-      }
-      return p
-  }
-  ```
+```go
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+    slow, fast := head, head
+    for k > 0 {
+        fast = fast.Next
+        k--
+    }
+    for fast != nil {
+        slow = slow.Next
+        fast = fast.Next
+    }
+    return slow
+}
+```
 
 ## 23. [反转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
 
@@ -683,43 +689,34 @@ mathjax: true
   }
   ```
 
-## 28. [对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
+## [28. 对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
 
-### Ideas
+### 递归
 
-- **递归**
-  - 入口参数：
-    - `root.Left`
-    - `root.Right`
-  - 递归出口：
-    - `node1` 为 `nil`，`node2`不为`nil`，返回`false`
-    - `node1` 不为 `nil`，`node2`为`nil`，返回`false`
-    - `node1` 为 `nil`，`node2`为`nil`，返回`false`
-  - 递归调用：
-    - `node1`和`node2`值相等，且`node1`左右儿子结点的值等于`node2`右左儿子结点返回`true`
+```go
+func isSymmetric(root *TreeNode) bool {
+    if root == nil {
+        return true
+    }
+    return helper(root.Left, root.Right)
+}
 
-#### Solutions
+func helper(left, right *TreeNode) bool {
+    if left == nil && right == nil {
+        return true
+    }
 
-- 递归
+    if left == nil || right == nil {
+        return false
+    }
 
-  ```go
-  func isSymmetric(root *TreeNode) bool {
-      if root == nil {
-          return true
-      }
-      return helper(root.Left, root.Right)
-  }
+    if left.Val != right.Val {
+        return false
+    }
 
-  func helper(node1, node2 *TreeNode) bool {
-      if node1 == nil || node2 == nil {
-          if node1 == node2 {
-              return true
-          }
-          return false
-      }
-      return node1.Val == node2.Val && helper(node1.Left, node2.Right) && helper(node1.Right, node2.Left)
-  }
-  ```
+    return helper(left.Left, right.Right) && helper(left.Right, right.Left)
+}
+```
 
 ## 29. [顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
 
@@ -932,70 +929,60 @@ mathjax: true
   }
   ```
 
-## 34. [二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
+## [34. 二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
 
-### Ideas
+### 回溯 DFS
 
-- 回溯法，设置一个二维列表`res`存储结果，设置一个列表`tmp`存放当前路径。
+回溯法，设置一个二维列表`res`存储结果，设置一个列表`tmp`存放当前路径。
 
-### Solutions
+```go
+func pathSum(root *TreeNode, target int) [][]int {
+    res := make([][]int, 0)
+    tmp := make([]int, 0)
+    backtracking(root, target, &res, &tmp)
+    return res
+}
 
-- 回溯法
+func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
+    if root == nil {
+        return
+    }
+    target -= root.Val
+    *tmp = append(*tmp, root.Val)
+    if target == 0 && root.Left == nil && root.Right == nil {
+        // 深拷贝，防止共用底层数组导致结果重复
+        dest := make([]int, len(*tmp))
+        copy(dest, *tmp)
+        *res = append(*res, dest)
+    }
+    backtracking(root.Left, target, res, tmp)
+    backtracking(root.Right, target, res, tmp)
+    *tmp = (*tmp)[:len(*tmp)-1]
+}
+```
 
-  ```go
-  func pathSum(root *TreeNode, target int) [][]int {
-      res := make([][]int, 0)
-      tmp := make([]int, 0)
-      backtracking(root, target, &res, &tmp)
-      return res
-  }
+## [39. 数组中出现次数超过一半的数字](https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/)
 
-  func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
-      if root == nil {
-          return
-      }
-      target -= root.Val
-      *tmp = append(*tmp, root.Val)
-      if target == 0 && root.Left == nil && root.Right == nil {
-          // 深拷贝，防止共用底层数组导致结果重复
-          dest := make([]int, len(*tmp))
-          copy(dest, *tmp)
-          *res = append(*res, dest)
-      }
-      backtracking(root.Left, target, res, tmp)
-      backtracking(root.Right, target, res, tmp)
-      *tmp = (*tmp)[:len(*tmp)-1]
-  }
-  ```
+### 摩尔投票法
 
-## 39. [数组中出现次数超过一半的数字](https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/)
+由于需要找到的数字的出现次数超过数组大小的一半，因此可以将不相等的数字从数组中剔除，最终留下的就是众数。基于这个思路简化的**摩尔投票法**设定一个变量，当选中的两个数字不等则将该变量-1 操作，相等则+1。
 
-### Ideas
-
-- 常规**Map**思路是记录每个数字的出现次数，返回最大者。
-
-- 由于需要找到的数字的出现次数超过数组大小的一半，因此可以将不相等的数字从数组中剔除，最终留下的就是众数。基于这个思路简化的**摩尔投票法**设定一个变量，当选中的两个数字不等则将该变量-1 操作，相等则+1。
-
-### Solutions
-
-- 摩尔投票法
-
-  ```go
-  func majorityElement(nums []int) int {
-      num, sum := 0, 0
-      for _, v := range nums {
-          if sum == 0 {
-              num = v		// 当sum为0重新设置众数
-          }
-          if v != num {
-              sum--
-          } else {
-              sum++
-          }
-      }
-      return num
-  }
-  ```
+```go
+func majorityElement(nums []int) int {
+    num, sum := 0, 0
+    for _, v := range nums {
+        if sum == 0 {
+            num = v		// 当sum为0重新设置众数
+        }
+        if v != num {
+            sum--
+        } else {
+            sum++
+        }
+    }
+    return num
+}
+```
 
 ## 40. [最小的 k 个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
@@ -1095,35 +1082,91 @@ mathjax: true
 
 ## 53-1. [在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
 
-### Ideas
+### 二分查找
 
-- 二分查找
+二分查找到第一个目标数字，再从该位置向后遍历统计等于目标值的元素个数。
 
-### Solutions
+```go
+func search(nums []int, target int) int {
+    length := len(nums)
+    left, right, mid := 0, length - 1, 0
+    for left < right {
+        mid = (left+right)>>1
+        if nums[mid] < target {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    count := 0
+    for left < length && nums[left] == target {
+        count++
+        left++
+    }
+    return count
+}
+```
 
-- 二分查找
+### 两次二分查找
 
-  ```go
-  func search(nums []int, target int) int {
-      left, right := 0, len(nums)-1
-      count := 0
-      for left < right {
-          mid := (left+right)/2
-          if nums[mid] < target {
-              left = mid+1
-          } else {
-              right = mid
-          }
-      }
-      for left < len(nums) {
-          if nums[left] == target {
-              count++
-          }
-          left++
-      }
-      return count
-  }
-  ```
+```go
+func search(nums []int, target int) int {
+    length := len(nums)
+    left, right, mid := 0, length - 1, 0
+    // 找左边界
+    for left < right {
+        mid = (left+right)>>1
+        if nums[mid] < target {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    l := left // 记录左边界
+
+    if length > 0 && nums[l] != target {
+        // 找不到，提前返回
+        return 0
+    }
+
+    // 找右边界
+    right = length-1
+    for left <= right {
+        mid = (left+right)>>1
+        if nums[mid] <= target {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+
+    return right - l + 1
+}
+```
+
+### 两次二分查找（OPT）
+
+可以注意到，查找`target-1`右边界时，会定位到`target`的左边界，以此简化代码如下：
+
+```go
+func search(nums []int, target int) int {
+    length := len(nums)
+    left, right, mid := 0, length-1, 0
+    helper := func(l, r, t int) int {
+        for l <= r {
+            mid = (l+r)>>1
+            if nums[mid] <= t {
+                l = mid + 1
+            } else {
+                r = mid - 1
+            }
+        }
+        return r
+    }
+
+    return helper(left, right, target) - helper(left, right, target-1)
+}
+```
 
 ## 55-1. [二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
 
@@ -1151,31 +1194,32 @@ mathjax: true
   }
   ```
 
-## 57-1. [和为 s 的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
+## [57. 和为 s 的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
 
-### Ideas
+### 双指针
 
-- 双指针
+$O(n)$|$O(1)$
 
-### Solutions
+```go
+func twoSum(nums []int, target int) []int {
+    low, high := 0, len(nums) - 1
+    for low < high {
+        if nums[low] + nums[high] == target {
+            return []int{nums[low], nums[high]}
+        } else if nums[low] + nums[high] > target {
+            high--
+        } else {
+            low++
+        }
+    }
+    return nil
+}
+```
 
-- 双指针
+### 二分查找
 
-  ```go
-  func twoSum(nums []int, target int) []int {
-      left, right := 0, len(nums)-1
-      for left < right {
-          if nums[left] + nums[right] == target {
-              return []int{nums[left], nums[right]}
-          } else if nums[left] + nums[right] < target {
-              left++
-          } else {
-              right--
-          }
-      }
-      return nil
-  }
-  ```
+对每个数字二分查找目标值。
+$O(nlogn)$|$O(1)$
 
 ## 58-2. [左旋转字符串](https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
 

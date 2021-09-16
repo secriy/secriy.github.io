@@ -119,8 +119,8 @@ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
 
      ```shell
      lvcreate -L 225G vgp -n lvroot # 分配225G空间给root分区
-     lvcreate -l +100%FREE -n lvswap # 分配剩余空间给swap分区
-     lvcreate -l +100%FREE -n lvhome # 分配全部空间给home分区
+     lvcreate -l +100%FREE vgp -n lvswap # 分配剩余空间给swap分区
+     lvcreate -l +100%FREE vgq -n lvhome # 分配全部空间给home分区
      ```
 
    - 挂载分区

@@ -50,7 +50,7 @@ Manjaro Linux 安装及开发环境搭建。
 
 4. 按照提示安装 Manjaro，最后重启电脑
 
-   > 分区：将*/boot/efi*分区（单硬盘）、*/boot*分区挂载至 Windows 的*EFI*（200MB）分区
+   > 分区：将 _/boot/efi_ 分区（单硬盘）、_/boot_ 分区挂载至 Windows 的 EFI（200MB）分区
 
 ## 系统配置
 
