@@ -815,7 +815,7 @@ color_scheme:
     # 卡片背景色
     card: "#333"
     # 卡片上的普通文字
-    text: "#eee"
+    text: "#4479A1"
 
     # 区块和代码块背景色
     block: "#3a3a3a"

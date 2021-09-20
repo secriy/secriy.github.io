@@ -183,16 +183,16 @@ func replaceSpace( s string ) string {
       Nums   []int
       Length int
   }
-
+  
   func Constructor() CQueue {
       return CQueue{}
   }
-
+  
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-
+  
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -366,7 +366,7 @@ func dfs(board [][]byte, row, col, level int, word string) bool {
 }
 ```
 
-## [13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
+## [13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
 
 ### DFS
 
@@ -656,7 +656,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
       }
       return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
   }
-
+  
   func isEqual(A, B *TreeNode) bool {
       if B == nil {
           return true
@@ -834,19 +834,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-
+  
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-
+  
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-
+  
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -855,15 +855,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-
+  
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-
+  
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-
+  
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1050,7 +1050,7 @@ func levelOrder(root *TreeNode) [][]int {
   func verifyPostorder(postorder []int) bool {
      return verify(postorder, 0, len(postorder)-1)
   }
-
+  
   func verify(postorder []int, left, right int) bool {
       if left >= right {
           return true
