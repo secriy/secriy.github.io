@@ -5,6 +5,7 @@ categories: 学习笔记
 tags:
   - Database
   - MySQL
+urlname: mysql-basic
 ---
 
 {% noteblock quote cyan %}
@@ -60,13 +61,13 @@ MySQL 是一个 RDBMS，即关系数据库管理系统，广泛应用于各个�
 -h // 指定主机名
 ```
 
-#### 命令规范
+### 命令规范
 
 - 命令输入在`mysql>`之后；
 - 每条命令都使用`;`结束；
 - 使用`help`命令查看帮助信息。
 
-#### 命令
+### 命令
 
 使用`help`命令查看所有命令：
 
