@@ -1,5 +1,5 @@
 ---
-    	title: "剑指Offer刷题笔记"
+title: "剑指Offer刷题笔记"
 date: 2021-06-22 12:41:24
 categories: 算法刷题
 tags:
@@ -183,16 +183,16 @@ func replaceSpace( s string ) string {
       Nums   []int
       Length int
   }
-  
+
   func Constructor() CQueue {
       return CQueue{}
   }
-  
+
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-  
+
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -656,7 +656,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
       }
       return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
   }
-  
+
   func isEqual(A, B *TreeNode) bool {
       if B == nil {
           return true
@@ -758,11 +758,11 @@ func helper(left, right *TreeNode) bool {
 
 模拟路径、缩小边界即可。
 
--   时间复杂度：$O(m*n)$
+- 时间复杂度：$O(m*n)$
 
--   空间复杂度：$O(1)$
+- 空间复杂度：$O(1)$
 
-    （result 数组为必须使用的空间）
+  （result 数组为必须使用的空间）
 
 ```go
 func spiralOrder(matrix [][]int) []int {
@@ -834,19 +834,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-  
+
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-  
+
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-  
+
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -855,15 +855,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-  
+
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-  
+
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-  
+
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -878,8 +878,8 @@ func spiralOrder(matrix [][]int) []int {
 
 ### 模拟
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func validateStackSequences(pushed []int, popped []int) bool {
@@ -900,8 +900,8 @@ func validateStackSequences(pushed []int, popped []int) bool {
 
 ### 层序遍历
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 /**
@@ -940,8 +940,8 @@ func levelOrder(root *TreeNode) []int {
 
 ### 层序遍历
 
--   时间复杂度：
--   空间复杂度：
+- 时间复杂度：
+- 空间复杂度：
 
 ```go
 /**
@@ -1007,7 +1007,7 @@ func levelOrder(root *TreeNode) [][]int {
             queue = queue[1:]
             if node.Left != nil {
                 queue = append(queue, node.Left)
-            } 
+            }
             if node.Right != nil {
                 queue = append(queue, node.Right)
             }
@@ -1050,7 +1050,7 @@ func levelOrder(root *TreeNode) [][]int {
   func verifyPostorder(postorder []int) bool {
      return verify(postorder, 0, len(postorder)-1)
   }
-  
+
   func verify(postorder []int, left, right int) bool {
       if left >= right {
           return true
@@ -1136,8 +1136,8 @@ func majorityElement(nums []int) int {
 
 ### 动态规划
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func maxSubArray(nums []int) int {
@@ -1163,8 +1163,8 @@ func max(a, b int) int {
 
 ### 动态规划（OPT）
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 func maxSubArray(nums []int) int {
@@ -1191,8 +1191,8 @@ func max(a, b int) int {
 
 简单思路是使用 HashMap 统计每个字符的出现次数，再遍历一次取目标值。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func firstUniqChar(s string) byte {
@@ -1213,8 +1213,8 @@ func firstUniqChar(s string) byte {
 
 和 Map 思路相同，但是由于题目说明字符只能是小写字母，因此可以用字符数组存储。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 func firstUniqChar(s string) byte {
@@ -1238,8 +1238,8 @@ func firstUniqChar(s string) byte {
 
 二者遍历到`nil`时，跳转到对方链路的头结点继续遍历，从而使两条链路长度相等。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 /**
@@ -1358,19 +1358,19 @@ func search(nums []int, target int) int {
 }
 ```
 
-## [53 - II. 0～n-1中缺失的数字](https://leetcode-cn.com/problems/que-shi-de-shu-zi-lcof/)
+## [53 - II. 0 ～ n-1 中缺失的数字](https://leetcode-cn.com/problems/que-shi-de-shu-zi-lcof/)
 
 ### 二分查找
 
 数组只缺少一个数字，缺失数字之前的数字下标和其值相等，因此可使用二分法进行查找。
 
--   时间复杂度：$O(log{n})$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(log{n})$
+- 空间复杂度：$O(1)$
 
 ```go
 func missingNumber(nums []int) int {
     length := len(nums)
-    
+
     if length - 1 == nums[length-1] {
         // 当缺失的数字在数组最后时的情况
         return nums[length-1] + 1
@@ -1397,8 +1397,8 @@ func missingNumber(nums []int) int {
 
 ### 递归（DFS）
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func maxDepth(root *TreeNode) int {
@@ -1419,8 +1419,8 @@ func max(a, b int) int {
 
 ### 层序遍历（BFS）
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 /**
@@ -1504,14 +1504,14 @@ $O(nlogn)$|$O(1)$
 
 ### 排序 + 数学
 
-1.   首先通过排序方便检查重复并判断有序
-2.   记录 0 的个数
-3.   当非 0 的数字出现重复，则可以确定不满足条件
-4.   0 的个数正好等于第一个非零数字的下标
-5.   非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
+1.  首先通过排序方便检查重复并判断有序
+2.  记录 0 的个数
+3.  当非 0 的数字出现重复，则可以确定不满足条件
+4.  0 的个数正好等于第一个非零数字的下标
+5.  非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func isStraight(nums []int) bool {
