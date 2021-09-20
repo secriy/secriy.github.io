@@ -1,5 +1,5 @@
 ---
-title: "剑指Offer刷题笔记"
+    	title: "剑指Offer刷题笔记"
 date: 2021-06-22 12:41:24
 categories: 算法刷题
 tags:
@@ -183,16 +183,16 @@ func replaceSpace( s string ) string {
       Nums   []int
       Length int
   }
-
+  
   func Constructor() CQueue {
       return CQueue{}
   }
-
+  
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-
+  
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -610,33 +610,34 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
   }
   ```
 
-## 25. [合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
+## [25. 合并两个排序的链表](https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
 
-### Ideas
+### 递归
 
-- **递归**实现
-
-### Solutions
-
-- 递归
-
-  ```go
-  func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-      if l1 == nil {
-          return l2
-      }
-      if l2 == nil {
-          return l1
-      }
-      if l1.Val < l2.Val {
-          l1.Next = mergeTwoLists(l1.Next, l2)
-          return l1
-      } else {
-          l2.Next = mergeTwoLists(l1, l2.Next)
-          return l2
-      }
-  }
-  ```
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+    if l1 == nil {
+        return l2
+    }
+    if l2 == nil {
+        return l1
+    }
+    if l1.Val <= l2.Val {
+        l1.Next = mergeTwoLists(l1.Next, l2)
+        return l1
+    } else {
+        l2.Next = mergeTwoLists(l1, l2.Next)
+        return l2
+    }
+}
+```
 
 ## 26. [树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
 
@@ -655,7 +656,7 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
       }
       return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
   }
-
+  
   func isEqual(A, B *TreeNode) bool {
       if B == nil {
           return true
@@ -667,27 +668,60 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
   }
   ```
 
-## 27. [二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
+## [27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
-### Ideas
+### 递归
 
-- 递归交换
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mirrorTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil
+    }
+    root.Left, root.Right = root.Right, root.Left	// 交换左右子树
+    mirrorTree(root.Left)
+    mirrorTree(root.Right)
+    return root
+}
+```
 
-### Solutions
+### 队列
 
-- 递归
-
-  ```go
-  func mirrorTree(root *TreeNode) *TreeNode {
-      if root == nil {
-          return root
-      }
-      root.Left, root.Right = root.Right, root.Left
-      mirrorTree(root.Left)
-      mirrorTree(root.Right)
-      return root
-  }
-  ```
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mirrorTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil
+    }
+    queue := []*TreeNode{root}
+    for len(queue) > 0 {
+        node := queue[0]
+        queue = queue[1:]
+        node.Left, node.Right = node.Right, node.Left
+        if node.Left != nil {
+            queue = append(queue, node.Left)
+        }
+        if node.Right != nil {
+            queue = append(queue, node.Right)
+        }
+    }
+    return root
+}
+```
 
 ## [28. 对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
 
@@ -718,61 +752,72 @@ func helper(left, right *TreeNode) bool {
 }
 ```
 
-## 29. [顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+## [29. 顺时针打印矩阵](https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
 
-### Ideas
+### 模拟
 
-- 循环
+模拟路径、缩小边界即可。
 
-### Solutions
+-   时间复杂度：$O(m*n)$
 
-- Common
+-   空间复杂度：$O(1)$
 
-  ```go
-  func spiralOrder(matrix [][]int) []int {
-      if len(matrix) == 0 {
-          return []int{}
-      }
-      var res []int
-      rowMin, colMin := 0, 0
-      rowMax, colMax := len(matrix), len(matrix[0])
-      for {
-          // 左->右
-          for i:=colMin; i<colMax; i++ {
-              res = append(res, matrix[rowMin][i])
-          }
-          rowMin++
-          if rowMin >= rowMax {
-              break
-          }
-          // 上->下
-          for i:=rowMin; i<rowMax; i++ {
-              res = append(res, matrix[i][colMax-1])
-          }
-          colMax--
-          if colMin >= colMax {
-              break
-          }
-          // 右->左
-          for i:=colMax-1; i>=colMin; i-- {
-              res = append(res, matrix[rowMax-1][i])
-          }
-          rowMax--
-          if rowMin >= rowMax {
-              break
-          }
-          // 下->上
-          for i:=rowMax-1; i >=rowMin; i-- {
-              res = append(res, matrix[i][colMin])
-          }
-          colMin++
-          if colMin >= colMax {
-              break
-          }
-      }
-      return res
-  }
-  ```
+    （result 数组为必须使用的空间）
+
+```go
+func spiralOrder(matrix [][]int) []int {
+    if len(matrix) == 0 {
+        // 边界判断
+        return nil
+    }
+    // 存储结果
+    result := make([]int, len(matrix) * len(matrix[0]))
+    index := 0
+
+    // 限制边界
+    rowMin, rowMax, colMin, colMax := 0, len(matrix), 0, len(matrix[0])
+
+    for {
+        // 左 -> 右
+        for i := colMin; i < colMax; i++ {
+            result[index] = matrix[rowMin][i]
+            index++
+        }
+        rowMin++
+        if rowMin >= rowMax {
+            break
+        }
+        // 上 -> 下
+        for i := rowMin; i < rowMax; i++ {
+            result[index] = matrix[i][colMax-1]
+            index++
+        }
+        colMax--
+        if colMin >= colMax {
+            break
+        }
+        // 右 -> 左
+        for i := colMax-1; i >= colMin; i-- {
+            result[index] = matrix[rowMax-1][i]
+            index++
+        }
+        rowMax--
+        if rowMin >= rowMax {
+            break
+        }
+        // 下 -> 上
+        for i := rowMax-1; i >= rowMin; i-- {
+            result[index] = matrix[i][colMin]
+            index++
+        }
+        colMin++
+        if colMin >= colMax {
+            break
+        }
+    }
+    return result
+}
+```
 
 ## 30. [包含 min 函数的栈](https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/)
 
@@ -789,19 +834,19 @@ func helper(left, right *TreeNode) bool {
   	Nums []int
   	Helper []int
   }
-
+  
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-
+  
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-
+  
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -810,15 +855,15 @@ func helper(left, right *TreeNode) bool {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-
+  
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-
+  
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-
+  
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -829,73 +874,167 @@ func helper(left, right *TreeNode) bool {
    */
   ```
 
-## 31. [栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/)
+## [31. 栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/)
 
-### Ideas
+### 模拟
 
-- **模拟栈**输入
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
-### Solutions
+```go
+func validateStackSequences(pushed []int, popped []int) bool {
+    stack := make([]int, 0)	// 模拟栈
+    for i := range pushed {
+        stack = append(stack, pushed[i]) // 压栈
+        for len(popped) > 0 && len(stack) > 0 && stack[len(stack)-1] == popped[0] {
+            // 循环出栈
+            stack = stack[:len(stack)-1]
+            popped = popped[1:]
+        }
+    }
+    return len(stack) == 0
+}
+```
 
-- 模拟栈
+## [32 - I. 从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
 
-  ```go
-  func validateStackSequences(pushed []int, popped []int) bool {
-      var stack []int		// 模拟栈
-      // 入栈
-      for i := 0; i < len(pushed); i++ {
-          stack = append(stack, pushed[i])
-          // 循环出栈
-          for len(stack)>0 && stack[len(stack)-1] == popped[0] {
-              popped = popped[1:]
-              stack = stack[:len(stack)-1]
-              if len(popped) == 0 {
-                  break
-              }
-          }
-      }
-      return len(popped) == 0
-  }
-  ```
+### 层序遍历
 
-## 32-1. [从上到下打印二叉树](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
-### Ideas
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) []int {
+    if root == nil {
+        return []int{}
+    }
 
-- 层序遍历
+    queue := []*TreeNode{root}	// 队列
+    result := make([]int, 0)	// 存放结果
 
-### Solutions
+    for len(queue) > 0 {
+        root := queue[0]
+        if root.Left != nil {
+            queue = append(queue, root.Left)
+        }
+        if root.Right != nil {
+            queue = append(queue, root.Right)
+        }
+        result = append(result, root.Val)
+        queue = queue[1:]
+    }
 
-- 层序遍历
+    return result
+}
+```
 
-  ```go
-  func levelOrder(root *TreeNode) []int {
-      if root == nil {
-          return nil
-      }
-      queue := make([]*TreeNode, 0)	// 过程队列
-      result := make([]int, 0)		// 存储结果
-      queue = append(queue, root)
-      for len(queue) > 0 {
-          root := queue[0]
-          if root.Left != nil {
-              queue = append(queue, root.Left)
-          }
-          if root.Right != nil {
-              queue = append(queue, root.Right)
-          }
-          result = append(result, root.Val)
-          queue = queue[1:] // 出队
-      }
-      return result
-  }
-  ```
+## [32 - II. 从上到下打印二叉树 II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
 
-## 32-2. [从上到下打印二叉树 II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
+### 层序遍历
 
-### Ideas
+-   时间复杂度：
+-   空间复杂度：
 
-### Solutions
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return [][]int{}
+    }
+    queue := []*TreeNode{root}
+    result := make([][]int, 0)
+
+    for len(queue) > 0 {
+        tmp := make([]int, 0)	// 单层结点值
+        for i := len(queue); i > 0; i-- {
+            // 出队
+            node := queue[0]
+            queue = queue[1:]
+            tmp = append(tmp, node.Val)
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+        }
+        result = append(result, tmp)
+    }
+    return result
+}
+```
+
+## [32 - III. 从上到下打印二叉树 III](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/)\*
+
+### 双端队列
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return [][]int{}
+    }
+
+    queue := []*TreeNode{root}
+    result := make([][]int, 0)
+
+    for len(queue) > 0 {
+        tmp := make([]int, 0)
+        for i := len(queue); i > 0; i-- {
+            node := queue[0]
+            queue = queue[1:]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            } 
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+            tmp = append(tmp, node.Val)
+        }
+        result = append(result, tmp)
+        if len(queue) == 0 {
+            break
+        }
+        tmp = make([]int, 0)
+        for i := len(queue); i > 0; i-- {
+            node := queue[len(queue)-1]
+            queue = queue[:len(queue)-1]
+            if node.Right != nil {
+                queue = append([]*TreeNode{node.Right}, queue...)
+            }
+            if node.Left != nil {
+                queue = append([]*TreeNode{node.Left}, queue...)
+            }
+            tmp = append(tmp, node.Val)
+        }
+        result = append(result, tmp)
+    }
+
+    return result
+}
+```
 
 ## 33. [二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
 
@@ -911,7 +1050,7 @@ func helper(left, right *TreeNode) bool {
   func verifyPostorder(postorder []int) bool {
      return verify(postorder, 0, len(postorder)-1)
   }
-
+  
   func verify(postorder []int, left, right int) bool {
       if left >= right {
           return true
@@ -993,94 +1132,145 @@ func majorityElement(nums []int) int {
 
 ### Solutions
 
-## 42. [连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
+## [42. 连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
 
-### Ideas
+### 动态规划
 
-- DP
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
-### Solutions
+```go
+func maxSubArray(nums []int) int {
+    dp := make([]int, len(nums))
+    dp[0] = nums[0]
+    maxNum := dp[0]
+    for i := 1; i < len(nums); i++ {
+        dp[i] = max(dp[i-1] + nums[i], nums[i])
+        if dp[i] > maxNum {
+            maxNum = dp[i]
+        }
+    }
+    return maxNum
+}
 
-- DP
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
-## 50. [第一个只出现一次的字符](https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/)
+### 动态规划（OPT）
 
-### Ideas
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
 
-- Map 计数两次遍历
-- 和 Map 思路相同，但是由于题目说明字符只能是小写字母，因此可以用字符数组存储
+```go
+func maxSubArray(nums []int) int {
+    pre, post := nums[0], 0
+    maxNum := pre
+    for i := 1; i < len(nums); i++ {
+        pre, post = post, max(pre + nums[i], nums[i])
+        maxNum = max(maxNum, post)
+    }
+    return maxNum
+}
 
-### Solutions
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
-- Map 计数两次遍历
+## [50. 第一个只出现一次的字符](https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/)
 
-  ```go
-  func firstUniqChar(s string) byte {
-      m := make(map[byte]int)
-      byteArr := []byte(s)
-      for _, v := range byteArr {
-          m[v]++
-      }
-      for _, v := range byteArr {
-          if m[v] == 1 {
-              return v
-          }
-      }
-      return byte(' ')
-  }
-  ```
+### HashMap
 
-- 字符数组
+简单思路是使用 HashMap 统计每个字符的出现次数，再遍历一次取目标值。
 
-  ```go
-  func firstUniqChar(s string) byte {
-      m := make([]int, 26)
-      for _, v := range s {
-          m[v-'a']++
-      }
-      for _, v := range s {
-          if m[v-'a'] == 1 {
-              return byte(v)
-          }
-      }
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
-      return byte(' ')
-  }
-  ```
+```go
+func firstUniqChar(s string) byte {
+    m := make(map[byte]int)
+    for i := range s {
+        m[s[i]]++
+    }
+    for i := range s {
+        if m[s[i]] == 1 {
+            return s[i]
+        }
+    }
+    return ' '
+}
+```
 
-## 52. [两个链表的第一个公共节点](https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
+### 字符数组
 
-### Ideas
+和 Map 思路相同，但是由于题目说明字符只能是小写字母，因此可以用字符数组存储。
 
-- 二者遍历到`nil`时，跳转到对方链路的头结点继续遍历，从而使两条链路长度相等。
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
 
-### Solutions
+```go
+func firstUniqChar(s string) byte {
+    m := make([]int, 26)
+    for _, v := range s {
+        m[v-'a']++
+    }
+    for _, v := range s {
+        if m[v-'a'] == 1 {
+            return byte(v)
+        }
+    }
 
-- 交叉遍历
+    return byte(' ')
+}
+```
 
-  ```go
-  func getIntersectionNode(headA, headB *ListNode) *ListNode {
-      if headA == nil || headB == nil {
-          return nil
-      }
-      pa, pb := headA, headB
-      for pa != pb {
-          if pa == nil {
-              pa = headB
-          } else {
-              pa = pa.Next
-          }
-          if pb == nil {
-              pb = headA
-          } else {
-              pb = pb.Next
-          }
-      }
-      return pa
-  }
-  ```
+## [52. 两个链表的第一个公共节点](https://leetcode-cn.com/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
 
-## 53-1. [在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
+### 双指针
+
+二者遍历到`nil`时，跳转到对方链路的头结点继续遍历，从而使两条链路长度相等。
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+    if headA == nil || headB == nil {
+        return nil
+    }
+    pa, pb := headA, headB
+    for pa != pb {
+        if pa == nil {
+            pa = headB
+        } else {
+            pa = pa.Next
+        }
+        if pb == nil {
+            pb = headA
+        } else {
+            pb = pb.Next
+        }
+    }
+    return pa
+}
+```
+
+## [53 - I. 在排序数组中查找数字 I](https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
 
 ### 二分查找
 
@@ -1168,31 +1358,101 @@ func search(nums []int, target int) int {
 }
 ```
 
-## 55-1. [二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
+## [53 - II. 0～n-1中缺失的数字](https://leetcode-cn.com/problems/que-shi-de-shu-zi-lcof/)
 
-### Ideas
+### 二分查找
 
-- 递归解法
+数组只缺少一个数字，缺失数字之前的数字下标和其值相等，因此可使用二分法进行查找。
 
-### Solutions
+-   时间复杂度：$O(log{n})$
+-   空间复杂度：$O(1)$
 
-- 递归
+```go
+func missingNumber(nums []int) int {
+    length := len(nums)
+    
+    if length - 1 == nums[length-1] {
+        // 当缺失的数字在数组最后时的情况
+        return nums[length-1] + 1
+    }
 
-  ```go
-  func maxDepth(root *TreeNode) int {
-      if root == nil {
-          return 0
-      }
-      return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-  }
+    left, right, mid := 0, length - 1, 0
+    for left < right {
+        // 二分法查找目标数字
+        mid = (left + right) / 2
+        if nums[mid] == mid {
+            // 下标匹配，表明左半部分有序
+            left = mid + 1
+        } else {
+            // 左半部分无序
+            right = mid
+        }
+    }
 
-  func max(a, b int) int {
-      if a >= b {
-          return a
-      }
-      return b
-  }
-  ```
+    return left
+}
+```
+
+## [55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
+
+### 递归（DFS）
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+func maxDepth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+}
+
+// 返回较大值
+func max(a, b int) int {
+    if a >= b {
+        return a
+    }
+    return b
+}
+```
+
+### 层序遍历（BFS）
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func maxDepth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    count := 0	// 统计层数
+    queue := []*TreeNode{root} // 队列
+    for len(queue) > 0 {
+        for i := len(queue); i > 0; i-- {
+            node := queue[0]
+            queue = queue[1:]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+        }
+        count++
+    }
+    return count
+}
+```
 
 ## [57. 和为 s 的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
 
@@ -1239,6 +1499,36 @@ $O(nlogn)$|$O(1)$
       return str[n:] + string(str[0:n])
   }
   ```
+
+## [61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+
+### 排序 + 数学
+
+1.   首先通过排序方便检查重复并判断有序
+2.   记录 0 的个数
+3.   当非 0 的数字出现重复，则可以确定不满足条件
+4.   0 的个数正好等于第一个非零数字的下标
+5.   非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+func isStraight(nums []int) bool {
+    sort.Ints(nums)	// 排序
+    count := 0
+    for i := 0; i < 4; i++ {
+        if nums[i] == 0 {
+            // 统计 0 的个数
+            count++
+        } else if nums[i] == nums[i+1] {
+            // 非 0 数字重复
+            return false
+        }
+    }
+    return nums[4] - nums[count] < 5
+}
+```
 
 ## 64. [求 1+2+…+n](https://leetcode-cn.com/problems/qiu-12n-lcof/)
 

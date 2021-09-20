@@ -103,8 +103,75 @@ func removeDuplicates(nums []int) int {
 
 ### 82. [Remove Duplicates from Sorted List II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
 
-```go
+虚结点`dummy`指向链表头，使用`slow`、`fast`双指针来标记非重复结点和每一个结点。当遇到
 
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func deleteDuplicates(head *ListNode) *ListNode {
+    dummy := &ListNode{Next: head}
+
+    slow, fast := dummy, head
+
+    for slow.Next != nil {
+        for fast = slow.Next; fast.Next != nil && fast.Next.Val == slow.Next.Val; {
+            fast = fast.Next
+        }
+        if slow.Next != fast {
+            slow.Next = fast.Next
+        } else {
+            slow = slow.Next
+        }
+    }
+    return dummy.Next
+}
+```
+
+### 86. [Partition List](https://leetcode-cn.com/problems/partition-list/)
+
+用两个结点分别生成两个链表，一个记录小于`x`的结点，另一个记录大于等于`x`的结点，最后拼接返回。
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func partition(head *ListNode, x int) *ListNode {
+    dummyS := new(ListNode) //
+    dummyL := new(ListNode)
+
+    tmp1 := dummyS
+    tmp2 := dummyL
+
+    for head != nil {
+        if head.Val < x {
+            tmp1.Next = head
+            head = head.Next
+            tmp1 = tmp1.Next
+            tmp1.Next = nil
+        } else {
+            tmp2.Next = head
+            head = head.Next
+            tmp2 = tmp2.Next
+            tmp2.Next = nil
+        }
+    }
+
+    tmp1.Next = dummyL.Next // 连接链表
+
+    return dummyS.Next
+}
 ```
 
 ## Array
