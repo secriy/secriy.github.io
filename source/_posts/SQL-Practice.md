@@ -1,5 +1,5 @@
 ---
-title: SQL 练习
+title: SQL Practice
 date: 2021-08-16 11:22:11
 categories: 学习笔记
 tags:
@@ -30,13 +30,13 @@ left join Address using (PersonId);
 #### 知识点
 
 - 内连接（inner join）
-  ![inner-join](https://www.liaoxuefeng.com/files/attachments/1246892164662976/l)
+  ![inner-join](SQL-Practice/l.png)
 - 左连接（left join）
-  ![left-outer-join](https://www.liaoxuefeng.com/files/attachments/1246893588481376/l)
+  ![left-outer-join](SQL-Practice/l.png)
 - 右连接（right join）
-  ![right-outer-join](https://www.liaoxuefeng.com/files/attachments/1246893609222688/l)
+  ![right-outer-join](SQL-Practice/l.png)
 - 全连接（full outer join）
-  ![full-outer-join](https://www.liaoxuefeng.com/files/attachments/1246893632359424/l)
+  ![full-outer-join](SQL-Practice/l.png)
 - using
   通过其后的列名来连接，等同于`where A.XXX = B.XXX`
 

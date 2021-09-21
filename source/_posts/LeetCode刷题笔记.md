@@ -15,165 +15,6 @@ LeetCode 刷题记录。
 
 <!-- more -->
 
-## Two Pointers
-
-### 11. [Container With Most Water](https://leetcode.com/problems/container-with-most-water/)
-
-```go
-func maxArea(height []int) int {
-    left, right := 0, len(height)-1
-    max := 0
-    for left < right {
-        capacity, min := 0, 0
-        if height[left] < height[right] {
-            min = height[left]
-            capacity = min * (right - left)
-            left++
-        } else {
-            min = height[right]
-            capacity = min * (right - left)
-            right--
-        }
-        if capacity > max {
-            max = capacity
-        }
-    }
-    return max
-}
-```
-
-### 15. [3Sum](https://leetcode.com/problems/3sum/description/)
-
-```go
-func threeSum(nums []int) [][]int {
-	length := len(nums)
-	res := make([][]int, 0)
-	if length < 3 {
-		return res
-	}
-	sort.Ints(nums)
-	for k, v := range nums {
-		if v > 0 {
-			return res
-		}
-		if k > 0 && v == nums[k-1] {
-			continue
-		}
-		left, right := k+1, length-1
-		for left < right {
-			sum := v + nums[left] + nums[right]
-			if sum == 0 {
-				res = append(res, []int{v, nums[left], nums[right]})
-				for left < right && nums[left] == nums[left+1] {
-					left++
-				}
-				for left < right && nums[right] == nums[right-1] {
-					right--
-				}
-				left++
-				right--
-			} else if sum > 0 {
-				right--
-			} else {
-				left++
-			}
-		}
-
-	}
-	return res
-}
-```
-
-### 80. [Remove Duplicates from Sorted Array II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/)
-
-双指针，一个指针不断前进，另一个指针停留在重复的第三个数上，用前者替换后者内容。
-
-```go
-func removeDuplicates(nums []int) int {
-    p := 0
-    for i := range nums {
-        if p < 2 || nums[i] != nums[p-2] {
-            nums[p] = nums[i]
-            p++
-        }
-    }
-    return p
-}
-```
-
-### 82. [Remove Duplicates from Sorted List II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
-
-虚结点`dummy`指向链表头，使用`slow`、`fast`双指针来标记非重复结点和每一个结点。当遇到
-
-- 时间复杂度：$O(n)$
-- 空间复杂度：$O(1)$
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func deleteDuplicates(head *ListNode) *ListNode {
-    dummy := &ListNode{Next: head}
-
-    slow, fast := dummy, head
-
-    for slow.Next != nil {
-        for fast = slow.Next; fast.Next != nil && fast.Next.Val == slow.Next.Val; {
-            fast = fast.Next
-        }
-        if slow.Next != fast {
-            slow.Next = fast.Next
-        } else {
-            slow = slow.Next
-        }
-    }
-    return dummy.Next
-}
-```
-
-### 86. [Partition List](https://leetcode-cn.com/problems/partition-list/)
-
-用两个结点分别生成两个链表，一个记录小于`x`的结点，另一个记录大于等于`x`的结点，最后拼接返回。
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func partition(head *ListNode, x int) *ListNode {
-    dummyS := new(ListNode) //
-    dummyL := new(ListNode)
-
-    tmp1 := dummyS
-    tmp2 := dummyL
-
-    for head != nil {
-        if head.Val < x {
-            tmp1.Next = head
-            head = head.Next
-            tmp1 = tmp1.Next
-            tmp1.Next = nil
-        } else {
-            tmp2.Next = head
-            head = head.Next
-            tmp2 = tmp2.Next
-            tmp2.Next = nil
-        }
-    }
-
-    tmp1.Next = dummyL.Next // 连接链表
-
-    return dummyS.Next
-}
-```
-
 ## Array
 
 ### 26. [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
@@ -267,7 +108,7 @@ func partition(head *ListNode, x int) *ListNode {
       // 翻转
       reverse(nums[left+1:])
   }
-
+  
   func reverse(nums []int) {
       for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
           nums[i], nums[n-i] = nums[n-i], nums[i]
@@ -626,6 +467,27 @@ func partition(head *ListNode, x int) *ListNode {
   }
   ```
 
+### [58. Length of Last Word](https://leetcode-cn.com/problems/length-of-last-word/)
+
+#### 双指针
+
+从后向前遍历，分别记录第一个非空格字符和第二个空格字符串的位置。
+
+```go
+func lengthOfLastWord(s string) int {
+    left, right := len(s)-1, len(s)-1
+    for i := len(s)-1; i >= 0; i-- {
+        if left == right && s[i] == ' ' {
+            right--
+        } else if s[i] == ' ' {
+            break
+        }
+        left--
+    }
+    return right - left
+}
+```
+
 ### 75. [Sort Colors](https://leetcode.com/problems/sort-colors/)
 
 #### Ideas
@@ -785,7 +647,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
       dummy.Next = dummy.Next.Next
       return head.Next
   }
-
+  
   ```
 
 ### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
@@ -1426,7 +1288,7 @@ func deleteDuplicates(head *ListNode) *ListNode {
       }
   	return helper(root.Left, root.Right)
   }
-
+  
   func helper(left, right *TreeNode) bool {
       if left == nil && right == nil {
           return true
@@ -1489,7 +1351,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           return isBalanced(root.Left) && isBalanced(root.Right)
       }
   }
-
+  
   // 求二叉树深度，来自 LeetCode 104
   func helper(root *TreeNode) int {
       if root == nil {
@@ -1497,7 +1359,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       }
       return max(helper(root.Left), helper(root.Right)) + 1
   }
-
+  
   func max(a, b int) int {
       if a > b {
           return a
@@ -1523,7 +1385,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(root, targetSum, tmp, &results)
       return results
   }
-
+  
   func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
       if root == nil {
           return
@@ -1993,7 +1855,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   	}
   	return result
   }
-
+  
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -2079,41 +1941,125 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   		} else {
   			left = mid
   		}
-
+  
   	}
   }
   ```
 
-## Sorting
+## Two Pointers
 
-### 912. [Sort an Array](https://leetcode.com/problems/sort-an-array/description/)
+### [11. Container With Most Water](https://leetcode-cn.com/problems/container-with-most-water/)
 
-> Given an array of integers `nums`, sort the array in ascending order.
->
-> **Example 1:**
->
-> ```
-> Input: nums = [5,2,3,1]
-> Output: [1,2,3,5]
-> ```
->
-> **Example 2:**
->
-> ```
-> Input: nums = [5,1,1,2,0,0]
-> Output: [0,0,1,1,2,5]
-> ```
->
-> **Constraints:**
->
-> - `1 <= nums.length <= 5 * 10^4`
-> - `-5 * 104 <= nums[i] <= 5 * 10^4`
+```go
+func maxArea(height []int) int {
+    left, right := 0, len(height)-1
+    max := 0
+    for left < right {
+        capacity, min := 0, 0
+        if height[left] < height[right] {
+            min = height[left]
+            capacity = min * (right - left)
+            left++
+        } else {
+            min = height[right]
+            capacity = min * (right - left)
+            right--
+        }
+        if capacity > max {
+            max = capacity
+        }
+    }
+    return max
+}
+```
 
-#### Ideas
+### [80. Remove Duplicates from Sorted Array II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/)
 
-- 使用快速排序。
+双指针，一个指针不断前进，另一个指针停留在重复的第三个数上，用前者替换后者内容。
 
-#### Solutions
+```go
+func removeDuplicates(nums []int) int {
+    p := 0
+    for i := range nums {
+        if p < 2 || nums[i] != nums[p-2] {
+            nums[p] = nums[i]
+            p++
+        }
+    }
+    return p
+}
+```
+
+### [82. Remove Duplicates from Sorted List II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+虚结点`dummy`指向链表头，使用`slow`、`fast`双指针来标记非重复结点和每一个结点。当遇到
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func deleteDuplicates(head *ListNode) *ListNode {
+    dummy := &ListNode{Next: head}
+
+    slow, fast := dummy, head
+
+    for slow.Next != nil {
+        for fast = slow.Next; fast.Next != nil && fast.Next.Val == slow.Next.Val; {
+            fast = fast.Next
+        }
+        if slow.Next != fast {
+            slow.Next = fast.Next
+        } else {
+            slow = slow.Next
+        }
+    }
+    return dummy.Next
+}
+```
+
+### [86. Partition List](https://leetcode-cn.com/problems/partition-list/)
+
+用两个结点分别生成两个链表，一个记录小于`x`的结点，另一个记录大于等于`x`的结点，最后拼接返回。
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func partition(head *ListNode, x int) *ListNode {
+    dummyMin := new(ListNode)
+    dummyMax := new(ListNode)
+
+    tmp1 := dummyMin
+    tmp2 := dummyMax
+
+    for head != nil {
+        if head.Val < x {
+            tmp1.Next = head
+            head = head.Next
+            tmp1 = tmp1.Next
+            tmp1.Next = nil
+        } else {
+            tmp2.Next = head
+            head = head.Next
+            tmp2 = tmp2.Next
+            tmp2.Next = nil
+        }
+    }
+    tmp1.Next = dummyMax.Next
+    return dummyMin.Next
+}
+```
 
 ## BackTracking
 
@@ -2170,9 +2116,9 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   	{'t', 'u', 'v'},	  // 8
   	{'w', 'x', 'y', 'z'}, // 9
   }
-
+  
   var result []string
-
+  
   func letterCombinations(digits string) []string {
       // 边界判断
   	if len(digits) == 0 {
@@ -2183,7 +2129,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   	dfs(digits, 0, "")
   	return result
   }
-
+  
   func dfs(digits string, level int, str string) {
   	// 递归出口
   	if level == len(digits) {
@@ -2198,7 +2144,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   		dfs(digits, level+1, str+string(chars[digit-2][i]))
   	}
   }
-
+  
   ```
 
 ### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
@@ -2218,7 +2164,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-
+  
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -2228,7 +2174,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           }
           return
       }
-
+  
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -2257,7 +2203,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -2300,7 +2246,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -2464,17 +2410,17 @@ func min(a, b int) int {
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-
+  
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-
+  
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-
+  
   	// it's guaranteed to never hit it
   	return 0
   }

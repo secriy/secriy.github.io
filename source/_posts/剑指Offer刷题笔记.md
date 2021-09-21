@@ -1070,7 +1070,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 ## [34. 二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
 
-### 回溯 DFS
+### 回溯（DFS）
 
 回溯法，设置一个二维列表`res`存储结果，设置一个列表`tmp`存放当前路径。
 
@@ -1097,6 +1097,41 @@ func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
     backtracking(root.Left, target, res, tmp)
     backtracking(root.Right, target, res, tmp)
     *tmp = (*tmp)[:len(*tmp)-1]
+}
+```
+
+## [38. 字符串的排列](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
+
+### 回溯（DFS）
+
+使用标准的回溯加上`visited`数组去重可以完成字符串的所有排列，但当输入的字符串中存在重复字符，结果集就会有重复。需要在同一层判断重复元素并跳过。可以先对字符串进行字符排序，让重复字符位置连续。
+
+```go
+func permutation(s string) []string {
+    // 排序字符串
+    t := []byte(s)
+    sort.Slice(t, func(a, b int) bool {return t[a] < t[b]})
+    s = string(t)
+    res := make([]string, 0)	// 结果集
+    visited := make([]bool, len(s))	// 判断是否访问
+    dfs(s, "", &res, visited)
+    return res
+}
+
+func dfs(s, tmp string, res *[]string, visited []bool) {
+    if len(tmp) == len(s) {
+        *res = append(*res, tmp)
+        return
+    }
+
+    for i := 0; i < len(s); i++ {
+        if visited[i] || (i > 0 && s[i-1] == s[i] && !visited[i-1]) {
+            continue
+        }
+        visited[i] = true
+        dfs(s, tmp + s[i:i+1], res, visited)
+        visited[i] = false
+    }
 }
 ```
 
