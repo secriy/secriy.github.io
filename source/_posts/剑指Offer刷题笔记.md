@@ -147,30 +147,32 @@ func replaceSpace( s string ) string {
   }
   ```
 
-## 7. [重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+## [7. 重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
 
-### Ideas
+### 递归
 
-- 递归
-
-### Solutions
-
-- 递归
-
-  ```go
-  func buildTree(preorder []int, inorder []int) *TreeNode {
-      for k, v := range inorder {
-          if v == preorder[0] {
-              return &TreeNode{
-                  Val: preorder[0],
-                  Left: buildTree(preorder[1:k+1], inorder[:k]),
-                  Right: buildTree(preorder[k+1:], inorder[k+1:]),
-              }
-          }
-      }
-      return nil
-  }
-  ```
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func buildTree(preorder []int, inorder []int) *TreeNode {
+    for k, v := range inorder {
+        if v == preorder[0] {
+            return &TreeNode{
+                Val: v,
+                Left: buildTree(preorder[1:k+1], inorder[:k]),
+                Right: buildTree(preorder[k+1:], inorder[k+1:]),
+            }
+        }
+    }
+    return nil
+}
+```
 
 ## 9. [用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
@@ -415,68 +417,74 @@ func dfs(m, n, k, row, col int, visited [][]bool) int {
   }
   ```
 
-## 15. [二进制中 1 的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
+## [15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 
-### Ideas
+### 位运算
 
-- 位运算，移位
+位运算，移位统计。
 
-### Solutions
+```go
+func hammingWeight(num uint32) int {
+    count := 0
+    for i := 0; i < 32; i++ {
+        if num%2 == 1 {
+            count++
+        }
+        num = num >> 1
+    }
+    return count
+}
+```
 
-- 移位
+## [16. 数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
 
-  ```go
-  func hammingWeight(num uint32) int {
-      var count int
-      for i := 0; i < 32; i++ {
-          if num%2 == 1 {
-              count++
-          }
-          num = num >> 1
-      }
-      return count
-  }
-  ```
+### 快速幂
 
-## 16. [数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
+```go
+func myPow(x float64, n int) float64 {
+    if n == 0 {
+        return 1
+    }
+    if n == 1 {
+        return x
+    }
+    if n == -1 {
+        return 1/x
+    }
+    mid := myPow(x, n/2)
+    return mid * mid * myPow(x, n%2)
+}
+```
 
-### Ideas
+## [17. 打印从1到最大的n位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
 
-- 快速幂
+### 不考虑大数
 
-### Solutions
+```go
+func printNumbers(n int) []int {
+    count := 1
+    for i := 0; i < n; i++ {
+        count *= 10
+    }
+    result := make([]int, count - 1)
+    for i := range result {
+        result[i] = i + 1
+    }
+    return result
+}
+```
 
-- Mid
+### 标准库
 
-  ```go
-  func myPow(x float64, n int) float64 {
-      if n == 0 {
-          return 1
-      }
-      if n == 1 {
-          return x
-      }
-      if n == -1 {
-          return 1/x
-      }
-      mid := myPow(x, n/2)
-      return mid * mid * myPow(x, n%2)
-  }
-  ```
-
-## 17. [打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
-
-- 直接生成指定大小的列表，迭代填充后返回
-
-  ```go
-  func printNumbers(n int) []int {
-      res := make([]int, int(math.Pow(10, float64(n)))-1)
-      for i := range res {
-          res[i] = i+1
-      }
-      return res
-  }
-  ```
+```go
+func printNumbers(n int) []int {
+    res := make([]int, int(math.Pow(10, float64(n)))-1)
+    for i := range res {
+        res[i] = i+1
+    }
+    return res
+}
+```
 
 ## 18. [删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
 
@@ -639,34 +647,46 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 }
 ```
 
-## 26. [树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
+## [26. 树的子结构](https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/)
 
-### Ideas
+### 递归
 
-- 递归
+-   时间复杂度：$O(mn)$
+-   空间复杂度：$O(m)$
 
-### Solutions
+>   m 为 A 树规模，n 为 B 树规模
 
-- 递归
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func isSubStructure(A *TreeNode, B *TreeNode) bool {
+    if A == nil || B == nil {
+        return false
+    }
+    // 判断当前结点、递归左子树、递归右子树
+    return subTree(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
+}
 
-  ```go
-  func isSubStructure(A *TreeNode, B *TreeNode) bool {
-      if A == nil || B == nil {
-          return false
-      }
-      return isEqual(A, B) || isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
-  }
-  
-  func isEqual(A, B *TreeNode) bool {
-      if B == nil {
-          return true
-      }
-      if A == nil || A.Val != B.Val {
-          return false
-      }
-      return isEqual(A.Left, B.Left) && isEqual(A.Right, B.Right)
-  }
-  ```
+// 判断 B 是否是 A 包含根节点的子树
+func subTree(A *TreeNode, B *TreeNode) bool {
+    if B == nil {
+        // B 递归完毕
+        return true
+    }
+    if A == nil || A.Val != B.Val {
+        // A 递归完毕或 A B 当前结点不相等
+        return false
+    }
+    // 往左右子树分别递归判断
+    return subTree(A.Left, B.Left) && subTree(A.Right, B.Right)
+}
+```
 
 ## [27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
@@ -725,7 +745,7 @@ func mirrorTree(root *TreeNode) *TreeNode {
 
 ## [28. 对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/)
 
-### 递归
+### 递归（DFS）
 
 ```go
 func isSymmetric(root *TreeNode) bool {
@@ -758,11 +778,11 @@ func helper(left, right *TreeNode) bool {
 
 模拟路径、缩小边界即可。
 
-- 时间复杂度：$O(m*n)$
-
+- 时间复杂度：$O(mn)$
 - 空间复杂度：$O(1)$
 
-  （result 数组为必须使用的空间）
+
+>   m 和 n 分别为行和列的长度，result 数组为必须使用的空间，因此空间复杂度为$O(1)$
 
 ```go
 func spiralOrder(matrix [][]int) []int {
@@ -1100,6 +1120,45 @@ func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
 }
 ```
 
+## [35. 复杂链表的复制](https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/)\*
+
+### 哈希表
+
+哈希表的思路是用一个哈希表存储原链表结点和新链表结点的对应关系，然后将`Next`和`Random`属性复制过去。
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+/**
+ * Definition for a Node.
+ * type Node struct {
+ *     Val int
+ *     Next *Node
+ *     Random *Node
+ * }
+ */
+
+func copyRandomList(head *Node) *Node {
+    if head == nil {
+        return nil
+    }
+
+    m := make(map[*Node]*Node)
+
+    for cur := head; cur != nil; cur = cur.Next {
+        m[cur] = &Node{cur.Val, nil, nil}
+    }
+
+    for cur := head; cur != nil; cur = cur.Next {
+        m[cur].Next = m[cur.Next]
+        m[cur].Random = m[cur.Random]
+    }
+
+    return m[head]
+}
+```
+
 ## [38. 字符串的排列](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
 
 ### 回溯（DFS）
@@ -1210,6 +1269,39 @@ func maxSubArray(nums []int) int {
         maxNum = max(maxNum, post)
     }
     return maxNum
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
+
+## [47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
+
+### 动态规划
+
+遍历整个矩阵，从上到下填充当前路径的最大值。
+
+-   时间复杂度：$O(mn)$
+-   空间复杂度：$O(1)$
+
+```go
+func maxValue(grid [][]int) int {
+    for i := range grid {
+        for j := range grid[0] {
+            if i == 0 && j > 0 {
+                grid[i][j] += grid[i][j-1]
+            } else if i > 0 && j == 0 {
+                grid[i][j] += grid[i-1][j]
+            } else if i > 0 && j > 0 {
+                grid[i][j] += max(grid[i-1][j], grid[i][j-1])
+            }
+        }
+    }
+    return grid[len(grid)-1][len(grid[0])-1]
 }
 
 func max(a, b int) int {
@@ -1428,6 +1520,51 @@ func missingNumber(nums []int) int {
 }
 ```
 
+## [54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+
+### 中序遍历
+
+由于二叉搜索树的特性，即中序遍历结果有序，因此可以使用中序遍历得到结果。
+
+时间复杂度：$O(n)$
+
+空间复杂度：$O(n)$
+
+>   最差情况：当树退化为链表时。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+var res = 0
+var count = 0
+func kthLargest(root *TreeNode, k int) int {
+    res = 0		// 重置全局变量值，防止用例干扰
+    count = 0
+    inorder(root, k)
+    return res
+}
+
+func inorder(root *TreeNode, k int) {
+    if root == nil {
+        return
+    }
+    inorder(root.Right, k)	// 先遍历右子树，得到中序遍历结果的逆序
+    count++
+    if count == k {
+        // 当遍历的结点数等于 k 则返回
+        res = root.Val
+        return
+    }
+    inorder(root.Left, k)
+}
+```
+
 ## [55 - I. 二叉树的深度](https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/)
 
 ### 递归（DFS）
@@ -1489,11 +1626,82 @@ func maxDepth(root *TreeNode) int {
 }
 ```
 
+## [55 - II. 平衡二叉树](https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/)\*
+
+### DFS
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func isBalanced(root *TreeNode) bool {
+    if root == nil {
+        // 递归完毕，返回
+        return true
+    }
+    if sub := depth(root.Left) - depth(root.Right); sub <= 1 && -sub <= 1 {
+        // 当前结点平衡，递归求下一结点
+        return isBalanced(root.Left) && isBalanced(root.Right)
+    }
+    return false
+}
+
+// depth 求子树高度
+func depth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    return max(depth(root.Left), depth(root.Right)) + 1
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
+
+## [56 - I. 数组中数字出现的次数](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/)\*
+
+
+
+## [56 - II. 数组中数字出现的次数 II](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/)\*
+
+### 哈希表
+
+简单粗暴，效率不高。
+
+```go
+func singleNumber(nums []int) int {
+    m := make(map[int]int)
+    for _, v := range nums {
+        m[v]++
+    }
+    for k, v := range m {
+        if v == 1 {
+            return k
+        }
+    }
+    return 0
+}
+```
+
+### 位运算
+
+
+
 ## [57. 和为 s 的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
 
 ### 双指针
 
-$O(n)$|$O(1)$
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
 
 ```go
 func twoSum(nums []int, target int) []int {
@@ -1514,7 +1722,71 @@ func twoSum(nums []int, target int) []int {
 ### 二分查找
 
 对每个数字二分查找目标值。
-$O(nlogn)$|$O(1)$
+
+-   时间复杂度：$O(nlogn)$
+-   空间复杂度：$O(1)$
+
+## [58 - I. 翻转单词顺序](https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/)
+
+### 库函数
+
+>   该解法效率极低。
+
+```go
+func reverseWords(s string) string {
+    s = strings.Trim(s, " ")
+    arr := strings.Split(s, " ")
+    res := ""
+    for i := len(arr)-1; i >= 0; i-- {
+        if !strings.Contains(arr[i], " ") && arr[i] != "" {
+            res += strings.Trim(arr[i], " ")
+            if i > 0 {
+                res += " "
+            }
+        }
+       
+    }
+    return res
+}
+```
+
+## [63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)
+
+### 动态规划
+
+由于本题股票只能购买一次，实际上就是找整数对（买入价格，卖出价格），找出差值最大的整数对即可。
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
+
+```go
+func maxProfit(prices []int) int {
+    if len(prices) <= 1 {
+        return 0
+    }
+
+    res := 0			// 差值
+    min := prices[0]	// 记录最低买入价
+
+    for i := 1; i < len(prices); i++ {
+        if prices[i] < min {
+            // 记录更低的价格
+            min = prices[i]
+        } else {
+            // 将更大的差值
+            res = max(res, prices[i] - min)
+        }
+    }
+    return res
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
 ## 58-2. [左旋转字符串](https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
 
@@ -1565,45 +1837,48 @@ func isStraight(nums []int) bool {
 }
 ```
 
-## 64. [求 1+2+…+n](https://leetcode-cn.com/problems/qiu-12n-lcof/)
+## [64. 求 1+2+…+n](https://leetcode-cn.com/problems/qiu-12n-lcof/)
 
-### Ideas
+### 数学
 
-- 数学问题，解法：$y=(x+1)*(x/2)+(x\pmod2)*(x+1)/2$​​
+解法：
 
-  不保留小数位
+$f(x) = x(1 + x)/2$
 
-### Solutions
+>   梯形面积公式。
 
-- Math
+```go
+func sumNums(n int) int {
+    return (1 + n) * n / 2
+}
+```
 
-  ```go
-  func Sum_Solution( n int ) int {
-      return (n + 1) * (n / 2) + (n % 2) * (n + 1) / 2
-  }
-  ```
+## [65. 不用加减乘除做加法](https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/)
 
-## 65. [不用加减乘除做加法](https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/)
+### 位运算
 
-### Ideas
+使用`sum`记录和，`carry`记录进位的大小。
 
-- 位运算，或用来计算和，与用来计算进位，循环计算
+```go
+func add(a int, b int) int {
+    for b != 0 {
+        sum := a ^ b
+        carry := a & b << 1
+        a = sum
+        b = carry
+    }
+    return a
+}
+```
 
-### Solutions
-
-- 位运算
-
-  ```go
-  func add(a int, b int) int {
-      for b != 0 {
-          sum := a ^ b
-          carry := a & b << 1
-          a = sum
-          b = carry
-      }
-      return a
-  }
-  ```
+```go
+func add(a int, b int) int {
+    for b != 0 {
+        a, b = a ^ b, a & b << 1
+    }
+    return a
+}
+```
 
 ## 68-2. [二叉树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
 
