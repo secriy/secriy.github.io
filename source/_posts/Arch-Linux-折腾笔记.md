@@ -1,5 +1,5 @@
 ---
-title: "Arch Linux折腾笔记"
+title: "Arch Linux 折腾笔记"
 date: 2020-07-30 10:29:44
 categories: 经验教程
 tags:
@@ -97,7 +97,7 @@ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
    cfdisk /dev/sda
    ```
 
-   ![](Arch-Linux折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)
+   ![](Arch-Linux-折腾笔记/DeepinScreenshot_plasmashell_20201022011144.png)
 
    - 创建物理卷
 
@@ -686,7 +686,7 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
    LC_ALL=
    ```
 
-   ![](Arch-Linux折腾笔记/DeepinScreenshot_select-area_20201011151238.png)
+   ![](Arch-Linux-折腾笔记/DeepinScreenshot_select-area_20201011151238.png)
 
    经测试，Tim 和各类软件均能够正常输入中文。
 
@@ -706,8 +706,8 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 
    通过点击 Help->Show Log in Dolphin 查看日志，发现报错如下：
 
-   ![](Arch-Linux折腾笔记/image-20210117230158797.png)
+   ![](Arch-Linux-折腾笔记/image-20210117230158797.png)
 
    因此可以确定是找不到 JavaFX 环境，在**Plugins Marketplace**下载安装即可。
 
-   ![](Arch-Linux折腾笔记/image-20210117230358483.png)
+   ![](Arch-Linux-折腾笔记/image-20210117230358483.png)

@@ -1,5 +1,5 @@
 ---
-title: "RevoUninstallerPro安装破解"
+title: "RevoUninstallerPro 安装破解"
 date: 2020-06-17 19:01:32
 categories: 软件工具
 tags:
@@ -27,11 +27,11 @@ Revo Uninstaller Pro 是一个用于卸载电脑上其他软件的程序，支�
 
 1. 进入*C:\ProgramData\VS Revo Group\Revo Uninstaller Pro*目录，如果没有 ProgramData 文件夹请点击顶部**查看**按钮并勾选下图**隐藏的项目**选项
 
-   ![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191142607.png)
+   ![](RevoUninstallerPro-%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191142607.png)
 
 2. 找到下图中的文件，右键-->属性，勾选**只读**选项，最后点击**应用**或**确定**即破解完成
 
-   ![](RevoUninstallerPro%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191313815.png)
+   ![](RevoUninstallerPro-%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191313815.png)
 
 3. 破解完成，可以正常使用 Revo Uninstaller Pro，永久激活
 

@@ -1,5 +1,5 @@
 ---
-title: 'Go Learning: Testing'
+title: "Go Learning: Testing"
 date: 2021-06-08 19:53:27
 categories: 学习笔记
 tags:
@@ -14,15 +14,15 @@ Golang 拥有一个轻量级的测试框架，测试通过`go test`命令来进�
 
 在测试文件中，有三种类型的函数：
 
--   Test函数，以`Test`开头，用于测试程序执行是否符合预期
--   Benchmark函数，以`Bench`开头
--   示例函数
+- Test 函数，以`Test`开头，用于测试程序执行是否符合预期
+- Benchmark 函数，以`Bench`开头
+- 示例函数
 
-`go test`命令会遍历所有的`*_test.go`文件中符合上述三种类型命名规则的函数，生成一个临时的main包用于调用相应的测试函数，接着构建、运行、报告结果，最后清理临时文件。
+`go test`命令会遍历所有的`*_test.go`文件中符合上述三种类型命名规则的函数，生成一个临时的 main 包用于调用相应的测试函数，接着构建、运行、报告结果，最后清理临时文件。
 
-## Test函数
+## Test 函数
 
-每个测试函数必须导入testing包：
+每个测试函数必须导入 testing 包：
 
 ```go
 func TestName(t *testing.T) { /* ... */ }
@@ -115,4 +115,3 @@ func TestIsString(t *testing.T) {
 	}
 }
 ```
-

@@ -1,5 +1,5 @@
 ---
-title: 'The Basics of MySQL'
+title: "The Basics of MySQL"
 date: 2021-04-21 19:03:12
 categories: 学习笔记
 tags:

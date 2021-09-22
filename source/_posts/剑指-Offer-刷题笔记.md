@@ -1,5 +1,5 @@
 ---
-title: "剑指Offer刷题笔记"
+title: "剑指 Offer 刷题笔记"
 date: 2021-06-22 12:41:24
 categories: 算法刷题
 tags:
@@ -185,16 +185,16 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       Nums   []int
       Length int
   }
-  
+
   func Constructor() CQueue {
       return CQueue{}
   }
-  
+
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-  
+
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -417,7 +417,7 @@ func dfs(m, n, k, row, col int, visited [][]bool) int {
   }
   ```
 
-## [15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
+## [15. 二进制中 1 的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 
 ### 位运算
 
@@ -456,7 +456,7 @@ func myPow(x float64, n int) float64 {
 }
 ```
 
-## [17. 打印从1到最大的n位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
+## [17. 打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
 
 ### 不考虑大数
 
@@ -651,10 +651,10 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 ### 递归
 
--   时间复杂度：$O(mn)$
--   空间复杂度：$O(m)$
+- 时间复杂度：$O(mn)$
+- 空间复杂度：$O(m)$
 
->   m 为 A 树规模，n 为 B 树规模
+> m 为 A 树规模，n 为 B 树规模
 
 ```go
 /**
@@ -781,8 +781,7 @@ func helper(left, right *TreeNode) bool {
 - 时间复杂度：$O(mn)$
 - 空间复杂度：$O(1)$
 
-
->   m 和 n 分别为行和列的长度，result 数组为必须使用的空间，因此空间复杂度为$O(1)$
+> m 和 n 分别为行和列的长度，result 数组为必须使用的空间，因此空间复杂度为$O(1)$
 
 ```go
 func spiralOrder(matrix [][]int) []int {
@@ -854,19 +853,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-  
+
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-  
+
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-  
+
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -875,15 +874,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-  
+
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-  
+
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-  
+
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1070,7 +1069,7 @@ func levelOrder(root *TreeNode) [][]int {
   func verifyPostorder(postorder []int) bool {
      return verify(postorder, 0, len(postorder)-1)
   }
-  
+
   func verify(postorder []int, left, right int) bool {
       if left >= right {
           return true
@@ -1126,8 +1125,8 @@ func backtracking(root *TreeNode, target int, res *[][]int, tmp *[]int) {
 
 哈希表的思路是用一个哈希表存储原链表结点和新链表结点的对应关系，然后将`Next`和`Random`属性复制过去。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 /**
@@ -1285,8 +1284,8 @@ func max(a, b int) int {
 
 遍历整个矩阵，从上到下填充当前路径的最大值。
 
--   时间复杂度：$O(mn)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(mn)$
+- 空间复杂度：$O(1)$
 
 ```go
 func maxValue(grid [][]int) int {
@@ -1520,7 +1519,7 @@ func missingNumber(nums []int) int {
 }
 ```
 
-## [54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+## [54. 二叉搜索树的第 k 大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 
 ### 中序遍历
 
@@ -1530,7 +1529,7 @@ func missingNumber(nums []int) int {
 
 空间复杂度：$O(n)$
 
->   最差情况：当树退化为链表时。
+> 最差情况：当树退化为链表时。
 
 ```go
 /**
@@ -1669,8 +1668,6 @@ func max(a, b int) int {
 
 ## [56 - I. 数组中数字出现的次数](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/)\*
 
-
-
 ## [56 - II. 数组中数字出现的次数 II](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/)\*
 
 ### 哈希表
@@ -1694,14 +1691,12 @@ func singleNumber(nums []int) int {
 
 ### 位运算
 
-
-
 ## [57. 和为 s 的两个数字](https://leetcode-cn.com/problems/he-wei-sde-liang-ge-shu-zi-lcof/)
 
 ### 双指针
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 func twoSum(nums []int, target int) []int {
@@ -1723,14 +1718,14 @@ func twoSum(nums []int, target int) []int {
 
 对每个数字二分查找目标值。
 
--   时间复杂度：$O(nlogn)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(nlogn)$
+- 空间复杂度：$O(1)$
 
 ## [58 - I. 翻转单词顺序](https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/)
 
 ### 库函数
 
->   该解法效率极低。
+> 该解法效率极低。
 
 ```go
 func reverseWords(s string) string {
@@ -1744,7 +1739,7 @@ func reverseWords(s string) string {
                 res += " "
             }
         }
-       
+
     }
     return res
 }
@@ -1756,8 +1751,8 @@ func reverseWords(s string) string {
 
 由于本题股票只能购买一次，实际上就是找整数对（买入价格，卖出价格），找出差值最大的整数对即可。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 func maxProfit(prices []int) int {
@@ -1845,7 +1840,7 @@ func isStraight(nums []int) bool {
 
 $f(x) = x(1 + x)/2$
 
->   梯形面积公式。
+> 梯形面积公式。
 
 ```go
 func sumNums(n int) int {

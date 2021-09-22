@@ -1,5 +1,5 @@
 ---
-title: 'The Basics of Go'
+title: "The Basics of Go"
 date: 2021-04-17 09:16:22
 categories: 学习笔记
 tags:
@@ -138,7 +138,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-   
+
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```

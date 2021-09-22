@@ -1,5 +1,5 @@
 ---
-title: "PowerShell食用笔记"
+title: "PowerShell 食用笔记"
 date: 2020-08-24 02:40:18
 categories: 操作手册
 tags:
@@ -39,7 +39,7 @@ typora .\source\_posts
 
 但是这样写有一点不好，当关闭终端的时候，Typora 也会跟着关闭，因为 Typora 是从终端启动的，并会取得程序的输出。另外处于同样的原因，终端不再接受命令执行，只有 Ctrl+C 终止任务，如下图。
 
-![image-20200824025602301](PowerShell食用笔记/image-20200824025602301.png)
+![image-20200824025602301](PowerShell-食用笔记/image-20200824025602301.png)
 
 然而我连这个步骤都不想干，于是找了个完美的办法——屏蔽输出结果。
 

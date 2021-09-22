@@ -1,5 +1,5 @@
 ---
-title: 'Go Standard Library: I/O'
+title: "Go Standard Library: I/O"
 date: 2021-06-24 17:35:25
 categories: 学习笔记
 tags:
@@ -12,33 +12,31 @@ tags:
 
 ### Interface
 
-Golang 的io包主要有以下几个接口：
+Golang 的 io 包主要有以下几个接口：
 
--   Reader
--   Writer
--   Closer
--   Seeker
--   ReadWriter
--   ReadCloser
--   WriteCloser
--   ReadWriteCloser
--   ReadSeeker
--   ReadSeekCloser
--   WriteSeeker
--   ReadWriteSeeker
+- Reader
+- Writer
+- Closer
+- Seeker
+- ReadWriter
+- ReadCloser
+- WriteCloser
+- ReadWriteCloser
+- ReadSeeker
+- ReadSeekCloser
+- WriteSeeker
+- ReadWriteSeeker
 
-
-
--   ReaderFrom
--   WriterTo
--   ReaderAt
--   WriterAt
--   ByteReader
--   ByteScanner
--   ByteWriter
--   RuneReader
--   RuneScanner
--   StringWriter
+- ReaderFrom
+- WriterTo
+- ReaderAt
+- WriterAt
+- ByteReader
+- ByteScanner
+- ByteWriter
+- RuneReader
+- RuneScanner
+- StringWriter
 
 ```go
 
@@ -161,14 +159,14 @@ type Reader interface {
 func main() {
 	p := make([]byte, 10)
 
-    var reader io.Reader    
+    var reader io.Reader
 	reader = strings.NewReader("Hello")
-	
+
     read, err := reader.Read(p)
 	if err != nil {
 		log.Println(err)
 	}
-	
+
     fmt.Println(p)
     fmt.Println(read)
 }
@@ -183,6 +181,3 @@ func main() {
 [72 101 108 108 111 32 87 111 114 108]
 10
 ```
-
-
-

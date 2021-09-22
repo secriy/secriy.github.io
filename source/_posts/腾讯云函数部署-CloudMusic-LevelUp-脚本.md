@@ -1,5 +1,5 @@
 ---
-title: "腾讯云函数部署CloudMusic-LevelUp脚本"
+title: "腾讯云函数部署 CloudMusic-LevelUp 脚本"
 date: 2021-06-12 19:49:22
 ---
 
@@ -22,7 +22,7 @@ date: 2021-06-12 19:49:22
 ### 下载仓库
 
 ```shell
-git clone https://github.com/Secriy/CloudMusic-LevelUp.git
+git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
 ```
 
 ### 创建云函数
@@ -32,7 +32,7 @@ git clone https://github.com/Secriy/CloudMusic-LevelUp.git
 2. 进入云函数管理控制台，在函数服务中新建云函数，按图中说明配置基础设置：
 
    {% gallery %}
-   ![figue1](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612194839032.png)
+   ![figue1](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612194839032.png)
    {% endgallery %}
 
 3. 将高级配置中的环境配置-内存改为 64MB，执行超时时间改为 900，其他默认不改动，点击创建
@@ -42,7 +42,7 @@ git clone https://github.com/Secriy/CloudMusic-LevelUp.git
 1. 创建完成后进入函数管理页面，在在线 IDE 中打开一个终端：
 
    {% gallery %}
-   ![image-20210612195607701](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612195607701.png)
+   ![image-20210612195607701](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612195607701.png)
    {% endgallery %}
 
 2. 在终端中执行如下指令安装依赖：
@@ -70,7 +70,7 @@ git clone https://github.com/Secriy/CloudMusic-LevelUp.git
 正常的日志输出如下：
 
 {% gallery %}
-![image-20210612200659717](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612200659717.png)
+![image-20210612200659717](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612200659717.png)
 {% endgallery %}
 
 ### 配置触发器
@@ -78,7 +78,7 @@ git clone https://github.com/Secriy/CloudMusic-LevelUp.git
 在触发管理-创建触发器中按下图填写（定时任务名称使用默认即可）：
 
 {% gallery %}
-![image-20210612201012958](腾讯云函数部署CloudMusic-LevelUp脚本/image-20210612201012958.png)
+![image-20210612201012958](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612201012958.png)
 {% endgallery %}
 
 其中触发周期可以自定义，选择自定义出发周期可以使用 Cron 表达式创建，最后点击提交即可。

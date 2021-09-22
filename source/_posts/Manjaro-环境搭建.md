@@ -1,5 +1,5 @@
 ---
-title: "Manjaro环境搭建"
+title: "Manjaro 环境搭建"
 date: 2020-07-12 20:07:22
 categories: 经验教程
 tags:
@@ -30,11 +30,11 @@ Manjaro Linux 安装及开发环境搭建。
 
    - 按照图上配置，对分区类型有疑问请自行百度
 
-   ![](Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png)
+   ![](Manjaro-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100243163.png)
 
    - 以下部分默认即可
 
-   ![](Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png)
+   ![](Manjaro-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20200718100426743.png)
 
 3. 点击开始，写入镜像
 
@@ -192,4 +192,4 @@ Manjaro Linux 安装及开发环境搭建。
 
 ### 界面展示
 
-![DeepinScreenshot](Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/DeepinScreenshot.png)
+![DeepinScreenshot](Manjaro-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/DeepinScreenshot.png)

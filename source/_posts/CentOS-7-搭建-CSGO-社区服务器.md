@@ -1,5 +1,5 @@
 ---
-title: "CentOS7搭建CSGO社区服务器"
+title: "CentOS 7 搭建 CSGO 社区服务器"
 date: 2020-02-21 00:19:08
 categories: 经验教程
 tags:
@@ -56,7 +56,7 @@ tags:
 
    成功运行会进入下图状态：
 
-   ![](CentOS7搭建CSGO社区服务器/image-20200221004214677.png)
+   ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221004214677.png)
 
 ### 安装 CSGO
 
@@ -110,7 +110,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
 1.  前往[Steam 游戏服务器帐户管理](https://steamcommunity.com/dev/managegameservers)创建服务器令牌
 
-    ![](CentOS7搭建CSGO社区服务器/image-20200221010525719.png)
+    ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221010525719.png)
 
 2.  在*csgo_server/csgo/cfg*路径下创建配置文件**server.cfg**
 
@@ -168,7 +168,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
    ./run.sh
    ```
 
-   ![](CentOS7搭建CSGO社区服务器/image-20200221012223811.png)
+   ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221012223811.png)
 
    当出现上图显示的文字，服务器启动成功
 
