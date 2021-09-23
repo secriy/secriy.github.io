@@ -13,7 +13,7 @@ tags:
 
 #### 变量
 
-Rust 中变量有可变变量（mutable variable）和不可变变量（immutable variable）的区分，看如下的代码：
+Rust 中变量有可变变量（_mutable variable_）和不可变变量（_immutable variable_）的区分，看如下的代码：
 
 ```rust
 fn main() {
@@ -109,7 +109,7 @@ fn main() {
 }
 ```
 
-第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（_shadowed_）了，因此这个概念在 Rust 中叫做**Shadowing**。
+第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（_shadowed_）了，因此这个概念在 Rust 中叫做**_Shadowing_**。
 
 如果对`mut`变量赋新值：
 
@@ -143,7 +143,7 @@ fn main() {
 
 数据类型是静态类型相当重要的部分，Rust 作为一种静态类型语言，其每一个值都有指定的类型，所有变量的类型在编译期间就已经确定了。
 
-Rust 中数据类型分为两大类：标量类型（scalar）以及复合类型（compound）。
+Rust 中数据类型分为两大类：标量类型（_scalar_）以及复合类型（_compound_）。
 
 #### 标量类型
 
@@ -244,3 +244,121 @@ let heart_eyed_cat = '😻';
 可以注意到，Rust 是支持非英文变量名的。
 
 #### 复合类型
+
+复合类型是由多个数据类型组合成的一种数据类型，Rust 有两种原始的复合类型：元组（_Tuple_）和数组（_Array_）。
+
+##### Tuple
+
+Tuple 的大小固定，一旦被声明，其大小就不可修改。
+
+创建 Tuple：
+
+```rust
+fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}
+```
+
+上面的代码创建了一个由`i32`，`f64`和`u8`三个类型组成的 Tuple `tup`，并初始化其值。
+
+从 Tuple 取值：
+
+```rust
+fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of x is: {}", x); // The value of x is: 500
+    println!("The value of y is: {}", y); // The value of y is: 6.4
+    println!("The value of z is: {}", z); // The value of z is: 1
+}
+```
+
+类似`let (x, y, z) = tup`将一个 tuple 赋值给多个变量的用法被称为解构（_destructuring_），
+
+还可以直接根据下标取值：
+
+```rust
+fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+
+    println!("The value of x is: {}", tup.0); // The value of x is: 500
+    println!("The value of y is: {}", tup.1); // The value of y is: 6.4
+    println!("The value of z is: {}", tup.2); // The value of z is: 1
+}
+```
+
+##### Array
+
+Array 和 Tuple 的差别很大，前者只能包含相同数据类型的元素，后者则不然。不过 Rust 中的 Array 和 Tuple 一样是固定长度的，不可改变。
+
+Array 的初始化：
+
+```rust
+fn main() {
+    let a = [1, 2, 3, 4, 5];	// 初始化
+    let b: [i32; 5] = [1, 2, 3, 4, 5];	// [type; length]
+}
+```
+
+Array 特殊在于其一般分配在内存空间中的栈（stack）上而不是堆（heap）上，这在后文会深入讨论。当需要固定长度的一系列元素时，用 Array 会比较合适。Rust 中还有一种可变的数组，即**vector**，但它是由标准库提供的而不是 Rust 语言本身，一般来说 vector 会更常用一些。
+
+Array 的声明和取值：
+
+和其他大多数编程语言相同，Rust 中取数组元素使用下标，如`a[0]`。
+
+```rust
+fn main() {
+	let a: [isize; 5];	// 声明长度为 5 的空数组
+    println!("{}", a[0]);
+}
+```
+
+上面的代码会直接编译不通过，报`use of possibly-uninitialized`错误，这是因为 Rust 禁止使用未初始化的变量，改成下面的代码就可以了：
+
+```rust
+fn main() {
+    let a: [isize; 5];
+    a = [3; 5];	// 将一个长度为 5，内容全部为 3 的数组赋给变量 a
+    println!("{}", a[0]); // 3
+}
+```
+
+`a = [3; 5]`等同于`a = [3, 3, 3, 3, 3]`。
+
+我们注意到一件事情：Array 变量默认是 _mutable_ 的，不需要使用`mut`修饰就可以对其重新赋值。
+
+如果我们访问数组时越界会怎么样？在某些编程语言中越界并不会造成程序本身停止或异常，但会给内存上的数据造成破坏。在 Rust 中，编译器会自动检查数组访问的下标是否越界，如果越界则无法编译通过。当下标的值在程序运行时才会确定（如接收用户输入的下标值）时，越界会导致程序 **panic**，并随之中止。
+
+### 函数
+
+在大多数编程语言中，函数都是相当重要的存在，Rust 也不例外，函数的使用无处不在，比如前文中大量使用的`main`函数。
+
+#### 命名规范
+
+Rust 使用`fn`关键字声明函数，并使用 _snake case_ 命名风格，所有的函数名使用小写字母并使用`_`分隔。Rust 并不在乎函数的定义位置，无论其在代码中是位于`main`函数之前还是之后。
+
+```rust
+fn sample_func() {
+    println!("Sample function.");
+}
+
+fn hello_world() {
+    println!("Hello world.");
+}
+```
+
+调用函数也很简单，例如`sample_func()`：
+
+```rust
+fn main() {
+    hello_world();	// Hello world.
+}
+
+fn hello_world() {
+    println!("Hello world.");
+}
+```
+
+#### 函数参数
