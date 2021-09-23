@@ -12,7 +12,7 @@ references:
 
 {% noteblock quote cyan %}
 
-本文是 MySQL InnoDB 存储引擎的相关基础知识总结，是对 MySQL 5.7 官方文档进行的翻译和简化。由于最近准备面试，看了很多相关的书籍和面经总结，感觉大同小异，后来发现这些资料大多是摘录自官方文档的原文。由此打算对照“一手资料”看一遍，梳理总结。本文翻译可能引起歧义的地方都会注明英文原文。
+本文是 MySQL InnoDB 存储引擎的相关基础知识总结，是对 MySQL 5.7 官方文档进行的翻译和简化。由于最近准备面试，看了很多相关的书籍和面经总结，感觉它们大同小异，后来发现这些资料大多是摘录自官方文档的原文。由此打算对照“一手资料”看一遍，梳理总结。本文翻译可能引起歧义的地方都会注明英文原文。
 
 {% endnoteblock %}
 
@@ -148,6 +148,81 @@ InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集
 如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
 
 但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估`WHERE`条件的一部分，MySQL 服务器仍然会将`WHERE`条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
+
+## InnoDB 架构
+
+InnoDB 的架构可以参考下图，取自[InnoDB Architecture](https://dev.mysql.com/doc/refman/5.7/en/innodb-architecture.html)。
+
+![InnoDB architecture diagram showing in-memory and on-disk structures.](The-Basics-of-InnoDB/innodb-architecture.png)
+
+可以看到其分为**In-Memory Structures**和**On-Disk Structures**，也就是内存上结构和磁盘上结构。
+
+内存中的部分，可以看到有以下几个关键结构：
+
+- Adaptive Hash Index（可适应性哈希索引）
+- Buffer Pool（缓冲池）
+- Change Buffer（改动缓冲）
+- Log Buffer（日志缓冲）
+
+磁盘上的部分，有以下几个关键结构：
+
+- System Tablespace（系统表空间）
+  - InnoDB Data Dictionary（InnoDB 数据字典）
+  - Doublewrite Buffer（双写缓冲）
+  - Change Buffer（改动缓冲）
+  - Undo Logs（撤销日志，undo-log）
+- Undo Tablespaces（撤销表空间）
+- Redo Log（重做日志）
+- General Tablespaces（通用表空间）
+- Temporary Tablespaces（临时表空间）
+
+内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。图中的**O_DIRECT**是`open`函数的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过缓冲区高速缓存。
+
+InnoDB 默认会将`innodb_file_per_table`设置为`ON`，让每个表使用单独的 .frm 文件。
+
+## InnoDB 磁盘上结构
+
+### 表（Tables）
+
+InnoDB 会将表的数据放在数据目录中的 .frm 文件中，并且，它还会将新表的一些信息存入系统表空间中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。
+
+#### 行格式
+
+行格式（Row Formats）决定了单行数据在磁盘中是以什么形式存储的，
+
+InnoDB 有四种行格式，特性各不相同：
+
+- REDUNDANT
+- COMPACT
+- DYNAMIC
+- COMPRESSED
+
+变量`innodb_default_row_format`定义了默认使用的格式，而在建表（CREATE）或修改表（ALTER）时，也可以使用`ROW_FORMAT`选项自定义。
+
+#### 主键
+
+建议为每一个表都手动定义主键，并包含以下特征：
+
+- 最重要的查询所用列
+- 不可能为空的列
+- 不会重复的列
+- 插入后其值很少修改的列
+
+### 索引（Indexes）
+
+#### 聚集索引和二级索引
+
+每个 InnoDB 表都有一个被称为聚集索引的特殊索引，用于存储行数据（这个索引的每个项存储了整个数据行，而非部分列的值）。通常，聚集索引与主键是一个东西。为了在查询、插入和其他数据库操作中获得最佳性能，了解 InnoDB 如何使用聚集索引优化常见的查找和 DML 操作非常重要。
+
+- 在表上定义主键时，InnoDB 把它用作聚集索引。如果没有符合条件（逻辑唯一、非空）的列作为主键，可以添加一个自增的列用作主键，并且插入新行时自增列会自动设置其值。
+- 如果不为表定义主键，InnoDB 会使用第一个唯一索引（所有键定义为`NOT NULL`）作为聚集索引。
+- 如果表没有主键或合适的唯一索引，InnoDB 将在包含行 ID 值的合成列上生成一个名为`GEN_CLUST_INDEX`的隐藏聚集索引。这些行按 InnoDB 分配的行 ID 排序。行 ID 是一个 6 字节的字段，随着新行的插入而单调增加。因此，按行 ID 排序的行实际上是按插入顺序排列的。
+
+通过聚集索引访问行非常快，因为索引搜索直接指向包含行数据的页面。如果表很大，则与使用不同于索引记录的页面存储行数据的存储组织相比，聚集索引体系结构通常可以明显减少磁盘 I/O 操作的开销。
+
+聚集索引以外的索引都称为二级索引。在 InnoDB 中，二级索引中的每条记录都包含该行的主键列，以及为二级索引指定的列。InnoDB 使用此主键值搜索聚集索引中的行。也就是说，使用二级索引查询需要进行两次查询过程，这个操作被称为**回表**。
+
+如果主键较长，则二级索引将占用更多的空间，因此主键较短是有利的。
 
 ## InnoDB 锁机制
 
