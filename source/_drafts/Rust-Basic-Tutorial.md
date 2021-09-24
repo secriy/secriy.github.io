@@ -362,3 +362,130 @@ fn hello_world() {
 ```
 
 #### 函数参数
+
+函数参数用法：
+
+```rust
+fn main() {
+    another_function(5);
+}
+
+fn another_function(x: i32) {
+    println!("The value of x is: {}", x);	// The value of x is: 5
+}
+```
+
+多个参数：
+
+```rust
+fn main() {
+    another_function(5, 6);
+}
+
+fn another_function(x: i32, y: i32) {
+    println!("The value of x is: {}", x);	// The value of x is: 5
+    println!("The value of y is: {}", y);	// The value of y is: 6
+}
+```
+
+函数的每个参数都必须指明其类型。
+
+#### 函数返回值
+
+函数可以向调用它们的代码返回值。我们不命名返回值，但在箭头（->）后面声明它们的类型。在Rust中，函数的返回值与函数体块中最终表达式的值同义。通过使用return关键字并指定值，可以提前从函数返回，但大多数函数隐式返回最后一个表达式。下面是一个返回值的函数示例：
+
+Rust 中函数返回值是无名的，只需要指定其类型：
+
+```rust
+fn five() -> i32 {
+    5
+}
+
+fn plus_one(x: i32) -> i32 {
+    x + 1
+}
+
+fn main() {
+    let mut x = five();
+    x = plus_one(x);
+
+    println!("The value of x is: {}", x);	// The value of x is: 6
+}
+```
+
+注意，作为函数返回值的语句，其后是没有`;`的，如上面的`5`和`x + 1`，加上分号就变成了普通语句，而不是返回值。
+
+`plus_one`函数还可以改成如下的形式：
+
+```rust
+fn plus_one(mut x: i32) -> i32 {
+    x = x + 1;
+    x
+}
+```
+
+这和原来的`plus_one`函数是等价的，只不过使用了`mut`修饰符让`x`可变。
+
+### 注释
+
+注释很简单，例如单行注释：
+
+```rust
+// This is a comment.
+```
+
+多行注释：
+
+```rust
+// Multiple lines
+// comments.
+```
+
+```rust
+fn main() {
+    println!("Hello World!"); // Hello World!
+}
+```
+
+Rust 中还有一种文档注释，但暂时用不到，在之后会介绍。
+
+### 控制流
+
+控制流是很基本的概念，Rust 同样包含了多种基本的控制流。
+
+#### if
+
+```rust
+fn main() {
+    let number = 3;
+
+    if number < 5 {
+        println!("number < 5");
+    } else {
+        println!("number >= 5");
+    }
+}
+```
+
+在Rust中，`if`表达式只能用布尔值作为条件，即只能判断布尔变量以及条件表达式。
+
+还可以使用`else if`表达式来增加分支，只有一个分支会被执行，一旦某个分支为`true`，就不会判断下一个分支：
+
+```rust
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");	// number is divisible by 3
+    } else if number % 2 == 0 {
+        println!("number is divisible by 2");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+}
+```
+
+
+

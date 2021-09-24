@@ -185,16 +185,16 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       Nums   []int
       Length int
   }
-
+  
   func Constructor() CQueue {
       return CQueue{}
   }
-
+  
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-
+  
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -393,29 +393,42 @@ func dfs(m, n, k, row, col int, visited [][]bool) int {
 }
 ```
 
-## 14-1. [剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)
+## [14- I. 剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)
 
-### Ideas
+### 数学
 
-- 数学运算，一直找 3
+```go
+func cuttingRope(n int) int {
+    if n <= 3 {
+        return n-1
+    }
+    sum := 1
+    for n > 4 {
+        sum *= 3
+        n-=3
+    }
+    return sum*n
+}
+```
 
-### Solutions
+## [14- II. 剪绳子 II](https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof/)
 
-- 数学
+### 数学
 
-  ```go
-  func cuttingRope(n int) int {
-      if n <= 3 {
-          return n-1
-      }
-      sum := 1
-      for n > 4 {
-          sum *= 3
-          n-=3
-      }
-      return sum*n
-  }
-  ```
+```go
+func cuttingRope(n int) int {
+    if n <= 3 {
+        return n-1
+    }
+    sum := 1
+    for n > 4 {
+        sum *= 3
+        sum %= 1000000007
+        n-=3
+    }
+    return sum*n % 1000000007
+}
+```
 
 ## [15. 二进制中 1 的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 
@@ -853,19 +866,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-
+  
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-
+  
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-
+  
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -874,15 +887,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-
+  
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-
+  
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-
+  
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1055,37 +1068,33 @@ func levelOrder(root *TreeNode) [][]int {
 }
 ```
 
-## 33. [二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
+## [33. 二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
 
-### Ideas
+### 递归
 
-- **递归**思路是后序遍历最右结点为根结点，其左边第一个大于根结点的值后面的值也必定大于根结点，如不满足则返回`false`，递归由此切分的左右子树，当子树只有一个结点则返回`true`。
+思路是后序遍历最右结点为根结点，其左边第一个大于根结点的值后面的值也必定大于根结点，如不满足则返回`false`，递归由此切分的左右子树，当子树只有一个结点则返回`true`。
 
-### Solutions
+```go
+func verifyPostorder(postorder []int) bool {
+   return verify(postorder, 0, len(postorder)-1)
+}
 
-- 递归
-
-  ```go
-  func verifyPostorder(postorder []int) bool {
-     return verify(postorder, 0, len(postorder)-1)
-  }
-
-  func verify(postorder []int, left, right int) bool {
-      if left >= right {
-          return true
-      }
-      tmp := left
-      for postorder[tmp] < postorder[right] {
-          tmp++
-      }
-      for _, v := range postorder[tmp:right] {
-          if v < postorder[right] {
-              return false
-          }
-      }
-      return verify(postorder, left, tmp-1) && verify(postorder, tmp, right-1)
-  }
-  ```
+func verify(postorder []int, left, right int) bool {
+    if left >= right {
+        return true
+    }
+    tmp := left
+    for postorder[tmp] < postorder[right] {
+        tmp++
+    }
+    for _, v := range postorder[tmp:right] {
+        if v < postorder[right] {
+            return false
+        }
+    }
+    return verify(postorder, left, tmp-1) && verify(postorder, tmp, right-1)
+}
+```
 
 ## [34. 二叉树中和为某一值的路径](https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
 
@@ -1668,6 +1677,53 @@ func max(a, b int) int {
 
 ## [56 - I. 数组中数字出现的次数](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/)\*
 
+### 哈希表
+
+```go
+func singleNumbers(nums []int) []int {
+    m := make(map[int]int)
+    res := make([]int, 2)
+    for i := range nums {
+        m[nums[i]]++
+    }
+
+    i := 0
+
+    for k, v := range m {
+        if v == 1 {
+            res[i] = k
+            i++
+        }
+    }
+    return res
+}
+```
+
+### 位运算
+
+1.   将所有数字进行异或运算，得到结果
+2.   求异或结果的低位真值（带 1）
+3.   将结果分组异或，得到原始值
+
+```go
+func singleNumbers(nums []int) []int {
+    res := []int{0, 0}
+    sum := 0
+    for i := range nums {
+        sum = sum ^ nums[i]
+    }
+    low := sum ^ sum & (sum-1)
+    for i := range nums {
+        if nums[i] & low > 0 {
+            res[0] ^= nums[i]
+        } else {
+            res[1] ^= nums[i]
+        }
+    }
+    return res
+}
+```
+
 ## [56 - II. 数组中数字出现的次数 II](https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/)\*
 
 ### 哈希表
@@ -1875,27 +1931,24 @@ func add(a int, b int) int {
 }
 ```
 
-## 68-2. [二叉树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
+## [68 - I. 二叉搜索树的最近公共祖先](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/)
 
-### Ideas
+### 简单遍历
 
-- 由于是二叉搜索树，因此从根结点遍历，判断目标节点在其左子树还是右子树，不断遍历直到根结点的值大于小目标值，小于大目标值。
+由于是二叉搜索树，因此从根结点遍历，判断目标节点在其左子树还是右子树，不断遍历直到根结点的值大于小目标值，小于大目标值。
 
-### Solutions
+```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	for root != nil {
+		if root.Val < p.Val && root.Val < q.Val {
+			root = root.Right
+		} else if root.Va > p.Val && root.Val > q.Val {
+			root = root.Left
+		} else {
+			break
+		}
+	}
+	return root
+}
+```
 
-- Common
-
-  ```go
-  func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-  	for root != nil {
-  		if root.Val < p.Val && root.Val < q.Val {
-  			root = root.Right
-  		} else if root.Val > p.Val && root.Val > q.Val {
-  			root = root.Left
-  		} else {
-  			break
-  		}
-  	}
-  	return root
-  }
-  ```
