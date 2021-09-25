@@ -1,11 +1,23 @@
 ---
-title: Rust Basic Tutorial
+title: Learning Rust
 date: 2021-09-18 14:25:28
 categories: 学习笔记
+mathjax: true
 tags:
   - Rust
   - Programming
+references:
+  - title: The Rust Programming Language
+    url: https://doc.rust-lang.org/book/
 ---
+
+{% noteblock quote cyan %}
+
+本文根据[The Rust Programming Language](https://doc.rust-lang.org/book/)翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论的部分进行了介绍。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。
+
+{% endnoteblock %}
+
+<!-- more -->
 
 ## 基础概念
 
@@ -109,7 +121,7 @@ fn main() {
 }
 ```
 
-第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（_shadowed_）了，因此这个概念在 Rust 中叫做**_Shadowing_**。
+第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（_shadowed_）了，因此这个概念在 Rust 中叫做**Shadowing**。
 
 如果对`mut`变量赋新值：
 
@@ -143,7 +155,7 @@ fn main() {
 
 数据类型是静态类型相当重要的部分，Rust 作为一种静态类型语言，其每一个值都有指定的类型，所有变量的类型在编译期间就已经确定了。
 
-Rust 中数据类型分为两大类：标量类型（_scalar_）以及复合类型（_compound_）。
+Rust 中数据类型分为两大类：标量类型（scalar）以及复合类型（compound）。
 
 #### 标量类型
 
@@ -245,7 +257,7 @@ let heart_eyed_cat = '😻';
 
 #### 复合类型
 
-复合类型是由多个数据类型组合成的一种数据类型，Rust 有两种原始的复合类型：元组（_Tuple_）和数组（_Array_）。
+复合类型是由多个数据类型组合成的一种数据类型，Rust 有两种原始的复合类型：元组（Tuple）和数组（Array）。
 
 ##### Tuple
 
@@ -337,7 +349,7 @@ fn main() {
 
 #### 命名规范
 
-Rust 使用`fn`关键字声明函数，并使用 _snake case_ 命名风格，所有的函数名使用小写字母并使用`_`分隔。Rust 并不在乎函数的定义位置，无论其在代码中是位于`main`函数之前还是之后。
+Rust 使用`fn`关键字声明函数，并使用 snake case 命名风格，所有的函数名使用小写字母并使用`_`分隔。Rust 并不在乎函数的定义位置，无论其在代码中是位于`main`函数之前还是之后。
 
 ```rust
 fn sample_func() {
@@ -392,7 +404,7 @@ fn another_function(x: i32, y: i32) {
 
 #### 函数返回值
 
-函数可以向调用它们的代码返回值。我们不命名返回值，但在箭头（->）后面声明它们的类型。在Rust中，函数的返回值与函数体块中最终表达式的值同义。通过使用return关键字并指定值，可以提前从函数返回，但大多数函数隐式返回最后一个表达式。下面是一个返回值的函数示例：
+函数可以向调用它们的代码返回值。我们不命名返回值，但在箭头（->）后面声明它们的类型。在 Rust 中，函数的返回值与函数体块中最终表达式的值同义。通过使用 return 关键字并指定值，可以提前从函数返回，但大多数函数隐式返回最后一个表达式。下面是一个返回值的函数示例：
 
 Rust 中函数返回值是无名的，只需要指定其类型：
 
@@ -453,21 +465,23 @@ Rust 中还有一种文档注释，但暂时用不到，在之后会介绍。
 
 控制流是很基本的概念，Rust 同样包含了多种基本的控制流。
 
-#### if
+#### 条件
+
+Rust 中`if`语句不需要使用括号：
 
 ```rust
 fn main() {
     let number = 3;
 
     if number < 5 {
-        println!("number < 5");
+        println!("number < 5");	// number < 5
     } else {
         println!("number >= 5");
     }
 }
 ```
 
-在Rust中，`if`表达式只能用布尔值作为条件，即只能判断布尔变量以及条件表达式。
+在 Rust 中，`if`表达式只能用布尔值作为条件，即只能判断布尔变量以及条件表达式。
 
 还可以使用`else if`表达式来增加分支，只有一个分支会被执行，一旦某个分支为`true`，就不会判断下一个分支：
 
@@ -487,5 +501,205 @@ fn main() {
 }
 ```
 
+使用`if`语句，可以实现下面的条件表达式，类似于某些语言中的三元运算符：
 
+```rust
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
 
+    println!("The value of number is: {}", number);	// 5
+}
+```
+
+其中，根据前面有关函数返回值的学习，我们知道`{}`中没有分号结尾的作为返回值，由此我们可以写出下面的语句，同样是正确的：
+
+```rust
+fn main() {
+    let condition = true;
+    let number = if condition {let x = 2; x+2} else {let x = 1; x+1};
+
+    println!("The value of number is: {}", number);	// 4
+}
+```
+
+然而`if`和`else`语句块的值不能为不同类型，这是无法编译通过的，这是因为 Rust 需要在编译期确定所有变量的类型，如果`if`和`else`能够得到不同类型的结果，那么也就无法知道变量`number`的类型。不过，这并不代表这样的实现是不可能的，如果编译器必须跟踪任何变量的多个假设类型，那么编译器将更加复杂，对代码的保证也会更少。
+
+#### 循环
+
+Rust 有三种循环语句，`loop`、`while`和`for`。
+
+##### loop
+
+简而言之，`loop`语句就是无限循环，它没有条件语句，也就不能在循环上让其退出。但是`loop`可以通过循环体内的语句退出：
+
+```rust
+fn main() {
+    let mut count = 0;	// 统计循环次数
+    loop {
+        if count == 5 {break;}	// 当 count 等于 5 则退出循环
+        println!("hello");
+        count += 1;	// 次数加一
+    }
+}
+```
+
+毋庸置疑，上面的代码会输出五行`hello`。
+
+关于`loop`语句还有一点比较特别的是，它可以返回值：
+
+```rust
+fn main() {
+    let mut count = 0;
+    let result = loop {
+        if count == 5 {break count + 1;}
+        println!("hello");
+        count += 1;
+    };
+    println!("The value of result is: {}", result);	// The value of result is: 6
+}
+```
+
+可以看到，`break`关键字后面跟返回值，就能赋值给`result`，当执行到`break`语句后`loop`立即返回了`count + 1`。
+
+结合前面的内容，可以知道下面的代码也是正确的：
+
+```rust
+fn main() {
+    let mut count = 0;
+    let result = loop {
+        if count == 5 {break {let x = 12; count + x};}
+        println!("hello");
+        count += 1;
+    };
+    println!("The value of result is: {}", result);	// The value of result is: 17
+}
+```
+
+`{let x = 12; count + x}`的值为`count + x`即 17，通过`break`返回给`result`。
+
+##### While
+
+循环语句中写循环条件可以让循环处理更简单，Rust 提供了`while`循环支持指定循环条件：
+
+```rust
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number -= 1;
+    }
+
+    println!("LIFTOFF!!!");	// LIFTOFF!!!
+}
+```
+
+这和其他编程语言没什么大的区别，不再赘述。
+
+##### for
+
+`for`循环用于迭代元素集合，如数组（Array），这使用其他两种循环也可以做到：
+
+```rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+    let mut index = 0;
+
+    while index < 5 {
+        println!("the value is: {}", a[index]);
+
+        index += 1;
+    }
+}
+
+// 10
+// 20
+// 30
+// 40
+// 50
+```
+
+但使用`for`循环可以将上面的语句简化为下面的：
+
+```rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a.iter() {
+        println!("the value is: {}", element);
+    }
+}
+
+// 10
+// 20
+// 30
+// 40
+// 50
+```
+
+这样的代码会更安全，因为不需要指定数组下标之类，不存在越界的问题。
+
+下面的语句可以用于生成一个数字范围，类似 Python 中的写法：
+
+```rust
+fn main() {
+	for number in 1..4 {
+        println!("{}!", number);
+    }
+    println!("LIFTOFF!!!");
+}
+
+// 1!
+// 2!
+// 3!
+// LIFTOFF!!!
+```
+
+`1..4`很明显，是用来生成范围$[1,4)$的三个数字，接着使用`for`循环遍历这三个数字并输出。
+
+我们可以写出如下的代码来指定下标从数组中取值：
+
+```rust
+fn main() {
+	let arr = [10, 20, 30, 40, 50];
+    for number in 3..5 {
+        println!("{}", arr[number]);
+    }
+}
+
+// 40
+// 50
+```
+
+##### 练习
+
+用目前学习的内容写一个计算斐波那契数列的函数：
+
+```rust
+fn fib(mut n: i32) {
+    let mut pre = 1;
+    let mut post = 1;
+
+    while n > 2 {
+        let tmp = post;
+        post += pre;
+        pre = tmp;
+        n-=1;
+    }
+
+    println!("{}", post);
+}
+
+fn main() {
+    fib(1);		// 1
+    fib(2);		// 1
+    fib(3);		// 2
+    fib(10);	// 55
+}
+```
+
+## 所有权
+
+所有权（Ownership）是 Rust 最独特的特性，它使 Rust 能够在不需要垃圾收集器的情况下保证内存安全。因此，了解所有权在 Rust 中的作用非常重要。在本章中，我们将讨论所有权以及几个相关特性：借用（borrowing）、切片（slices）以及 Rust 如何在内存中布局数据。
