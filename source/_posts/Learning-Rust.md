@@ -25,7 +25,7 @@ references:
 
 #### 变量
 
-Rust 中变量有可变变量（_mutable variable_）和不可变变量（_immutable variable_）的区分，看如下的代码：
+Rust 中变量有可变变量（ _mutable variable_ ）和不可变变量（ _immutable variable_ ）的区分，看如下的代码：
 
 ```rust
 fn main() {
@@ -61,7 +61,7 @@ error: could not compile `hello-rust`
 To learn more, run the command again with --verbose.
 ```
 
-上面的错误表明，变量`x`无法二次赋值，因为它是一个 _immutable variable_。另外报错还说明，Rust 在编译期间就已经对程序可能出现的某些问题作了判断，如果不通过检查则编译失败。
+上面的错误表明，变量`x`无法二次赋值，因为它是一个 _immutable variable_ 。另外报错还说明，Rust 在编译期间就已经对程序可能出现的某些问题作了判断，如果不通过检查则编译失败。
 
 ```rust
 fn main() {
@@ -121,7 +121,7 @@ fn main() {
 }
 ```
 
-第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（_shadowed_）了，因此这个概念在 Rust 中叫做**Shadowing**。
+第一个`string`和第二个`string`并非同一个变量，它们只是同名，不同于`mut`变量，其两个同名变量之间是没有关联的。按 Rust 官方的说法，第一个变量被第二个变量遮蔽（ _shadowed_ ）了，因此这个概念在 Rust 中叫做**Shadowing**。
 
 如果对`mut`变量赋新值：
 
@@ -287,7 +287,7 @@ fn main() {
 }
 ```
 
-类似`let (x, y, z) = tup`将一个 tuple 赋值给多个变量的用法被称为解构（_destructuring_），
+类似`let (x, y, z) = tup`将一个 tuple 赋值给多个变量的用法被称为解构（ _destructuring_ ），
 
 还可以直接根据下标取值：
 
