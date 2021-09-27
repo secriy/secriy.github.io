@@ -258,6 +258,8 @@ InnoDB 事务模型旨在将多版本数据库的最佳特性与传统的两阶�
 
 ### 事务的隔离级别
 
+事务的隔离属于数据库处理基础之一，属于 ACID 中的 “I“。
+
 InnoDB 事务有四个隔离级别：
 
 - 读未提交（READ UNCOMMITTED）
@@ -267,14 +269,26 @@ InnoDB 事务有四个隔离级别：
 
 其中，可重复读是 InnoDB 默认的隔离级别。
 
+用户可以使用`SET TRANSACTION`语句自行修改单个会话及其后续连接的隔离级别（这涉及到MySQL连接的问题）。要为所有连接设置默认的隔离级别，可配置`--transaction-isolation`选项。
+
 下面的列表描述了 MySQL 如何支持不同的事务级别。列表从最常用的级别到最不常用的级别。
 
 #### REPEATABLE READ
 
+在可重复读级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通`SELECT`（非锁定）语句彼此之间是一致的。
+
+而对于锁定读取（带有`FOR UPDATE`的`SELECT`或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件（unique search condition）**还是**范围类型搜索条件（range-type search condition）**的唯一索引（unique index）：
+
+- 对于具有唯一搜索条件的唯一索引，InnoDB 只锁定找到的索引记录，而不锁定它之前的间隙（gap）。
+- 对于其他的搜索条件，InnoDB 锁定扫描范围内的所有记录，使用间隙锁（gap locks）和 next-key 锁（next-key locks）来阻止其他会话对该锁定范围的插入操作。
+
 #### READ COMMITTED
+
+在读提交级别下，
 
 #### READ UNCOMMITTED
 
 #### SERIALIZABLE
 
 此级别类似于**REPEATABLE READ**，但如果`autocommit`被禁用（设置为`disabled`），InnoDB 隐式地将所有普通 SELECT 语句转换为`SELECT ... LOCK IN SHARE MODE`。如果启用了自动提交，则选择是其自己的事务。因此，已知它是只读的，如果作为一致（非锁定）读取执行，并且不需要为其他事务阻塞，则可以序列化它。（若要在其他事务已修改选定行时强制阻止普通选择，请禁用自动提交。）
+

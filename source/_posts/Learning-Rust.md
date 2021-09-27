@@ -1,5 +1,5 @@
 ---
-title: Learning Rust
+title: "Learning Rust"
 date: 2021-09-18 14:25:28
 categories: 学习笔记
 mathjax: true

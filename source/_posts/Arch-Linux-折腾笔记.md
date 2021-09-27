@@ -8,7 +8,7 @@ references:
   - title: Arch Wiki
     url: https://wiki.archlinux.org/
   - title: Manjaro 环境搭建
-    url: https://blog.secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/
+    url: https://blog.secriy.com/2020/07/12/cku0q50qh001p10nwg4dzg93g/
 ---
 
 {% noteblock quote cyan %}
@@ -27,7 +27,7 @@ references:
 
   页面中有国内镜像下载方式
 
-  ![](Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png)
+  ![](Arch-Linux-%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/image-20200730104226652.png)
 
 - U 盘
 
@@ -389,6 +389,8 @@ sudo vim ~/.zshrc # 修改配置文件
 
 - git
 
+- autojump
+
 - zsh-autosuggestions
 
   ```shell
@@ -519,7 +521,7 @@ sudo systemctl start sshd.service
 
 ### 将 xsettingsd 设置为自启动
 
-![将xsettingsd设置为自启动](Arch-Linux%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20200801023450-1596222003471.png)
+![将xsettingsd设置为自启动](Arch-Linux-%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/DeepinScreenshot_select-area_20200801023450-1596222003471.png)
 
 ### 卸载无用软件包
 
@@ -609,7 +611,7 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 
 - Node.js
 - Go
-- Python3/2
+- Python 3/2
 
 #### 编辑
 
@@ -639,7 +641,7 @@ sudo pacman -R $(pacman -Qtdq) # 清理孤立软件包
 
 - Postman
 
-#### 管理
+#### 代码管理
 
 - GitHub Desktop
 - Git
