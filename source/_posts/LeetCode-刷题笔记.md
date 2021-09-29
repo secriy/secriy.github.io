@@ -108,7 +108,7 @@ LeetCode 刷题记录。
       // 翻转
       reverse(nums[left+1:])
   }
-
+  
   func reverse(nums []int) {
       for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
           nums[i], nums[n-i] = nums[n-i], nums[i]
@@ -229,54 +229,51 @@ LeetCode 刷题记录。
 
 #### Solutions
 
-### 20. [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
+### [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
 
-#### Ideas
+#### 字符串替换
 
-- 循环将字符串里的`'{}()[]'`替换为空字符串，最终得到空字符串即为匹配。该解法实际效率较低。
-- 对于括号匹配问题常见的解法是使用栈匹配。
+循环将字符串里的`'{}()[]'`替换为空字符串，最终得到空字符串即为匹配。该解法实际效率较低。
 
-#### Solutions
+```go
+func isValid(s string) bool {
+	for strings.Contains(s, "[]") || strings.Contains(s, "{}") || strings.Contains(s, "()") {
+		s = strings.Replace(s, "[]", "", -1)
+		s = strings.Replace(s, "{}", "", -1)
+		s = strings.Replace(s, "()", "", -1)
+	}
+	if s == "" {
+		return true
+	}
+	return false
+}
+```
 
-- Replace
+#### 栈匹配
 
-  ```go
-  func isValid(s string) bool {
-  	for strings.Contains(s, "[]") || strings.Contains(s, "{}") || strings.Contains(s, "()") {
-  		s = strings.Replace(s, "[]", "", -1)
-  		s = strings.Replace(s, "{}", "", -1)
-  		s = strings.Replace(s, "()", "", -1)
-  	}
-  	if s == "" {
-  		return true
-  	}
-  	return false
-  }
-  ```
+对于括号匹配问题常见的解法是使用栈匹配。
 
-- Stack
-
-  ```go
-  func isValid(s string) bool {
-      stack := make([]byte, 0)
-  	length := 0
-  	for _, v := range []byte(s) {
-  		stack = append(stack, v)
-  		length++
-  		for length > 1 {
-  			left := stack[length-2]		// 仅用于增强代码可读性，可省略
-  			right := stack[length-1]
-  			if (left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']') {
-                  length -= 2
-  				stack = stack[:length]
-  				continue
-  			}
-  			break
-  		}
-  	}
-  	return len(stack) == 0
-  }
-  ```
+```go
+func isValid(s string) bool {
+    stack := make([]byte, 0)
+	length := 0	// 记录栈顶
+	for _, v := range []byte(s) {
+		stack = append(stack, v)
+		length++
+		for length > 1 {
+			left := stack[length-2]		// 栈末尾倒数第二个
+			right := stack[length-1]	// 栈末尾倒数第一个
+			if (left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']') {
+                length -= 2
+				stack = stack[:length]
+				continue
+			}
+			break
+		}
+	}
+	return len(stack) == 0
+}
+```
 
 ### [58. Length of Last Word](https://leetcode-cn.com/problems/length-of-last-word/)
 
@@ -458,7 +455,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
       dummy.Next = dummy.Next.Next
       return head.Next
   }
-
+  
   ```
 
 ### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
@@ -840,7 +837,7 @@ func deleteDuplicates(head *ListNode) *ListNode {
       }
   	return helper(root.Left, root.Right)
   }
-
+  
   func helper(left, right *TreeNode) bool {
       if left == nil && right == nil {
           return true
@@ -851,6 +848,44 @@ func deleteDuplicates(head *ListNode) *ListNode {
       return helper(left.Left, right.Right) && helper(left.Right, right.Left)
   }
   ```
+
+### [102. Binary Tree Level Order Traversal](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+#### 层序遍历
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return nil
+    }
+    result := make([][]int, 0)
+    queue := []*TreeNode{root}
+    for len(queue) > 0 {
+        tmp := make([]int, 0)
+        for i := len(queue); i > 0; i-- {
+            root := queue[0]
+            if root.Left != nil {
+                queue = append(queue, root.Left)
+            }
+            if root.Right != nil {
+                queue = append(queue, root.Right)
+            }
+            tmp = append(tmp, root.Val)
+            queue = queue[1:]
+        }
+        result = append(result, tmp)
+    }
+    return result
+}
+```
 
 ### 105. [Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
@@ -903,7 +938,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           return isBalanced(root.Left) && isBalanced(root.Right)
       }
   }
-
+  
   // 求二叉树深度，来自 LeetCode 104
   func helper(root *TreeNode) int {
       if root == nil {
@@ -911,7 +946,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       }
       return max(helper(root.Left), helper(root.Right)) + 1
   }
-
+  
   func max(a, b int) int {
       if a > b {
           return a
@@ -937,7 +972,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(root, targetSum, tmp, &results)
       return results
   }
-
+  
   func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
       if root == nil {
           return
@@ -956,30 +991,51 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   }
   ```
 
+### [226. Invert Binary Tree](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+#### 递归
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func invertTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil
+    }
+    root.Left, root.Right = root.Right, root.Left
+    invertTree(root.Left)
+    invertTree(root.Right)
+    return root
+}
+```
+
 ## Hash Table
 
-### 1. [Two Sum](https://leetcode.com/problems/two-sum/description/)
+### [1. Two Sum](https://leetcode-cn.com/problems/two-sum/)
 
-#### Ideas
+最容易想到的方式是使用 Map 存储遍历到的数字，并判断目标数字减去当前数字的结果是否在 Map 中，如过是直接返回。
 
-- 最容易想到的方式是使用 Map 存储遍历到的数字，并判断目标数字减去当前数字的结果是否在 Map 中，如过是直接返回。
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
-#### Solutions
-
-- Map
-
-  ```go
-  func twoSum(nums []int, target int) []int {
-  	m := make(map[int]int)
-  	for k, v := range nums {
-  		if idx, ok := m[target-v]; ok {
-  			return []int{k, idx}
-  		}
-  		m[v] = k
-  	}
-  	return nil
-  }
-  ```
+```go
+func twoSum(nums []int, target int) []int {
+    m := make(map[int]int)	// key: number, value: index
+	for k, v := range nums {
+		if idx, ok := m[target-v]; ok {
+			return []int{k, idx}
+		}
+		m[v] = k
+	}
+	return nil
+}
+```
 
 ### 242. [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
 
@@ -1032,70 +1088,99 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 
 ## Math
 
-### 7. [Reverse Integer](https://leetcode.com/problems/reverse-integer/description/)
+### [7. Reverse Integer](https://leetcode.com/problems/reverse-integer/description/)
 
-#### Ideas
+先提出符号，对数字进行循环对 10 取余来得到高一位数字，对地位数字循环乘 10 来进位。
 
-- 先提出符号，对数字进行循环对 10 取余来得到高一位数字，对地位数字循环乘 10 来进位。
+```go
+func reverse(x int) int {
+    result := 0
+    for x != 0 {
+        result = result*10 + x%10
+        x /= 10
+    }
+    if bit := result >> 31; bit != 0 && bit != -1 {
+        // 判断是否超出范围
+        return 0    
+    }
+    return result
+}
+```
 
-#### Solutions
+### [9. Palindrome Number](https://leetcode.com/problems/palindrome-number/description/)
 
-- Math
+#### 翻转数字
 
-  ```go
-  func reverse(x int) int {
-  	result := 0
-  	for x != 0 {
-  		low := x % 10
-  		x /= 10
-  		result = result*10 + low
-  	}
-  	if bit := (result >> 31); bit != 0 && bit != -1 {
-  		return 0
-  	}
-  	return result
-  }
-  ```
+按照第七题写法判断翻转过后是否相等。
 
-### 9. [Palindrome Number](https://leetcode.com/problems/palindrome-number/description/)
+```go
+func isPalindrome(x int) bool {
+    if x < 0 {
+        return false
+    }
+    return x == reverse(x)
+}
 
-#### Ideas
+// 翻转数字
+func reverse(x int) int {
+    res := 0
+    for x != 0 {
+        res = res*10 + x%10
+        x /= 10
+    }
+    return res
+}
+```
 
-- 把数字转换为字符串，用双指针各自从左右遍历字符串判断二者对应字符是否相同，直到两个指针重叠。
-- 考虑不使用字符串的解法，参考第七题反转数字，可以将`x`的低位反转存入另一个变量中，并将`x`除以 10，最后判断二者是否相等。
+简化：
 
-#### Solutions
+```go
+func isPalindrome(x int) bool {
+    if x < 0 {
+        return false
+    }
+    tmp := x
+    y := 0
+    for x != 0 {
+        y = y*10 + x%10
+        x /= 10
+    }
+    return tmp == y
+}
+```
 
-- String
+可以将`x`的低位反转存入另一个变量中，并将`x`除以 10，最后判断二者是否相等。
 
-  ```go
-  func isPalindrome(x int) bool {
-  	str := strconv.FormatInt(int64(x), 10)
-  	length := len(str)
-  	for i := 0; 2*i < length-1; i++ {
-  		if str[i] != str[length-1-i] {
-  			return false
-  		}
-  	}
-  	return true
-  }
-  ```
+```go
+func isPalindrome(x int) bool {
+	if x < 0 || (x%10 == 0 && x != 0) {
+		return false // x为负数或10的倍数返回false
+	}
+	num := 0
+	for x > num {
+		num = num*10 + x%10
+		x /= 10
+	}
+	return x == num || x == num/10
+}
+```
 
-- Math
+#### 转换为字符串
 
-  ```go
-  func isPalindrome(x int) bool {
-  	if x < 0 || (x%10 == 0 && x != 0) {
-  		return false // x为负数或10的倍数返回false
-  	}
-  	num := 0
-  	for x > num {
-  		num = num*10 + x%10
-  		x /= 10
-  	}
-  	return x == num || x == num/10
-  }
-  ```
+把数字转换为字符串，用双指针各自从左右遍历字符串判断二者对应字符是否相同，直到两个指针重叠。
+
+```go
+func isPalindrome(x int) bool {
+	str := strconv.FormatInt(int64(x), 10)
+	length := len(str)
+	for i := 0; 2*i < length-1; i++ {
+		if str[i] != str[length-1-i] {
+			return false
+		}
+	}
+	return true
+}
+```
 
 ### 13. [Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/)
 
@@ -1205,7 +1290,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   	}
   	return result
   }
-
+  
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -1266,7 +1351,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
   		} else {
   			left = mid
   		}
-
+  
   	}
   }
   ```
@@ -1409,9 +1494,9 @@ func partition(head *ListNode, x int) *ListNode {
   	{'t', 'u', 'v'},	  // 8
   	{'w', 'x', 'y', 'z'}, // 9
   }
-
+  
   var result []string
-
+  
   func letterCombinations(digits string) []string {
       // 边界判断
   	if len(digits) == 0 {
@@ -1422,7 +1507,7 @@ func partition(head *ListNode, x int) *ListNode {
   	dfs(digits, 0, "")
   	return result
   }
-
+  
   func dfs(digits string, level int, str string) {
   	// 递归出口
   	if level == len(digits) {
@@ -1437,7 +1522,7 @@ func partition(head *ListNode, x int) *ListNode {
   		dfs(digits, level+1, str+string(chars[digit-2][i]))
   	}
   }
-
+  
   ```
 
 ### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
@@ -1457,7 +1542,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-
+  
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -1467,7 +1552,7 @@ func partition(head *ListNode, x int) *ListNode {
           }
           return
       }
-
+  
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -1496,7 +1581,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1539,7 +1624,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1663,7 +1748,7 @@ func min(a, b int) int {
 
 ## Greedy
 
-### 45. [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+### [45. Jump Game II](https://leetcode.com/problems/jump-game-ii/)
 
 #### Ideas
 
@@ -1703,17 +1788,17 @@ func min(a, b int) int {
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-
+  
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-
+  
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-
+  
   	// it's guaranteed to never hit it
   	return 0
   }
@@ -1748,6 +1833,46 @@ func min(a, b int) int {
       return false
   }
   ```
+
+### [135. Candy](https://leetcode-cn.com/problems/candy/)
+
+贪心策略：先从左往右扫一遍，将右边大于左边的加一；再从右往左扫一遍，将左边大于右边的加一。注意第二次扫可能已经分配的足够多了，可以和原始值对比再考虑是否加一。
+
+```go
+func candy(ratings []int) int {
+    nums := make([]int, len(ratings))
+
+    nums[0] = 1	// 填充初始的 1
+
+    // 左 -> 右
+    for i := 1; i < len(ratings); i++ {
+        nums[i] = 1	// 填充初始的 1
+        if ratings[i] > ratings[i-1] {
+            nums[i] = nums[i-1] + 1
+        }
+    }
+
+    // 右 -> 左
+    for i := len(ratings)-1; i > 0; i-- {
+        if ratings[i] < ratings[i-1] {
+            nums[i-1] = max(nums[i-1], nums[i] + 1)
+        }
+    }
+
+    // 数组求和
+    for i := 1; i < len(nums); i++ {
+        nums[0] += nums[i]
+    }
+    return nums[0]
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
 ### 781. [Rabbits in Forest](https://leetcode-cn.com/problems/rabbits-in-forest/)
 
