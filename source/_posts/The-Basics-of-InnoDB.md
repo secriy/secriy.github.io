@@ -1,6 +1,7 @@
 ---
 title: "The Basics of InnoDB"
 date: 2021-09-21 09:17:14
+link: basics-of-innodb
 categories: 学习笔记
 tags:
   - Database
@@ -269,7 +270,7 @@ InnoDB 事务有四个隔离级别：
 
 其中，可重复读是 InnoDB 默认的隔离级别。
 
-用户可以使用`SET TRANSACTION`语句自行修改单个会话及其后续连接的隔离级别（这涉及到MySQL连接的问题）。要为所有连接设置默认的隔离级别，可配置`--transaction-isolation`选项。
+用户可以使用`SET TRANSACTION`语句自行修改单个会话及其后续连接的隔离级别（这涉及到 MySQL 连接的问题）。要为所有连接设置默认的隔离级别，可配置`--transaction-isolation`选项。
 
 下面的列表描述了 MySQL 如何支持不同的事务级别。列表从最常用的级别到最不常用的级别。
 
@@ -291,4 +292,3 @@ InnoDB 事务有四个隔离级别：
 #### SERIALIZABLE
 
 此级别类似于**REPEATABLE READ**，但如果`autocommit`被禁用（设置为`disabled`），InnoDB 隐式地将所有普通 SELECT 语句转换为`SELECT ... LOCK IN SHARE MODE`。如果启用了自动提交，则选择是其自己的事务。因此，已知它是只读的，如果作为一致（非锁定）读取执行，并且不需要为其他事务阻塞，则可以序列化它。（若要在其他事务已修改选定行时强制阻止普通选择，请禁用自动提交。）
-

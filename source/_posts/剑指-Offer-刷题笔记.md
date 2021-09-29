@@ -1,6 +1,7 @@
 ---
 title: "剑指 Offer 刷题笔记"
 date: 2021-06-22 12:41:24
+link: coding-interviews-practice
 categories: 算法刷题
 tags:
   - Algorithms
@@ -185,16 +186,16 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       Nums   []int
       Length int
   }
-  
+
   func Constructor() CQueue {
       return CQueue{}
   }
-  
+
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-  
+
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -866,19 +867,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-  
+
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-  
+
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-  
+
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -887,15 +888,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-  
+
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-  
+
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-  
+
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1701,9 +1702,9 @@ func singleNumbers(nums []int) []int {
 
 ### 位运算
 
-1.   将所有数字进行异或运算，得到结果
-2.   求异或结果的低位真值（带 1）
-3.   将结果分组异或，得到原始值
+1.  将所有数字进行异或运算，得到结果
+2.  求异或结果的低位真值（带 1）
+3.  将结果分组异或，得到原始值
 
 ```go
 func singleNumbers(nums []int) []int {
@@ -1951,4 +1952,3 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	return root
 }
 ```
-

@@ -1,6 +1,7 @@
 ---
 title: "CentOS 7 搭建 CSGO 社区服务器"
 date: 2020-02-21 00:19:08
+link: csgo-on-centos7
 categories: 经验教程
 tags:
   - CSGO

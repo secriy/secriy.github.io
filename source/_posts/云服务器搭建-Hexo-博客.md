@@ -1,6 +1,7 @@
 ---
 title: "云服务器搭建 Hexo 博客"
 date: 2020-02-03 17:33:55
+link: hexo-deploy
 categories: 经验教程
 tags:
   - Hexo

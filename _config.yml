@@ -10,7 +10,7 @@ favicon: "https://upyun.secriy.com/statics/img/sun.png"
 url: "https://blog.secriy.com"
 root: /
 # permalink: ":year/:month/:day/:title/"
-permalink: ":year/:month/:day/:id/"
+permalink: ":link/"
 permalink_defaults: null
 source_dir: source
 public_dir: public
@@ -42,7 +42,14 @@ index_generator:
   per_page: 10
   order_by: "-date"
 default_category: uncategorized
-category_map: null
+category_map:
+  信息安全: infosec
+  学习笔记: note
+  技术讨论: tech
+  操作手册: manual
+  算法刷题: algorithms
+  经验教程: tutorial
+  软件工具: software
 tag_map: null
 date_format: YYYY-MM-DD
 time_format: "HH:mm:ss"

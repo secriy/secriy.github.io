@@ -1,6 +1,7 @@
 ---
 title: "Navicat Premium 安装破解"
 date: 2020-03-10 17:04:47
+link: navicat-premium-crack
 categories: 软件工具
 tags:
   - Software

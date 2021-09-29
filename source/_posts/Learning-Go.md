@@ -1,6 +1,7 @@
 ---
 title: "Learning Go"
 date: 2021-04-17 09:16:22
+link: learning-go
 categories: 学习笔记
 tags:
   - Go

@@ -1,6 +1,7 @@
 ---
 title: "Go Learning: defer"
 date: 2021-04-20 23:12:29
+link: go-learning-defer
 categories: 学习笔记
 tags:
   - Go
