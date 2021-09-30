@@ -1,7 +1,7 @@
 ---
 title: "Windows 代理配置"
 date: 2020-06-02 13:15:22
-link: windows-proxy-config
+urlname: windows-proxy-config
 categories: 经验教程
 tags:
   - Proxy

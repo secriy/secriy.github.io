@@ -1,7 +1,7 @@
 ---
 title: "Git 笔记"
 date: 2019-10-19 18:26:42
-link: git-note
+urlname: git-note
 categories: 操作手册
 tags:
   - Git

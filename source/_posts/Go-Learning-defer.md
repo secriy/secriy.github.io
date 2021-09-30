@@ -1,11 +1,11 @@
 ---
 title: "Go Learning: defer"
 date: 2021-04-20 23:12:29
-link: go-learning-defer
+urlname: go-learning-defer
 categories: 学习笔记
 tags:
   - Go
-  - Programming
+  - PL
 ---
 
 {% noteblock quote cyan %}
@@ -61,14 +61,14 @@ func f3() {
 
 上述代码的执行顺序如下：
 
-1. 从`main.main()`进入，执行`f1()`
-2. `println("f1-begin")`入栈，执行`f2()`
-3. `println("f2-begin")`入栈，执行`f3()`
-4. `println("f3-begin")`入栈，触发`panic(0)`
-5. 执行当前函数内所有 defer 语句，`println("f3-begin")`出栈执行，`panic f3()`
-6. panic 向上执行至`f2()`，同理`println("f2-begin")`出栈执行，`panic f2()`
-7. panic 向上执行至`f1()`，同理`println("f1-begin")`出栈执行，`panic f1()`
-8. panic 向上执行至`main.main()`，`panic main.main()`，退出该 Goroutine
+1. 从 `main.main()` 进入，执行 `f1()`
+2. `println("f1-begin")` 入栈，执行 `f2()`
+3. `println("f2-begin")` 入栈，执行 `f3()`
+4. `println("f3-begin")` 入栈，触发 `panic(0)`
+5. 执行当前函数内所有 defer 语句，`println("f3-begin")` 出栈执行，`panic f3()`
+6. panic 向上执行至 `f2()`，同理 `println("f2-begin")` 出栈执行，`panic f2()`
+7. panic 向上执行至 `f1()`，同理 `println("f1-begin")` 出栈执行，`panic f1()`
+8. panic 向上执行至 `main.main()`，`panic main.main()`，退出该 Goroutine
 
 ### 四、defer 中包含子函数
 
@@ -91,8 +91,8 @@ func main() {
 
 执行流程：
 
-1. 从`main.main()`进入
-2. `f(1, f(3, 0))`准备入栈，执行`f(3, 0)`，输出 3，将函数地址和参数一并入栈
-3. `f(2, f(4, 0))`准备入栈，执行`f(4, 0)`，输出 4，将函数地址和参数一并入栈
-4. `f(2, f(4, 0))`出栈执行，输出 2
-5. `f(1, f(3, 0))`出栈执行，输出 1
+1. 从 `main.main()` 进入
+2. `f(1, f(3, 0))` 准备入栈，执行 `f(3, 0)`，输出 3，将函数地址和参数一并入栈
+3. `f(2, f(4, 0))` 准备入栈，执行 `f(4, 0)`，输出 4，将函数地址和参数一并入栈
+4. `f(2, f(4, 0))` 出栈执行，输出 2
+5. `f(1, f(3, 0))` 出栈执行，输出 1

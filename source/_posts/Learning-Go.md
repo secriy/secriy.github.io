@@ -1,11 +1,11 @@
 ---
 title: "Learning Go"
 date: 2021-04-17 09:16:22
-link: learning-go
+urlname: learning-go
 categories: 学习笔记
 tags:
   - Go
-  - Programming
+  - PL
 references:
   - title: CGO_ENABLED 环境变量对 Go 静态编译机制的影响
     url: https://johng.cn/cgo-enabled-affect-go-static-compile/
@@ -139,7 +139,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-   
+
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```

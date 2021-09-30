@@ -1,7 +1,7 @@
 ---
 title: "SQL Practice"
 date: 2021-08-16 11:22:11
-link: sql-practice
+urlname: sql-practice
 categories: 学习笔记
 tags:
   - SQL

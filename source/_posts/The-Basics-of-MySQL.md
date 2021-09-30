@@ -1,12 +1,11 @@
 ---
 title: "The Basics of MySQL"
 date: 2021-04-21 19:03:12
-link: basics-of-mysql
+urlname: basics-of-mysql
 categories: 学习笔记
 tags:
   - Database
   - MySQL
-urlname: mysql-basic
 ---
 
 {% noteblock quote cyan %}

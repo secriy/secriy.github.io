@@ -1,7 +1,7 @@
 ---
 title: "Multicast DNS"
 date: 2021-08-16 22:38:29
-link: multicast-dns
+urlname: multicast-dns
 categories: 技术讨论
 tags:
   - Network

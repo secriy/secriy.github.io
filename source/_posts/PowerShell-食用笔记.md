@@ -1,7 +1,7 @@
 ---
 title: "PowerShell 食用笔记"
 date: 2020-08-24 02:40:18
-link: powershell-note
+urlname: powershell-note
 categories: 操作手册
 tags:
   - Windows

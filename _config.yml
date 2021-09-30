@@ -10,7 +10,7 @@ favicon: "https://upyun.secriy.com/statics/img/sun.png"
 url: "https://blog.secriy.com"
 root: /
 # permalink: ":year/:month/:day/:title/"
-permalink: ":link/"
+permalink: ":urlname/"
 permalink_defaults: null
 source_dir: source
 public_dir: public

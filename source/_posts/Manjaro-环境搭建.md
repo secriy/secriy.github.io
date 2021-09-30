@@ -1,7 +1,7 @@
 ---
 title: "Manjaro 环境搭建"
 date: 2020-07-12 20:07:22
-link: start-with-manjaro
+urlname: start-with-manjaro
 categories: 经验教程
 tags:
   - Linux

@@ -1,7 +1,7 @@
 ---
 title: "RevoUninstallerPro 安装破解"
 date: 2020-06-17 19:01:32
-link: revo-uninstall-pro-crack
+urlname: revo-uninstall-pro-crack
 categories: 软件工具
 tags:
   - Software

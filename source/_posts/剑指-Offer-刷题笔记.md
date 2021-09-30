@@ -1,7 +1,7 @@
 ---
 title: "剑指 Offer 刷题笔记"
 date: 2021-06-22 12:41:24
-link: coding-interviews-practice
+urlname: coding-interviews-practice
 categories: 算法刷题
 tags:
   - Algorithms

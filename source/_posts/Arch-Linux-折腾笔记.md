@@ -1,7 +1,7 @@
 ---
 title: "Arch Linux 折腾笔记"
 date: 2020-07-30 10:29:44
-link: start-with-arch
+urlname: start-with-arch
 categories: 经验教程
 tags:
   - Linux

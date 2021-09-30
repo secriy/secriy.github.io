@@ -1,7 +1,7 @@
 ---
 title: "The Basics of InnoDB"
 date: 2021-09-21 09:17:14
-link: basics-of-innodb
+urlname: basics-of-innodb
 categories: 学习笔记
 tags:
   - Database
