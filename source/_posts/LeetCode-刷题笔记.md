@@ -1,7 +1,7 @@
 ---
 title: "LeetCode 刷题笔记"
 date: 2021-07-15 14:29:11
-urlname: leetcode-practice
+link: leetcode-practice
 categories: 算法刷题
 tags:
   - Algorithms
@@ -109,7 +109,7 @@ LeetCode 刷题记录。
       // 翻转
       reverse(nums[left+1:])
   }
-
+  
   func reverse(nums []int) {
       for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
           nums[i], nums[n-i] = nums[n-i], nums[i]
@@ -456,7 +456,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
       dummy.Next = dummy.Next.Next
       return head.Next
   }
-
+  
   ```
 
 ### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
@@ -838,7 +838,7 @@ func deleteDuplicates(head *ListNode) *ListNode {
       }
   	return helper(root.Left, root.Right)
   }
-
+  
   func helper(left, right *TreeNode) bool {
       if left == nil && right == nil {
           return true
@@ -939,7 +939,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           return isBalanced(root.Left) && isBalanced(root.Right)
       }
   }
-
+  
   // 求二叉树深度，来自 LeetCode 104
   func helper(root *TreeNode) int {
       if root == nil {
@@ -947,7 +947,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       }
       return max(helper(root.Left), helper(root.Right)) + 1
   }
-
+  
   func max(a, b int) int {
       if a > b {
           return a
@@ -973,7 +973,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(root, targetSum, tmp, &results)
       return results
   }
-
+  
   func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
       if root == nil {
           return
@@ -1022,8 +1022,8 @@ func invertTree(root *TreeNode) *TreeNode {
 
 最容易想到的方式是使用 Map 存储遍历到的数字，并判断目标数字减去当前数字的结果是否在 Map 中，如过是直接返回。
 
-- 时间复杂度：$O(n)$
-- 空间复杂度：$O(n)$
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
 
 ```go
 func twoSum(nums []int, target int) []int {
@@ -1102,7 +1102,7 @@ func reverse(x int) int {
     }
     if bit := result >> 31; bit != 0 && bit != -1 {
         // 判断是否超出范围
-        return 0
+        return 0    
     }
     return result
 }
@@ -1291,7 +1291,7 @@ func isPalindrome(x int) bool {
   	}
   	return result
   }
-
+  
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -1352,7 +1352,7 @@ func isPalindrome(x int) bool {
   		} else {
   			left = mid
   		}
-
+  
   	}
   }
   ```
@@ -1495,9 +1495,9 @@ func partition(head *ListNode, x int) *ListNode {
   	{'t', 'u', 'v'},	  // 8
   	{'w', 'x', 'y', 'z'}, // 9
   }
-
+  
   var result []string
-
+  
   func letterCombinations(digits string) []string {
       // 边界判断
   	if len(digits) == 0 {
@@ -1508,7 +1508,7 @@ func partition(head *ListNode, x int) *ListNode {
   	dfs(digits, 0, "")
   	return result
   }
-
+  
   func dfs(digits string, level int, str string) {
   	// 递归出口
   	if level == len(digits) {
@@ -1523,7 +1523,7 @@ func partition(head *ListNode, x int) *ListNode {
   		dfs(digits, level+1, str+string(chars[digit-2][i]))
   	}
   }
-
+  
   ```
 
 ### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
@@ -1543,7 +1543,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-
+  
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -1553,7 +1553,7 @@ func partition(head *ListNode, x int) *ListNode {
           }
           return
       }
-
+  
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -1582,7 +1582,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1625,7 +1625,7 @@ func partition(head *ListNode, x int) *ListNode {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1789,17 +1789,17 @@ func min(a, b int) int {
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-
+  
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-
+  
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-
+  
   	// it's guaranteed to never hit it
   	return 0
   }
