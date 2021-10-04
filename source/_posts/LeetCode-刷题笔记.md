@@ -1016,6 +1016,83 @@ func invertTree(root *TreeNode) *TreeNode {
 }
 ```
 
+### [543. Diameter of Binary Tree](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+#### 递归
+
+本题的核心是求二叉树的所有左右子树深度和中最大的一个和的值，因此可以使用递归求其深度和。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+var maxNum = 0
+
+func diameterOfBinaryTree(root *TreeNode) int {
+    maxNum = 0	// 重置全局变量，防止测试用例干扰
+    depth(root)
+    return maxNum
+}
+
+func depth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    l := depth(root.Left)
+    r := depth(root.Right)
+    maxNum = max(maxNum, l + r)
+    return max(l, r) + 1
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
+
+### [617. Merge Two Binary Trees](https://leetcode-cn.com/problems/merge-two-binary-trees/)
+
+#### 递归
+
+递归方法合并二叉树最为简单。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
+    if root1 == nil && root2 == nil {
+        // 递归出口
+        return nil
+    }
+    if root1 == nil {
+        return root2
+    }
+    if root2 == nil {
+        return root1
+    }
+    root1.Val += root2.Val
+
+    root1.Left = mergeTrees(root1.Left, root2.Left)
+    root1.Right = mergeTrees(root1.Right, root2.Right)
+
+    return root1
+}
+```
+
 ## Hash Table
 
 ### [1. Two Sum](https://leetcode-cn.com/problems/two-sum/)

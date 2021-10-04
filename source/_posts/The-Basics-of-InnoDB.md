@@ -13,7 +13,7 @@ references:
 
 {% noteblock quote cyan %}
 
-本文是 MySQL InnoDB 存储引擎的相关基础知识总结，是对 MySQL 5.7 官方文档进行的翻译和简化。由于最近准备面试，看了很多相关的书籍和面经总结，感觉它们大同小异，后来发现这些资料大多是摘录自官方文档的原文。由此打算对照“一手资料”看一遍，梳理总结。本文翻译可能引起歧义的地方都会注明英文原文。
+本文是 MySQL InnoDB 存储引擎的相关基础知识总结，是对 MySQL 5.7 官方文档 InnoDB 部分进行的翻译和精简。由于最近准备面试，看了很多相关的书籍和面经总结，感觉它们大同小异，后来发现自官方文档已经对相关知识作了详细的总结，但鲜有人进行翻译整理。因此个人打算对照官方文档的“一手资料”看一遍，梳理总结。本文翻译可能引起歧义的地方都会注明英文原文，以确保不会误导读者。
 
 {% endnoteblock %}
 
@@ -35,23 +35,25 @@ SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 
 ### InnoDB 的主要优势
 
-- 其 DML 操作遵循 ACID 模型，提供带有提交（commit）、回滚（rollback）、崩溃恢复（crash-recovery）能力的事务（transaction）机制。
+- 其 DML（Data Manipulation Language，数据操纵语言）操作遵循 ACID 模型，提供带有提交（commit）、回滚（rollback）、崩溃恢复（crash-recovery）能力的事务（transaction）机制。
 - 支持行级锁（row-level locking）以及 Oracle 风格的一致读取，提高了多用户并发性和性能。
-- InnoDB 基于主键（primary key）在磁盘上排列数据来优化查询。每个 InnDB 表都有一个被称作**聚集索引（clustered index）**的主键索引去组织数据，它能够最小化主键查找的 I/O 开销。
+- InnoDB 基于主键（primary key）在磁盘上排列数据来优化查询。每个 InnDB 表都有一个被称作**聚集索引**（*clustered index*）的主键索引去组织数据，它能够最小化主键查找的 I/O 开销。
 - InnoDB 支持外键约束，使用外键时会检查插入、更新和删除，以确保它们不会导致相关表之间的不一致。
 
 ### InnoDB 最佳实践
 
-本节介绍使用 InnoDB 表时的最佳实践。从官方提供的最佳实践能够看出一部分 InnoDB 的优势、它能够解决的问题以及它存在的问题。
+本节介绍使用 InnoDB 表时的最佳实践，即优化性能等方面的实践。
+
+>   从官方提供的最佳实践能够看出一部分 InnoDB 的优势、它能够解决的问题以及它存在的问题。
 
 - 使用最常查询的一列或多列为每个表指定主键，如果没有明显的主键，则为其指定自动递增值。
 - 使用联接来从多个带有相同 ID 值的表中查询数据。为了提高联接的性能，在联接的列上定义外键，并在每个表中对这些列定义相同的数据类型。添加外键可确保引用的列被索引，从而提高性能。外键还会将删除和更新操作传递到所有其他受影响的表中，如果父表中不存在相应的 ID，则会阻止在子表中插入数据。
 - 关闭自动提交。每秒提交数百次会降低性能（受存储设备的写入速度限制）。
-- 使用`START TRANSACTION`和`COMMIT`语句将相关 DML 操作集合括起来，将它们分组到事务中。虽然不应该 commit 太频繁，但保留大量的未提交语句（`INSERT`，`UPDATE`，`DELETE`），让其执行数个小时也是不合适的。
-- 不要使用`LOCK TABLES`语句。InnoDB 不需要牺牲可靠性和性能就可以处理多个会话并同时对同一个表进行读写。要获得对多个行的独占写入权限，请使用`SELECT ... FOR UPDATE`语法，这样仅会锁定要更新的行。
-- 启用`innodb_file_per_table`变量或使用常规表空间，从而将表的数据和索引放入单独的文件中，而不是去使用系统表空间。默认情况下，`innodb_file_per_table`变量处于启用状态。
+- 使用 `START TRANSACTION` 和 `COMMIT` 语句将相关 DML 操作集合括起来，将它们分组到事务中。虽然不应该 commit 太频繁，但保留大量的未提交语句（`INSERT`，`UPDATE`，`DELETE`），让其执行数个小时也是不合适的。
+- 不要使用 `LOCK TABLES` 语句。InnoDB 不需要牺牲可靠性和性能就可以处理多个会话并同时对同一个表进行读写。要获得对多个行的独占写入权限，请使用 `SELECT ... FOR UPDATE` 语法，这样仅会锁定要更新的行。
+- 启用 `innodb_file_per_table` 变量或使用常规表空间，从而将表的数据和索引放入单独的文件中，而不是去使用系统表空间。默认情况下，`innodb_file_per_table` 变量处于启用状态。
 - 评估你的数据和访问模式是否受益于 InnoDB 表或页面的压缩功能。你可以在不牺牲读/写功能的情况下压缩 InnoDB 表。
-- 使用`--sql_mode=NO_ENGINE_SUBSTITUTION`选项运行服务器，以防止使用不希望使用的存储引擎创建表。
+- 使用 `--sql_mode=NO_ENGINE_SUBSTITUTION` 选项运行服务器，以防止使用不希望使用的存储引擎创建表。
 
 ## ACID 模型
 
@@ -70,9 +72,9 @@ SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 
 ACID 模型的原子性方面主要涉及到 InnoDB 的事务机制，相关 MySQL 功能包括：
 
-- `autocommit`设置。
-- `COMMIT`语句。
-- `ROLLBACK`语句。
+- `autocommit` 设置。
+- `COMMIT` 语句。
+- `ROLLBACK` 语句。
 
 一致性体现在事务是可以提交或回滚的原子（atomic）工作单元。当事务对数据库进行多次更改时，提交（commit）事务时所有更改都会成功，或者回滚（rollback）事务时所有更改都会撤消。
 
@@ -80,8 +82,8 @@ ACID 模型的原子性方面主要涉及到 InnoDB 的事务机制，相关 MyS
 
 ACID 模型的一致性方面主要涉及 InnoDB 防止数据崩溃的内部处理。相关 MySQL 功能包括：
 
-- InnoDB 的**双重写缓冲（doublewrite buffer）**。
-- InnoDB 的**崩溃恢复（crash recovery）**机制。
+- InnoDB 的**双重写缓冲**（*doublewrite buffer*）。
+- InnoDB 的**崩溃恢复**（*crash recovery*）机制。
 
 在每次提交或回滚之后，以及在事务进行期间，数据库始终保持一致状态。如果跨多个表更新相关数据，查询将看到所有旧值或所有新值，而不是新旧值的混合。
 
@@ -91,8 +93,8 @@ ACID 模型的一致性方面主要涉及 InnoDB 防止数据崩溃的内部处�
 
 ACID 模型的隔离性方面主要涉及到 InnoDB 的事务机制，特别是应用于每个事务的隔离级别。相关 MySQL 功能包括：
 
-- `autocommit`设置。
-- 事务的**隔离级别**和`SET Transaction`语句。
+- `autocommit` 设置。
+- 事务的**隔离级别**和 `SET Transaction` 语句。
 - InnoDB 锁的底层细节。
 
 多个事务在进行过程中相互保护（隔离），它们之间不能相互干扰，也不能看到彼此未提交的数据。这种隔离是通过锁（locking）机制实现的。有经验的用户可以调整隔离级别，在确保事务不会相互干扰的情况下，以较少的保护换取更高的性能和并发性。
@@ -101,13 +103,13 @@ ACID 模型的隔离性方面主要涉及到 InnoDB 的事务机制，特别是�
 
 ACID 模型的持久性方面涉及 MySQL 软件功能与特定硬件配置的交互。与 MySQL 相关的功能包括：
 
-- InnoDB 的**双重写缓冲（doublewrite buffer）**。
-- `innodb_flush_log_at_trx_commit`变量。
-- `sync_binlog`变量。
-- `innodb_file_per_table`变量。
+- InnoDB 的**双重写缓冲**（*doublewrite buffer*）。
+- `innodb_flush_log_at_trx_commit` 变量。
+- `sync_binlog` 变量。
+- `innodb_file_per_table` 变量。
 - 存储设备（如磁盘驱动器、SSD 或 RAID 阵列）中的写入缓冲区。
 - 存储设备中的电池供电缓存。
-- 用于运行 MySQL 的操作系统，特别是它对`fsync()`系统调用的支持。
+- 用于运行 MySQL 的操作系统，特别是它对 `fsync()` 系统调用的支持。
 - 不间断电源（UPS），用于保护运行 MySQL 服务器和存储 MySQL 数据的所有计算机服务器和存储设备的电源。
 - 备份策略，例如备份的频率和类型，以及备份保留期。
 - 对于分布式或托管数据应用程序，MySQL 服务器硬件所在的数据中心的特定特征以及数据中心之间的网络连接。
@@ -122,15 +124,15 @@ ACID 模型的持久性方面涉及 MySQL 软件功能与特定硬件配置的�
 
 InnoDB 在内部向数据库中存储的每一行添加三个字段：
 
-- 6 字节的`DB_TRX_ID`字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
+- 6 字节的 `DB_TRX_ID` 字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
 
-- 7 字节的`DB_ROLL_PTR`字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
+- 7 字节的 `DB_ROLL_PTR` 字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
 
-- 6 字节的`DB_ROW_ID`字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID`列不会出现在任何索引中。
+- 6 字节的 `DB_ROW_ID` 字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID` 列不会出现在任何索引中。
 
-  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是`DB_ROW_ID`。
+  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
 
-回滚段中的 undo log 分为 **insert undo log** 和 **update undo log**。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
+回滚段中的 undo log 分为 *insert undo log* 和 *update undo log*。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
 
 建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
 
@@ -138,31 +140,31 @@ InnoDB 在内部向数据库中存储的每一行添加三个字段：
 
 在 InnoDB 多版本控制方案中，使用 SQL 语句删除某一行时，该行不会立即从数据库中物理删除。InnoDB 仅在丢弃**为了删除操作而写入**的 update undo log 记录时，才从物理上删除相应的行及其索引记录。此删除操作称为清除（purge），速度相当快，通常与执行删除的 SQL 语句的时间顺序相同。
 
-如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整`innodb_max_purge_lag`系统变量来限制新行操作，并为清除线程分配更多资源。
+如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整 `innodb_max_purge_lag` 系统变量来限制新行操作，并为清除线程分配更多资源。
 
 ### MVCC 和二级索引
 
 InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集索引的方式不同。聚集索引中的记录会就地更新，其隐藏的系统列指向撤消日志项，从中可以重构早期版本的记录。与聚集索引记录不同，二级索引记录不包含隐藏的系统列，也不进行就地更新。
 
-更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的`DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
+更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的 `DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
 
 如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
 
-但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估`WHERE`条件的一部分，MySQL 服务器仍然会将`WHERE`条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
+但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估 `WHERE` 条件的一部分，MySQL 服务器仍然会将 `WHERE` 条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
 
 ## InnoDB 架构
 
-InnoDB 的架构可以参考下图，取自[InnoDB Architecture](https://dev.mysql.com/doc/refman/5.7/en/innodb-architecture.html)。
+InnoDB 的架构可以参考下图，取自 [InnoDB Architecture](https://dev.mysql.com/doc/refman/5.7/en/innodb-architecture.html)。
 
-![InnoDB architecture diagram showing in-memory and on-disk structures.](The-Basics-of-InnoDB/innodb-architecture.png)
+![InnoDB Architecture](The-Basics-of-InnoDB/innodb-architecture.png)
 
-可以看到其分为**In-Memory Structures**和**On-Disk Structures**，也就是内存上结构和磁盘上结构。
+可以看到其分为 ***In-Memory Structures*** 和 ***On-Disk Structures***，也就是内存上结构和磁盘上结构。
 
 内存中的部分，可以看到有以下几个关键结构：
 
 - Adaptive Hash Index（可适应性哈希索引）
 - Buffer Pool（缓冲池）
-- Change Buffer（改动缓冲）
+- Change Buffer（写缓冲，国内常用译名）
 - Log Buffer（日志缓冲）
 
 磁盘上的部分，有以下几个关键结构：
@@ -170,22 +172,58 @@ InnoDB 的架构可以参考下图，取自[InnoDB Architecture](https://dev.mys
 - System Tablespace（系统表空间）
   - InnoDB Data Dictionary（InnoDB 数据字典）
   - Doublewrite Buffer（双写缓冲）
-  - Change Buffer（改动缓冲）
+  - Change Buffer（写缓冲）
   - Undo Logs（撤销日志，undo-log）
 - Undo Tablespaces（撤销表空间）
 - Redo Log（重做日志）
 - General Tablespaces（通用表空间）
 - Temporary Tablespaces（临时表空间）
 
-内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。图中的**O_DIRECT**是`open`函数的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过缓冲区高速缓存。
+内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。图中的 **O_DIRECT** 是 `open` 函数的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过缓冲区高速缓存。
 
-InnoDB 默认会将`innodb_file_per_table`设置为`ON`，让每个表使用单独的 .frm 文件。
+InnoDB 默认会将 `innodb_file_per_table` 设置为 `ON`，让每个表使用单独的 .frm 文件。
+
+## InnoDB 内存上结构
+
+### 缓冲池（Buffer Pool）
+
+缓冲池是主存（main memory）中的一个区域，InnoDB 在访问表和索引数据时会将它们缓存在缓冲池中。缓冲池允许直接从内存访问经常使用的数据，从而加快处理速度。在专用的服务器上，高达 80% 的物理内存通常分配给了缓冲池。
+
+为了提高大容量读取操作的效率，缓冲池被划分为可能容纳多行（rows，即行记录）的页面。为了提高缓存（cache）管理的效率，缓冲池被实现为页面的链表。很少使用的数据会使用 LRU 算法的变体从缓存中过时。
+
+下面介绍一下 InnoDB 缓冲池使用的 LRU 算法。
+
+*TODO*
+
+### 写缓冲（Change Buffer）
+
+Change Buffer 是一种特殊的数据结构，当二级索引页不在缓冲池（即前一小节的 Buffer Pool）中时，它会缓存这些页的更改。缓存的更改可能由 `INSERT`、`UPDATE` 或 `DELETE` 操作（DML）导致，稍后当页面通过其他读操作加载到缓冲池时，会合并这些更改。
+
+![Change Buffer](The-Basics-of-InnoDB/innodb-change-buffer.png)
+
+与聚集索引不同，二级索引通常是非唯一的，二级索引的插入顺序相对随机，也就是说增删改的开销会更大。同样地，删除和更新可能会影响索引树中不相邻的二级索引页。当其他操作将受影响的页面读入缓冲池时，合并（merging）缓存的更改，可避免从磁盘将二级索引页面读入缓冲池所需的大量随机访问 I/O。简而言之就是用写缓冲的机制让二级索引的 DML 修改结果先不存入磁盘，而是缓存起来，等到下次读这个数据的时候合并写缓冲缓存的修改再返回给用户。使用这种机制能够大大降低磁盘 I/O 开销。
+
+当系统大部分处于闲置状态，或在缓慢停机期间会进行清除（purge）操作，将写缓冲上的更新写入到磁盘。和立即将每个新值写入磁盘相比，purge 操作可以更有效地将一批索引值写入磁盘块。
+
+当有许多受影响的行以及很多的二级索引项需要更新时，写缓冲区的合并（merging）操作可能需要几个小时。在此期间，磁盘 I/O 会增加，这可能会导致需要读磁盘的查询速度显著降低。提交事务后，甚至在服务器关闭并重新启动后，写缓冲区合并也可能继续进行。
+
+在内存中，写缓冲区占用了缓冲池的一部分。在磁盘上，写缓冲区是系统表空间的一部分，当数据库服务器关闭时，索引更改将在其中进行缓冲，即写缓冲区在磁盘上也存在，断电仍能够恢复。
+
+缓存在写缓冲区中的数据类型由 `innodb_change_buffering` 变量控制。
+
+### 可适应性哈希索引（Adaptive Hash Index）
+
+### 日志缓冲（Log Buffer）
+
+日志缓冲区是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
+
+`innodb_flush_log_at_trx_commit` 变量控制如何将日志缓冲区的内容写入并刷新到磁盘。`innodb_flush_log_at_timeout` 变量控制日志刷新频率。
 
 ## InnoDB 磁盘上结构
 
 ### 表（Tables）
 
-InnoDB 会将表的数据放在数据目录中的 .frm 文件中，并且，它还会将新表的一些信息存入系统表空间中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。
+InnoDB 会将表的数据放在数据目录中的 .frm 文件中，并且，它还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将用户创建的表的一些信息存进这些表中。
 
 #### 行格式
 
@@ -198,7 +236,9 @@ InnoDB 有四种行格式，特性各不相同：
 - DYNAMIC
 - COMPRESSED
 
-变量`innodb_default_row_format`定义了默认使用的格式，而在建表（CREATE）或修改表（ALTER）时，也可以使用`ROW_FORMAT`选项自定义。
+变量 `innodb_default_row_format` 定义了默认使用的格式，而在建表（CREATE）或修改表（ALTER）时，也可以使用 `ROW_FORMAT` 选项自定义。
+
+行格式的相关介绍和讨论会放在后文中展开。
 
 #### 主键
 
@@ -208,6 +248,10 @@ InnoDB 有四种行格式，特性各不相同：
 - 不可能为空的列
 - 不会重复的列
 - 插入后其值很少修改的列
+
+#### AUTO_INCREMENT
+
+
 
 ### 索引（Indexes）
 
