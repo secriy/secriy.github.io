@@ -171,6 +171,84 @@ LeetCode 刷题记录。
   }
   ```
 
+### [169. Majority Element](https://leetcode-cn.com/problems/majority-element/)
+
+#### 摩尔投票法
+
+假设一个数为众数，当有数字与其相同时众数统计数量加一，不同时统计数量减一，统计数量为 0 则重新设置众数，这样到最后除目标数字以外都会被抵消掉。
+
+```go
+func majorityElement(nums []int) int {
+    // num 为众数，sum 为和
+    num, sum := 0, 0
+    for i := range nums {
+        if sum == 0 {
+            num = nums[i]
+        }
+        if nums[i] != num {
+            sum--
+        } else {
+            sum++
+        }
+    }
+    return num
+}
+```
+
+## Stack
+
+### [155. Min Stack](https://leetcode-cn.com/problems/min-stack/)
+
+设置辅助栈，当有比辅助栈栈顶更小或与其相等的值输入则入栈。弹出时当栈顶相等时弹出辅助栈栈顶。
+
+```go
+type MinStack struct {
+    Stack []int
+    Helper []int
+}
+
+
+func Constructor() MinStack {
+    return MinStack{[]int{}, []int{}}
+}
+
+
+func (this *MinStack) Push(val int)  {
+    if len(this.Helper) == 0 || val <= this.Helper[len(this.Helper)-1] {
+        this.Helper = append(this.Helper, val)
+    }
+    this.Stack = append(this.Stack, val)
+}
+
+
+func (this *MinStack) Pop()  {
+    if this.Stack[len(this.Stack)-1] == this.Helper[len(this.Helper)-1] {
+        this.Helper = this.Helper[:len(this.Helper)-1]
+    }
+    this.Stack = this.Stack[:len(this.Stack)-1]
+}
+
+
+func (this *MinStack) Top() int {
+    return this.Stack[len(this.Stack)-1]
+}
+
+
+func (this *MinStack) GetMin() int {
+    return this.Helper[len(this.Helper)-1]
+}
+
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.Push(val);
+ * obj.Pop();
+ * param_3 := obj.Top();
+ * param_4 := obj.GetMin();
+ */
+```
+
 ## String
 
 ### 3. [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
@@ -655,58 +733,69 @@ func deleteDuplicates(head *ListNode) *ListNode {
   }
   ```
 
-### 160. [Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
+### [160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
 
-#### Ideas
+#### Hash Table
 
-- 使用 Map 保存一个链表的所有节点，遍历第二个链表，如果在 Map 中已存在则返回。
-- 两个链表的长度不同，让二者相遇的办法是让它们的长度变为一致，具体实现是让它们在到达链表末尾后跳转到对方的链首。
+使用 Map 保存一个链表的所有节点，遍历第二个链表，如果在 Map 中已存在则返回。
 
-#### Solutions
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	m := make(map[*ListNode]bool)
+	for headA != nil {
+		m[headA] = true
+		headA = headA.Next
+	}
+	for headB != nil {
+		if _, ok := m[headB]; ok {
+			return headB
+		}
+		headB = headB.Next
+	}
+	return nil
+}
+```
 
-- Map
+#### Two points
 
-  ```go
-  func getIntersectionNode(headA, headB *ListNode) *ListNode {
-  	m := make(map[*ListNode]bool)
-  	for headA != nil {
-  		m[headA] = true
-  		headA = headA.Next
-  	}
-  	for headB != nil {
-  		if _, ok := m[headB]; ok {
-  			return headB
-  		}
-  		headB = headB.Next
-  	}
-  	return nil
-  }
-  ```
+两个链表的长度不同，让二者相遇的办法是让它们的长度变为一致，具体实现是让它们在到达链表末尾后跳转到对方的链首。
 
-- Link
-
-  ```go
-  func getIntersectionNode(headA, headB *ListNode) *ListNode {
-      // 边界判断
-  	if headA == nil || headB == nil {
-  		return nil
-  	}
-  	pA, pB := headA, headB
-  	for pA != pB {
-  		if pA != nil {
-  			pA = pA.Next
-  		} else {
-  			pA = headB
-  		}
-  		if pB != nil {
-  			pB = pB.Next
-  		} else {
-  			pB = headA
-  		}
-  	}
-  	return pA
-  }
-  ```
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */	
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+    // 边界判断
+	if headA == nil || headB == nil {
+		return nil
+	}
+	pA, pB := headA, headB
+	for pA != pB {
+		if pA != nil {
+			pA = pA.Next
+		} else {
+			pA = headB
+		}
+		if pB != nil {
+			pB = pB.Next
+		} else {
+			pB = headA
+		}
+	}
+	return pA
+}
+```
 
 ### 206. [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/description/)
 
@@ -1767,6 +1856,28 @@ func min(a, b int) int {
 }
 ```
 
+### [121. Best Time to Buy and Sell Stock](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+记录最小值以及当前值与最小值的差值，记录最大的那个差值。
+
+```go
+func maxProfit(prices []int) int {
+    minNum := prices[0]
+    maxNum := 0
+    for i := 1; i < len(prices); i++ {
+        if res := prices[i] - minNum; res > maxNum {
+            // 记录最大的差值
+            maxNum = res
+        }
+        if prices[i] < minNum {
+            // 记录最小值
+            minNum = prices[i]
+        }
+    }
+    return maxNum
+}
+```
+
 ### 122. [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 #### Ideas
@@ -1994,3 +2105,20 @@ func numRabbits(answers []int) (ans int) {
     return
 }
 ```
+
+## Bit Manipulation
+
+### [136. Single Number](https://leetcode-cn.com/problems/single-number/)
+
+简单异或运算，相同的值都会变为 0。
+
+```go
+func singleNumber(nums []int) int {
+    res := 0
+    for i := range nums {
+        res ^= nums[i]
+    }
+    return res
+}
+```
+
