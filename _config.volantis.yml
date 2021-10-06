@@ -856,7 +856,7 @@ custom_css:
     zoom-in: https://cdn.jsdelivr.net/gh/inkss/common@master/cursor/zoom-in.png
     grab: https://cdn.jsdelivr.net/gh/inkss/common@master/cursor/openhand.png
   font_smoothing: true # font-smoothing for webkit
-  max_width: 1080px # Sum of body width and sidebar width (This limit will be exceeded when the device width is greater than 2000px, reaching 75% of the total width)
+  max_width: 1260px # Sum of body width and sidebar width (This limit will be exceeded when the device width is greater than 2000px, reaching 75% of the total width)
   scrollbar:
     size: 4px
     border: 2px
@@ -890,7 +890,7 @@ custom_css:
     searchbar: 8px
     button: 4px
   fontsize:
-    root: 16px
+    root: 18px
     h1: 1.9rem # 不推荐用在文章中
     h2: 1.8rem
     h3: 1.5rem
@@ -909,7 +909,7 @@ custom_css:
       weight: normal
       style: normal
     bodyfont:
-      fontfamily: 'UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
+      fontfamily: 'Monaco, "Noto Sans SC", "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
       name: "UbuntuMono"
       url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts/UbuntuMono/UbuntuMono-Regular.ttf
       weight: normal
