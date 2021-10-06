@@ -18,67 +18,59 @@ LeetCode 刷题记录。
 
 ## Array
 
-### 26. [Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+### [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
 
-#### Ideas
+#### 双指针
 
-- 双指针
-  - left 移动条件：left 为 0 或 left 元素和 left-1 的元素不相等
-  - right 移动条件：right 和 left 不等（相等则用 right 覆盖 left）
+1.   left 移动条件：left 为 0 或 left 元素和 left-1 的元素不相等
 
-#### Solutions
+2.   right 移动条件：right 和 left 不等（相等则用 right 覆盖 left）
 
-- 双指针
+```go
+func removeDuplicates(nums []int) int {
+    left, right := 0, 1
+    for right <= len(nums) {
+        // left 左移条件
+        if left == 0 || nums[left-1] != nums[left] {
+            left++
+        }
+        // right 越界跳出（此时 left 左移条件已经执行了）
+        if right == len(nums) {
+            break
+        }
+        // right 右移条件
+        if nums[left] == nums[right] {
+            right++
+        } else {
+            nums[left] = nums[right]
+        }
+    }
+    return left
+}
+```
 
-  ```go
-  func removeDuplicates(nums []int) int {
-      left, right := 0, 1
-      for right <= len(nums) {
-          // left 左移条件
-          if left == 0 || nums[left-1] != nums[left] {
-              left++
-          }
-          // right 越界跳出（此时 left 左移条件已经执行了）
-          if right == len(nums) {
-              break
-          }
-          // right 右移条件
-          if nums[left] == nums[right] {
-              right++
-          } else {
-              nums[left] = nums[right]
-          }
-      }
-      return left
-  }
-  ```
+### [27. Remove Element](https://leetcode.com/problems/remove-element/)
 
-### 27.[Remove Element](https://leetcode.com/problems/remove-element/)
+#### 双指针
 
-#### Ideas
+双指针，左指针一步步走，右指针遇到目标数就跳过数字并跳到下一循环。简单来说就是把除了等于目标数的元素都覆盖到前面去
 
-- 双指针，左指针一步步走，右指针遇到目标数就跳过数字并跳到下一循环。简单来说就是把除了等于目标数的元素都覆盖到前面去
-
-#### Solutions
-
-- 双指针
-
-  ```go
-  func removeElement(nums []int, val int) int {
-      left, right := 0, 0
-      for right < len(nums) {
-          // 跳过
-          if nums[right] == val {
-              right++
-              continue
-          }
-          nums[left] = nums[right]
-          left++
-          right++
-      }
-      return left
-  }
-  ```
+```go
+func removeElement(nums []int, val int) int {
+    left, right := 0, 0
+    for right < len(nums) {
+        // 跳过
+        if nums[right] == val {
+            right++
+            continue
+        }
+        nums[left] = nums[right]
+        left++
+        right++
+    }
+    return left
+}
+```
 
 ### 31. [Next Permutation](https://leetcode.com/problems/next-permutation/)
 
@@ -116,6 +108,114 @@ LeetCode 刷题记录。
       }
   }
   ```
+
+### [33. Search in Rotated Sorted Array](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+
+旋转排序数组，仍然按照二分法，分别对左有序和右有序的情况作判断。
+
+```go
+func search(nums []int, target int) int {
+    low, high := 0, len(nums) - 1
+
+    for low <= high {
+        mid := (low + high) >> 1
+        
+        if nums[mid] == target {
+            return mid
+        }
+        
+        if nums[mid] >= nums[low] {
+            // left ordered
+            if target < nums[mid] && target >= nums[low] {
+                // 说明 target 只能在左侧
+                high = mid - 1
+            } else {
+                // target 可能在右侧（比左侧最小的还要小或是比左侧最大的还要大）
+                low = mid + 1
+            }
+        } else {
+            // right ordered
+            if target > nums[mid] && target <= nums[high] {
+                low = mid + 1
+            } else {
+                high = mid - 1
+            }
+        }
+    }
+
+    return -1
+}
+```
+
+### [34. Find First and Last Position of Element in Sorted Array](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+简单两次二分查找即可。
+
+-   时间复杂度：$O(log{n})$
+-   空间复杂度：$O(1)$
+
+```go
+func searchRange(nums []int, target int) []int {
+    res := []int{-1, -1}	// 返回值
+
+    left, right := 0, len(nums) - 1
+
+    if right < left {
+        // nums 为空
+        return res
+    }
+
+    // 找左边界
+    for left < right {
+        mid := (left + right) >> 1
+        if nums[mid] >= target {
+            right = mid
+        } else {
+            left = mid + 1
+        }
+    }
+    if nums[left] != target {
+        // 数组中不存在
+        return res
+    }
+    res[0] = left
+    right = len(nums)	// 复位 right
+
+    for left < right {
+        mid := (left + right) >> 1
+        if nums[mid] <= target {
+            left = mid + 1
+        } else {
+            right = mid
+        }
+    }
+    res[1] = right - 1
+
+    return res
+}
+```
+
+### [48. Rotate Image](https://leetcode-cn.com/problems/rotate-image/)
+
+先斜对角翻转，再横向翻转。
+
+如：[[1,2,3],[4,5,6],[7,8,9]] => [[1,4,7],[2,5,8],[3,6,9]] => [[7,4,1],[8,5,2],[9,6,3]]
+
+```go
+func rotate(matrix [][]int)  {
+    for i := 1; i < len(matrix); i++ {
+        for j := 0; j < i; j++ {
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        }
+    }
+
+    for k := 0; k < len(matrix); k++ {
+        for i, j := 0, len(matrix[0])-1; i < j; i, j = i+1, j-1 {
+            matrix[k][i], matrix[k][j] = matrix[k][j], matrix[k][i]
+        }
+    }
+}
+```
 
 ### 66. [Plus One](https://leetcode.com/problems/plus-one/description/)
 
@@ -192,6 +292,79 @@ func majorityElement(nums []int) int {
         }
     }
     return num
+}
+```
+
+### [200. Number of Islands](https://leetcode-cn.com/problems/number-of-islands/)
+
+#### DFS
+
+创建 `visited` 数组标记是否遍历到，再逐个进行 DFS 即可。
+
+```go
+func numIslands(grid [][]byte) int {
+    visited := make([][]bool, len(grid))
+    for i := range visited {
+        visited[i] = make([]bool, len(grid[0]))
+    }
+
+    count := 0
+
+    for i := range grid {
+        for j := range grid[0] {
+            if grid[i][j] == '1' && !visited[i][j] {
+                dfs(grid, visited, i, j)
+                count++
+            }
+        }
+    }
+
+    return count
+    
+}
+
+func dfs(grid [][]byte, visited [][]bool, row, col int) {
+    if row < 0 || col < 0 || row >= len(grid) || col >= len(grid[0]) || visited[row][col] || grid[row][col] == '0' {
+        return
+    }
+    visited[row][col] = true
+
+    dfs(grid, visited, row + 1, col)
+    dfs(grid, visited, row - 1, col)
+    dfs(grid, visited, row, col + 1)
+    dfs(grid, visited, row, col - 1)
+}
+```
+
+优化上述代码，在原矩阵上标记即可。
+
+```go
+func numIslands(grid [][]byte) int {
+    count := 0
+
+    for i := range grid {
+        for j := range grid[0] {
+            if grid[i][j] == '1' {
+                dfs(grid, i, j)
+                count++
+            }
+        }
+    }
+
+    return count
+}
+
+func dfs(grid [][]byte, row, col int) {
+    if row < 0 || col < 0 || row >= len(grid) || col >= len(grid[0]) || grid[row][col] != '1' {
+        return
+    }
+
+    grid[row][col] = '0'	// 标记为非 1 字符都可
+
+    dfs(grid, row + 1, col)
+    dfs(grid, row - 1, col)
+    dfs(grid, row, col + 1)
+    dfs(grid, row, col - 1)
 }
 ```
 
@@ -835,6 +1008,53 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
       return dummy
   }
   ```
+
+### [448. Find All Numbers Disappeared in an Array](https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/)
+
+使用额外数组按下标存储原数组元素，再将为 0 的数据返回。
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+func findDisappearedNumbers(nums []int) []int {
+    arr := make([]int, len(nums))
+    for i := range nums {
+        arr[nums[i]-1] = 1
+    }
+
+    res := make([]int, 0)	// 存放结果
+
+    for i := range arr {
+        if arr[i] == 0 {
+            res = append(res, i + 1)
+        }
+    }
+    return res
+}
+```
+
+优化，将每个数字按下标加上一个大于等于长度的值，这样除了缺失的位置，其他数字都会变大。
+
+```go
+func findDisappearedNumbers(nums []int) []int {
+    length := len(nums)
+    for _, v := range nums {
+        v = (v - 1) % length
+        nums[v] += length
+    }
+
+    res := make([]int, 0)
+
+    for i := range nums {
+        if nums[i] <= length {
+            res = append(res, i + 1)
+        }
+    }
+
+    return res
+}
+```
 
 ## Binary Tree
 
@@ -1642,55 +1862,102 @@ func partition(head *ListNode, x int) *ListNode {
 
 ### 17. [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
 
-#### Ideas
+```go
+var chars = [][]byte{
+	{'a', 'b', 'c'}, 	  // 2
+    {'d', 'e', 'f'}, 	  // 3
+	{'g', 'h', 'i'}, 	  // 4
+	{'j', 'k', 'l'}, 	  // 5
+	{'m', 'n', 'o'}, 	  // 6
+	{'p', 'q', 'r', 's'}, // 7
+	{'t', 'u', 'v'},	  // 8
+	{'w', 'x', 'y', 'z'}, // 9
+}
 
-- DFS 标准解法
+var result []string
 
-#### Solutions
+func letterCombinations(digits string) []string {
+    // 边界判断
+	if len(digits) == 0 {
+		return []string{}
+	}
+    // 清空全局变量，防止下一示例直接使用了该变量
+	result = []string{}
+	dfs(digits, 0, "")
+	return result
+}
 
-- DFS
+func dfs(digits string, level int, str string) {
+	// 递归出口
+	if level == len(digits) {
+		result = append(result, str)
+		return
+	}
+    // 将输入的单个digit转换为数字
+	digit, _ := strconv.Atoi(string(digits[level]))
+	// 在单个键位的字符中循环
+	for i := 0; i < len(chars[digit-2]); i++ {
+        // 下一层递归
+		dfs(digits, level+1, str+string(chars[digit-2][i]))
+	}
+}
 
-  ```go
-  var chars = [][]byte{
-  	{'a', 'b', 'c'}, 	  // 2
-      {'d', 'e', 'f'}, 	  // 3
-  	{'g', 'h', 'i'}, 	  // 4
-  	{'j', 'k', 'l'}, 	  // 5
-  	{'m', 'n', 'o'}, 	  // 6
-  	{'p', 'q', 'r', 's'}, // 7
-  	{'t', 'u', 'v'},	  // 8
-  	{'w', 'x', 'y', 'z'}, // 9
-  }
-  
-  var result []string
-  
-  func letterCombinations(digits string) []string {
-      // 边界判断
-  	if len(digits) == 0 {
-  		return []string{}
-  	}
-      // 清空全局变量，防止下一示例直接使用了该变量
-  	result = []string{}
-  	dfs(digits, 0, "")
-  	return result
-  }
-  
-  func dfs(digits string, level int, str string) {
-  	// 递归出口
-  	if level == len(digits) {
-  		result = append(result, str)
-  		return
-  	}
-      // 将输入的单个digit转换为数字
-  	digit, _ := strconv.Atoi(string(digits[level]))
-  	// 在单个键位的字符中循环
-  	for i := 0; i < len(chars[digit-2]); i++ {
-          // 下一层递归
-  		dfs(digits, level+1, str+string(chars[digit-2][i]))
-  	}
-  }
-  
-  ```
+```
+
+### [22. Generate Parentheses](https://leetcode-cn.com/problems/generate-parentheses/)
+
+使用回溯，左右括号各 `n` 个，用完即可。
+
+```go
+func generateParenthesis(n int) []string {
+    res := make([]string, 0)
+    dfs(n, n, "", &res)
+    return res
+}
+
+func dfs(left, right int, tmp string, res *[]string) {
+    if left == 0 && right == 0 {
+        // 当括号用完，返回
+        *res = append(*res, tmp)
+        return
+    }
+
+    if left == right {
+        // 左右括号数量相等，只能用左括号
+        dfs(left-1, right, tmp + "(", res)
+    } else if left < right {
+        // 左括号数量小于右括号，左右括号都可以用
+        if left > 0 {
+            dfs(left-1, right, tmp + "(", res)
+        }
+        dfs(left, right-1, tmp + ")", res)
+    }
+	// 左括号数量大于右括号，无法再闭合，不可能生成有效的字符串，则丢弃
+}
+```
+
+由于函数最初已经判断过了，因此 `left == right` 语句中，两个变量不可能同为 `0` ，简化上面的代码控制流如下：
+
+```go
+func generateParenthesis(n int) []string {
+    res := make([]string, 0)
+    dfs(n, n, "", &res)
+    return res
+}
+
+func dfs(left, right int, tmp string, res *[]string) {
+    if left == 0 && right == 0 {
+        *res = append(*res, tmp)
+        return
+    }
+    if left > 0 {
+        dfs(left-1, right, tmp + "(", res)
+    }
+    if left < right {
+        dfs(left, right-1, tmp + ")", res)
+    }
+}
+```
 
 ### 39. [Combination Sum](https://leetcode.com/problems/combination-sum/)
 
@@ -2119,6 +2386,36 @@ func singleNumber(nums []int) int {
         res ^= nums[i]
     }
     return res
+}
+```
+
+### [461. Hamming Distance](https://leetcode-cn.com/problems/hamming-distance/)
+
+异或运算，统计 1 的个数。
+
+```go
+func hammingDistance(x int, y int) int {
+    count := 0
+    z := x ^ y
+    for z != 0 {
+        count += z & 1
+        z = z >> 1
+    }
+    return count
+}
+```
+
+优化如下：
+
+```go
+func hammingDistance(x int, y int) int {
+    count := 0
+    z := x ^ y
+    for z != 0 {
+        z = z & (z - 1)
+        count++
+    }
+    return count
 }
 ```
 
