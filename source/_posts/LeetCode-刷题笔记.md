@@ -1,5 +1,5 @@
 ---
-title: "LeetCode 刷题笔记"
+  title: "LeetCode 刷题笔记"
 date: 2021-07-15 14:29:11
 link: leetcode-practice
 categories: 算法刷题
@@ -477,10 +477,6 @@ func (this *MinStack) GetMin() int {
 
 ### 14. [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/)
 
-#### Ideas
-
-#### Solutions
-
 ### [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
 
 #### 字符串替换
@@ -548,33 +544,6 @@ func lengthOfLastWord(s string) int {
 }
 ```
 
-### 75. [Sort Colors](https://leetcode.com/problems/sort-colors/)
-
-#### Ideas
-
-- 荷兰国旗问题，使用双指针，参见[漫画：常考的荷兰国旗问题你还不会吗？（初级）](https://cloud.tencent.com/developer/article/1624933)
-
-#### Solutions
-
-- 双指针
-
-  ```go
-  func sortColors(nums []int)  {
-      pa, pb := 0, len(nums)-1
-      for i := 0; i <= pb; i++ {
-          if nums[i] == 0 {
-              nums[i], nums[pa] = nums[pa], nums[i]
-              pa++
-          }
-          if nums[i] == 2 {
-              nums[i], nums[pb] = nums[pb], nums[i]
-              pb--
-              i--
-          }
-      }
-  }
-  ```
-
 ### 345. [Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/)
 
 #### Ideas
@@ -607,6 +576,30 @@ func lengthOfLastWord(s string) int {
       return string(tmp)
   }
   ```
+
+### [434. Number of Segments in a String](https://leetcode-cn.com/problems/number-of-segments-in-a-string/)
+
+题目要求统计单词数量，因此统计中间的空格数量即可。设置一个 `flag`，遇到非空格时变为 `true`，当为真时统计数量。
+
+```go
+func countSegments(s string) int {
+    count := 0
+    var flag bool
+    for _, v := range s {
+        if v != ' ' {
+            flag = true
+        } else if flag {
+            count++
+            flag = false
+        }
+    }
+    if len(s) == 0 || s[len(s)-1] == ' ' {
+        // 空字符串或存在空格
+        return count
+    }
+    return count + 1
+}
+```
 
 ## Linked List
 
@@ -1712,36 +1705,31 @@ func isPalindrome(x int) bool {
   }
   ```
 
-### 69. [Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
+### [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
 
-#### Ideas
+#### 二分查找
 
-- 采用二分查找的方式，不断缩小范围。
+采用二分查找的方式，不断缩小范围。
 
-#### Solutions
-
-- Binary Search
-
-  ```go
-  func mySqrt(x int) int {
-  	if x == 1 {
-  		return 1
-  	}
-  	left, right := 0, x
-  	for {
-  		mid := (left + right) / 2
-  		if mid*mid == x || left == right-1 {
-  			return mid
-  		}
-  		if mid*mid > x {
-  			right = mid
-  		} else {
-  			left = mid
-  		}
-  
-  	}
-  }
-  ```
+```go
+func mySqrt(x int) int {
+    if x == 1 {
+        return 1
+    }
+    low, high := 0, x
+    for low < high-1 {
+        mid := (low + high) >> 1
+        if m := mid*mid; m == x {
+            return mid
+        } else if m < x {
+            low = mid
+        } else {
+            high = mid
+        }
+    }
+    return low
+}
+```
 
 ## Two Pointers
 
@@ -1767,6 +1755,27 @@ func maxArea(height []int) int {
         }
     }
     return max
+}
+```
+
+### [75. Sort Colors](https://leetcode.com/problems/sort-colors/)
+
+荷兰国旗问题，使用双指针，参见[漫画：常考的荷兰国旗问题你还不会吗？（初级）](https://cloud.tencent.com/developer/article/1624933)
+
+```go
+func sortColors(nums []int)  {
+    pa, pb := 0, len(nums)-1
+    for i := 0; i <= pb; i++ {
+        if nums[i] == 0 {
+            nums[i], nums[pa] = nums[pa], nums[i]
+            pa++
+        }
+        if nums[i] == 2 {
+            nums[i], nums[pb] = nums[pb], nums[i]
+            pb--
+            i--
+        }
+    }
 }
 ```
 
@@ -2419,3 +2428,4 @@ func hammingDistance(x int, y int) int {
 }
 ```
 
+​	

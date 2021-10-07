@@ -64,7 +64,7 @@ error: could not compile `hello-rust`
 To learn more, run the command again with --verbose.
 ```
 
-上面的错误表明，变量`x`无法二次赋值，因为它是一个 *immutable variable*。另外报错还说明，Rust 在编译期间就已经对程序可能出现的某些问题作了判断，如果不通过检查则编译失败。
+上面的错误表明，变量 `x` 无法二次赋值，因为它是一个 *immutable variable*。另外报错还说明，Rust 在编译期间就已经对程序可能出现的某些问题作了判断，如果不通过检查则编译失败。
 
 ```rust
 fn main() {
