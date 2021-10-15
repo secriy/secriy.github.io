@@ -1,7 +1,7 @@
 ---
 title: "LeetCode 刷题笔记"
 date: 2021-07-15 14:29:11
-link: leetcode-practice
+urlname: leetcode-practice
 categories: 算法刷题
 tags:
   - Algorithms

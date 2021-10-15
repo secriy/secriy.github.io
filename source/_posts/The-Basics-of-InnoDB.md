@@ -308,8 +308,8 @@ InnoDB 有四种行格式，特性各不相同：
 通常，聚集索引与主键是一个东西。为了在查询、插入和其他数据库操作中获得最佳性能，了解 InnoDB 如何使用聚集索引优化常见的查找和 DML 操作非常重要。
 
 - 在表上定义主键时，InnoDB 把它用作聚集索引。如果没有符合条件（逻辑唯一、非空）的列作为主键，可以添加一个自增的列用作主键，并且插入新行时自增列会自动设置其值。
-- 如果不为表定义主键，InnoDB 会使用第一个唯一索引（所有键定义为`NOT NULL`）作为聚集索引。
-- 如果表没有主键或合适的唯一索引，InnoDB 将在包含行 ID 值的合成列上生成一个名为`GEN_CLUST_INDEX`的隐藏聚集索引。这些行按 InnoDB 分配的行 ID 排序。行 ID 是一个 6 字节的字段，随着新行的插入而单调增加。因此，按行 ID 排序的行实际上是按插入顺序排列的。
+- 如果不为表定义主键，InnoDB 会使用第一个唯一索引（所有键定义为 `NOT NULL`）作为聚集索引。
+- 如果表没有主键或合适的唯一索引，InnoDB 将在包含行 ID 值的合成列上生成一个名为 `GEN_CLUST_INDEX` 的隐藏聚集索引。这些行按 InnoDB 分配的行 ID 排序。行 ID 是一个 6 字节的字段，随着新行的插入而单调增加。因此，按行 ID 排序的行实际上是按插入顺序排列的。
 
 通过聚集索引访问行非常快，因为索引搜索直接指向包含行数据的页面。如果表很大，则与使用不同于索引记录的页面存储行数据的存储组织相比，聚集索引体系结构通常可以明显减少磁盘 I/O 操作的开销。
 
@@ -354,6 +354,31 @@ TODO
 联合索引是指对表上的多个列进行索引，与单个列作为键的索引不同之处仅在于有多个索引列。
 
 如联合索引 (a, b) 在 B+ 树上排列时，会先按照 a 顺序排列，再按照 b 顺序排列。
+
+##### 最左前缀原则
+
+对于联合索引 `INDEX(a, b, c)`：
+
+|                        Where 语句                         | 索引是否被使用 | 使用的索引 |
+| :-------------------------------------------------------: | :------------: | :--------: |
+|                       `where a = 3`                       |      Yes       |     a      |
+|                  `where a = 3 and b = 5`                  |      Yes       |    a, b    |
+|             `where a = 3 and b = 5 and c = 4`             |      Yes       |  a, b, c   |
+|             `where b = 5 and a = 3 and c = 4`             |      Yes       |  a, b, c   |
+| `where b = 3` 或 `where b = 3 and c = 4` 或 `where c = 4` |       No       |            |
+|                  `where a = 3 and c = 5`                  |      Yes       |     a      |
+|             `where a = 3 and b > 4 and c = 5`             |      Yes       |    a, b    |
+|         `where a = 3 and b like 'kk%' and c = 4`          |      Yes       |  a, b, c   |
+|         `where a = 3 and b like '%kk' and c = 4`          |      Yes       |     a      |
+|         `where a = 3 and b like '%kk%' and c = 4`         |      Yes       |     a      |
+|        `where a = 3 and b like 'k%kk%' and c = 4`         |      Yes       |  a, b, c   |
+|         `where a like '%kk' and b = 3 and c = 4`          |       No       |            |
+
+根据以上示例，我们总结：
+
+-   如使用了后面的索引，则前面的索引必被使用；
+-   对于 `'%k'` 类通配符，由于并不能直接匹配，因此无法使用索引；
+-   where 语句中的字段顺序并不影响结果，MySQL 优化器会对语句进行排序。
 
 #### 覆盖索引
 
@@ -444,7 +469,34 @@ TABLE LOCK table `test`.`t` trx id 10080 lock mode IX
 
 ### 记录锁
 
+记录锁是对索引记录的锁。例如，`SELECT c1 FROM t WHERE c1 = 10 FOR UPDATE;` 阻止任何其他事务插入、更新或删除 `t.c1` 值为 10 的行。
+
+记录锁总是会锁定索引记录，即使一个表没有定义索引（这里指的是没有手动定义索引）。对于这种情况，InnoDB 会创建一个隐藏的聚集索引并使用该索引进行记录锁定（参见聚集索引相关部分）。
+
+记录锁的事务数据在 `SHOW ENGINE INNODB STATUS` 和 InnoDB 监视器（InnoDB monitor）输出中显示类似于以下内容：
+
+```sql
+RECORD LOCKS space id 58 page no 3 n bits 72 index `PRIMARY` of table `test`.`t`
+trx id 10078 lock_mode X locks rec but not gap
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
+ 0: len 4; hex 8000000a; asc     ;;
+ 1: len 6; hex 00000000274f; asc     'O;;
+ 2: len 7; hex b60000019d0110; asc        ;;
+```
+
 ### 间隙锁
+
+间隙锁是对索引记录之间的间隙的锁，或者是对第一个索引记录之前或最后一个索引记录之后的间隙的锁。例如，`SELECT c1 FROM t WHERE c1 BETWEEN 10 and 20 FOR UPDATE;` 能够防止其他事务将 15 的值插入到列 `t.c1` 中，无论该列中是否已经存在任何此类值，因为该范围内所有现有值之间的间隙已被锁定。
+
+间隙（gap）可能跨越单个索引值、多个索引值，甚至是空的。
+
+间隙锁是性能和并发性之间权衡的一部分，用于部分特定的事务隔离级别。
+
+TODO
+
+### Next-Key 锁
+
+TODO
 
 ## InnoDB 事务
 
