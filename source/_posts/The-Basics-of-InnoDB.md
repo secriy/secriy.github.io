@@ -36,7 +36,7 @@ MySQL 支持选择甚至自行开发存储引擎，这是一个插件式的体�
 -   BLACKHOLE
 -   ARCHIVE
 
->   通过 `show engines;` 命令可以查看。
+>   通过 `SHOW ENGINES;` 命令可以查看。
 
 ```
 mysql> show engines;
@@ -154,9 +154,7 @@ ACID 模型的一致性方面主要涉及 InnoDB 防止数据崩溃的内部处�
 - InnoDB 的**双写缓冲**（*doublewrite buffer*）。
 - InnoDB 的**崩溃恢复**（*crash recovery*）机制。
 
-在每次提交或回滚之后，以及在事务进行期间，数据库始终保持一致状态。如果跨多个表更新相关数据，查询将看到所有旧值或所有新值，而不是新旧值的混合。
-
-也就是说一个事务对多个表进行了更新，另外一个新的查询不可能查询到一部分表是更新了而另一些表却没有这次更新。
+在每次提交或回滚之后，以及在事务进行期间，数据库始终保持一致状态。如果跨多个表更新相关数据，查询将看到所有旧值或所有新值，而不是新旧值的混合。也就是说一个事务对多个表进行了更新，另外一个新的查询不可能查询到一部分表是更新了而另一些表却没有这次更新。事务的一致性也体现在事务开始前和结束后，数据库的完整性约束不会被破坏。例如具有唯一约束的字段不会在事务结束后出现了重复。
 
 ### Isolation
 
@@ -250,13 +248,11 @@ InnoDB 的架构可以参考下图，取自 [InnoDB Architecture](https://dev.my
 
 内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。图中的 **O_DIRECT** 是 `open` 函数的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过缓冲区高速缓存。
 
-InnoDB 默认会将 `innodb_file_per_table` 设置为 `ON`，让每个表使用单独的 .frm 文件。
-
 ## InnoDB 内存上结构
 
-### 缓冲池（Buffer Pool）
+### 缓冲池
 
-缓冲池是主存（main memory）中的一个区域，InnoDB 在访问**表和索引数据**时会将它们缓存在缓冲池中。缓冲池允许直接从内存访问经常使用的数据，从而加快处理速度。在专用的服务器上，高达 80% 的物理内存通常分配给了缓冲池。
+缓冲池（Buffer Pool）是主存（main memory）中的一个区域，InnoDB 在访问**表和索引数据**时会将它们缓存在缓冲池中。缓冲池允许直接从内存访问经常使用的数据，从而加快处理速度。在专用的服务器上，高达 80% 的物理内存通常分配给了缓冲池。
 
 >   由于 CPU 速度与磁盘 I/O 速度差别巨大，基于磁盘的数据库系统通常使用缓冲池技术来提高数据库的整体性能。
 
@@ -290,7 +286,7 @@ InnoDB 默认会将 `innodb_file_per_table` 设置为 `ON`，让每个表使用�
 
 可以使用 InnoDB 标准监视器（InnoDB Standard Monitor）监视缓冲池信息：
 
-`show engine innodb status;`
+`SHOW ENGINE InnoDB STATUS;`
 
 >   注意：该命令显示的并非实时状态，而是过去的某一时间点的状态，从开头的信息中可以看到类似 `Per second averages calculated from the last 33 seconds` 的一段文字，在本例中表示数据取自过去 33 秒的平均值。
 
@@ -319,11 +315,11 @@ I/O sum[0]:cur[0], unzip sum[0]:cur[0]
 
 >   相关指标的详细信息参见 [Buffer Pool](https://dev.mysql.com/doc/refman/5.7/en/innodb-buffer-pool.html)。
 
-### 写缓冲（Change Buffer）
+### 写缓冲
 
->   在 MySQL 5.5 之前的版本中，由于只支持缓存 `INSERT` 操作，所以叫做 Insert Buffer（插入缓冲）。后来的版本中支持了 `INSERT`、`UPDATE` 和 `DELETE` 操作类型缓冲，因此改叫 Change Buffer。
+>   在 MySQL 5.5 之前的版本中，由于只支持缓存 `INSERT` 操作，所以叫做 Insert Buffer（插入缓冲）。后来的版本中支持了 `INSERT`、`UPDATE` 和 `DELETE` 操作类型缓冲，因此改叫写缓冲。
 
-Change Buffer 是一种特殊的数据结构，当**二级索引**页不在缓冲池（即前一小节的 Buffer Pool）中时，它会缓存这些页的更改。缓存的更改可能由 `INSERT`、`UPDATE` 或 `DELETE` 操作（DML）导致，稍后当页面通过其他读操作加载到缓冲池时，会合并这些更改。
+写缓冲（Change Buffer）是一种特殊的数据结构，当**二级索引**页不在缓冲池（即前一小节的 Buffer Pool）中时，它会缓存这些页的更改。缓存的更改可能由 `INSERT`、`UPDATE` 或 `DELETE` 操作（DML）导致，稍后当页面通过其他读操作加载到缓冲池时，会合并这些更改。
 
 ![Change Buffer](The-Basics-of-InnoDB/innodb-change-buffer.png)
 
@@ -339,9 +335,9 @@ Change Buffer 是一种特殊的数据结构，当**二级索引**页不在缓�
 
 >   注意：写缓冲只会缓存对**二级索引**的更改。并且，对唯一索引（unique index）的更改并不会缓存其主键，因为 InnoDB 需要进行唯一性校验，这必须通过读磁盘来进行。也就是说，对于唯一索引，不管怎样都要进行磁盘 I/O，没有什么缓存的必要。
 
-### 自适应哈希索引（Adaptive Hash Index, AHI）
+### 自适应哈希索引
 
-AHI 使 InnoDB 能够在具有**适当的工作负载组合**和**足够的缓冲池内存**的系统上执行得更像内存数据库，而不会牺牲事务特性或可靠性。AHI 由 `innodb_adaptive_hash_index` 变量启用，或在服务器启动时由 `--skip-innodb-adaptive-hash-index` 关闭（默认开启 AHI）。
+自适应哈希索引（Adaptive Hash Index, AHI）使 InnoDB 能够在具有**适当的工作负载组合**和**足够的缓冲池内存**的系统上执行得更像内存数据库，而不会牺牲事务特性或可靠性。AHI 由 `innodb_adaptive_hash_index` 变量启用，或在服务器启动时由 `--skip-innodb-adaptive-hash-index` 关闭（默认开启 AHI）。
 
 >   哈希查找在理想情况下的查找时间复杂度为 $O(1)$，查询效率要高于 B+ 树。
 
@@ -355,17 +351,19 @@ AHI 根据观察到的搜索模式，使用索引键的前缀构建哈希索引�
 
 可以在 `SHOW ENGINE INNODB STATUS` 输出的 `SEMAPHORES` 部分监视自适应哈希索引的使用和竞争。如果有大量线程在等待 `btr0sea.c` 中创建的 `rw-latches`，请考虑增加自适应哈希索引分区的数量或禁用自适应哈希索引。
 
-### 日志缓冲（Log Buffer）
+### 日志缓冲
 
-日志缓冲区是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**（仅 redo log）。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
+日志缓冲区（Log Buffer）是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**（仅 redo log）。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
 
 `innodb_flush_log_at_trx_commit` 变量控制如何将日志缓冲区的内容写入并刷新到磁盘。`innodb_flush_log_at_timeout` 变量控制日志刷新频率。
 
 ## InnoDB 磁盘上结构
 
-### 表（Tables）
+### 表
 
-InnoDB 会将表的数据放在数据目录中的 .frm 文件中。并且，它还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将用户创建的表的一些信息存进这些表中。
+默认情况下，创建的新表是以 InnoDB 作为其存储引擎，但可以通过 `CREATE TABLE ... ENGINE=MyISAM;` 这样的语句来指定其使用的存储引擎。并且，InnoDB 默认会将 `innodb_file_per_table` 系统变量设置为 `ON`，让每个表使用单独的 .frm 文件。
+
+InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将一些 InnoDB 需要的信息以及用户所创建表的相关信息存进这些表中。
 
 #### 行格式
 
@@ -378,9 +376,9 @@ InnoDB 有四种行格式，特性各不相同：
 - DYNAMIC
 - COMPRESSED
 
-变量 `innodb_default_row_format` 定义了默认使用的格式，而在建表（CREATE）或修改表（ALTER）时，也可以使用 `ROW_FORMAT` 选项自定义。
+变量 `innodb_default_row_format` 定义了默认使用的格式（默认为 DYNAMIC），而在建表（CREATE）或修改表（ALTER）时，也可以使用 `ROW_FORMAT` 选项自定义。
 
-行格式的相关介绍和讨论会放在后文中展开。
+行格式的相关介绍和讨论会在后文中展开。
 
 #### 主键
 
@@ -391,11 +389,81 @@ InnoDB 有四种行格式，特性各不相同：
 - 不会重复的列
 - 插入后其值很少修改的列
 
-#### AUTO_INCREMENT
+尽管表在没有定义主键的情况下也能正常工作，但主键涉及性能的许多方面，并且是任何大型或经常使用的表的重要设计方面。建议始终在 `CREATE TABLE` 语句中指定主键。如果创建了表并装入了数据，再通过 `ALTER TABLE` 语句来添加主键，则该操作比创建表时定义主键要慢得多。
 
+>   查看某个 InnoDB 表的相关属性信息，使用 `SHOW TABLE STATUS;` 语句：
+>
+>   ```mysql
+>   mysql> use mysql;
+>   Database changed
+>   mysql> show table status;
+>   +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
+>   | Name                      | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length    | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation         | Checksum | Create_options     | Comment                                 |
+>   +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
+>   | columns_priv              | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 241505530017742847 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Column privileges                       |
+>   | db                        | MyISAM |      10 | Fixed      |    2 |            488 |         976 | 137359788634800127 |         5120 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Database privileges                     |
+>   | engine_cost               | InnoDB |      10 | Dynamic    |    2 |           8192 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 |                                         |
+>   | event                     | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         2048 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_general_ci   |     NULL |                    | Events                                  |
+>   | func                      | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 162974011515469823 |         1024 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | User defined functions                  |
+>   | general_log               | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL       | utf8_general_ci   |     NULL |                    | General log                             |
+>   | gtid_executed             | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | latin1_swedish_ci |     NULL |                    |                                         |
+>   | help_category             | InnoDB |      10 | Dynamic    |   50 |            327 |       16384 |                  0 |        16384 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help categories                         |
+>   | help_keyword              | InnoDB |      10 | Dynamic    |  895 |            128 |      114688 |                  0 |       114688 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help keywords                           |
+>   | help_relation             | InnoDB |      10 | Dynamic    | 1742 |             56 |       98304 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | keyword-topic relation                  |
+>   | help_topic                | InnoDB |      10 | Dynamic    |  714 |           2225 |     1589248 |                  0 |        98304 |   4194304 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help topics                             |
+>   | innodb_index_stats        | InnoDB |      10 | Dynamic    |    7 |           2340 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_bin          |     NULL | stats_persistent=0 |                                         |
+>   | innodb_table_stats        | InnoDB |      10 | Dynamic    |    2 |           8192 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_bin          |     NULL | stats_persistent=0 |                                         |
+>   | ndb_binlog_index          | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         1024 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | latin1_swedish_ci |     NULL |                    |                                         |
+>   | plugin                    | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | MySQL plugins                           |
+>   | proc                      | MyISAM |      10 | Dynamic    |   48 |           6277 |      301304 |    281474976710655 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:17 | NULL       | utf8_general_ci   |     NULL |                    | Stored Procedures                       |
+>   | procs_priv                | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 266275327968280575 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Procedure privileges                    |
+>   | proxies_priv              | MyISAM |      10 | Fixed      |    1 |            837 |         837 | 235594555506819071 |         9216 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | User proxy privileges                   |
+>   | server_cost               | InnoDB |      10 | Dynamic    |    6 |           2730 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 |                                         |
+>   | servers                   | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | MySQL Foreign Servers table             |
+>   | slave_master_info         | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Master Information                      |
+>   | slave_relay_log_info      | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Relay Log Information                   |
+>   | slave_worker_info         | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Worker Information                      |
+>   | slow_log                  | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL       | utf8_general_ci   |     NULL |                    | Slow log                                |
+>   | tables_priv               | MyISAM |      10 | Fixed      |    2 |            947 |        1894 | 266556802944991231 |         9216 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Table privileges                        |
+>   | time_zone                 | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |              1 | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zones                              |
+>   | time_zone_leap_second     | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Leap seconds information for time zones |
+>   | time_zone_name            | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone names                         |
+>   | time_zone_transition      | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone transitions                   |
+>   | time_zone_transition_type | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone transition types              |
+>   | user                      | MyISAM |      10 | Dynamic    |    3 |            132 |         396 |    281474976710655 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:19 | NULL       | utf8_bin          |     NULL |                    | Users and global privileges             |
+>   +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
+>   31 rows in set (0.01 sec)
+>   ```
+>
+>   可以根据条件过滤：
+>
+>   ```mysql
+>   mysql> use mysql;
+>   Database changed
+>   mysql> show table status where name='user' \G;
+>   *************************** 1. row ***************************
+>              Name: user
+>            Engine: MyISAM
+>           Version: 10
+>        Row_format: Dynamic
+>              Rows: 3
+>    Avg_row_length: 132
+>       Data_length: 396
+>   Max_data_length: 281474976710655
+>      Index_length: 4096
+>         Data_free: 0
+>    Auto_increment: NULL
+>       Create_time: 2021-10-22 16:22:16
+>       Update_time: 2021-10-22 16:22:19
+>        Check_time: NULL
+>         Collation: utf8_bin
+>          Checksum: NULL
+>    Create_options:
+>           Comment: Users and global privileges
+>   1 row in set (0.00 sec)
+>   ```
 
-
-### 索引（Indexes）
+### 索引
 
 #### B+ 树
 
@@ -502,7 +570,7 @@ TODO
 
 当用户所需的列本身就是二级索引的键时，就没有必要再对聚集索引进行查询了，可以直接返回。二级索引中包含所需要查找的列，不需要进行回表操作，称为**覆盖索引**。
 
-### 表空间（Tablespaces）
+### 表空间
 
 #### 系统表空间
 
@@ -520,9 +588,27 @@ TODO
 
 ## InnoDB 锁机制
 
-由于 MySQL 是一个多用户数据库，需要最大程度的利用数据库的并发访问，并确保不同用户之间的操作不会冲突和干扰，因此需要有一种机制来完成这个任务，即锁机制（Locking）。
+由于 MySQL 是一个多用户数据库，需要最大程度的利用数据库的并发访问，并确保不同用户之间的操作不会冲突和干扰，因此需要有一种机制来完成这个任务，即锁机制（Locking）。一言以蔽之，**锁机制用于管理对共享资源的并发访问**。
 
-锁的对象是事务，它将锁定数据库中的如表、页、行等对象。
+>   注意：须知锁机制并不只是用于行记录，在数据库内部的很多地方都有锁的使用，如保证缓冲池数据一致性的锁。
+
+### Lock 与 Latch
+
+在数据库中常常见到 lock 和 latch 两种锁，后者一般称其为闩锁（轻量级的锁），因为它要求锁定的时间必须非常短。在 InnoDB 中，latch 可以分为 mutex（互斥锁） 和 rwlock（读写锁），用于保证并发线程操作临界资源的正确性，通常没有死锁检测机制。
+
+lock 的对象是事务，它用于锁定数据库中的如表、页、行等对象。lock 通常在事务 `COMMIT` 或 `ROLLBACK` 后释放，并存在死锁检测和处理的机制。
+
+>   通过 `SHOW ENGINE InnoDB MUTEX;` 语句可以查看 latch 的相关信息：
+>
+>   ```mysql
+>   mysql> show engine innodb mutex;
+>   +--------+------------------------+---------+
+>   | Type   | Name                   | Status  |
+>   +--------+------------------------+---------+
+>   | InnoDB | rwlock: log0log.cc:846 | waits=2 |
+>   +--------+------------------------+---------+
+>   1 row in set (0.00 sec)
+>   ```
 
 ### InnoDB 中的锁
 
@@ -533,7 +619,7 @@ InnoDB 中有以下几种锁：
 - 意向锁（Intent Locks）
 - 记录锁（Record Locks）
 - 间隙锁（Gap Locks）
-- Next-Key Locks\*
+- Next-Key Locks
 - 插入意向锁（Insert Intention Locks）\*
 - 自增锁（AUTO-INC Locks）\*
 - 空间索引的谓词锁（Predicate Locks for Spatial Indexes）\*
@@ -614,13 +700,15 @@ Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
 
 TODO
 
-### Next-Key 锁
+### Next-Key Locks
 
 TODO
 
 ## InnoDB 事务
 
 InnoDB 事务模型旨在将多版本数据库的最佳特性与传统的两阶段锁定相结合。InnoDB 在行级别执行锁定，并在默认情况下以 Oracle 样式以非锁定一致读取的方式运行查询。InnoDB 中的锁信息有效地存储在空间中，因此不需要锁升级。通常，允许多个用户锁定 InnoDB 表中的每一行或任意行的子集，而不会导致 InnoDB 内存耗尽。
+
+InnoDB 中的事务完全符合 ACID 模型，事务主要实现其中的原子性（atomicity）和隔离性（isolation）。InnoDB 事务实现 ACID 的具体体现可以在 [InnoDB ACID 模型](#InnoDB-ACID-模型) 一节中找到。
 
 ### 事务的隔离级别
 
@@ -650,10 +738,34 @@ InnoDB 事务有四个隔离级别：
 
 #### READ COMMITTED
 
-在读提交级别下，
+在读提交级别下，每个一致的读取，即使在同一个事务中，也会设置和读取自己的新快照。
+
+对于锁定读取（`SELECT with FOR UPDATE` 或 `LOCK IN SHARE MODE`）、`UPDATE` 语句和 `DELETE` 语句，InnoDB 仅锁定索引记录，而不是它们之前的间隙，因此允许在锁定的记录旁边自由插入新记录。间隙锁定仅用于外键约束检查和重复键检查。
+
+由于间隙锁被禁用，可能会出现幻像行问题，因为其他会话可以将新行插入间隙中。
+
+TODO
 
 #### READ UNCOMMITTED
 
+`SELECT` 语句以非锁定方式执行，但可能会使用行的早期版本。因此，使用此隔离级别，此类读取不一致。这也称为脏读。否则，此隔离级别的工作方式类似于 READ COMMITTED。
+
 #### SERIALIZABLE
 
-此级别类似于 **REPEATABLE READ**，但如果 `autocommit` 被禁用（设置为 `disabled`），InnoDB 隐式地将所有普通 SELECT 语句转换为 `SELECT ... LOCK IN SHARE MODE`。如果启用了自动提交，则选择是其自己的事务。因此，已知它是只读的，如果作为一致（非锁定）读取执行，并且不需要为其他事务阻塞，则可以序列化它。（若要在其他事务已修改选定行时强制阻止普通选择，请禁用自动提交。）
+此级别类似于 **REPEATABLE READ**，但如果 `autocommit` 被禁用（设置为 `disabled`），InnoDB 隐式地将所有普通 SELECT 语句转换为 `SELECT ... LOCK IN SHARE MODE`。如果启用了自动提交，则选择是其自己的事务。因此，已知它是只读的，如果作为一致（非锁定）读取执行，并且不需要为其他事务阻塞，则可以序列化它。
+
+>   若要在其他事务已修改选定行时强制阻止普通选择，请禁用自动提交。
+
+### autocommit、Commit 和 Rollback
+
+在 InnoDB 中，所有的用户活动都发生在一个事务中。如果启用了 autocommit（自动提交）模式，则每个 SQL 语句都会单独形成一个事务。默认情况下，MySQL 为每个新客户端连接启动带有 autocommit 的会话（session）。因此如果一条 SQL 语句没有返回错误，MySQL 会在其后进行提交。如果该语句返回了错误，则根据这个错误来决定进行提交或回滚。
+
+启用了 autocommit 的会话可以通过显式的 `START TRANSACTION` 或 `BEGIN` 语句启动它并以 `COMMIT` 或 `ROLLBACK` 语句结束它，以此来执行多语句事务。
+
+如果在会话中通过 `SET autocommit = 0` 语句禁用自动提交模式，则会话始终打开一个事务。用 `COMMIT` 或 `ROLLBACK` 语句结束当前事务并开始一个新事务。
+
+如果禁用 autocommit 的会话在没有明确提交最终事务的情况下结束，MySQL 将回滚该事务。
+
+某些语句隐式地结束了一个事务，就好像用户在执行该语句之前已经完成了 `COMMIT` 一样。这种情况参见 [Statements That Cause an Implicit Commit](https://dev.mysql.com/doc/refman/5.7/en/implicit-commit.html)。
+
+`COMMIT` 意味着在当前事务中所做的更改是永久的，并且对其他会话可见。而 `ROLLBACK` 语句取消当前事务所做的所有修改。`COMMIT` 和 `ROLLBACK` 都会释放在当前事务期间设置的所有 InnoDB 锁。
