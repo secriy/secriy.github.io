@@ -8,12 +8,15 @@ tags:
   - MySQL
 references:
   - title: MySQL 5.7 Reference Manual
-    url: https://dev.mysql.com/doc/refman/5.7/en/
+    url: https://dev.mysql.com/doc/refman/5.7/en/innodb-storage-engine.html
+  - title: MariaDB Server Documentation
+    url: https://mariadb.com/kb/en/innodb/
+mathjax: true
 ---
 
 {% noteblock quote cyan %}
 
-本文是 MySQL InnoDB 存储引擎的相关基础知识总结，主要是对 MySQL 5.7 官方文档 InnoDB 部分进行的翻译和精简，但参考一些书籍和第三方资料进行了补充。由于最近准备面试，看了很多相关的书籍和面经总结，感觉它们大同小异，后来发现自官方文档已经对相关知识作了详细的总结，但鲜有人进行翻译整理。因此个人打算对照官方文档的“一手资料”以及其他相关书籍看一遍，梳理总结。本文翻译可能引起歧义的地方都会注明英文原文，以确保不会误导读者。
+本文是 MySQL InnoDB 存储引擎的相关基础知识总结，主要是对 MySQL 5.7 官方文档 InnoDB 部分进行的翻译和精简，但参考了其他的相关文档（如 MariaDB）以及一些书籍和第三方资料对文章进行补充。本文翻译可能引起歧义的地方都会注明英文原文，以确保不会误导读者。另，本文不适用于初学者。
 
 {% endnoteblock %}
 
@@ -21,9 +24,51 @@ references:
 
 ## MySQL 中的存储引擎
 
+MySQL 支持选择甚至自行开发存储引擎，这是一个插件式的体系结构，可以根据场景和需求来从各种拥有不同特性的存储引擎中选择需要的存储引擎。MySQL 中的存储引擎主要有：
+
+-   InnoDB
+-   MyISAM
+-   MEMORY
+-   MRG_MYISAM
+-   CSV
+-   FEDERATED
+-   PERFORMANCE_SCHEMA
+-   BLACKHOLE
+-   ARCHIVE
+
+>   通过 `show engines;` 命令可以查看。
+
+```
+mysql> show engines;
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |
+| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |
+| CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |
+| FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |
+| PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |
+| MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |
+| InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |
+| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |
+| ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+9 rows in set (0.00 sec)
+```
+
+本节将对 MySQL 中部分存储引擎做一个简略的介绍。
+
 ### InnoDB
 
+InnoDB 存储引擎支持**事务**，支持**行锁**和**外键**。
+
+InnoDB 通过 MVCC 来实现高并发性，并实现了四个隔离级别。InnoDB 使用 Next-Key locking 来避免幻读（phantom）。另外它还提供了诸如插入缓冲、二次写、自适应哈希索引、预读等功能来实现**高性能**和**高可用**。
+
+在存储方面，InnoDB 采用**聚集索引**存放所有数据，因此所有表中数据都按照一定的顺序存放。
+
 ### MyISAM
+
+MyISAM 存储引擎不支持事务，采用表锁设计，支持全文索引。
 
 ## InnoDB 介绍
 
@@ -79,7 +124,7 @@ MyISAM：
 - 评估你的数据和访问模式是否受益于 InnoDB 表或页面的压缩功能。你可以在不牺牲读/写功能的情况下压缩 InnoDB 表。
 - 使用 `--sql_mode=NO_ENGINE_SUBSTITUTION` 选项运行服务器，以防止使用不希望使用的存储引擎创建表。
 
-## ACID 模型
+## InnoDB ACID 模型
 
 > The [ACID](https://dev.mysql.com/doc/refman/5.7/en/glossary.html#glos_acid) model is a set of database design principles that emphasize aspects of reliability that are important for business data and mission-critical applications. MySQL includes components such as the `InnoDB` storage engine that adhere closely to the ACID model so that data is not corrupted and results are not distorted by exceptional conditions such as software crashes and hardware malfunctions. When you rely on ACID-compliant features, you do not need to reinvent the wheel of consistency checking and crash recovery mechanisms. In cases where you have additional software safeguards, ultra-reliable hardware, or an application that can tolerate a small amount of data loss or inconsistency, you can adjust MySQL settings to trade some of the ACID reliability for greater performance or throughput.
 >
@@ -140,7 +185,7 @@ ACID 模型的持久性方面涉及 MySQL 软件功能与特定硬件配置的�
 
 持久性体现在事务的结果是持久的————一旦提交操作成功，该事务所做的更改就不会受到电源故障、系统崩溃、竞争条件或其他潜在危险的影响。持久性通常涉及到写入磁盘存储，具有一定数量的冗余，以防止写入操作期间出现电源故障或软件崩溃。（在 InnoDB 中，doublewrite 缓冲区有助于提高持久性。）
 
-## Multi-Versioning
+## InnoDB Multi-Versioning
 
 > `InnoDB` is a multi-version storage engine. It keeps information about old versions of changed rows to support transactional features such as concurrency and rollback. This information is stored in the system tablespace or undo tablespaces in a data structure called a rollback segment. `InnoDB` uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.
 >
@@ -186,7 +231,7 @@ InnoDB 的架构可以参考下图，取自 [InnoDB Architecture](https://dev.my
 
 内存中的部分，可以看到有以下几个关键结构：
 
-- Adaptive Hash Index（可适应性哈希索引）
+- Adaptive Hash Index（自适应哈希索引）
 - Buffer Pool（缓冲池）
 - Change Buffer（写缓冲，国内常用译名）
 - Log Buffer（日志缓冲）
@@ -211,23 +256,80 @@ InnoDB 默认会将 `innodb_file_per_table` 设置为 `ON`，让每个表使用�
 
 ### 缓冲池（Buffer Pool）
 
-缓冲池是主存（main memory）中的一个区域，InnoDB 在访问表和索引数据时会将它们缓存在缓冲池中。缓冲池允许直接从内存访问经常使用的数据，从而加快处理速度。在专用的服务器上，高达 80% 的物理内存通常分配给了缓冲池。
+缓冲池是主存（main memory）中的一个区域，InnoDB 在访问**表和索引数据**时会将它们缓存在缓冲池中。缓冲池允许直接从内存访问经常使用的数据，从而加快处理速度。在专用的服务器上，高达 80% 的物理内存通常分配给了缓冲池。
+
+>   由于 CPU 速度与磁盘 I/O 速度差别巨大，基于磁盘的数据库系统通常使用缓冲池技术来提高数据库的整体性能。
 
 为了提高大容量读取操作的效率，缓冲池被划分为可能容纳多行（rows，即行记录）的页面。为了提高缓存（cache）管理的效率，缓冲池被实现为页面的链表。很少使用的数据会使用 LRU 算法的变体从缓存中过时。
 
-下面介绍一下 InnoDB 缓冲池使用的 LRU 算法。
+缓冲池简单来说就是一块内存区域，在数据库读取页时，首先将找到的页放到缓冲池中。当下一次查询相同的页时，会先判断页是否在缓冲池中，若存在则直接读取该页，否则读取磁盘中的页。
 
-*TODO*
+缓冲池中缓存的并不只有索引页、数据页，还会包含少部分的其他内容（如 Change Buffer 等）。
+
+>   TODO: InnoDB 缓冲池使用的 LRU 算法。
+
+#### 缓冲池的配置
+
+可以配置缓冲池的各个方面以提高性能。
+
+-   理想情况下，要给缓冲池的大小设置为尽可能大的值，并保证给服务器上的其他进程留下足够大的内存空间。缓冲池越大，InnoDB 就越像内存数据库，从磁盘读取数据一次，然后在后续读取期间从内存访问数据。
+
+-   在内存空间充足的 64 位系统上，可以将缓冲池拆分为多个部分，以最大程度地减少并发操作之间对 InnoDB 内存结构的争用。
+
+    >   即设置多个缓冲池实例（instance）来增加数据库的并发处理能力。每个页根据哈希值平均分配到不同的缓冲池实例中。
+
+-   可以将经常访问的数据一直保留在内存中，而不管某些操作的活动突然激增（这些操作会将大量不常访问的数据带入缓冲池）。
+
+-   可以控制**如何**以及**何时**执行预读请求从而以异步的方式将**预期很快就会使用到的页面**预取到缓冲池中。
+
+-   可以控制何时发生**后台刷新**（将缓冲池内数据持久化到磁盘）以及是否根据工作负载动态调整刷新速率。
+
+-   可以配置 InnoDB 如何保留当前缓冲池状态以避免服务器重新启动后的长时间预热（warmup，指的是服务器重启后的准备步骤）。
+
+#### 缓冲池的监控
+
+可以使用 InnoDB 标准监视器（InnoDB Standard Monitor）监视缓冲池信息：
+
+`show engine innodb status;`
+
+>   注意：该命令显示的并非实时状态，而是过去的某一时间点的状态，从开头的信息中可以看到类似 `Per second averages calculated from the last 33 seconds` 的一段文字，在本例中表示数据取自过去 33 秒的平均值。
+
+```
+----------------------
+BUFFER POOL AND MEMORY
+----------------------
+Total large memory allocated 8585216
+Dictionary memory allocated 112577
+Buffer pool size   512
+Free buffers       258
+Database pages     254
+Old database pages 0
+Modified db pages  0
+Pending reads      0
+Pending writes: LRU 0, flush list 0, single page 0
+Pages made young 0, not young 0
+0.00 youngs/s, 0.00 non-youngs/s
+Pages read 277, created 34, written 36
+0.00 reads/s, 0.00 creates/s, 0.00 writes/s
+No buffer pool page gets since the last printout
+Pages read ahead 0.00/s, evicted without access 0.00/s, Random read ahead 0.00/s
+LRU len: 254, unzip_LRU len: 0
+I/O sum[0]:cur[0], unzip sum[0]:cur[0]
+```
+
+>   相关指标的详细信息参见 [Buffer Pool](https://dev.mysql.com/doc/refman/5.7/en/innodb-buffer-pool.html)。
 
 ### 写缓冲（Change Buffer）
 
-Change Buffer 是一种特殊的数据结构，当二级索引页不在缓冲池（即前一小节的 Buffer Pool）中时，它会缓存这些页的更改。缓存的更改可能由 `INSERT`、`UPDATE` 或 `DELETE` 操作（DML）导致，稍后当页面通过其他读操作加载到缓冲池时，会合并这些更改。
+>   在 MySQL 5.5 之前的版本中，由于只支持缓存 `INSERT` 操作，所以叫做 Insert Buffer（插入缓冲）。后来的版本中支持了 `INSERT`、`UPDATE` 和 `DELETE` 操作类型缓冲，因此改叫 Change Buffer。
+
+Change Buffer 是一种特殊的数据结构，当**二级索引**页不在缓冲池（即前一小节的 Buffer Pool）中时，它会缓存这些页的更改。缓存的更改可能由 `INSERT`、`UPDATE` 或 `DELETE` 操作（DML）导致，稍后当页面通过其他读操作加载到缓冲池时，会合并这些更改。
 
 ![Change Buffer](The-Basics-of-InnoDB/innodb-change-buffer.png)
 
-与聚集索引不同，二级索引通常是非唯一的，二级索引的插入顺序相对随机，也就是说增删改的开销会更大。同样地，删除和更新可能会影响索引树中不相邻的二级索引页。当其他操作将受影响的页面读入缓冲池时，合并（merging）缓存的更改，可避免从磁盘将二级索引页面读入缓冲池所需的大量随机访问 I/O。简而言之就是用写缓冲的机制让二级索引的 DML 修改结果先不存入磁盘，而是缓存起来，等到下次读这个数据的时候合并写缓冲缓存的修改再返回给用户。使用这种机制能够大大降低磁盘 I/O 开销。
+与聚集索引不同（聚集索引**在大多数情况下**插入是按顺序的，因此操作速度很快），二级索引通常是非唯一的，二级索引的插入顺序相对随机，需要进行随机 I/O 读写，也就是说开销会更大。同样地，删除和更新可能会影响索引树中不相邻的二级索引页。当其他操作将受影响的页面读入缓冲池时，合并（merging）缓存的更改，可避免从磁盘将二级索引页面读入缓冲池所需的大量随机访问 I/O。简而言之就是用写缓冲的机制让二级索引的 DML 修改结果先不存入磁盘，而是缓存起来，等到下次读这个数据的时候合并写缓冲缓存的修改再返回给用户。使用这种机制能够大大降低磁盘 I/O 开销。
 
-当系统大部分处于闲置状态，或在缓慢停机期间会进行清除（purge）操作，将写缓冲上的更新写入到磁盘。和立即将每个新值写入磁盘相比，purge 操作可以更有效地将一批索引值写入磁盘块。
+当系统大部分处于闲置状态或处在缓慢停机期间会进行 *purge* 操作，将写缓冲上的更新写入到磁盘。和立即将每个新值写入磁盘相比，purge 操作可以更有效地将一批索引值写入磁盘块。
 
 当有许多受影响的行以及很多的二级索引项需要更新时，写缓冲区的合并（merging）操作可能需要几个小时。在此期间，磁盘 I/O 会增加，这可能会导致需要读磁盘的查询速度显著降低。提交事务后，甚至在服务器关闭并重新启动后，写缓冲区合并也可能继续进行。
 
@@ -235,11 +337,27 @@ Change Buffer 是一种特殊的数据结构，当二级索引页不在缓冲池
 
 缓存在写缓冲区中的数据类型由 `innodb_change_buffering` 变量控制。
 
-### 可适应性哈希索引（Adaptive Hash Index）
+>   注意：写缓冲只会缓存对**二级索引**的更改。并且，对唯一索引（unique index）的更改并不会缓存其主键，因为 InnoDB 需要进行唯一性校验，这必须通过读磁盘来进行。也就是说，对于唯一索引，不管怎样都要进行磁盘 I/O，没有什么缓存的必要。
+
+### 自适应哈希索引（Adaptive Hash Index, AHI）
+
+AHI 使 InnoDB 能够在具有**适当的工作负载组合**和**足够的缓冲池内存**的系统上执行得更像内存数据库，而不会牺牲事务特性或可靠性。AHI 由 `innodb_adaptive_hash_index` 变量启用，或在服务器启动时由 `--skip-innodb-adaptive-hash-index` 关闭（默认开启 AHI）。
+
+>   哈希查找在理想情况下的查找时间复杂度为 $O(1)$，查询效率要高于 B+ 树。
+
+AHI 根据观察到的搜索模式，使用索引键的前缀构建哈希索引。前缀可以是任意长度，也可能只有 B+ 树中的某些值出现在哈希索引中。哈希索引是针对经常访问的索引页面按需构建的。
+
+如果一个表几乎完全放在主内存中，哈希索引通过启用任何元素的直接查找来加速查询，将索引值转换为某种指针。InnoDB 具有监控索引查找的机制，如果 InnoDB 注意到查询过程可以从构建哈希索引中受益，它会自动建立哈希索引，因此这个机制被称为自适应哈希索引。
+
+在某些作业量（workloads）下，通过 AHI 查找带来的速度提升要远远超过**监视索引查找**和**维护哈希索引结构**的额外开销。也就是说这种机制能有效地提升数据查询速度。在高工作负载（heavy workloads）下，访问 AHI 有时会成为竞争（contention）源，例如多个并发连接造成的对 AHI 的竞争。并且，使用 `LIKE` 运算符和 `%` 通配符的查询往往不会从中受益。对于无法从 AHI 中受益的作业量情况，将其关闭可减少不必要的性能开销。由于很难提前预测自适应哈希索引功能是否适合特定系统和工作量，需考虑在启用和禁用它的情况下分别进行基准测试以确定是否启用。
+
+在 MySQL 5.7 中，AHI 功能是分区的。每个索引都绑定到一个特定的分区，每个分区都由一个单独的 latch（闩锁）保护。分区机制由 `innodb_adaptive_hash_index_parts` 变量控制。在早期版本中，AHI 功能受到单个 latch 的保护，这在高工作负载下可能会成为一个竞争点。`innodb_adaptive_hash_index_parts` 变量默认设置为 8，最大可设置为 512。
+
+可以在 `SHOW ENGINE INNODB STATUS` 输出的 `SEMAPHORES` 部分监视自适应哈希索引的使用和竞争。如果有大量线程在等待 `btr0sea.c` 中创建的 `rw-latches`，请考虑增加自适应哈希索引分区的数量或禁用自适应哈希索引。
 
 ### 日志缓冲（Log Buffer）
 
-日志缓冲区是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
+日志缓冲区是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**（仅 redo log）。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
 
 `innodb_flush_log_at_trx_commit` 变量控制如何将日志缓冲区的内容写入并刷新到磁盘。`innodb_flush_log_at_timeout` 变量控制日志刷新频率。
 
@@ -247,7 +365,7 @@ Change Buffer 是一种特殊的数据结构，当二级索引页不在缓冲池
 
 ### 表（Tables）
 
-InnoDB 会将表的数据放在数据目录中的 .frm 文件中，并且，它还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将用户创建的表的一些信息存进这些表中。
+InnoDB 会将表的数据放在数据目录中的 .frm 文件中。并且，它还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将用户创建的表的一些信息存进这些表中。
 
 #### 行格式
 
@@ -285,7 +403,7 @@ InnoDB 有四种行格式，特性各不相同：
 
 ![高度为 2 的 B+ 树](The-Basics-of-InnoDB/image-20211006133136497.png)
 
->   图画的都是这么丑。。。
+>   图画的总是这么丑。。。
 
 我们简要的对 B+ 树的部分特性做个列举：
 
@@ -397,6 +515,8 @@ TODO
 单表文件表空间（file-per-table tablespace）包含单个 InnoDB 表的数据和索引，并存储在文件系统上的单个数据文件中。
 
 #### 通用表空间
+
+### 两次写
 
 ## InnoDB 锁机制
 

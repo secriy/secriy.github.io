@@ -1286,31 +1286,30 @@ func min(a, b int) int {
 
 ### [66. Plus One](https://leetcode.com/problems/plus-one/description/)
 
-#### Ideas
+#### 数组
 
-- 从数组末端开始遍历，当当前数字+1 后大于 9 即进位，将当前数字置 0。如果当前位置为数组首端，在数组前面插入一个 1 即可。
+从数组末端开始遍历，当当前数字 +1 后大于 9 即进位，将当前数字置 0。如果当前位置为数组首端，在数组前面插入一个 1 即可。
 
-#### Solutions
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(1)$
 
-- Common
-
-  ```go
-  func plusOne(digits []int) []int {
-  	for i := len(digits) - 1; i >= 0; i-- {
-          digits[i]++
-  		if digits[i] > 9 {
-  			digits[i] = 0
-  			if i == 0 {
-  				digits = append([]int{1}, digits...)
-  				break
-  			}
-  			continue
-  		}
-  		break
-  	}
-  	return digits
-  }
-  ```
+```go
+func plusOne(digits []int) []int {
+	for i := len(digits) - 1; i >= 0; i-- {
+        digits[i]++
+		if digits[i] > 9 {
+			digits[i] = 0
+			if i == 0 {
+				digits = append([]int{1}, digits...)
+				break
+			}
+			continue
+		}
+		break
+	}
+	return digits
+}
+```
 
 ### [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
 
@@ -2645,6 +2644,48 @@ func invertTree(root *TreeNode) *TreeNode {
 }
 ```
 
+### [230. Kth Smallest Element in a BST](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+
+#### 中序遍历（递归）
+
+利用中序遍历 BST 的结果有序的特性递归求解。
+
+-   时间复杂度：$O(n)$
+-   空间复杂度：$O(n)$
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+var count int
+var node *TreeNode
+
+func kthSmallest(root *TreeNode, k int) int {
+    count = 0
+    node = new(TreeNode)
+    inorder(root, k)
+    return node.Val
+}
+
+func inorder(root *TreeNode, k int) {
+    if root == nil {
+        return
+    }
+    inorder(root.Left, k)
+    count++
+    if count == k {
+        node = root
+        return
+    } 
+    inorder(root.Right, k)
+}
+```
+
 ### [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
 
 ```go
@@ -2957,7 +2998,40 @@ func findDisappearedNumbers(nums []int) []int {
 }
 ```
 
+### [453. Minimum Moves to Equal Array Elements](https://leetcode-cn.com/problems/minimum-moves-to-equal-array-elements/)
+
+#### 数学
+
+设 $n$ 为数组长度，则有：
+
+$result = sum(nums) - n * min(nums)$
+
+-   时间复杂度：$O(n)$
+
+    >   求 sum 和 min 的时间开销。在 Go 中，求 n 的时间复杂度为 $O(1)$。
+
+-   空间复杂度：$O(1)$
+
+```go
+func minMoves(nums []int) int {
+    minNum := nums[0]
+    total := 0
+    for i := range nums {
+        if nums[i] < minNum {
+            minNum = nums[i]
+        }
+        total += nums[i]
+    }
+
+    length := len(nums)
+
+    return total - length * minNum
+}
+```
+
 ### [461. Hamming Distance](https://leetcode-cn.com/problems/hamming-distance/)
+
+#### 位运算
 
 异或运算，统计 1 的个数。
 
@@ -2984,6 +3058,21 @@ func hammingDistance(x int, y int) int {
         count++
     }
     return count
+}
+```
+
+### [476. Number Complement](https://leetcode-cn.com/problems/number-complement/)
+
+#### 位运算
+
+```go
+func findComplement(num int) int {
+    bit := 1
+    for bit <= num {
+        num = num ^ bit
+        bit = bit << 1
+    }
+    return num
 }
 ```
 
@@ -3191,3 +3280,24 @@ func find(parent []int, x int) int {
     return parent[x]
 }
 ```
+
+## 1001-1100
+
+### [1009. Complement of Base 10 Integer](https://leetcode-cn.com/problems/complement-of-base-10-integer/)
+
+#### 位运算
+
+```go
+func bitwiseComplement(n int) int {
+    bit := 1
+    if n == 0 {
+        return n ^ bit
+    }
+    for bit <= n {
+        n = n ^ bit
+        bit = bit << 1
+    }
+    return n
+}
+```
+
