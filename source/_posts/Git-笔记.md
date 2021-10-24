@@ -93,7 +93,7 @@ Git 常用操作笔记。
 
 3.  添加文件到暂存区
 
-    >   空目录和 .gitignore 指定的目录和文件不会添加到暂存区
+    > 空目录和 .gitignore 指定的目录和文件不会添加到暂存区
 
     ```shell
     git add README.md
@@ -107,52 +107,52 @@ Git 常用操作笔记。
     git commit -m "First Commit"	# 不建议使用
     ```
 
-5.   查看工作区状态：`git status`
+5.  查看工作区状态：`git status`
 
-6.   对比提交中文件变化：`git diff <file_name>`
+6.  对比提交中文件变化：`git diff <file_name>`
 
-7.   提交日志
+7.  提交日志
 
-     ```shell
-     git log						# 详细 
-     git log --pretty=oneline	# 简略
-     ```
+    ```shell
+    git log						# 详细
+    git log --pretty=oneline	# 简略
+    ```
 
 ### 仓库配置
 
-1.   配置全局用户名和邮箱
+1.  配置全局用户名和邮箱
 
-     ```shell
-     git config --global user.name "<user_name>"
-     git config --global user.email "<email_address>"
-     ```
+    ```shell
+    git config --global user.name "<user_name>"
+    git config --global user.email "<email_address>"
+    ```
 
-2.   配置当前仓库用户名和邮箱
+2.  配置当前仓库用户名和邮箱
 
-     ```shell
-     git config user.name "<user_name>"
-     git config user.email "<email_address>"
-     ```
+    ```shell
+    git config user.name "<user_name>"
+    git config user.email "<email_address>"
+    ```
 
-3.   添加远程仓库：`git remote add <remote-repo> <remote-address>`
+3.  添加远程仓库：`git remote add <remote-repo> <remote-address>`
 
 ### 撤销更改
 
-1.   工作区文件撤销：`git checkout <file_name>`
-2.   暂存区文件撤销
-     -   暂存区 -> 工作区：`git reset HEAD <file_name>`
-     -   撤销修改：`git checkout <file_name>`
+1.  工作区文件撤销：`git checkout <file_name>`
+2.  暂存区文件撤销
+    - 暂存区 -> 工作区：`git reset HEAD <file_name>`
+    - 撤销修改：`git checkout <file_name>`
 
 ### 回退版本
 
 1.  修改上次的提交：`git commit --amend`
 
     执行后会打开编辑器，可以编辑上一次的提交信息以及修改上一次的提交内容，关闭编辑器以结束修改。
-    
+
 2.  撤销暂存区内容：`git reset HEAD`
 
     `HEAD` 指向最后一次提交
-    
+
 3.  撤销提交
 
     - 撤销到指定提交，并撤销暂存区内容
@@ -193,29 +193,29 @@ Git 常用操作笔记。
 
 ### 重做提交
 
-1.   查看历史提交以及被回退的提交（有时限，且只在本地）：`git reflog`
-2.   重做某版本：`git reset --hard <commit_id>`
+1.  查看历史提交以及被回退的提交（有时限，且只在本地）：`git reflog`
+2.  重做某版本：`git reset --hard <commit_id>`
 
 ### 删除文件
 
-1.   从版本库中删除文件（修改后需要提交）：`git rm <file_name>`
-2.   恢复删除：参考撤销
+1.  从版本库中删除文件（修改后需要提交）：`git rm <file_name>`
+2.  恢复删除：参考撤销
 
-3.   从版本库中删除文件，但保留本地文件：`git rm --cached <file_name>`
+3.  从版本库中删除文件，但保留本地文件：`git rm --cached <file_name>`
 
 ### 重命名
 
-1.   重命名文件：`git mv`
-2.   重命名文件夹：`git mv`
+1.  重命名文件：`git mv`
+2.  重命名文件夹：`git mv`
 
 ### 远程仓库
 
-1.   查看远程仓库信息
+1.  查看远程仓库信息
 
-     ```shell
-     git remote		# 简略
-     git remote -v	# 详细
-     ```
+    ```shell
+    git remote		# 简略
+    git remote -v	# 详细
+    ```
 
 2.  拉取远程仓库内容
 
@@ -231,22 +231,21 @@ Git 常用操作笔记。
     拉取远程分支：`git fetch`
 
     合并到本地分支：`git merge <remote>/<branch>`
-    
+
     示例：`git merge origin/master`
 
+4.  推送
 
-4.   推送
-
-     ```shell
-     git push
-     git push <remote_repo> <remote_branch>
-     ```
+    ```shell
+    git push
+    git push <remote_repo> <remote_branch>
+    ```
 
 ## 分支
 
 ### 创建和切换
 
->   默认会创建主干分支，一般为 `master`，由于美国的 *Black Lives Matter* 运动，master 被视为种族歧视词汇，很多企业和机构改使用 `main` 替代 `master`。
+> 默认会创建主干分支，一般为 `master`，由于美国的 _Black Lives Matter_ 运动，master 被视为种族歧视词汇，很多企业和机构改使用 `main` 替代 `master`。
 
 1.  查看所有分支
 
@@ -256,7 +255,7 @@ Git 常用操作笔记。
     git branch -a	# 查看所有分支（包括远程分支）
     git branch -av	# 查看所有分支的版本（包括远程分支）
     ```
-    
+
 2.  创建新分支：`git branch <branch_name>`
 
 3.  切换到新分支：`git switch <branch_name>`
@@ -265,14 +264,14 @@ Git 常用操作笔记。
 
 ### 删除分支
 
-1.   删除本地分支
+1.  删除本地分支
 
-     ```shell
-     git branch -D <branch_name>		# 删除未合并分支
-     git branch -d <branch_name>		# 删除已合并分支
-     ```
+    ```shell
+    git branch -D <branch_name>		# 删除未合并分支
+    git branch -d <branch_name>		# 删除已合并分支
+    ```
 
-2.   删除远程分支：`git push <remote_repo> -d <remote_branch>`
+2.  删除远程分支：`git push <remote_repo> -d <remote_branch>`
 
 ### 合并分支
 
@@ -280,34 +279,33 @@ Git 常用操作笔记。
 
 2.  合并分支、解决冲突
 
-    1.   将要合并的分支更新到最新
+    1.  将要合并的分支更新到最新
 
-    2.   切换到主分支
+    2.  切换到主分支
 
-    3.   合并分支
+    3.  合并分支
 
-    4.   解决合并时的 conflict
+    4.  解决合并时的 conflict
 
-    5.   提交到版本库
+    5.  提交到版本库
 
-    6.   合并成功
+    6.  合并成功
 
-    7.   查看分支状态
+    7.  查看分支状态
 
-         ```shell
-         git log --graph
-         git log -- graph --pretty=oneline --abbrey-commit
-         ```
+        ```shell
+        git log --graph
+        git log -- graph --pretty=oneline --abbrey-commit
+        ```
 
 ### 暂存修改
 
-1.   暂存工作现场：`git stash`
+1.  暂存工作现场：`git stash`
 
-2.   恢复工作现场
+2.  恢复工作现场
 
-     ```shell
-     git stash apply	# 恢复
-     git stash drop	# 删除
-     git stash pop	# 恢复 + 删除
-     ```
-
+    ```shell
+    git stash apply	# 恢复
+    git stash drop	# 删除
+    git stash pop	# 恢复 + 删除
+    ```

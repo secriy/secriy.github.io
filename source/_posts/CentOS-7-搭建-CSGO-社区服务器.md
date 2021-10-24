@@ -73,7 +73,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
 **该脚本用于 CSGO 服务端的后期更新**
 
-1. 在 */home/steam/steamcmd* 下执行以下操作：
+1. 在 _/home/steam/steamcmd_ 下执行以下操作：
 
    ```shell
    vim update.txt
@@ -113,7 +113,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
     ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221010525719.png)
 
-2.  在 *csgo_server/csgo/cfg* 路径下创建配置文件 *server.cfg*。
+2.  在 _csgo_server/csgo/cfg_ 路径下创建配置文件 _server.cfg_。
 
 3.  写入必要参数：
 
@@ -127,7 +127,6 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
     # 服务器连接密码
     sv_password "23333333"
     ```
-    
 
 ## 服务端启动
 
@@ -139,9 +138,9 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
 2. 创建启动脚本：
 
-   >   使用脚本启动方便修改启动项。
+   > 使用脚本启动方便修改启动项。
 
-   进入 */home/steam/steamcmd/csgo_server/* 路径，新建 *run.sh* 文件，写入以下形式的文本：
+   进入 _/home/steam/steamcmd/csgo_server/_ 路径，新建 _run.sh_ 文件，写入以下形式的文本：
 
    ```shell
    screen ./srcds_run -console -game csgo -usercon -noipx -nomaster
@@ -172,4 +171,3 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 ## 连接服务器
 
 在控制台中输入 `connect [IP 地址];password [连接密码]` 即可连接。
-

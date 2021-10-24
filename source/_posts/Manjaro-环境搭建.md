@@ -39,7 +39,7 @@ Manjaro Linux 安装及开发环境搭建。
 
 3. 点击开始，写入镜像。
 
-   >   **务必要使用 DD 模式写入！！！**
+   > **务必要使用 DD 模式写入！！！**
 
 ### 安装系统
 
@@ -91,89 +91,89 @@ Manjaro Linux 安装及开发环境搭建。
 
 #### 必需软件
 
--   Vim
+- Vim
 
-    ```shell
-    yay -S vim
-    ```
+  ```shell
+  yay -S vim
+  ```
 
--   输入法
+- 输入法
 
-    ```shell
-    sudo pacman -Sy fcitx
-    sudo pacman -S fcitx-sunpinyin # 输入法
-    sudo pacman -S fcitx-configtool # 配置工具
-    ```
+  ```shell
+  sudo pacman -Sy fcitx
+  sudo pacman -S fcitx-sunpinyin # 输入法
+  sudo pacman -S fcitx-configtool # 配置工具
+  ```
 
-    创建`.xprofile`文件：
+  创建`.xprofile`文件：
 
-    ```shell
-    sudo vim ~/.xprofile
-    ```
+  ```shell
+  sudo vim ~/.xprofile
+  ```
 
-    写入内容：
+  写入内容：
 
-    ```shell
-    export GTK_IM_MODULE=fcitx
-    export QT_IM_MODULE=fcitx
-    export XMODIFIERS="@im=fcitx"
-    ```
+  ```shell
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS="@im=fcitx"
+  ```
 
-    重启设备。
+  重启设备。
 
--   oh-my-zsh
+- oh-my-zsh
 
-    ```shell
-    chsh -s /usr/bin/zsh # 修改默认shell
-    sh -C "$(wget https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/install.sh -O -)"
-    sudo vim ~/.zshrc # 修改配置文件
-    ```
+  ```shell
+  chsh -s /usr/bin/zsh # 修改默认shell
+  sh -C "$(wget https://acgfate-dl.oss-cn-shanghai.aliyuncs.com/install.sh -O -)"
+  sudo vim ~/.zshrc # 修改配置文件
+  ```
 
-    主题：ys
+  主题：ys
 
-    插件：
+  插件：
 
-    - git
-    - zsh-autosuggestions
-    - zsh-syntax-highlighting
+  - git
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
 
 #### 其他软件
 
--	V2RAY
+- V2RAY
 
-	>   参考 [V2RAY 配置说明](https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md)。
+  > 参考 [V2RAY 配置说明](https://github.com/v2ray/manual/blob/master/zh_cn/chapter_00/start.md)。
 
-    ```shell
-    # 安装
-    yay -S v2ray
-    # 配置
-    sudo vim /etc/v2ray/config.json
-    # 启动
-    sudo systemctl start v2ray.service
-    # 开机自启动
-    sudo systemctl enable v2ray.service
-    # 关闭
-    sudo systemctl stop v2ray.service
-    ```
+  ```shell
+  # 安装
+  yay -S v2ray
+  # 配置
+  sudo vim /etc/v2ray/config.json
+  # 启动
+  sudo systemctl start v2ray.service
+  # 开机自启动
+  sudo systemctl enable v2ray.service
+  # 关闭
+  sudo systemctl stop v2ray.service
+  ```
 
--	Chrome
+- Chrome
 
-    ```shell
-    yay -S google-chrome
-    ```
+  ```shell
+  yay -S google-chrome
+  ```
 
--	WPS
+- WPS
 
-    ```shell
-    yay -S wps-office
-    yay -S ttf-wps-fonts
-    ```
+  ```shell
+  yay -S wps-office
+  yay -S ttf-wps-fonts
+  ```
 
--	deepin-screenshot（截图工具）
+- deepin-screenshot（截图工具）
 
-    ```shell
-    yay -S deepin-screenshot
-    ```
+  ```shell
+  yay -S deepin-screenshot
+  ```
 
 ### KDE 美化
 

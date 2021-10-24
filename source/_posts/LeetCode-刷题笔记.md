@@ -369,7 +369,7 @@ func maxArea(height []int) int {
   	}
   	return result
   }
-  
+
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -502,7 +502,7 @@ func dfs(digits string, level int, str string) {
       dummy.Next = dummy.Next.Next
       return head.Next
   }
-  
+
   ```
 
 ### [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
@@ -717,7 +717,7 @@ func removeElement(nums []int, val int) int {
       // 翻转
       reverse(nums[left+1:])
   }
-  
+
   func reverse(nums []int) {
       for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
           nums[i], nums[n-i] = nums[n-i], nums[i]
@@ -828,7 +828,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-  
+
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -838,7 +838,7 @@ func searchRange(nums []int, target int) []int {
           }
           return
       }
-  
+
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -889,17 +889,17 @@ func searchRange(nums []int, target int) []int {
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-  
+
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-  
+
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-  
+
   	// it's guaranteed to never hit it
   	return 0
   }
@@ -923,7 +923,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-  
+
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -966,7 +966,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-  
+
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1052,7 +1052,7 @@ func spiralOrder(matrix [][]int) []int {
     rowMax, colMax := len(matrix), len(matrix[0])
     res := make([]int, rowMax * colMax)
     index := 0
-    
+
     for {
         // left -> right
         for i := colMin; i < colMax; i++ {
@@ -1229,9 +1229,9 @@ func uniquePaths(m int, n int) int {
     for i := range dp {
         dp[i] = make([]int, n)
     }
-	
+
     dp[0][0] = 1
-    
+
     for i := range dp {
         for j := range dp[i] {
             if i > 0 {
@@ -1290,8 +1290,8 @@ func min(a, b int) int {
 
 从数组末端开始遍历，当当前数字 +1 后大于 9 即进位，将当前数字置 0。如果当前位置为数组首端，在数组前面插入一个 1 即可。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(1)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
 
 ```go
 func plusOne(digits []int) []int {
@@ -1417,7 +1417,7 @@ func dfs(board [][]byte, word string, visited [][]bool, i, j, idx int) {
         // 判断是否越界、已经访问、已经找到
         return
     }
-    
+
     if board[i][j] != word[idx] {
         return
     }
@@ -1689,7 +1689,7 @@ func partition(head *ListNode, x int) *ListNode {
       }
   	return helper(root.Left, root.Right)
   }
-  
+
   func helper(left, right *TreeNode) bool {
       if left == nil && right == nil {
           return true
@@ -1853,7 +1853,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           return isBalanced(root.Left) && isBalanced(root.Right)
       }
   }
-  
+
   // 求二叉树深度，来自 LeetCode 104
   func helper(root *TreeNode) int {
       if root == nil {
@@ -1861,7 +1861,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       }
       return max(helper(root.Left), helper(root.Right)) + 1
   }
-  
+
   func max(a, b int) int {
       if a > b {
           return a
@@ -1887,7 +1887,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(root, targetSum, tmp, &results)
       return results
   }
-  
+
   func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
       if root == nil {
           return
@@ -1988,7 +1988,7 @@ func maxProfit(prices []int) int {
       }
       return dp[1][0]
   }
-  
+
   func max(a, b int) int {
       if a > b {
           return a
@@ -2309,7 +2309,7 @@ func findMin(nums []int) int {
         }
     }
     return nums[low]
-} 	
+}
 ```
 
 ### [155. Min Stack](https://leetcode-cn.com/problems/min-stack/)
@@ -2592,7 +2592,7 @@ func HeapSort(arr []int) {
 		heapify(arr, i)
 		arr[0], arr[i] = arr[i], arr[0]
 	}
-    return 
+    return
 }
 
 func heapify(arr []int, end int) {
@@ -2650,8 +2650,8 @@ func invertTree(root *TreeNode) *TreeNode {
 
 利用中序遍历 BST 的结果有序的特性递归求解。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 /**
@@ -2681,7 +2681,7 @@ func inorder(root *TreeNode, k int) {
     if count == k {
         node = root
         return
-    } 
+    }
     inorder(root.Right, k)
 }
 ```
@@ -2797,10 +2797,10 @@ func nthUglyNumber(n int) int {
         dp[i] = min(dp[p1] * 2, dp[p2] * 3, dp[p3] * 5)
         if dp[i] == dp[p1] * 2 {
             p1++
-        } 
+        }
         if dp[i] == dp[p2] * 3 {
             p2++
-        } 
+        }
         if dp[i] == dp[p3] * 5 {
             p3++
         }
@@ -2908,8 +2908,8 @@ func countSegments(s string) int {
 
 #### 回溯
 
--   时间复杂度：$O(n^{2})$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n^{2})$
+- 空间复杂度：$O(n)$
 
 ```go
 /**
@@ -3006,11 +3006,11 @@ func findDisappearedNumbers(nums []int) []int {
 
 $result = sum(nums) - n * min(nums)$
 
--   时间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
 
-    >   求 sum 和 min 的时间开销。在 Go 中，求 n 的时间复杂度为 $O(1)$。
+  > 求 sum 和 min 的时间开销。在 Go 中，求 n 的时间复杂度为 $O(1)$。
 
--   空间复杂度：$O(1)$
+- 空间复杂度：$O(1)$
 
 ```go
 func minMoves(nums []int) int {
@@ -3300,4 +3300,3 @@ func bitwiseComplement(n int) int {
     return n
 }
 ```
-

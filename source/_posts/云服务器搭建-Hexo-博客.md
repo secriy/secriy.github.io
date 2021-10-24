@@ -23,19 +23,19 @@ tags:
 
 ## 服务器端配置
 
-1.   连接服务器。
+1.  连接服务器。
 
-2.   执行如下命令：
+2.  执行如下命令：
 
-     ```shell
-     useradd git	# 创建 git 用户
-     passwd git # 输入自定义密码并确认
-     chmod 740 /etc/sudoers # 修改文件权限
-     ```
+    ```shell
+    useradd git	# 创建 git 用户
+    passwd git # 输入自定义密码并确认
+    chmod 740 /etc/sudoers # 修改文件权限
+    ```
 
-3.   编辑 */etc/sudoers* 文件，在 `root ALL=(ALL) ALL` 下添加 `git ALL=(ALL) ALL`。
+3.  编辑 _/etc/sudoers_ 文件，在 `root ALL=(ALL) ALL` 下添加 `git ALL=(ALL) ALL`。
 
-4.   执行如下命令：
+4.  执行如下命令：
 
     ```shell
     chmod 400 /etc/sudoers				# 改回文件权限
@@ -48,14 +48,14 @@ tags:
     cd hexo.git/hooks
     ```
 
-6.   在 *hooks/* 文件夹下创建 *post-receive* 文件并编辑（参数对照修改）：
+5.  在 _hooks/_ 文件夹下创建 _post-receive_ 文件并编辑（参数对照修改）：
 
     ```bash
     #!/bin/bash
     git --work-tree=/www/wwwroot/blog --git-dir=/home/git/repos/hexo.git checkout -f
     ```
 
-6.   退出并修改权限：
+6.  退出并修改权限：
 
     ```shell
     chmod +x post-receive
@@ -63,25 +63,25 @@ tags:
     chown -R git:git /home/git/repos/hexo.git
     ```
 
-7.   修改 */www/wwwroot/blog* 目录权限：
+7.  修改 _/www/wwwroot/blog_ 目录权限：
 
     ```shell
     chown -R git:git /www/wwwroot/blog
     ```
 
-8.   宝塔面板新建网站，添加域名、配置根目录（即 */www/wwwroot/blog*）
+8.  宝塔面板新建网站，添加域名、配置根目录（即 _/www/wwwroot/blog_）
 
 ## 本地端配置
 
-配置 *\_config.yml* 文件：
+配置 _\_config.yml_ 文件：
 
-1.   打开 Git Bash。
+1.  打开 Git Bash。
 
-2.   执行 `ssh-copy-id -i C:/Users/[用户名]/.ssh/id_rsa.pub git@[服务器 IP]`。
+2.  执行 `ssh-copy-id -i C:/Users/[用户名]/.ssh/id_rsa.pub git@[服务器 IP]`。
 
-3.   执行 `ssh git@[服务器 IP]` 测试能否免密远程连接。
+3.  执行 `ssh git@[服务器 IP]` 测试能否免密远程连接。
 
-4.   修改 deploy 配置（注意空格）：
+4.  修改 deploy 配置（注意空格）：
 
     ```yaml
     deploy:
@@ -89,4 +89,3 @@ tags:
     repository: git@[服务器 IP]:/home/git/repos/hexo.git
     branch: master
     ```
-

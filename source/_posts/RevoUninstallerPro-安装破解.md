@@ -26,7 +26,7 @@ Revo Uninstaller Pro 是一个用于卸载电脑上其他软件的程序，支�
 
 ## 破解软件
 
-1. 进入 *C:\ProgramData\VS Revo Group\Revo Uninstaller Pro* 目录，如果没有 *ProgramData* 文件夹请点击顶部**查看**按钮并勾选下图**隐藏的项目**选项：
+1. 进入 _C:\ProgramData\VS Revo Group\Revo Uninstaller Pro_ 目录，如果没有 _ProgramData_ 文件夹请点击顶部**查看**按钮并勾选下图**隐藏的项目**选项：
 
    ![](RevoUninstallerPro-%E5%AE%89%E8%A3%85%E7%A0%B4%E8%A7%A3/image-20200617191142607.png)
 
@@ -39,4 +39,4 @@ Revo Uninstaller Pro 是一个用于卸载电脑上其他软件的程序，支�
 ## 注意事项
 
 - 必须使用本页面提供的软件，其他版本的软件未经测试不一定适用此方法破解。
-- 请严格按照教程安装，安装完不能直接打开软件，如果不小心启动了请卸载重装并删除 *C:\ProgramData\VS Revo Group* 目录。
+- 请严格按照教程安装，安装完不能直接打开软件，如果不小心启动了请卸载重装并删除 _C:\ProgramData\VS Revo Group_ 目录。

@@ -173,7 +173,7 @@ arch-chroot /mnt
 
 由于根文件系统基于 LVM，因此需要启用 mkinitcpio 钩子，否则系统可能无法启动。
 
-编辑 */etc/mkinitcpio.conf* 文件，在 *block* 和 *filesystems* 之间插入 *lvm2*。
+编辑 _/etc/mkinitcpio.conf_ 文件，在 _block_ 和 _filesystems_ 之间插入 _lvm2_。
 
 _/etc/mkinitcpio.conf_
 

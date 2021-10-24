@@ -186,16 +186,16 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       Nums   []int
       Length int
   }
-  
+
   func Constructor() CQueue {
       return CQueue{}
   }
-  
+
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-  
+
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -867,19 +867,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-  
+
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-  
+
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-  
+
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -888,15 +888,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-  
+
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-  
+
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-  
+
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1325,8 +1325,8 @@ func max(a, b int) int {
 
 所有的丑数都由已存在的丑数乘以 2 或 3 或 5 得到。因此可以采用动态规划 + 三指针的解法。
 
--   时间复杂度：$O(n)$
--   空间复杂度：$O(n)$
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
 func nthUglyNumber(n int) int {
@@ -1343,10 +1343,10 @@ func nthUglyNumber(n int) int {
         dp[i] = min(dp[p1] * 2, dp[p2] * 3, dp[p3] * 5)
         if dp[i] == dp[p1] * 2 {
             p1++
-        } 
+        }
         if dp[i] == dp[p2] * 3 {
             p2++
-        } 
+        }
         if dp[i] == dp[p3] * 5 {
             p3++
         }

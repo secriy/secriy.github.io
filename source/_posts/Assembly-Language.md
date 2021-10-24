@@ -46,11 +46,11 @@ mathjax: true
 
 CPU 需要通过以下三种信息来进行存储器上的数据读写：
 
--   存储单元的地址（地址信息）。
+- 存储单元的地址（地址信息）。
 
--   芯片或器件的选择，读或写的命令（控制信息）。
+- 芯片或器件的选择，读或写的命令（控制信息）。
 
--   读或写的数据（数据信息）。
+- 读或写的数据（数据信息）。
 
 步骤如下：
 
@@ -198,10 +198,10 @@ JMP 3:0B16
 ### 配置环境
 
 1. 下载安装 [DOSBox](https://www.dosbox.com/download.php?main=1)。
-2. 下载 [*DEBUG.zip*](https://upyun.secriy.com/downloads/DEBUG.zip) 解压到固定目录，如 DOSBox 安装目录下。
+2. 下载 [_DEBUG.zip_](https://upyun.secriy.com/downloads/DEBUG.zip) 解压到固定目录，如 DOSBox 安装目录下。
 3. 打开 DOSBox，执行 `mount x path_to\DOSBox`，将 DOSBox 目录挂载到 `x` 盘符。
 4. 执行 `X:`，切换到 `x` 盘符下。
-5. 执行 `cd path_to` 来切换到 *DEBUG.zip* 的解压路径，如 `cd DEBUG`。
+5. 执行 `cd path_to` 来切换到 _DEBUG.zip_ 的解压路径，如 `cd DEBUG`。
 
 ![image-20210815130257882](Assembly-Language/image-20210815130257882.png)
 
