@@ -22,13 +22,15 @@ urlname: cloudmusic-levelup
 
 ### 下载仓库
 
+项目地址（Gitee）：https://gitee.com/secriy/CloudMusic-LevelUp
+
 ```shell
 git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
 ```
 
 ### 创建云函数
 
-1. 打开[腾讯云官网](https://cloud.tencent.com/)，登录，在产品中找到云函数入口
+1. 打开[腾讯云官网](https://cloud.tencent.com/)，登录并在产品中找到云函数入口。
 
 2. 进入云函数管理控制台，在函数服务中新建云函数，按图中说明配置基础设置：
 
@@ -36,7 +38,7 @@ git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
    ![figue1](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612194839032.png)
    {% endgallery %}
 
-3. 将高级配置中的环境配置-内存改为 64MB，执行超时时间改为 900，其他默认不改动，点击创建
+   3. 将高级配置中的**环境配置-内存**改为 64 MB，执行超时时间改为 900，其他默认不改动，点击创建。
 
 ### 配置云函数
 
@@ -52,9 +54,9 @@ git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
    cd src/ && pip3 install -r requirements.txt -t .
    ```
 
-3. 依赖安装完毕之后可以看到左侧目录项多出了很多文件夹，说明依赖安装成功
+3. 依赖安装完毕之后可以看到左侧目录项多出了很多文件夹，说明依赖安装成功。
 
-4. 修改*index.py*文件，将其中的`infos`变量各值修改为脚本所需参数（参数说明见 README），除账号密码外其余参数可选填，选填的内容需要先取消注释后进行填写，**不需要的参数请不要取消注释！**
+4. 修改 *index.py* 文件，将其中的 `infos` 变量各值修改为脚本所需参数（参数说明见 README）。除账号密码外其余参数可选填，选填的内容需要先取消注释后进行填写，**不需要的参数请不要取消注释！**
    {% gallery %}
    ![image-20210708141358892](%E8%85%BE%E8%AE%AF%E4%BA%91%E5%87%BD%E6%95%B0%E9%83%A8%E7%BD%B2CloudMusic-LevelUp%E8%84%9A%E6%9C%AC/image-20210708141358892.png)
    {% endgallery %}
@@ -66,7 +68,7 @@ git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
 
 ### 测试
 
-部署成功即可测试，测试时间可能有些长（几分钟），如结果没有问题，可以进行下一步，否则进行错误排查
+部署成功即可测试，测试时间可能有些长（几分钟），如结果没有问题，可以进行下一步，否则进行错误排查。
 
 正常的日志输出如下：
 
@@ -76,7 +78,7 @@ git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
 
 ### 配置触发器
 
-在触发管理-创建触发器中按下图填写（定时任务名称使用默认即可）：
+在**触发管理-创建触发器**中按下图填写（定时任务名称使用默认即可）：
 
 {% gallery %}
 ![image-20210612201012958](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612201012958.png)
