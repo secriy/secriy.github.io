@@ -36,7 +36,7 @@ references:
 
 本次使用 U 盘写入，并且由于我电脑已经存在 Manjaro，决定直接用 Manjaro 写入镜像。
 
-如果使用 Windows 写入，参照[Manjaro 环境搭建](https://blog.secriy.com/2020/07/12/Manjaro%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/)操作。
+如果使用 Windows 写入，参照 {% post_link Manjaro-环境搭建 %} 操作。
 
 ```shell
 sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
@@ -75,7 +75,7 @@ sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress && sync
    lsblk # 查看磁盘
    ```
 
-   这里我使用[LVM 分区](<https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。
+   这里我使用 [LVM 分区](<https://wiki.archlinux.org/index.php/LVM_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)方式分区，使用 LVM 分区的好处是能够在系统安装后随意改变分区大小、迁移分区等，比较灵活。
 
    LVM 的基本组成部分如下：
 
@@ -173,7 +173,7 @@ arch-chroot /mnt
 
 由于根文件系统基于 LVM，因此需要启用 mkinitcpio 钩子，否则系统可能无法启动。
 
-编辑*/etc/mkinitcpio.conf*文件，在*block*和*filesystems*之间插入*lvm2*。
+编辑 */etc/mkinitcpio.conf* 文件，在 *block* 和 *filesystems* 之间插入 *lvm2*。
 
 _/etc/mkinitcpio.conf_
 
