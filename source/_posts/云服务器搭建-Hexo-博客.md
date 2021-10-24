@@ -69,7 +69,7 @@ tags:
     chown -R git:git /www/wwwroot/blog
     ```
 
-8.  宝塔面板新建网站，添加域名、配置根目录（即 _/www/wwwroot/blog_）
+8.  宝塔面板新建网站，添加域名、配置根目录（即 _/www/wwwroot/blog_ ）
 
 ## 本地端配置
 

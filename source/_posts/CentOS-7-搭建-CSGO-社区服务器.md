@@ -113,7 +113,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
     ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221010525719.png)
 
-2.  在 _csgo_server/csgo/cfg_ 路径下创建配置文件 _server.cfg_。
+2.  在 _csgo_server/csgo/cfg_ 路径下创建配置文件 _server.cfg_ 。
 
 3.  写入必要参数：
 

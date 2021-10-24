@@ -88,7 +88,7 @@ SELECT * FROM INFORMATION_SCHEMA.ENGINES;
 
 - 其 DML（Data Manipulation Language，数据操纵语言）操作遵循 ACID 模型，提供带有提交（commit）、回滚（rollback）、崩溃恢复（crash-recovery）能力的事务（transaction）机制。
 - 支持行级锁（row-level locking）以及 Oracle 风格的一致读取，提高了多用户并发性和性能。
-- InnoDB 基于主键（primary key）在磁盘上排列数据来优化查询。每个 InnDB 表都有一个被称作**聚集索引**（_clustered index_）的主键索引去组织数据，它能够最小化主键查找的 I/O 开销。
+- InnoDB 基于主键（primary key）在磁盘上排列数据来优化查询。每个 InnDB 表都有一个被称作**聚集索引**（ _clustered index_ ）的主键索引去组织数据，它能够最小化主键查找的 I/O 开销。
 - InnoDB 支持外键约束，使用外键时会检查插入、更新和删除，以确保它们不会导致相关表之间的不一致。
 
 ### InnoDB 和 MyISAM 的区别
@@ -151,8 +151,8 @@ ACID 模型的原子性方面主要涉及到 InnoDB 的事务机制，相关 MyS
 
 ACID 模型的一致性方面主要涉及 InnoDB 防止数据崩溃的内部处理。相关 MySQL 功能包括：
 
-- InnoDB 的**双写缓冲**（_doublewrite buffer_）。
-- InnoDB 的**崩溃恢复**（_crash recovery_）机制。
+- InnoDB 的**双写缓冲**（ _doublewrite buffer_ ）。
+- InnoDB 的**崩溃恢复**（ _crash recovery_ ）机制。
 
 在每次提交或回滚之后，以及在事务进行期间，数据库始终保持一致状态。如果跨多个表更新相关数据，查询将看到所有旧值或所有新值，而不是新旧值的混合。也就是说一个事务对多个表进行了更新，另外一个新的查询不可能查询到一部分表是更新了而另一些表却没有这次更新。事务的一致性也体现在事务开始前和结束后，数据库的完整性约束不会被破坏。例如具有唯一约束的字段不会在事务结束后出现了重复。
 
@@ -170,7 +170,7 @@ ACID 模型的隔离性方面主要涉及到 InnoDB 的事务机制，特别是�
 
 ACID 模型的持久性方面涉及 MySQL 软件功能与特定硬件配置的交互。与 MySQL 相关的功能包括：
 
-- InnoDB 的**双写缓冲**（_doublewrite buffer_）。
+- InnoDB 的**双写缓冲**（ _doublewrite buffer_ ）。
 - `innodb_flush_log_at_trx_commit` 变量。
 - `sync_binlog` 变量。
 - `innodb_file_per_table` 变量。
@@ -199,7 +199,7 @@ InnoDB 在内部向数据库中存储的每一行添加三个字段：
 
   > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
 
-回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
+回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_ 。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
 
 建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
 
@@ -523,7 +523,7 @@ InnoDB 有四种行格式，特性各不相同：
 
 当新记录（records）插入到 InnoDB 聚集索引中时，InnoDB 会尝试保留页面 1/16 的空间，以便将来插入和更新索引记录。如果按顺序（升序或降序）插入索引记录，则生成的索引页大约 15/16 页即装满。如果以随机顺序插入记录，则页面从 1/2 页至 15/16 页即装满。
 
-InnoDB 在创建或重建（rebuilding）B-Tree 索引时执行批量加载（bulk load）。这种创建索引的方法称为**有序索引构建**（_sorted index build_）。`innodb_fill_factor` 变量定义了在有序索引构建期间填充的每个 B-Tree 页面上可使用空间的百分比，剩余空间保留用于未来的索引增长。空间索引不支持有序索引构建。`innodb_fill_factor` 设置为 100 则会留下聚集索引页中 1/16 的空间用于将来的索引增长。
+InnoDB 在创建或重建（rebuilding）B-Tree 索引时执行批量加载（bulk load）。这种创建索引的方法称为**有序索引构建**（ _sorted index build_ ）。`innodb_fill_factor` 变量定义了在有序索引构建期间填充的每个 B-Tree 页面上可使用空间的百分比，剩余空间保留用于未来的索引增长。空间索引不支持有序索引构建。`innodb_fill_factor` 设置为 100 则会留下聚集索引页中 1/16 的空间用于将来的索引增长。
 
 如果 InnoDB 索引页面的填充因子（fill factor，即实际的页使用空间占比）低于 `MERGE_THRESHOLD`（如果未指定，默认为 50%），InnoDB 会尝试收缩索引树以释放页面空间。 `MERGE_THRESHOLD` 设置适用于 B-Tree 和 R-Tree 索引。
 
@@ -640,7 +640,7 @@ InnoDB 实现了两个标准的行级锁：共享锁（S 锁）和排他锁（X 
 
 ### 意向锁
 
-InnoDB 支持**多粒度锁定**（_multiple granularity locking_），允许行锁和表锁共存。为了支持多粒度级别的锁定，InnoDB 使用意向锁。意向锁是表级锁，指示事务稍后需要对表中的行使用哪种类型的锁（共享锁或独占锁）。
+InnoDB 支持**多粒度锁定**（ _multiple granularity locking_ ），允许行锁和表锁共存。为了支持多粒度级别的锁定，InnoDB 使用意向锁。意向锁是表级锁，指示事务稍后需要对表中的行使用哪种类型的锁（共享锁或独占锁）。
 
 意向锁有两种类型：
 
@@ -731,7 +731,7 @@ InnoDB 事务有四个隔离级别：
 
 在可重复读级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通 `SELECT`（非锁定）语句彼此之间是一致的。
 
-而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（_unique search condition_）还是**范围类型搜索条件**（_range-type search condition_）的唯一索引（unique index）：
+而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（ _unique search condition_ ）还是**范围类型搜索条件**（ _range-type search condition_ ）的唯一索引（unique index）：
 
 - 对于具有唯一搜索条件的唯一索引，InnoDB 只锁定找到的索引记录，而不锁定它之前的间隙（gap）。
 - 对于其他的搜索条件，InnoDB 锁定扫描范围内的所有记录，使用间隙锁（gap locks）和 next-key 锁（next-key locks）来阻止其他会话对该锁定范围的插入操作。
