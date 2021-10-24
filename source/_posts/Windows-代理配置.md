@@ -21,11 +21,15 @@ Windows 下代理环境配置。
 - V2Ray
 
   ```
-  socks5：127.0.0.1:10808
-  http：127.0.0.1:10809
+  socks5: 127.0.0.1:10808
+  http: 127.0.0.1:10809
   ```
 
 - Clash
+
+    ```
+    mixed: 127.0.0.1:1080
+    ```
 
 ## 配置代理
 
@@ -33,18 +37,18 @@ Windows 下代理环境配置。
 
   - HTTP/HTTPS
 
-    _C:\Users\用户名\\.gitconfig_
+    _C:\Users\[用户名]\\.gitconfig_
 
     ```
     [http "https://github.com"]
-    proxy = socks5://127.0.0.1:10808
+    proxy = socks5://127.0.0.1:1080
     [https "https://github.com"]
-    proxy = socks5://127.0.0.1:10808
+    proxy = socks5://127.0.0.1:1080
     ```
 
   - SSH
 
-    _C:\Users\用户名\\.ssh\config_
+    _C:\Users\[用户名]\\.ssh\config_
 
     ```
     Host github.com
@@ -53,31 +57,31 @@ Windows 下代理环境配置。
     ```
 
 - npm
-  _C:\Users\用户名\\.npmrc_
+  _C:\Users\[用户名]\\.npmrc_
 
   ```
-  proxy=http://localhost:10809
-  https-proxy=http://localhost:10809
+  proxy=http://localhost:1080
+  https-proxy=http://localhost:1080
   ```
 
 - conda
 
-  _C:\Users\用户名\\.condarc_
+  _C:\Users\[用户名]\\.condarc_
 
   ```
   ssl_verify: true
   channels:
     - defaults
   proxy_servers:
-    http: http://127.0.0.1:10809
-    https: https://127.0.0.1:10809
+    http: http://127.0.0.1:1080
+    https: https://127.0.0.1:1080
   ```
 
 - pip
 
-  _C:\Users\用户名\pip\pip.ini_
+  _C:\Users\[用户名]\pip\pip.ini_
 
   ```
   [global]
-  proxy = http://127.0.0.1:10809
+  proxy = http://127.0.0.1:1080
   ```

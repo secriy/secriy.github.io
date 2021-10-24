@@ -18,9 +18,9 @@ PowerShell 的操作。
 
 ## PowerShell 脚本
 
-PowerShel 脚本实际很强大，不过用的人相对来说少了点。平时可以用来执行一系列指令，蛮方便的。
+PowerShel 脚本实际很强大，平时可以用来执行一系列指令，蛮方便的。
 
-例如 Hexo 的提交，可以在 Hexo 目录创建一个名为*deploy.ps1*的文件，写入如下命令：
+例如 Hexo 的提交，可以在 Hexo 目录创建一个名为 *deploy.ps1* 的文件，写入如下命令：
 
 ```powershell
 hexo clean
@@ -30,7 +30,7 @@ hexo d
 
 这样就完成了 Hexo 的提交操作。
 
-另外，每次手动打开 Hexo 目录下的文章很是麻烦，可以在 Hexo 目录下创建名为*edit.ps1*的文件，写入如下命令：
+另外，每次手动打开 Hexo 目录下的文章很是麻烦，可以在 Hexo 目录下创建名为 *edit.ps1* 的文件，写入如下命令：
 
 ```powershell
 typora .\source\_posts

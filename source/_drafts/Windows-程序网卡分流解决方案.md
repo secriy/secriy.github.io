@@ -38,7 +38,7 @@ route print
 route add 60.167.222.0 mask 255.255.255.0 172.22.22.2
 ```
 
-软件具体走了哪些 ip 可以通过 netstat 命令查看：
+软件具体走了哪些 ip 可以通过 `netstat` 命令查看：
 
 ```powershell
 netstat -ano | findstr 16744 # 16744是进程的PID
@@ -52,7 +52,7 @@ PID 可以在任务管理器中查看：
 
 ## 方案二：软件控制
 
-参考[r1ch](https://r1ch.net/projects/forcebindip)上的解决方案，使用**ForceBindIP**这个软件让指定程序以指定网卡启动。
+参考 [r1ch](https://r1ch.net/projects/forcebindip) 上的解决方案，使用 **ForceBindIP** 软件让指定程序以指定网卡启动。
 
 ### 下载地址
 
@@ -63,7 +63,7 @@ PID 可以在任务管理器中查看：
 
 ### 使用方式
 
-命令行调用 ForceBindIP 启动指定程序：
+命令行调用 `ForceBindIP` 启动指定程序：
 
 `[ForceBindIP程序路径] [网卡IP] [可执行应用程序路径]`
 

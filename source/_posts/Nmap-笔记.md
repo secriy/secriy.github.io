@@ -18,7 +18,7 @@ Nmap 操作笔记。
 
 ## 参数详解
 
-Nmap 支持主机名,ip,网段的表示方式例如:`blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254`
+Nmap 支持主机名，IP，网段的表示方式例如：`blah.highon.coffee, namp.org/24, 192.168.0.1;10.0.0-25.1-254`
 
 ```bash
 -iL filename                    从文件中读取待检测的目标,文件中的表示方法支持机名,ip,网段
