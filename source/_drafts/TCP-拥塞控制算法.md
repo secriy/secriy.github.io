@@ -66,6 +66,7 @@ sysctl net.ipv4.tcp_congestion_control
 首先重温一下需要知道的一些基本概念：
 
 - `ssthresh`（slow start thresh）：慢启动门限值（慢启动阈值）
+- SMSS（Sender Maximum Segment Size）：发送端最大报文段大小
 
 ### Tahoe
 
@@ -75,32 +76,85 @@ Tahoe 是最早的 TCP 拥塞控制算法，它主要有三个步骤：
 - 拥塞避免（Congestion Avoidance）
 - 快重传（Fast Retransmit）
 
+> 注意，Tahoe 只有慢启动和拥塞避免两个状态（state），快重传是当收到三次冗余 ACK 时进行的动作。
+
 #### 慢启动
 
-慢启动过程中，`cwnd` 从 1 开始，每当发送端收到一个 ACK，`cwnd` 就会加一。因此，只经过一个 RTT，`cwnd` 的大小就会翻倍，是指数级增长的。
+慢启动过程中，`cwnd` 的大小从 1 SMSS 开始，每当发送端收到一个 ACK，`cwnd` 就会加一个 SMSS。因此，只经过一个 RTT，`cwnd` 的大小就会翻倍，是**指数级**增长的。
+
+![_images/TCP_slowstart8.svg](TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/TCP_slowstart8.svg)
 
 #### 拥塞避免
 
-当 `cwnd` 的值大于 `ssthresh` 时，进入拥塞避免阶段，此时 `cwnd` 线性增长，每过一个 RTT（即收到 ACK）其值加一。
+当 `cwnd` 的值大于 `ssthresh` 时，进入拥塞避免阶段，此时 `cwnd` 线性增长，每过一个 RTT（即收到 ACK）其值加一个 SMSS。
 
 #### 快重传
 
-在拥塞避免阶段，不断增长的 `cwnd` 迟早会让网络进入拥塞。Tahoe 算法是基于**丢包则代表拥塞**的假设来实现的，每当收到三个冗余的 ACK（即第四次收到相同确认号的分段确认），就进入快重传阶段，直接将 `ssthresh` 设置为当前 `cwnd` 的一半，然后 `cwnd` 重新置为 1，重新进入慢启动过程。
+在拥塞避免阶段，不断增长的 `cwnd` 迟早会让网络进入拥塞。Tahoe 算法是基于**丢包则代表拥塞**的假设来实现的，每当收到三个冗余的 ACK（即第四次收到相同确认号的分段确认），就启动快重传，直接将 `ssthresh` 设置为当前 `cwnd` 的一半，然后 `cwnd` 重新置为 1，重新进入慢启动状态。
 
 图示过程如下：
 
 ![image-20211024222843488](TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%AE%97%E6%B3%95/image-20211024222843488.png)
 
-产生超时重传时 Tahoe 的操作与收到三个冗余 ACK 相同。
+产生**超时重传**时 Tahoe 的操作与收到三个冗余 ACK 相同。
+
+#### 状态转换
+
+- Slow Start 状态
+  - 超时或收到三个冗余 ACK：
+    1. 重发
+    2. `cwnd = 1 * SMSS`
+    3. `ssthresh /= 2`
+    4. 进入 Slow Start 状态
+  - `cwnd` == `ssthresh`：进入 Congestion Avoidance 状态
+- Congestion Avoidance 状态
+  - 超时或收到三个冗余 ACK：
+    1. 重发
+    2. `cwnd = 1 * SMSS`
+    3. `ssthresh /= 2`
+    4. 进入 Slow Start 状态
 
 ### Reno
 
-Reno 算法对 Tahoe 算法进行了一定的改进，它主要有四个步骤：
+Tahoe 算法的缺点主要在于对拥塞窗口的减小过于激进，无论是出现三次冗余 ACK 还是超时，都会将拥塞窗口直接从初始值重新开始慢启动过程，这使得网络带宽的利用率不高。Reno 算法对 Tahoe 算法进行了一定的改进，它主要有四个步骤：
 
 - 慢启动
 - 快重传
 - 拥塞避免
--
+- 快恢复（Fast Recovery）
+
+> 注意，与 Tahoe 相同，Reno 算法只有三个状态，而快重传是重传机制。
+
+其中，慢启动状态和拥塞避免状态与 Tahoe 相同，不再重复。快恢复状态就是用来解决上面提到的 Tahoe 算法过于激进的问题的。
+
+#### 快恢复
+
+#### 状态转换
+
+- Slow Start 状态
+  - 超时：
+    1. 重发
+    2. `cwnd = 1 * SMSS`
+    3. `ssthresh /= 2`
+    4. 进入 Slow Start 状态
+  - 三个冗余 ACK：
+    1. 快速重传
+    2. `cwnd /= 2`
+    3. `ssthresh = cwnd`
+    4. 进入 Fast Recovery 状态
+  - `cwnd` == `ssthresh`：进入 Congestion Avoidance 状态
+- Congestion Avoidance 状态
+  - 超时：
+    1. 重发
+    2. `cwnd = 1 * SMSS`
+    3. `ssthresh /= 2`
+    4. 进入 Slow Start 状态
+  - 三个冗余 ACK：
+    1. 快速重传
+    2. `cwnd /= 2`
+    3. `ssthresh = cwnd`
+    4. 进入 Fast Recovery 状态
+- Fast Recovery 状态
 
 ### Cubic
 

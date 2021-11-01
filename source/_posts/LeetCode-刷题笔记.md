@@ -20,6 +20,7 @@ LeetCode 刷题记录。
 
 - 双指针
 - 单调栈
+- 辅助栈
 - 二分查找
 - 并查集
 - 动态规划
@@ -369,7 +370,7 @@ func maxArea(height []int) int {
   	}
   	return result
   }
-
+  
   func getVal(r rune) int {
   	switch r {
   	case '1':
@@ -502,7 +503,7 @@ func dfs(digits string, level int, str string) {
       dummy.Next = dummy.Next.Next
       return head.Next
   }
-
+  
   ```
 
 ### [20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/description/)
@@ -717,7 +718,7 @@ func removeElement(nums []int, val int) int {
       // 翻转
       reverse(nums[left+1:])
   }
-
+  
   func reverse(nums []int) {
       for i, n := 0, len(nums)-1; i <= n/2 ; i++ {
           nums[i], nums[n-i] = nums[n-i], nums[i]
@@ -828,7 +829,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(candidates, target, 0, &res, &tmp)
       return res
   }
-
+  
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
@@ -838,7 +839,7 @@ func searchRange(nums []int, target int) []int {
           }
           return
       }
-
+  
       for i := index; i < len(candidates); i++ {
           target -= candidates[i]
           *tmp = append(*tmp, candidates[i])
@@ -889,17 +890,17 @@ func searchRange(nums []int, target int) []int {
   		if i+nums[i] > farthestJump {
   			farthestJump = i + nums[i]
   		}
-
+  
   		// if current iteration is ended - setup the next one
   		if i == curJump {
   			jumps, curJump = jumps+1, farthestJump
-
+  
   			if curJump >= len(nums)-1 {
   				return jumps
   			}
   		}
   	}
-
+  
   	// it's guaranteed to never hit it
   	return 0
   }
@@ -923,7 +924,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -966,7 +967,7 @@ func searchRange(nums []int, target int) []int {
       backtracking(nums, &res, &tmp, &visited)
       return res
   }
-
+  
   func backtracking(nums []int, res *[][]int, tmp *[]int, visited *[]bool) {
       if len(nums) == 0 {
           return
@@ -1689,7 +1690,7 @@ func partition(head *ListNode, x int) *ListNode {
       }
   	return helper(root.Left, root.Right)
   }
-
+  
   func helper(left, right *TreeNode) bool {
       if left == nil && right == nil {
           return true
@@ -1853,7 +1854,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
           return isBalanced(root.Left) && isBalanced(root.Right)
       }
   }
-
+  
   // 求二叉树深度，来自 LeetCode 104
   func helper(root *TreeNode) int {
       if root == nil {
@@ -1861,7 +1862,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       }
       return max(helper(root.Left), helper(root.Right)) + 1
   }
-
+  
   func max(a, b int) int {
       if a > b {
           return a
@@ -1887,7 +1888,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       backtracking(root, targetSum, tmp, &results)
       return results
   }
-
+  
   func backtracking(root *TreeNode, targetSum int, tmp []int, results *[][]int) {
       if root == nil {
           return
@@ -1988,7 +1989,7 @@ func maxProfit(prices []int) int {
       }
       return dp[1][0]
   }
-
+  
   func max(a, b int) int {
       if a > b {
           return a
@@ -2683,6 +2684,89 @@ func inorder(root *TreeNode, k int) {
         return
     }
     inorder(root.Right, k)
+}
+```
+
+### [234. Palindrome Linked List](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+#### 辅助栈
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func isPalindrome(head *ListNode) bool {
+    stack := make([]int, 0)
+    for p := head; p != nil; p = p.Next {
+        stack = append(stack, p.Val)
+    }
+
+    for i := len(stack)-1; i >= 0; i-- {
+        if stack[i] != head.Val {
+            return false
+        }
+        head = head.Next
+    }
+    return true
+}
+```
+
+#### 翻转链表
+
+先找到链表中点，再翻转链表后半部分。
+
+> 注意，这种方法会改变原链表结构，如有必要，需要将链表恢复原状。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func isPalindrome(head *ListNode) bool {
+    // 快慢指针找到链表中点
+    slow, fast := head, head
+    count := 0
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        count++
+    }
+    right := reverse(slow)
+    // 分别遍历
+    for count > 0 {
+        if head.Val != right.Val {
+            return false
+        }
+        head = head.Next
+        right = right.Next
+        count--
+    }
+    return true
+}
+
+// 翻转链表
+func reverse(head *ListNode) *ListNode {
+    pre, next := head, head
+    for head != nil {
+        next = head.Next
+        head.Next = pre
+        pre = head
+        head = next
+    }	
+    return pre
 }
 ```
 

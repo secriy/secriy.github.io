@@ -6,6 +6,7 @@ categories: 学习笔记
 tags:
   - Database
   - MySQL
+  - InnoDB
 references:
   - title: MySQL 5.7 Reference Manual
     url: https://dev.mysql.com/doc/refman/5.7/en/innodb-storage-engine.html
@@ -21,6 +22,8 @@ mathjax: true
 {% endnoteblock %}
 
 <!-- more -->
+
+> 在此之前，需要知道 Data Manipulation Language（DML），数据操纵语言
 
 ## MySQL 中的存储引擎
 
@@ -128,7 +131,7 @@ MyISAM：
 
 > The [ACID](https://dev.mysql.com/doc/refman/5.7/en/glossary.html#glos_acid) model is a set of database design principles that emphasize aspects of reliability that are important for business data and mission-critical applications. MySQL includes components such as the `InnoDB` storage engine that adhere closely to the ACID model so that data is not corrupted and results are not distorted by exceptional conditions such as software crashes and hardware malfunctions. When you rely on ACID-compliant features, you do not need to reinvent the wheel of consistency checking and crash recovery mechanisms. In cases where you have additional software safeguards, ultra-reliable hardware, or an application that can tolerate a small amount of data loss or inconsistency, you can adjust MySQL settings to trade some of the ACID reliability for greater performance or throughput.
 >
-> ACID 模型是一组数据库设计原则，强调对业务数据和任务关键型应用程序非常重要的可靠性方面。MySQL 包含 InnoDB 存储引擎等组件，这些组件与 ACID 模型紧密相连，因此数据不会被破坏，结果不会因为软件的崩溃和硬件的故障等异常情况而不正确。当你依赖与 ACID 兼容的功能时，无需重新发明一致性检查和崩溃恢复机制。如果你已经有了额外的软件保护措施、超可靠的硬件或是应用程序能够容忍少量数据丢失以及数据不一致，你可以调整 MySQL 设置，以牺牲一些 ACID 可靠性来获得更高的性能或吞吐量。
+> ACID 模型是一组数据库设计原则，强调对业务数据和任务关键型应用程序非常重要的**可靠性**方面。MySQL 包含 InnoDB 存储引擎等组件，这些组件与 ACID 模型紧密相连，因此数据不会被破坏，结果不会因为软件的崩溃和硬件的故障等异常情况而不正确。当你依赖与 ACID 兼容的功能时，无需重新发明一致性检查和崩溃恢复机制。如果你已经有了额外的软件保护措施、超可靠的硬件或是应用程序能够容忍少量数据丢失以及数据不一致，你可以调整 MySQL 设置，以牺牲一些 ACID 可靠性来获得更高的性能或吞吐量。
 
 简而言之，InnoDB 存储引擎实现了 ACID 模型来保证数据和操作的可靠性，让用户不需要进行多余的操作就能够保证可靠。并且，当用户使用了其他方式来保证可靠性时，在存储引擎层面上可以不完全遵守 ACID 来提高性能和吞吐量。
 
@@ -361,24 +364,9 @@ AHI 根据观察到的搜索模式，使用索引键的前缀构建哈希索引�
 
 ### 表
 
-默认情况下，创建的新表是以 InnoDB 作为其存储引擎，但可以通过 `CREATE TABLE ... ENGINE=MyISAM;` 这样的语句来指定其使用的存储引擎。并且，InnoDB 默认会将 `innodb_file_per_table` 系统变量设置为 `ON`，让每个表使用单独的 .frm 文件。
+默认情况下，创建的新表是以 InnoDB 作为其存储引擎，但可以通过 `CREATE TABLE ... ENGINE=MyISAM;` 这样的语句来指定其使用的存储引擎。并且，InnoDB 默认会将 `innodb_file_per_table` 系统变量设置为 `ON`，让每个表使用单独的 *.frm* 文件。
 
 InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部数据字典里。当某一个表被删除时，InnoDB 同样要删除其系统表空间中和被删除表有关的记录。简而言之，InnoDB 自己维护了几个表，会将一些 InnoDB 需要的信息以及用户所创建表的相关信息存进这些表中。
-
-#### 行格式
-
-行格式（Row Formats）决定了单行数据在磁盘中是以什么形式存储的，
-
-InnoDB 有四种行格式，特性各不相同：
-
-- REDUNDANT
-- COMPACT
-- DYNAMIC
-- COMPRESSED
-
-变量 `innodb_default_row_format` 定义了默认使用的格式（默认为 DYNAMIC），而在建表（CREATE）或修改表（ALTER）时，也可以使用 `ROW_FORMAT` 选项自定义。
-
-行格式的相关介绍和讨论会在后文中展开。
 
 #### 主键
 
@@ -463,6 +451,10 @@ InnoDB 有四种行格式，特性各不相同：
 > 1 row in set (0.00 sec)
 > ```
 
+#### 行格式
+
+行格式部分参见 {% post_link InnoDB-Row-Formats %} 。
+
 ### 索引
 
 #### B+ 树
@@ -481,7 +473,7 @@ InnoDB 有四种行格式，特性各不相同：
 - B+ 树的叶子结点头尾相连。
 - B+ 树的上层节点按照同样的排序规则存储了下层节点的地址。
 
-可以看出，B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 数的高度一般在 2~4 层，因此读取一个页最多也只需要 2~4 次 I/O 操作。
+可以看出，B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 数的高度一般在 2\~4 层，因此读取一个页最多也只需要 2\~4 次 I/O 操作。
 
 #### 聚集索引和二级索引
 
@@ -519,7 +511,7 @@ InnoDB 有四种行格式，特性各不相同：
 >
 > “所有人都见过 B-Tree，知道其根结点页中的条目指向叶结点页。但有时人们忽略了叶子结点页也可以相互指向的细节。这个特性允许 InnoDB 在叶子结点与叶子结点之间相互定位，而无需回到上层结点。这是你在经典的 B-Tree 中看不到的设计，这就是为什么 InnoDB 使用的索引应该被称为 B+ 树索引的原因。”
 >
-> 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree。
+> 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree，本文中仅本节使用术语 B-Tree，其他章节都使用 B+ 树来替代。
 
 当新记录（records）插入到 InnoDB 聚集索引中时，InnoDB 会尝试保留页面 1/16 的空间，以便将来插入和更新索引记录。如果按顺序（升序或降序）插入索引记录，则生成的索引页大约 15/16 页即装满。如果以随机顺序插入记录，则页面从 1/2 页至 15/16 页即装满。
 
