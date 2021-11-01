@@ -3,10 +3,8 @@ title: "Notes on MIT 6.824: Distributed Systems"
 date: 2021-10-26 20:19:47
 urlname: notes-on-mit6.824
 categories:
-tags:ru
+tags:
 ---
-
-
 
 ## 准备工作
 
