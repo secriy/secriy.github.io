@@ -3194,6 +3194,25 @@ func dfs(nums []int, target, tmp, idx int) {
 
 ## 501-600
 
+### [575. Distribute Candies](https://leetcode-cn.com/problems/distribute-candies/)
+
+#### 哈希表
+
+```go
+func distributeCandies(candyType []int) int {
+    m := make(map[int]struct{})
+
+    for i := range candyType {
+        m[candyType[i]] = struct{}{}
+    }
+
+    if half := len(candyType) / 2; len(m) > half {
+        return half
+    }
+    return len(m)
+}
+```
+
 ## 601-700
 
 ### [617. Merge Two Binary Trees](https://leetcode-cn.com/problems/merge-two-binary-trees/)

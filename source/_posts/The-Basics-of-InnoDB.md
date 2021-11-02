@@ -370,7 +370,7 @@ InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部
 
 #### 主键
 
-建议为每一个表都手动定义主键，并包含以下特征：
+InnoDB 依照主键来决定数据在物理存储结构（即后文中的 B+ 树索引）中的排列顺序。主键的选择和定义对数据库存储来说非常重要。建议为每一个表都手动定义主键，并包含以下特征：
 
 - 最重要的查询所用列
 - 不可能为空的列
@@ -379,75 +379,124 @@ InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部
 
 尽管表在没有定义主键的情况下也能正常工作，但主键涉及性能的许多方面，并且是任何大型或经常使用的表的重要设计方面。建议始终在 `CREATE TABLE` 语句中指定主键。如果创建了表并装入了数据，再通过 `ALTER TABLE` 语句来添加主键，则该操作比创建表时定义主键要慢得多。
 
+我们尝试一下创建一个带有主键的表，并随便插入几条数据。
+
+```mysql
+mysql> create table tbl_test_1 (
+    -> id int not null auto_increment,
+    -> name varchar(20) not null,
+    -> primary key (id)	# 定义主键为 id
+    -> ) engine=InnoDB;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into tbl_test_1 values(9, 'name9');
+mysql> insert into tbl_test_1 values(2, 'name2');
+mysql> insert into tbl_test_1 values(5, 'name5');
+mysql> insert into tbl_test_1 values(1, 'name1');
+```
+
+接着查询表中所有数据。
+
+```mysql
+mysql> select * from tbl_test_1;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | name1 |
+|  2 | name2 |
+|  5 | name5 |
+|  9 | name9 |
++----+-------+
+4 rows in set (0.00 sec)
+```
+
+可以看到其中的数据排列顺序是完全按照主键来的。
+
+尝试查询 `_rowid` 列，这是一个记录行 ID 的内置字段，涉及到前面介绍过的 [InnoDB Multi-Versioning](#InnoDB Multi-Versioning)。
+
+```mysql
+mysql> select id,_rowid,name from tbl_test_1;
++----+--------+-------+
+| id | _rowid | name  |
++----+--------+-------+
+|  1 |      1 | name1 |
+|  2 |      2 | name2 |
+|  5 |      5 | name5 |
+|  9 |      9 | name9 |
++----+--------+-------+
+4 rows in set (0.00 sec)
+```
+
+发现 `_rowid` 列的内容与主键等同。
+
+我们再尝试创建没有主键的表。
+
+```mysql
+mysql> create table tbl_test_2 (
+    -> id int,
+    -> age int
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+insert into tbl_test_2 values(9, 99);
+insert into tbl_test_2 values(2, 22);
+insert into tbl_test_2 values(5, 55);
+insert into tbl_test_2 values(1, 11);
+```
+
+查询该表和 `_rowid` 列。
+
+```mysql
+mysql> select * from tbl_test_2;
++------+------+
+| id   | age  |
++------+------+
+|    9 |   99 |
+|    2 |   22 |
+|    5 |   55 |
+|    1 |   11 |
++------+------+
+4 rows in set (0.00 sec)
+
+mysql> select _rowid from tbl_test_2;
+ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
+```
+
+可见行的存储顺序现在等同于插入顺序，并且 `_rowid` 字段无法查询到了。
+
 > 查看某个 InnoDB 表的相关属性信息，使用 `SHOW TABLE STATUS;` 语句：
 >
 > ```mysql
 > mysql> use mysql;
 > Database changed
 > mysql> show table status;
-> +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
-> | Name                      | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length    | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation         | Checksum | Create_options     | Comment                                 |
-> +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
-> | columns_priv              | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 241505530017742847 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Column privileges                       |
-> | db                        | MyISAM |      10 | Fixed      |    2 |            488 |         976 | 137359788634800127 |         5120 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Database privileges                     |
-> | engine_cost               | InnoDB |      10 | Dynamic    |    2 |           8192 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 |                                         |
-> | event                     | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         2048 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_general_ci   |     NULL |                    | Events                                  |
-> | func                      | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 162974011515469823 |         1024 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | User defined functions                  |
-> | general_log               | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL       | utf8_general_ci   |     NULL |                    | General log                             |
-> | gtid_executed             | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | latin1_swedish_ci |     NULL |                    |                                         |
-> | help_category             | InnoDB |      10 | Dynamic    |   50 |            327 |       16384 |                  0 |        16384 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help categories                         |
-> | help_keyword              | InnoDB |      10 | Dynamic    |  895 |            128 |      114688 |                  0 |       114688 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help keywords                           |
-> | help_relation             | InnoDB |      10 | Dynamic    | 1742 |             56 |       98304 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | keyword-topic relation                  |
-> | help_topic                | InnoDB |      10 | Dynamic    |  714 |           2225 |     1589248 |                  0 |        98304 |   4194304 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | help topics                             |
-> | innodb_index_stats        | InnoDB |      10 | Dynamic    |    7 |           2340 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_bin          |     NULL | stats_persistent=0 |                                         |
-> | innodb_table_stats        | InnoDB |      10 | Dynamic    |    2 |           8192 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_bin          |     NULL | stats_persistent=0 |                                         |
-> | ndb_binlog_index          | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         1024 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | latin1_swedish_ci |     NULL |                    |                                         |
-> | plugin                    | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | MySQL plugins                           |
-> | proc                      | MyISAM |      10 | Dynamic    |   48 |           6277 |      301304 |    281474976710655 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:17 | NULL       | utf8_general_ci   |     NULL |                    | Stored Procedures                       |
-> | procs_priv                | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 266275327968280575 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Procedure privileges                    |
-> | proxies_priv              | MyISAM |      10 | Fixed      |    1 |            837 |         837 | 235594555506819071 |         9216 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | User proxy privileges                   |
-> | server_cost               | InnoDB |      10 | Dynamic    |    6 |           2730 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 |                                         |
-> | servers                   | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | MySQL Foreign Servers table             |
-> | slave_master_info         | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Master Information                      |
-> | slave_relay_log_info      | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Relay Log Information                   |
-> | slave_worker_info         | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Worker Information                      |
-> | slow_log                  | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL       | utf8_general_ci   |     NULL |                    | Slow log                                |
-> | tables_priv               | MyISAM |      10 | Fixed      |    2 |            947 |        1894 | 266556802944991231 |         9216 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:16 | NULL       | utf8_bin          |     NULL |                    | Table privileges                        |
-> | time_zone                 | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |              1 | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zones                              |
-> | time_zone_leap_second     | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Leap seconds information for time zones |
-> | time_zone_name            | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone names                         |
-> | time_zone_transition      | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone transitions                   |
-> | time_zone_transition_type | InnoDB |      10 | Dynamic    |    0 |              0 |       16384 |                  0 |            0 |         0 |           NULL | 2021-10-22 16:22:16 | NULL                | NULL       | utf8_general_ci   |     NULL | stats_persistent=0 | Time zone transition types              |
-> | user                      | MyISAM |      10 | Dynamic    |    3 |            132 |         396 |    281474976710655 |         4096 |         0 |           NULL | 2021-10-22 16:22:16 | 2021-10-22 16:22:19 | NULL       | utf8_bin          |     NULL |                    | Users and global privileges             |
-> +---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+------------+-------------------+----------+--------------------+-----------------------------------------+
-> 31 rows in set (0.01 sec)
 > ```
->
-> 可以根据条件过滤：
->
+> 
+> 可以根据条件过滤并格式化输出：
+> 
 > ```mysql
 > mysql> use mysql;
 > Database changed
 > mysql> show table status where name='user' \G;
 > *************************** 1. row ***************************
->            Name: user
->          Engine: MyISAM
->         Version: 10
->      Row_format: Dynamic
->            Rows: 3
->  Avg_row_length: 132
->     Data_length: 396
+>         Name: user
+>       Engine: MyISAM
+>      Version: 10
+>   Row_format: Dynamic
+>         Rows: 3
+> Avg_row_length: 132
+>  Data_length: 396
 > Max_data_length: 281474976710655
->    Index_length: 4096
->       Data_free: 0
->  Auto_increment: NULL
->     Create_time: 2021-10-22 16:22:16
->     Update_time: 2021-10-22 16:22:19
->      Check_time: NULL
->       Collation: utf8_bin
->        Checksum: NULL
->  Create_options:
->         Comment: Users and global privileges
+> Index_length: 4096
+>    Data_free: 0
+> Auto_increment: NULL
+>  Create_time: 2021-10-22 16:22:16
+>  Update_time: 2021-10-22 16:22:19
+>   Check_time: NULL
+>    Collation: utf8_bin
+>     Checksum: NULL
+> Create_options:
+>      Comment: Users and global privileges
 > 1 row in set (0.00 sec)
 > ```
 
@@ -455,25 +504,23 @@ InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部
 
 行格式部分参见 {% post_link InnoDB-Row-Formats %} 。
 
+#### 页
+
 ### 索引
 
-#### B+ 树
+#### 索引原理
 
-现在我们首先来重温下 B+ 树的结构：
+索引最主要的目的在于快速定位，尽可能加快查询过程。根据基本的数据结构知识，我们知道有诸如 AVL 树、BST（二叉搜索树）等数据结构可以用于快速查询，但这些数据结构都没有对实际情况进行讨论。持久化到硬盘的数据库需要考虑磁盘的相关特性。MySQL 作为一个持久化数据库，为了提升效率，最需要考虑的是其底层存储结构对磁盘 I/O 的影响。
 
-![高度为 2 的 B+ 树](The-Basics-of-InnoDB/image-20211006133136497.png)
+磁盘（机械硬盘）读取数据靠的是磁头与盘片的机械运动，每次读取数据花费的时间可以分为寻道时间、旋转延迟、传输时间三个部分。寻道时间指的是磁臂移动到指定磁道所需要的时间，主流磁盘一般在 5 ms 以下。旋转延迟即盘片旋转让磁头到达 I/O 请求所请求的起始数据块位置所需的时间，比如一个磁盘旋转速度为每分钟 7200 转，即平均每秒转 120 次，平均旋转延迟就是 $1/120/2 = 4.17ms$。传输时间指的是从磁盘读出或将数据写入磁盘的时间，一般小于 1 ms，相对来说可以忽略不计。因此，在数据库数据访问量较大的情况下，大量磁盘 I/O 会导致查询效率严重降低。另外，随机读写效率远比顺序读写的效率低。因此，减少磁盘 I/O 次数并使数据尽可能聚集，是提高性能的关键点。
 
-> 图画的总是这么丑。。。
+基于计算机领域相当常用的**局部性原理**，我们通过**预读**来减少磁盘 I/O 次数，即每次读取磁盘上的数据时，将相邻位置的数据（多个页）也同时缓存下来。实践表明，预读的机制能有效降低磁盘 I/O 带来的开销。
 
-我们简要的对 B+ 树的部分特性做个列举：
+> 注意，预读是操作系统层面实现并提供的机制，并非数据库系统提供。另外，预读的磁盘页和 InnoDB 中的页并非同一概念，请勿混淆，前者是操作系统中文件管理部分的概念。
 
-- B+ 树的所有记录结点都在同一层，且位于叶子结点上。
-- B+ 树的叶子结点按索引键的大小顺序排序。
-- B+ 树的叶子结点以双向链表连接。
-- B+ 树的叶子结点头尾相连。
-- B+ 树的上层节点按照同样的排序规则存储了下层节点的地址。
+综上所述，在磁盘上使用的索引结构必须有较少的 I/O 次数，MySQL 采用了 B+ 树作为其索引数据结构。
 
-可以看出，B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 数的高度一般在 2\~4 层，因此读取一个页最多也只需要 2\~4 次 I/O 操作。
+> 本节中，需要重点注意**局部性原理**以及磁盘 I/O 的开销，这是 MySQL 采用 B/B+ 树索引的根本原因。
 
 #### 聚集索引和二级索引
 
@@ -481,9 +528,9 @@ InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部
 
 每个 InnoDB 表**都有且只有一个**被称为聚集索引（clustered index）的特殊索引，用于存储行数据（这个索引的每个项存储了整个数据行，而非部分列的值）。
 
-> 对于 B+ 树，聚集索引就是将表中数据按照指定的键顺序存放在 B+ 树的叶子结点的数据页中，这个数据页保存了整个行记录的数据，因此想要查找某条记录的任何一个列的值，都可以在聚集索引结果中找到。聚簇索引就是 InnoDB 存储实际存放所有数据的地方。
+> 对于 B+ 树，聚集索引就是将表中数据按照指定的键顺序存放在 B+ 树的叶子结点的数据页中，这个数据页保存了整个行记录的数据，因此想要查找某条记录的任何一个列的值，都可以在聚集索引结果中找到。聚集索引就是 InnoDB 存储实际存放所有数据的地方。
 
-通常，聚集索引与主键是一个东西。为了在查询、插入和其他数据库操作中获得最佳性能，了解 InnoDB 如何使用聚集索引优化常见的查找和 DML 操作非常重要。
+通常，聚集索引就是主键索引。为了在查询、插入和其他数据库操作中获得最佳性能，了解 InnoDB 如何使用聚集索引优化常见的查找和 DML 操作非常重要。
 
 - 在表上定义主键时，InnoDB 把它用作聚集索引。如果没有符合条件（逻辑唯一、非空）的列作为主键，可以添加一个自增的列用作主键，并且插入新行时自增列会自动设置其值。
 - 如果不为表定义主键，InnoDB 会使用第一个唯一索引（所有键定义为 `NOT NULL`）作为聚集索引。
@@ -497,21 +544,35 @@ InnoDB 还会将新表的一些信息存入**系统表空间**中自己的内部
 
 如果主键较长，则二级索引将占用更多的空间，因此**应当使用空间占用尽量小的主键**。
 
-#### InnoDB 索引的物理结构
+#### 索引的物理结构
+
+##### B+ 树
+
+![image-20211102214806730](The-Basics-of-InnoDB/image-20211102214806730.png)
+
+我们简要的对 B+ 树的部分特性做个列举：
+
+- B+ 树的所有记录结点都在同一层，且位于叶子结点上。
+- B+ 树的叶子结点按索引键的大小顺序排序。
+- B+ 树的叶子结点以双向链表连接。
+- B+ 树的叶子结点头尾相连。
+- B+ 树的上层节点按照同样的排序规则存储了下层节点的地址。
+
+B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 树的高度一般在 2 \~ 4 层，因此读取一个页最多也只需要 2 \~ 4 次 I/O 操作。
+
+##### InnoDB 索引结构
 
 除了空间索引（spatial indexes），InnoDB 索引都采用 B-Tree 数据结构。空间索引使用 R-Tree，这是用于索引多维数据的专用数据结构。索引记录存储在其 B-Tree 或 R-Tree 数据结构的叶子结点页中。索引页的默认大小为 16KB。初始化 MySQL 实例时，页面大小由 `innodb_page_size` 设置项确定。
 
 > 关于空间索引，这是一种用于存储地理空间信息的专用索引，在本文不进行讨论。
 
-> 关于 B-Tree（即 B 树）的详细介绍不在本文讨论范围内，但有一点需要指出，在 MySQL 官方文档中有这么一句话：
+> 关于 B-Tree（即 B 树）的详细介绍不在本文讨论范围内，但有一点需要指出，在 MySQL 官方文档中有这么一句话：“使用术语 B-Tree 旨在为索引设计提供一般类别的参考。由于 InnoDB 索引使用的存储结构具有经典的 B-Tree 设计中不存在的某些复杂特性，因此 InnoDB 使用的 B-Tree 结构可能被视为变体。”
 >
-> “使用术语 B-Tree 旨在为索引设计提供一般类别的参考。由于 InnoDB 索引使用的存储结构具有经典的 B-Tree 设计中不存在的某些复杂特性，因此 InnoDB 使用的 B-Tree 结构可能被视为变体。”
+> 也就是说在文档中使用 B-Tree 这个词是学术需要，实际使用的存储结构并不能算是 B-Tree，实际要更复杂。
 >
-> 也就是说在文档中使用 B-Tree 这个词是学术需要，实际使用的存储结构并不能算是 B-Tree，实际要更复杂。在其中还有下面一段文字：
+> 在文档中还有一段文字：“人们知道 B-Tree 根结点页中的条目指向叶结点页，但有时忽略了叶子结点页也可以相互指向的细节。这个特性允许 InnoDB 在叶子结点与叶子结点之间相互定位，而无需回到上层结点。这是你在经典的 B-Tree 中看不到的设计，这就是为什么 InnoDB 使用的索引应该被称为 B+ 树索引的原因。”
 >
-> “所有人都见过 B-Tree，知道其根结点页中的条目指向叶结点页。但有时人们忽略了叶子结点页也可以相互指向的细节。这个特性允许 InnoDB 在叶子结点与叶子结点之间相互定位，而无需回到上层结点。这是你在经典的 B-Tree 中看不到的设计，这就是为什么 InnoDB 使用的索引应该被称为 B+ 树索引的原因。”
->
-> 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree，本文中仅本节使用术语 B-Tree，其他章节都使用 B+ 树来替代。
+> 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree，本文中仅本节使用了术语 B-Tree，其他章节都直接使用 B+ 树来替代。
 
 当新记录（records）插入到 InnoDB 聚集索引中时，InnoDB 会尝试保留页面 1/16 的空间，以便将来插入和更新索引记录。如果按顺序（升序或降序）插入索引记录，则生成的索引页大约 15/16 页即装满。如果以随机顺序插入记录，则页面从 1/2 页至 15/16 页即装满。
 
@@ -522,6 +583,8 @@ InnoDB 在创建或重建（rebuilding）B-Tree 索引时执行批量加载（bu
 B+ 树的叶子结点中存储的是一整个索引页，其中可能包含多行记录，数据库会把整个页读入内存，再从中取得指定的记录。并且，由于 B+ 树叶子结点是由链表组织的，因此它们无需在磁盘中物理连续，只需要保证逻辑上连续就可以了。
 
 进行范围查找时，由于 B+ 树按顺序组织，因此找到范围的边界，再从该边界直接由叶子结点的双向链表向前或向后遍历即可，不需要对范围内的每个数据都进行多层的查找。进行排序查找时也是类似的操作，效率非常高。
+
+##### B+ 树索引分裂
 
 #### 有序索引构建
 
@@ -563,6 +626,18 @@ TODO
 当用户所需的列本身就是二级索引的键时，就没有必要再对聚集索引进行查询了，可以直接返回。二级索引中包含所需要查找的列，不需要进行回表操作，称为**覆盖索引**。
 
 ### 表空间
+
+不同于索引这个用于存储数据的**物理存储结构**，表空间（tablespaces）是存储数据的**逻辑存储结构**。在 InnoDB 中，所有的数据都逻辑上被存放在一个空间中，即表空间。表空间由段（segment）、区（extent）、页（page）组成。
+
+如果启用了 `innodb_file_per_table` 参数，每张表内的数据可以单独放到不同的表空间内，反之 InnoDB 有一个共享表空间 idbata1，数据都可以放在这里。
+
+#### 段
+
+表空间被分为段，常见的段有数据段、索引段、回滚段等。数据段即 InnoDB 索引 B+ 树的叶子结点，索引段即 B+ 树的非叶子结点。
+
+#### 区
+
+区是由多个连续页组成的空间，
 
 #### 系统表空间
 
