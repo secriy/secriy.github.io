@@ -2365,6 +2365,42 @@ func (this *MinStack) GetMin() int {
  */
 ```
 
+### [157. Read N Characters Given Read4](https://leetcode-cn.com/problems/read-n-characters-given-read4/)
+
+题目意思是用函数 `read4()` 来实现函数 `read()`，前者每次只能读取 4 个字符。使用循环解答即可，当 `read4()` 返回的值小于 4，表示已经不再需要 `read4()` 了，可以停止循环。
+
+```go
+/**
+ * The read4 API is already defined for you.
+ *
+ *     read4 := func(buf4 []byte) int
+ *
+ * // Below is an example of how the read4 API can be called.
+ * file := File("abcdefghijk") // File is "abcdefghijk", initially file pointer (fp) points to 'a'
+ * buf4 := make([]byte, 4) // Create buffer with enough space to store characters
+ * read4(buf4) // read4 returns 4. Now buf = ['a','b','c','d'], fp points to 'e'
+ * read4(buf4) // read4 returns 4. Now buf = ['e','f','g','h'], fp points to 'i'
+ * read4(buf4) // read4 returns 3. Now buf = ['i','j','k',...], fp points to end of file
+ */
+
+var solution = func(read4 func([]byte) int) func([]byte, int) int {
+    // implement read below.
+    return func(buf []byte, n int) int {
+        cnt := 0	// 统计数量
+        num := 4	// read4() 读取的数量
+        for num == 4 {
+            num = read4(buf[cnt:])	// 偏移 cnt
+            cnt += num
+        }
+        // 返回 n 和 cnt 二者较小值
+        if n < cnt {
+            return n
+        }
+        return cnt
+    }
+}
+```
+
 ### [160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/description/)
 
 #### Hash Table
@@ -2392,6 +2428,43 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 		headB = headB.Next
 	}
 	return nil
+}
+```
+
+### [163. Missing Ranges](https://leetcode-cn.com/problems/missing-ranges/)
+
+简单遍历。
+
+```go
+func findMissingRanges(nums []int, lower int, upper int) []string {
+    res := make([]string, 0)
+    if len(nums) == 0 {
+        res = append(res, genStr(lower, upper))
+        return res
+    }
+    if nums[0] != lower {
+        // lower 不在数组内
+        res = append(res, genStr(lower, nums[0]-1))
+    }
+    for i := 0; i < len(nums)-1; i++ {
+        // 对比相邻数字
+        if nums[i+1] - nums[i] > 1 {
+            res = append(res, genStr(nums[i]+1, nums[i+1]-1))
+        }
+    }
+    if upper != nums[len(nums)-1] {
+        // upper 不在数组内
+        res = append(res, genStr(nums[len(nums)-1]+1, upper))
+    }
+    return res
+}
+
+// 生成字符串
+func genStr(x, y int) string {
+    if x == y {
+        return fmt.Sprintf("%d", x)
+    }
+    return fmt.Sprintf("%d->%d", x, y)
 }
 ```
 
@@ -2814,6 +2887,21 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		return right
 	}
 	return left
+}
+```
+
+### [237. Delete Node in a Linked List](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func deleteNode(node *ListNode) {
+    *node = *(node.Next)
 }
 ```
 
