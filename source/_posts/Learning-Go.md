@@ -14,7 +14,7 @@ references:
 ---
 
 {% noteblock quote cyan %}
-本文是 Golang 的基础学习笔记，大多是对[_A Tour of Go_](https://tour.golang.org/)的翻译总结，并参考了[_The Go Programming Language_](http://www.gopl.io/)的部分内容自行实现了相关代码并对知识点进行了梳理。
+本文是 Golang 的基础学习笔记，大多是对 [_A Tour of Go_](https://tour.golang.org/) 的翻译总结，并参考了 [_The Go Programming Language_](http://www.gopl.io/) 的部分内容自行实现了相关代码并对知识点进行了梳理。
 {% endnoteblock %}
 
 <!-- more -->
@@ -233,6 +233,44 @@ go run [build flags] [-exec xprog] package [arguments...]
 
 ## 语言基础
 
+### 命名
+
+Go 语言中的函数名、变量名、常量名、类型名、语句标号和包名等所有的命名，都遵循一个简单的命名规则：一个名字必须以一个字母（Unicode 字母）或下划线开头，后面可以跟任意数量的字母、数字或下划线。大写字母和小写字母是不同的：heapSort 和 Heapsort 是两个不同的名字。
+
+Go 的全部关键字如下：
+
+```go
+break      default       func     interface   select
+case       defer         go       map         struct
+chan       else          goto     package     switch
+const      fallthrough   if       range       type
+continue   for           import   return      var
+```
+
+以上所有关键字都不能用来命名。
+
+Go 的内建常量、内建类型、内建函数如下：
+
+```go
+// 内建常量:
+true false iota nil
+
+// 内建类型:
+int int8 int16 int32 int64
+uint uint8 uint16 uint32 uint64 uintptr
+float32 float64 complex128 complex64
+bool byte rune string error
+
+// 内建函数:
+make len cap new append copy close delete
+complex real imag
+panic recover
+```
+
+上面的这些内建常量、类型和函数名可以被用来命名其他东西，但是在某些时候会出现冲突（同一作用域下）。
+
+Go 的命名习惯为驼峰式命名。例如 `quickSort`、`SetName` 等。
+
 ### 包
 
 每一个 Go 程序都是由包（package）组成的，程序从`main`包开始运行。
@@ -313,7 +351,7 @@ func main() {
 
 ### 程序入口
 
-Golang 程序中`main`包的`main`函数作为其入口，在执行`main`函数之前会先执行`init`函数：
+Golang 程序中 `main` 包的 `main` 函数作为其入口，在执行 `main` 函数之前会先执行 `init` 函数：
 
 ```go
 package main
@@ -329,7 +367,7 @@ func main() {
 }
 ```
 
-因此在实际编程时常常在`init`函数内进行一些初始化操作，例如读取配置文件等。
+因此在实际编程时常常在 `init` 函数内进行一些初始化操作，例如读取配置文件等。
 
 ### 基础数据类型
 
@@ -343,21 +381,20 @@ string // 字符串
 int  int8  int16  int32  int64			// 有符号整数
 uint uint8 uint16 uint32 uint64 uintptr // 无符号整数
 
-byte // uint8的别名
+byte // uint8 的别名
 
-rune // int32的别名
-     // 代表一个Unicode码点
+rune // int32 的别名，代表一个 Unicode 码点
 
 float32 float64 // 浮点数
 
 complex64 complex128 // 复数
 ```
 
-其中，`int`、`uint`、`uintptr`类型的大小会随位宽的不同而不同，比如在 32 位环境下，它们都占 32bit，而在 64 位环境下它们会占 64bit。
+其中，`int`、`uint`、`uintptr` 类型的大小会随位宽的不同而不同，比如在 32 位环境下，它们都占 32bit，而在 64 位环境下它们会占 64bit。
 
 ### 自定义类型
 
-Golang 支持自定义类型，使用`type`关键字指定，并要求指定其底层类型：
+Golang 支持自定义类型，使用 `type` 关键字指定，并要求指定其底层类型：
 
 ```go
 type MyTypeA int
