@@ -17,13 +17,13 @@ mathjax: true
 
 {% noteblock quote cyan %}
 
-本文是 MySQL InnoDB 存储引擎的相关基础知识总结，主要是对 MySQL 5.7 官方文档 InnoDB 部分进行的翻译和精简，但参考了其他的相关文档（如 MariaDB）以及一些书籍和第三方资料对文章进行补充。本文翻译可能引起歧义的地方都会注明英文原文，以确保不会误导读者。另，本文不适用于初学者。
+本文是 MySQL InnoDB 存储引擎的相关基础知识总结，主要是对 MySQL 5.7 官方文档 InnoDB 部分进行的翻译和精简，但参考了其他的相关文档（如 MariaDB）以及一些书籍和第三方资料对文章进行补充。本文翻译可能引起歧义的地方都会注明英文原文，以确保不会误导读者。另，本文仅适用于熟悉 MySQL 基本操作以及基本概念的读者。
 
 {% endnoteblock %}
 
 <!-- more -->
 
-> 在此之前，需要知道 Data Manipulation Language（DML），数据操纵语言
+> 测试环境：Server version: 5.7.36-log MySQL Community Server (GPL)
 
 ## MySQL 中的存储引擎
 
@@ -186,42 +186,6 @@ ACID 模型的持久性方面涉及 MySQL 软件功能与特定硬件配置的�
 
 持久性体现在事务的结果是持久的————一旦提交操作成功，该事务所做的更改就不会受到电源故障、系统崩溃、竞争条件或其他潜在危险的影响。持久性通常涉及到写入磁盘存储，具有一定数量的冗余，以防止写入操作期间出现电源故障或软件崩溃。（在 InnoDB 中，doublewrite 缓冲区有助于提高持久性。）
 
-## InnoDB Multi-Versioning
-
-> `InnoDB` is a multi-version storage engine. It keeps information about old versions of changed rows to support transactional features such as concurrency and rollback. This information is stored in the system tablespace or undo tablespaces in a data structure called a rollback segment. `InnoDB` uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.
->
-> InnoDB 是一个多版本存储引擎。它保留有关已更改行的旧版本信息，以支持事务性功能，如并发（concurrency）和回滚（rollback）。此信息存储在系统表空间或撤消（undo）表空间称为回滚段（rollback segment）的数据结构中。InnoDB 使用回滚段中的信息执行事务回滚所需的撤消操作。它还使用这些信息构建行的早期版本，以实现一致的读取。
-
-InnoDB 在内部向数据库中存储的每一行添加三个字段：
-
-- 6 字节的 `DB_TRX_ID` 字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
-
-- 7 字节的 `DB_ROLL_PTR` 字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
-
-- 6 字节的 `DB_ROW_ID` 字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID` 列不会出现在任何索引中。
-
-  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
-
-回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_ 。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
-
-建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
-
-回滚段中 undo log 记录的物理大小通常小于相应的插入或更新行。可以使用此信息计算回滚段所需的空间。
-
-在 InnoDB 多版本控制方案中，使用 SQL 语句删除某一行时，该行不会立即从数据库中物理删除。InnoDB 仅在丢弃**为了删除操作而写入**的 update undo log 记录时，才从物理上删除相应的行及其索引记录。此删除操作称为清除（purge），速度相当快，通常与执行删除的 SQL 语句的时间顺序相同。
-
-如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整 `innodb_max_purge_lag` 系统变量来限制新行操作，并为清除线程分配更多资源。
-
-### MVCC 和二级索引
-
-InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集索引的方式不同。聚集索引中的记录会就地更新，其隐藏的系统列指向撤消日志项，从中可以重构早期版本的记录。与聚集索引记录不同，二级索引记录不包含隐藏的系统列，也不进行就地更新。
-
-更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的 `DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
-
-如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
-
-但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估 `WHERE` 条件的一部分，MySQL 服务器仍然会将 `WHERE` 条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
-
 ## InnoDB 架构
 
 InnoDB 的架构可以参考下图，取自 [InnoDB Architecture](https://dev.mysql.com/doc/refman/5.7/en/innodb-architecture.html)。
@@ -249,7 +213,11 @@ InnoDB 的架构可以参考下图，取自 [InnoDB Architecture](https://dev.my
 - General Tablespaces（通用表空间）
 - Temporary Tablespaces（临时表空间）
 
-内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。图中的 **O_DIRECT** 是 `open` 函数的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过缓冲区高速缓存。
+内存上模块和磁盘上模块之间是由操作系统缓冲连接，含义就是内存中的内容通过操作系统缓冲区写入磁盘来进行持久化。
+
+> 注意，用户空间的缓存通常无法直接写入硬盘，必须先将其写入内核空间的缓冲区（OS Buffer），再通过 `fsync()` 系统调用将其刷新（flush）到磁盘中。
+
+图中的 **O_DIRECT** 是 `open()` 系统调用的一个 flag，指的是进行无缓冲的 I/O 操作，会绕过内核缓冲区写入磁盘。
 
 ## InnoDB 内存上结构
 
@@ -356,9 +324,23 @@ AHI 根据观察到的搜索模式，使用索引键的前缀构建哈希索引�
 
 ### 日志缓冲
 
-日志缓冲区（Log Buffer）是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**（仅 redo log）。日志缓冲区大小由 `innodb_Log_buffer_size` 变量定义。默认大小为 16MB。日志缓冲区的内容定期刷新到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
+日志缓冲区（Log Buffer）是一块特定的内存区域，用于存储要写入磁盘的**日志文件数据**（仅 redo log）。
 
-`innodb_flush_log_at_trx_commit` 变量控制如何将日志缓冲区的内容写入并刷新到磁盘。`innodb_flush_log_at_timeout` 变量控制日志刷新频率。
+MySQL 每执行一条 DML 语句，会先将改动的记录编码后写入 Log Buffer，后续根据某些机制决定将 Log Buffer 中的内容刷新（flush）到磁盘中的 Redo Log 文件。
+
+> redo log 是物理日志，记录的是例如在某个数据页上做了什么修改。比较而言，binlog 这种逻辑日志记录的是用户的操作，而非物理存储层面进行的操作。
+
+日志缓冲区大小由 `innodb_log_buffer_size` 变量定义。默认大小为 16 MB。日志缓冲区的内容定期刷新（flush）到磁盘。大型日志缓冲区使大型事务能够运行，而无需在事务提交之前将重做日志（redo log）数据写入磁盘。因此，如果有更新、插入或删除多行的事务，增大日志缓冲区可以节省磁盘 I/O。
+
+`innodb_flush_log_at_trx_commit` 变量控制如何将日志缓冲区的内容写入并刷新到磁盘，有以下几种方法：
+
+- 0，延迟写：事务提交时不会将 Log Buffer 中的日志写入到磁盘中的 Redo Log 文件，而是每秒写入内核缓冲区，并调用 `fsync()` 写入到 Redo Log 文件中。系统崩溃时，会丢失 1 秒内的数据。
+- 1，实时写，实时刷新：事务提交先将 Log Buffer 中的日志写入 OS Buffer 并调用 `fsync()` 刷新到 Redo Log 文件中。这种方式即使系统崩溃也不会丢失任何数据（已提交的事务不会丢失），但是因为每次提交都写入磁盘，I/O 的性能较差。
+- 2，实时写，延迟刷新：事务提交先将 Log Buffer 中的日志写入 OS Buffer，但不立即调用 `fsync()`，每秒调用 `fsync()` 将日志写入到 Redo Log 文件中。
+
+> 测试环境下，`innodb_flush_log_at_trx_commit` 默认为 1。
+
+`innodb_flush_log_at_timeout` 变量用于控制日志刷新频率。
 
 ## InnoDB 磁盘上结构
 
@@ -377,7 +359,7 @@ InnoDB 依照主键来决定数据在物理存储结构（即后文中的 B+ 树
 - 不会重复的列
 - 插入后其值很少修改的列
 
-尽管表在没有定义主键的情况下也能正常工作，但主键涉及性能的许多方面，并且是任何大型或经常使用的表的重要设计方面。建议始终在 `CREATE TABLE` 语句中指定主键。如果创建了表并装入了数据，再通过 `ALTER TABLE` 语句来添加主键，则该操作比创建表时定义主键要慢得多。
+尽管表在没有定义主键的情况下也能正常工作（不显式创建主键并且没有可以用作主键的列时，InnoDB 会创建一个隐含主键），但主键涉及性能的许多方面，并且是任何大型或经常使用的表的重要设计方面。建议始终在 `CREATE TABLE` 语句中指定主键。如果创建了表并装入了数据，再通过 `ALTER TABLE` 语句来添加主键，则该操作比创建表时定义主键要慢得多。
 
 我们尝试一下创建一个带有主键的表，并随便插入几条数据。
 
@@ -413,6 +395,8 @@ mysql> select * from tbl_test_1;
 可以看到其中的数据排列顺序是完全按照主键来的。
 
 尝试查询 `_rowid` 列，这是一个记录行 ID 的内置字段，涉及到前面介绍过的 [InnoDB Multi-Versioning](#InnoDB Multi-Versioning)。
+
+> 注意，`_rowid` 字段只有在存在非隐含主键的情况下才存在。
 
 ```mysql
 mysql> select id,_rowid,name from tbl_test_1;
@@ -506,6 +490,8 @@ ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
 
 #### 页
 
+页格式部分参见 {% post_link InnoDB-Page-Formats %} 。
+
 ### 索引
 
 #### 索引原理
@@ -546,23 +532,10 @@ ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
 
 #### 索引的物理结构
 
-##### B+ 树
-
-![image-20211102214806730](The-Basics-of-InnoDB/image-20211102214806730.png)
-
-我们简要的对 B+ 树的部分特性做个列举：
-
-- B+ 树的所有记录结点都在同一层，且位于叶子结点上。
-- B+ 树的叶子结点按索引键的大小顺序排序。
-- B+ 树的叶子结点以双向链表连接。
-- B+ 树的叶子结点头尾相连。
-- B+ 树的上层节点按照同样的排序规则存储了下层节点的地址。
-
-B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 树的高度一般在 2 \~ 4 层，因此读取一个页最多也只需要 2 \~ 4 次 I/O 操作。
 
 ##### InnoDB 索引结构
 
-除了空间索引（spatial indexes），InnoDB 索引都采用 B-Tree 数据结构。空间索引使用 R-Tree，这是用于索引多维数据的专用数据结构。索引记录存储在其 B-Tree 或 R-Tree 数据结构的叶子结点页中。索引页的默认大小为 16KB。初始化 MySQL 实例时，页面大小由 `innodb_page_size` 设置项确定。
+除了空间索引（spatial indexes），InnoDB 索引都采用 B-Tree 数据结构。空间索引使用 R-Tree，这是用于索引多维数据的专用数据结构。索引记录存储在其 B-Tree 或 R-Tree 数据结构的叶子结点页中。索引页的默认大小为 16 KB。初始化 MySQL 实例时，页面大小由 `innodb_page_size` 设置项确定。
 
 > 关于空间索引，这是一种用于存储地理空间信息的专用索引，在本文不进行讨论。
 
@@ -574,6 +547,24 @@ B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数�
 >
 > 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree，本文中仅本节使用了术语 B-Tree，其他章节都直接使用 B+ 树来替代。
 
+本文不对 B+ 树作详细介绍，下面是 B+ 树的图示，我们简要地对 B+ 树的部分特性做个列举：
+
+![image-20211102214806730](The-Basics-of-InnoDB/image-20211102214806730.png)
+
+- B+ 树的所有记录结点都在同一层，且位于叶子结点上。
+- B+ 树的叶子结点按索引键的大小顺序排序。
+- B+ 树的叶子结点以双向链表连接。
+- B+ 树的叶子结点头尾相连。
+- B+ 树的上层节点按照同样的排序规则存储了下层节点的地址。
+
+B+ 树具有高扇出性，只需要很少的层数，就可以存储相当数量的数据。在数据库中，B+ 树的高度一般在 2 \~ 4 层，因此读取一个页最多也只需要 2 \~ 4 次 I/O 操作。
+
+> 这边涉及到一个问题，那就是为什么 MySQL 不使用纯粹的 B 树，而是选用了 B+ 树作索引。
+>
+> 1. 由于 B+ 树的非叶子节点不存储目标数据，因此能存放更多的索引结点，使得整个 B+ 树的层级更少，即 I/O 次数更少。
+> 2. 所有查询都要查找到叶子节点，查询性能稳定。
+> 3. 所有叶子节点形成有序双向链表，便于范围查询。
+
 当新记录（records）插入到 InnoDB 聚集索引中时，InnoDB 会尝试保留页面 1/16 的空间，以便将来插入和更新索引记录。如果按顺序（升序或降序）插入索引记录，则生成的索引页大约 15/16 页即装满。如果以随机顺序插入记录，则页面从 1/2 页至 15/16 页即装满。
 
 InnoDB 在创建或重建（rebuilding）B-Tree 索引时执行批量加载（bulk load）。这种创建索引的方法称为**有序索引构建**（ _sorted index build_ ）。`innodb_fill_factor` 变量定义了在有序索引构建期间填充的每个 B-Tree 页面上可使用空间的百分比，剩余空间保留用于未来的索引增长。空间索引不支持有序索引构建。`innodb_fill_factor` 设置为 100 则会留下聚集索引页中 1/16 的空间用于将来的索引增长。
@@ -583,6 +574,15 @@ InnoDB 在创建或重建（rebuilding）B-Tree 索引时执行批量加载（bu
 B+ 树的叶子结点中存储的是一整个索引页，其中可能包含多行记录，数据库会把整个页读入内存，再从中取得指定的记录。并且，由于 B+ 树叶子结点是由链表组织的，因此它们无需在磁盘中物理连续，只需要保证逻辑上连续就可以了。
 
 进行范围查找时，由于 B+ 树按顺序组织，因此找到范围的边界，再从该边界直接由叶子结点的双向链表向前或向后遍历即可，不需要对范围内的每个数据都进行多层的查找。进行排序查找时也是类似的操作，效率非常高。
+
+下图是 InnoDB 中 B+ 树叶子结点组织的逻辑结构，它们直接用双向链表关联起来。
+
+![image-20211107131405462](The-Basics-of-InnoDB/image-20211107131405462.png)
+
+在数据较少的情况下，只使用一个页，可以应用单页查找的规则，这在 InnoDB 页格式中已经说明了。但当数据增加，占用了多个页时，就需要通过两个步骤查找目标数据：
+
+1. 查找数据所在的页。
+2. 从单页中查找数据。
 
 ##### B+ 树索引分裂
 
@@ -651,7 +651,39 @@ TODO
 
 #### 通用表空间
 
-### 两次写
+### 双写缓冲
+
+双写缓冲（Doublewrite Buffer）是一个存储区域，InnoDB 在将页写入 InnoDB 数据文件中的适当位置之前，在其中写入从缓冲池中刷新的页面。如果在页写入磁盘的过程中出现操作系统崩溃、存储子系统退出或 mysqld 进程意外退出，InnoDB 可以在崩溃恢复（crash recovery）期间从双写缓冲区中找到页的可用副本。
+
+如果没有双写缓冲区，发生某些异常时，可能 InnoDB 正在将一个页从 Buffer Pool 写入到表空间中。由于磁盘的单次写入数据量多半小于页大小（通常为 16 KB），它很可能只写了页的一部分，从而导致数据丢失。
+
+> 由于 redo log 恢复过程是对数据页进行操作，因此当页损坏时，它不能用于恢复页数据。
+
+在本文使用的版本中，双写缓冲位于系统表空间中，大小一般是 2 MB。使用双写缓冲机制，脏页（Buffer Pool 中已经被修改但并未持久化的页）会先通过 `memcpy()` 复制到磁盘上的双写缓冲区，之后分两次，每次 1 MB 顺序写入数据文件中，接着马上调用 `fsync()` 同步磁盘。
+
+虽然数据被写入磁盘两次，但双写缓冲并不需要两倍的 I/O 开销或两倍的 I/O 操作。数据以大顺序块（large sequential chunk）写入双写缓冲区，对操作系统进行单个 `fsync()` 系统调用（除非 `innodb_flush_method` 设置为 `O_DIRECT_NO_FSYNC`）。
+
+在大多数情况下，默认启用双写缓冲。要禁用双写缓冲，需要将 `innodb_doublewrite` 设置为 0。
+
+如果系统表空间文件（ibdata 文件）位于支持原子写入的 Fusion-io 设备上，则会自动禁用双写缓冲，并对所有数据文件使用 Fusion-io 原子写入。由于双写缓冲设置是全局的，因此对于放在非 Fusion-io 硬件上的数据文件，双写缓冲也被禁用。此功能仅在 Fusion-io 硬件上受支持，并且仅在 Linux 上为 Fusion-io NVMFS 启用。要充分利用此功能，建议使用 `O_DIRECT` 的 `innodb_flush_method` 设置。
+
+当页写入时出现崩溃，InnoDB 会从双写缓冲区中找到该页的一个副本复制到表空间，再应用 redo log。
+
+### Redo Log
+
+在[日志缓冲](#日志缓冲)部分已经介绍了 redo log 在内存中的部分，本节将介绍 redo log 持久化到磁盘上的部分。
+
+redo log 是一种基于磁盘的数据结构，用于在崩溃恢复期间纠正不完整事务写入的数据。在正常操作期间，rego log 对由 SQL 语句或低级 API 调用产生的**更改表数据的请求**进行**编码**。在初始化期间和接受连接之前（这里指数据库初始化以及接受 MySQL 客户端连接），会自动重做在意外关闭之前对数据文件未完成的修改。
+
+默认情况下，redo log 在磁盘上由两个名为 *ib_logfile0* 和 *ib_logfile1* 的文件物理表示。MySQL 以循环方式写入重做日志文件。redo log 中的数据按照受影响的记录进行编码，这些数据统称为重做（redo）。通过 redo log 的数据通道由不断增加的 LSN  值表示。
+
+> 上面提到的编码，指的是将操作（更改表数据的请求）进行编码存储，比如把**将 tbx 表空间的 page#n 页，偏移 offset 位置的数据更新为 xxx** 编码成一段二进制数据，存储在 redo log 中，使得最终 redo log 占用的空间很少。执行事务时产生的修改操作会按照顺序写入 redo log。
+
+redo log 的大小是固定的，由 `innodb_log_file_size` 变量决定。在 Linux 下的 *my.cnf* 或 Windows 下的 *my.ini* 配置文件中，可以配置该字段。修改该数值并重启 MySQL 服务后，如果 InnoDB 检测到 `innodb_log_file_size` 与 redo log 文件大小不同，它会写入日志检查点，关闭并删除旧日志文件，以请求的大小创建新日志文件，并打开新日志文件。
+
+InnoDB 与任何其他实现 ACID 的数据库存储引擎一样，在提交事务之前刷新（flush）事务的 redo log。InnoDB 使用组提交（group commit）功能将多个刷新请求组合在一起，以避免每次提交一次刷新。通过组提交，InnoDB 向日志文件发出一次写入，以对大约同时提交的多个用户事务执行提交操作，从而显着提高吞吐量。
+
+### Undo Logs
 
 ## InnoDB 锁机制
 
@@ -777,6 +809,28 @@ InnoDB 事务模型旨在将多版本数据库的最佳特性与传统的两阶�
 
 InnoDB 中的事务完全符合 ACID 模型，事务主要实现其中的原子性（atomicity）和隔离性（isolation）。InnoDB 事务实现 ACID 的具体体现可以在 [InnoDB ACID 模型](#InnoDB-ACID-模型) 一节中找到。
 
+InnoDB 的事务执行有以下几种状态：
+
+- Active（活跃）
+- Failed（失败）
+- Aborted（中止）
+- Partially Committed（部分已提交）
+- Commmitted（已提交）
+
+### 事务的实现
+
+事务的隔离性由锁机制实现，其他三个特性由 redo log 以及 undo log 实现。其中，redo log 用来保证事务的原子性和持久性。undo log 用于保证事务的一致性。
+
+#### redo
+
+在前面展示的 [InnoDB 架构](#InnoDB-架构)中可以看到，redo log 由内存中的 Log Buffer 以及磁盘上的 Redo Log 文件组成。前者易失，后者持久。
+
+> 这里使用了 WAL（Write-Ahead Logging，先记日志再写入）。
+
+通过 redo log 保证了 ***Crash-Safe***。
+
+#### undo
+
 ### 事务的隔离级别
 
 事务的隔离属于数据库处理基础之一，属于 ACID 中的 “I“。
@@ -796,7 +850,7 @@ InnoDB 事务有四个隔离级别：
 
 #### REPEATABLE READ
 
-在可重复读级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通 `SELECT`（非锁定）语句彼此之间是一致的。
+在**可重复读**级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通 `SELECT`（非锁定）语句彼此之间是一致的。
 
 而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（ _unique search condition_ ）还是**范围类型搜索条件**（ _range-type search condition_ ）的唯一索引（unique index）：
 
@@ -805,13 +859,13 @@ InnoDB 事务有四个隔离级别：
 
 #### READ COMMITTED
 
-在读提交级别下，每个一致的读取，即使在同一个事务中，也会设置和读取自己的新快照。
+在**读提交**级别下，每个一致的读取，即使在同一个事务中，也会设置和读取自己的新快照。
 
 对于锁定读取（`SELECT with FOR UPDATE` 或 `LOCK IN SHARE MODE`）、`UPDATE` 语句和 `DELETE` 语句，InnoDB 仅锁定索引记录，而不是它们之前的间隙，因此允许在锁定的记录旁边自由插入新记录。间隙锁定仅用于外键约束检查和重复键检查。
 
 由于间隙锁被禁用，可能会出现幻像行问题，因为其他会话可以将新行插入间隙中。
 
-TODO
+READ COMMITTED 隔离级别仅支持基于行的二进制日志记录。如果使用 READ COMMITTED 隔离级别并且开启 `binlog_format=MIXED`，服务器会自动使用基于行的日志记录。
 
 #### READ UNCOMMITTED
 
@@ -836,3 +890,39 @@ TODO
 某些语句隐式地结束了一个事务，就好像用户在执行该语句之前已经完成了 `COMMIT` 一样。这种情况参见 [Statements That Cause an Implicit Commit](https://dev.mysql.com/doc/refman/5.7/en/implicit-commit.html)。
 
 `COMMIT` 意味着在当前事务中所做的更改是永久的，并且对其他会话可见。而 `ROLLBACK` 语句取消当前事务所做的所有修改。`COMMIT` 和 `ROLLBACK` 都会释放在当前事务期间设置的所有 InnoDB 锁。
+
+## InnoDB Multi-Versioning
+
+> `InnoDB` is a multi-version storage engine. It keeps information about old versions of changed rows to support transactional features such as concurrency and rollback. This information is stored in the system tablespace or undo tablespaces in a data structure called a rollback segment. `InnoDB` uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.
+>
+> InnoDB 是一个多版本存储引擎。它保留有关已更改行的旧版本信息，以支持事务性功能，如并发（concurrency）和回滚（rollback）。此信息存储在系统表空间或撤消（undo）表空间称为回滚段（rollback segment）的数据结构中。InnoDB 使用回滚段中的信息执行事务回滚所需的撤消操作。它还使用这些信息构建行的早期版本，以实现一致的读取。
+
+InnoDB 在内部向数据库中存储的每一行添加三个字段：
+
+- 6 字节的 `DB_TRX_ID` 字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
+
+- 7 字节的 `DB_ROLL_PTR` 字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
+
+- 6 字节的 `DB_ROW_ID` 字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID` 列不会出现在任何索引中。
+
+  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
+
+回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_ 。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
+
+建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
+
+回滚段中 undo log 记录的物理大小通常小于相应的插入或更新行。可以使用此信息计算回滚段所需的空间。
+
+在 InnoDB 多版本控制方案中，使用 SQL 语句删除某一行时，该行不会立即从数据库中物理删除。InnoDB 仅在丢弃**为了删除操作而写入**的 update undo log 记录时，才从物理上删除相应的行及其索引记录。此删除操作称为清除（purge），速度相当快，通常与执行删除的 SQL 语句的时间顺序相同。
+
+如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整 `innodb_max_purge_lag` 系统变量来限制新行操作，并为清除线程分配更多资源。
+
+### MVCC 和二级索引
+
+InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集索引的方式不同。聚集索引中的记录会就地更新，其隐藏的系统列指向撤消日志项，从中可以重构早期版本的记录。与聚集索引记录不同，二级索引记录不包含隐藏的系统列，也不进行就地更新。
+
+更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的 `DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
+
+如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
+
+但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估 `WHERE` 条件的一部分，MySQL 服务器仍然会将 `WHERE` 条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。

@@ -1,7 +1,7 @@
 ---
-title: InnoDB Row Formats
-date: 2021-11-01 14:10:26
-link: https://ioutime.github.io/2021/11/07/InnoDB-Row-Formats/
+title: InnoDB Page Formats
+date: 2021-11-04 13:26:46
+urlname: innodb-page-formats
 categories: 学习笔记
 tags:
   - Database
@@ -11,7 +11,7 @@ tags:
 
 {% noteblock quote cyan %}
 
-InnoDB 行格式。
+InnoDB 页格式。
 
 {% endnoteblock %}
 

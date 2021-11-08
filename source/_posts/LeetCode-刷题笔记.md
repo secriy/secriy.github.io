@@ -2198,6 +2198,65 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 }
 ```
 
+### [143. Reorder List](https://leetcode-cn.com/problems/reorder-list/)
+
+#### 双指针
+
+先找到链表中点，将其切割成两个链表，再翻转后一链表，最后拼接即可。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reorderList(head *ListNode)  {
+    mid := searchMiddle(head)
+    rr := reverse(mid.Next)
+    mid.Next = nil
+    ll := head
+    var ltmp, rtmp *ListNode
+    left, right := ll, rr
+    for left != nil && right != nil {
+        ltmp = left.Next
+        rtmp = right.Next
+
+        left.Next = right
+        left = ltmp
+
+        right.Next = left
+        right = rtmp
+    }
+}
+
+// 查找链表中点
+func searchMiddle(head *ListNode) *ListNode {
+    slow, fast := head, head
+    for fast != nil && fast.Next != nil && fast.Next.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+    }
+    return slow
+}
+
+// 翻转链表
+func reverse(head *ListNode) *ListNode {
+    var pre, next *ListNode
+    for head != nil {
+        next = head.Next
+        head.Next = pre
+        pre = head
+        head = next
+    }
+    return pre
+}
+```
+
 ### [144. Binary Tree Preorder Traversal](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 
 #### 辅助栈
@@ -2838,7 +2897,7 @@ func reverse(head *ListNode) *ListNode {
         head.Next = pre
         pre = head
         head = next
-    }	
+    }
     return pre
 }
 ```
@@ -2991,6 +3050,34 @@ func min(a, b, c int) int {
     default:
         return c
     }
+}
+```
+
+### [287. Find the Duplicate Number](https://leetcode-cn.com/problems/find-the-duplicate-number/)
+
+#### 双指针
+
+本题与链表找环入口同理，用下标当作链表的下一节点，会形成一个存在环的链表。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func findDuplicate(nums []int) int {
+    slow, fast := 0, 0
+    for {
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        if slow == fast {
+            fast = 0
+            break
+        }
+    }
+    for nums[slow] != nums[fast] {
+        fast = nums[fast]
+        slow = nums[slow]
+    }
+    return nums[slow]
 }
 ```
 
