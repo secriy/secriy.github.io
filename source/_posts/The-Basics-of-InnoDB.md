@@ -682,6 +682,8 @@ Index_comment:
 
 > 由于 Cardinality 的不准确性，可以在数据库非高峰期执行 `ANALYZE TABLE` 来帮助优化器和索引更好地工作。
 
+TODO: Cardinality
+
 #### 有序索引构建
 
 TODO
@@ -810,7 +812,7 @@ InnoDB 实现了两个标准的行级锁：共享锁（S 锁）和排他锁（X 
 
 ### 意向锁
 
-InnoDB 支持**多粒度锁定**（ _multiple granularity locking_ ），允许行锁和表锁共存。为了支持多粒度级别的锁定，InnoDB 使用意向锁。意向锁是表级锁，指示事务稍后需要对表中的行使用哪种类型的锁（共享锁或独占锁）。
+InnoDB 支持**多粒度锁定**（*multiple granularity locking*），允许行锁和表锁共存。为了支持多粒度级别的锁定，InnoDB 使用意向锁。意向锁是表级锁，指示事务稍后需要对表中的行使用哪种类型的锁（共享锁或独占锁）。
 
 意向锁有两种类型：
 
@@ -826,12 +828,12 @@ InnoDB 支持**多粒度锁定**（ _multiple granularity locking_ ），允许�
 
 表级锁类型的兼容性总结在下表（Compatible 兼容，Conflict 冲突）：
 
-|     |    X     |     IX     |     S      |     IS     |
-| :-: | :------: | :--------: | :--------: | :--------: |
-|  X  | Conflict |  Conflict  |  Conflict  |  Conflict  |
-| IX  | Conflict | Compatible |  Conflict  | Compatible |
-|  S  | Conflict |  Conflict  | Compatible | Compatible |
-| IS  | Conflict | Compatible | Compatible | Compatible |
+|       |    X     |     IX     |     S      |     IS     |
+| :---: | :------: | :--------: | :--------: | :--------: |
+|   X   | Conflict |  Conflict  |  Conflict  |  Conflict  |
+|  IX   | Conflict | Compatible |  Conflict  | Compatible |
+|   S   | Conflict |  Conflict  | Compatible | Compatible |
+|  IS   | Conflict | Compatible | Compatible | Compatible |
 
 如果请求事务与现有锁兼容，则向请求事务授予锁。如冲突则不会授予，事务要一直等到现有锁被释放。如果锁请求与现有锁冲突并且由于会导致死锁而无法授予，则会发生错误。
 
@@ -868,7 +870,11 @@ Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
 
 间隙锁是性能和并发性之间权衡的一部分，用于部分特定的事务隔离级别。
 
-TODO
+锁定使用唯一索引（unique）行的语句不需要间隙锁。（这不包括搜索条件只包含多列唯一索引的部分列的情况；在这种情况下，确实会发生间隙锁定。）例如，如果 id 列具有唯一索引，则以下语句仅使用id 值为 100 的行的索引记录锁，其他会话是否在前面的间隙中插入行无关紧要：
+
+```mysql
+SELECT * FROM child WHERE id = 100;
+```
 
 ### Next-Key Locks
 
@@ -923,7 +929,7 @@ InnoDB 事务有四个隔离级别：
 
 在**可重复读**级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通 `SELECT`（非锁定）语句彼此之间是一致的。
 
-而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（ _unique search condition_ ）还是**范围类型搜索条件**（ _range-type search condition_ ）的唯一索引（unique index）：
+而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（*unique search condition*）还是**范围类型搜索条件**（*range-type search condition*）的唯一索引（unique index）：
 
 - 对于具有唯一搜索条件的唯一索引，InnoDB 只锁定找到的索引记录，而不锁定它之前的间隙（gap）。
 - 对于其他的搜索条件，InnoDB 锁定扫描范围内的所有记录，使用间隙锁（gap locks）和 next-key 锁（next-key locks）来阻止其他会话对该锁定范围的插入操作。
