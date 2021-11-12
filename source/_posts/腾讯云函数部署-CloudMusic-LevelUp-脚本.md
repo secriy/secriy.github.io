@@ -38,7 +38,7 @@ git clone https://gitee.com/secriy/CloudMusic-LevelUp.git
    ![figue1](腾讯云函数部署-CloudMusic-LevelUp-脚本/image-20210612194839032.png)
    {% endgallery %}
 
-   3. 将高级配置中的**环境配置-内存**改为 64MB，执行超时时间改为 900，其他默认不改动，点击创建。
+3. 将高级配置中的**环境配置-内存**改为 64MB，执行超时时间改为 900，其他默认不改动，点击创建。
 
 ### 配置云函数
 

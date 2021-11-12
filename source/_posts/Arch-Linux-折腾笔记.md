@@ -173,9 +173,9 @@ arch-chroot /mnt
 
 由于根文件系统基于 LVM，因此需要启用 mkinitcpio 钩子，否则系统可能无法启动。
 
-编辑 _/etc/mkinitcpio.conf_ 文件，在 _block_ 和 _filesystems_ 之间插入 _lvm2_ 。
+编辑 */etc/mkinitcpio.conf* 文件，在 `block` 和 `filesystems` 之间插入 `lvm2`。
 
-_/etc/mkinitcpio.conf_
+*/etc/mkinitcpio.conf*
 
 ```
 HOOKS="base udev ... block lvm2 filesystems ... " # '...'是我省略了的内容，不要写省略号上去！
@@ -198,13 +198,13 @@ hwclock --systohc
 
 #### 网络配置
 
-_/etc/hostname_
+*/etc/hostname*
 
 ```
 Secriy-Laptop
 ```
 
-_/etc/hosts_
+*/etc/hosts*
 
 ```
 127.0.0.1 localhost
@@ -265,7 +265,7 @@ reboot
 
 配置 NetworkManager 使用 iwd
 
-_/etc/NetworkManager/NetworkManager.conf_
+*/etc/NetworkManager/NetworkManager.conf*
 
 ```
 [device]
@@ -352,7 +352,7 @@ sudo chmod +x strap.sh
 ./strap.sh
 ```
 
-_/etc/pacman.conf_
+*/etc/pacman.conf*
 
 ```
 # archlinuxcn源
@@ -448,7 +448,7 @@ sudo pacman -S grub-customizer
 
 4. 修改分辨率
 
-   _/etc/default/grub_
+   */etc/default/grub*
 
    ```
    GRUB_GFXMODE=1920x1080
@@ -460,7 +460,7 @@ sudo pacman -S grub-customizer
    sudo grub-mkfont -s 16 -o /boot/grub/fonts/Monaco_Linux.pf2 /usr/share/fonts/TTF/Monaco_Linux.ttf
    ```
 
-   _/etc/default/grub_
+   */etc/default/grub*
 
    ```
    GRUB_FONT="/bot/grub/fonts/Monaco_Linux.pf2"
@@ -495,7 +495,7 @@ QT_IM_MODULE  DEFAULT=fcitx5
 XMODIFIERS    DEFAULT=@im=fcitx5
 ```
 
-_~/.xprofile_
+*~/.xprofile*
 
 ```
 export GTK_IM_MODULE=fcitx5
