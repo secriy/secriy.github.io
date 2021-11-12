@@ -579,7 +579,13 @@ ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
 >
 > 综上所述，InnoDB 实际使用的索引其物理结构应当为 B+ 树，而不是 B-Tree，本文中仅本节使用了术语 B-Tree，其他章节都直接使用 B+ 树来替代。
 
-B+ 树由 B 树和索引顺序访问方法（ISAM）演化而来，现实中 B 树已经很少被使用了。本文不对 B+ 树作详细介绍，下面是 B+ 树的图示，我们简要地对 B+ 树的部分特性做个列举：
+B+ 树由 B 树和索引顺序访问方法（ISAM）演化而来，现实中 B 树已经很少被使用了。
+
+> 这里介绍一个数据结构可视化网站，下面给出其中 B 树与 B+ 树的页面链接。
+> B 树可视化：https://www.cs.usfca.edu/~galles/visualization/BTree.html
+> B+ 树可视化：https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html
+
+本文不对 B+ 树作详细介绍，下面是 B+ 树的图示，我们简要地对 B+ 树的部分特性做个列举：
 
 ![image-20211102214806730](The-Basics-of-InnoDB/image-20211102214806730.png)
 
@@ -757,6 +763,41 @@ InnoDB 与任何其他实现 ACID 的数据库存储引擎一样，在提交事�
 
 ### Undo Logs
 
+## InnoDB Multi-Versioning
+
+> `InnoDB` is a multi-version storage engine. It keeps information about old versions of changed rows to support transactional features such as concurrency and rollback. This information is stored in the system tablespace or undo tablespaces in a data structure called a rollback segment. `InnoDB` uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.
+>
+> InnoDB 是一个多版本存储引擎。它保留有关已更改行的旧版本信息，以支持事务性功能，如并发（concurrency）和回滚（rollback）。此信息存储在系统表空间或撤消（undo）表空间称为回滚段（rollback segment）的数据结构中。InnoDB 使用回滚段中的信息执行事务回滚所需的撤消操作。它还使用这些信息构建行的早期版本，以实现一致的读取。
+
+InnoDB 在内部向数据库中存储的每一行添加三个字段：
+
+- 6 字节的 `DB_TRX_ID` 字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
+
+- 7 字节的 `DB_ROLL_PTR` 字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
+
+- 6 字节的 `DB_ROW_ID` 字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID` 列不会出现在任何索引中。
+
+  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
+
+回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_ 。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
+
+建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
+
+回滚段中 undo log 记录的物理大小通常小于相应的插入或更新行。可以使用此信息计算回滚段所需的空间。
+
+在 InnoDB 多版本控制方案中，使用 SQL 语句删除某一行时，该行不会立即从数据库中物理删除。InnoDB 仅在丢弃**为了删除操作而写入**的 update undo log 记录时，才从物理上删除相应的行及其索引记录。此删除操作称为清除（purge），速度相当快，通常与执行删除的 SQL 语句的时间顺序相同。
+
+如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整 `innodb_max_purge_lag` 系统变量来限制新行操作，并为清除线程分配更多资源。
+
+### MVCC 和二级索引
+
+InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集索引的方式不同。聚集索引中的记录会就地更新，其隐藏的系统列指向撤消日志项，从中可以重构早期版本的记录。与聚集索引记录不同，二级索引记录不包含隐藏的系统列，也不进行就地更新。
+
+更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的 `DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
+
+如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
+
+但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估 `WHERE` 条件的一部分，MySQL 服务器仍然会将 `WHERE` 条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
 
 ## InnoDB 锁机制
 
@@ -876,9 +917,57 @@ Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
 SELECT * FROM child WHERE id = 100;
 ```
 
-### Next-Key Locks
+### 一致性非锁定读
 
-TODO
+一致性非锁定读（Consistent Nonlocking Read）指的是 InnoDB 通过 Multi-Versioning 机制来读取当前执行时间数据库中的行数据。如果要读取的行正在进行 `DELETE` 或 `UPDATE` 操作，这时读取操作不会去等待行锁的释放，而是去读取该行的一个快照数据。
+
+快照数据指的是该行之前版本的数据，这是由 undo 段实现的。undo 被用来在事务中回滚数据，因此快照数据本身是原本就必须的开销，并非额外开销。此外读取快照数据也不需要上锁，因为其不会被修改。
+
+### Phantom Problem
+
+Phantom Problem 即幻像问题，指的是在同一个事务下，连续执行两次相同的 SQL 语句可能导致不同的结果，第二次的语句可能会返回之前不存在的行。例如，如果一个 `SELECT` 语句执行了两次，但第二次返回了第一次未返回的行，则该行是“幻”行。
+
+假设表 `tbl_test` 的 `id` 列上有一个索引，并且你希望读取并锁定表中 `id` 大于 100 的所有行，以便稍后更新选定行中的某些列：
+
+```mysql
+SELECT * FROM tbl_test WHERE id > 100 FOR UPDATE;
+```
+
+查询从索引中 `id` 大于 100 的第一条记录开始扫描，假如表中包含 `id` 值为 90 和 102 的行。如果没有对扫描范围内记录间的间隙（在本例中，间隙在 90 和 102 之间）加锁，那么另一个会话可以在表中插入 `id` 为 101 的新行。如果要在同一事务中执行相同的 `SELECT`，则会在查询返回的结果集中看到一个 `id` 为 101 的新行（幻行）。如果我们将查询的行集合视为一个数据项，那么新出现的幻行将违反事务读取的数据在事务期间不会更改的隔离原则。
+
+为了防止出现幻像现象，InnoDB 使用了一种称为 Next-Key 锁的算法，该算法将**索引行锁**与**间隙锁**相结合。InnoDB 加行级的方式是，当它搜索（search）或扫描（scan）表索引时，它会在遇到的索引记录上设置共享锁或排他锁。因此，行级锁（row-level locks）实际上就是索引记录锁（index-record locks）。此外，索引记录上的 Next-Key 锁会影响索引记录之前的“间隙”，它是一个索引记录锁加上一个在索引记录之前的间隙上的间隙锁。如果一个会话对索引中的记录 R 拥有共享锁或排他锁，则另一个会话不能在索引中顺序紧靠 R 之前的间隙中插入新的索引记录。比如上面的 SQL 语句，锁住的不单单是表中的 102，它为 $(2,+\infin)$ 的一整个范围加了 X 锁。
+
+InnoDB 扫描索引时，也可以锁定索引中最后一条记录后的间隙。在前面的示例中就是这样：为了防止其他会话在 `id` 大于 100 的表中进行任何插入行为，InnoDB 设置的锁包括对 `id` 值为 102 之后间隙的锁。
+
+可以使用 Next-Key 锁在应用程序中实现唯一性检查：如果在共享模式（share mode）下读取数据并且没有看到你要插入行的重复项，那么你可以安全地插入该行，因为在读取期间在你将插入行的后面上设置的 Next-Key 锁可防止任何人同时插入重复项。因此，Next-Key 锁能够“锁定”表中还不存在的内容。
+
+当然用户可以禁用间隙锁，但这可能会导致幻像问题，因为当禁用间隙锁时，其他会话可以将新行插入间隙中。
+
+> 在 InnoDB 默认的隔离级别（可重复读）下，InnoDB 通过上述的 Next-Key 锁机制来避免幻像问题，而在其他很多数据库中，只有在串行隔离级别下才能解决幻像问题。
+
+### 锁问题
+
+通过锁机制可以实现事务的隔离性要求，满足事务的并发需求，但存在三种可能遇到的锁问题，即脏读、不可重复读、
+
+#### 脏读
+
+脏读（Dirty Read）的脏指的是脏数据，和脏页不同。脏页指的是在缓冲池中已经被修改，但未持久化到磁盘，从而暂时数据不一致的页。脏数据指的是事务对缓冲池中**行记录**的修改，并且还未被提交。因此一旦脏数据被其他事务读到了，直接就违反了事务的隔离性。而脏读顾名思义就是指读到了这些脏数据。
+
+#### 不可重复读
+
+不可重复读简单来说就是事务 A 对同一数据集进行了多次读操作，然而事务 B 在 A 还未结束时就对这个集合中的某些数据进行了修改**并且成功提交了**，导致 A 多次读到的数据是不一致的。这和脏读的区别就在于脏读读到的是还未提交的数据，而不可重复读读到的是已经提交了的数据。
+
+> 在很多场景下，因为读到的是已经提交的数据，不可重复读并不算大问题。很多数据库厂商的解决方案中，默认的隔离级别下允许不可重复读的发生。而 InnoDB 把不可重复读现象当作前面提到的幻像问题（Phantom Problem）来处理，默认的隔离级别下通过 Next-Key 锁算法来避免不可重复读问题 。
+
+#### 幻读
+
+幻读与不可重复读很类似，容易混淆。事务 A 对同一数据集进行了多次读操作，然而事务 B 在 A 还未结束时就对这个集合中的某些数据进行了**新增或删除**。因此二者的区别就在于不可重复读侧重于对数据的修改，而幻读侧重于对数据的新增或删除。
+
+#### 丢失更新
+
+### 死锁
+
+### 锁升级
 
 ## InnoDB 事务
 
@@ -904,55 +993,57 @@ InnoDB 的事务执行有以下几种状态：
 
 > 这里使用了 WAL（Write-Ahead Logging，先记日志再写入）。
 
-通过 redo log 保证了 **_Crash-Safe_**。
+通过 redo log 保证了 ***Crash-Safe***。
 
 #### undo
 
 ### 事务的隔离级别
 
-事务的隔离属于数据库处理基础之一，属于 ACID 中的 “I“。
+事务的隔离属于数据库处理基础之一，属于 ACID 中的 “I”。然而大多数数据库系统都没有提供真正的隔离性，因为要实现严格的隔离要付出很多额外的开销。因此，在性能和正确性之间，数据库实现都进行了部分妥协来达到一种平衡。隔离级别就是隔离性的一种等级划分。
 
-InnoDB 事务有四个隔离级别：
+InnoDB 事务有四个隔离级别（SQL 标准定义），由低到高分别如下：
 
 - 读未提交（READ UNCOMMITTED）
 - 读已提交（READ COMMITTED）
 - 可重复读（REPEATABLE READ）
-- 串行（SERIALIZABLE）
+- 串行化（SERIALIZABLE）
 
-其中，可重复读是 InnoDB 默认的隔离级别。
+其中，**可重复读是 InnoDB 默认的隔离级别**。隔离级别越低，事务请求的锁越少或者其保持锁的时间就越短，这也就是为什么大多数数据库系统的默认隔离级别是**读已提交**。实际上，在 InnoDB 中，可重复读和读已提交之间的性能差距并不大，甚至它们和串行化级别的差距也不一定很大。
 
-用户可以使用 `SET TRANSACTION` 语句自行修改单个会话及其后续连接的隔离级别（这涉及到 MySQL 连接的问题）。要为所有连接设置默认的隔离级别，可配置 `--transaction-isolation` 选项。
+通过 `SELECT @@tx_isolation\G;` 语句可以查询当前连接（会话）的事务隔离级别，通过 `SELECT @@global.tx_isolation\G;` 可以查询全局的事务隔离级别。用户可以使用 `SET TRANSACTION` 语句自行修改单个会话及其后续连接的隔离级别（这涉及到 MySQL 连接的问题）。要为所有连接设置默认的隔离级别，可配置 `--transaction-isolation` 选项。
 
-下面的列表描述了 MySQL 如何支持不同的事务级别。列表从最常用的级别到最不常用的级别。
+下面的列表描述了 MySQL 如何支持不同的事务级别。列表从最**常用**的级别到最**不常用**的级别。
 
 #### REPEATABLE READ
+
+> 与 SQL 标准隔离级别不同，InnoDB 借由 MVCC 以及 Next-Key 锁实现的可重复读级别**能够避免幻读的发生**，这与其他数据库系统完全不同。因此，可以说 InnoDB 的可重复读级别已经达到了 SQL 标准的串行化（SERIALIZABLE）级别。然而很多不经考证的资料中都混淆了 ANSI SQL 标准的隔离级别和 InnoDB 实现的隔离级别，前者的可重复读是没有解决幻读的。
 
 在**可重复读**级别下，同一事务的一致性读是由第一次读取所建立的快照。也就是说，在同一事务中的多个普通 `SELECT`（非锁定）语句彼此之间是一致的。
 
 而对于锁定读取（带有 `FOR UPDATE` 的 `SELECT` 或 `LOCK IN SHARE MODE`）、UPDATE 和 DELETE 语句，锁（locking）取决于该语句是使用具有**唯一搜索条件**（*unique search condition*）还是**范围类型搜索条件**（*range-type search condition*）的唯一索引（unique index）：
 
-- 对于具有唯一搜索条件的唯一索引，InnoDB 只锁定找到的索引记录，而不锁定它之前的间隙（gap）。
-- 对于其他的搜索条件，InnoDB 锁定扫描范围内的所有记录，使用间隙锁（gap locks）和 next-key 锁（next-key locks）来阻止其他会话对该锁定范围的插入操作。
+- 对于具有唯一搜索条件的唯一索引，InnoDB 只锁定找到的索引记录，而不锁定它之前的间隙。
+- 对于其他的搜索条件，InnoDB 锁定扫描范围内的所有记录，使用间隙锁和 Next-Key 锁来阻止其他会话对该锁定范围的插入操作。
 
 #### READ COMMITTED
 
-在**读提交**级别下，每个一致的读取，即使在同一个事务中，也会设置和读取自己的新快照。
+在**读已提交**级别下，每个要求读一致性的操作，即使在同一个事务中也会设置和读取自己的新快照。
 
-对于锁定读取（`SELECT with FOR UPDATE` 或 `LOCK IN SHARE MODE`）、`UPDATE` 语句和 `DELETE` 语句，InnoDB 仅锁定索引记录，而不是它们之前的间隙，因此允许在锁定的记录旁边自由插入新记录。间隙锁定仅用于外键约束检查和重复键检查。
+对于锁定读取（`SELECT with FOR UPDATE` 或 `LOCK IN SHARE MODE`）、`UPDATE` 语句和 `DELETE` 语句，InnoDB 仅锁定索引记录，而不是它们之前的间隙，因此允许在锁定的记录旁边自由插入新记录。在这个级别下，间隙锁仅用于外键约束检查和重复键检查。
 
-由于间隙锁被禁用，可能会出现幻像行问题，因为其他会话可以将新行插入间隙中。
+> 该级别下**已经解决了脏读问题**，但由于间隙锁被禁用，可能会出现幻读问题，因为其他会话可以将新行插入间隙中。
 
 READ COMMITTED 隔离级别仅支持基于行的二进制日志记录。如果使用 READ COMMITTED 隔离级别并且开启 `binlog_format=MIXED`，服务器会自动使用基于行的日志记录。
 
 #### READ UNCOMMITTED
 
-`SELECT` 语句以非锁定方式执行，但可能会使用行的早期版本。因此，使用此隔离级别，此类读取不一致。这也称为脏读。否则，此隔离级别的工作方式类似于 READ COMMITTED。
+`SELECT` 语句以非锁定方式执行，可能会读到行的早期版本，因此使用该隔离级别会导致脏读问题。这个隔离级别很少在实际中使用，因为它的性能也并没有好多少。
 
 #### SERIALIZABLE
 
-此级别类似于 **REPEATABLE READ**，但如果 `autocommit` 被禁用（设置为 `disabled`），InnoDB 隐式地将所有普通 SELECT 语句转换为 `SELECT ... LOCK IN SHARE MODE`。如果启用了自动提交，则选择是其自己的事务。因此，已知它是只读的，如果作为一致（非锁定）读取执行，并且不需要为其他事务阻塞，则可以序列化它。
+此级别类似于 **REPEATABLE READ**，但如果 `autocommit`（自动提交）被禁用（设置为 `disabled`），InnoDB 隐式地将所有普通 `SELECT` 语句转换为 `SELECT ... LOCK IN SHARE MODE`，即为所有的读操作都加一个共享锁。如果启用了自动提交，则一条 `SELECT` 语句就是一个事务。因此，已知当前的场景是只读的，并且要求一致性（非阻塞）读，另外不需要阻塞其他事务，则可以使用串行化级别。
 
-> 若要在其他事务已修改选定行时强制阻止普通选择，请禁用自动提交。
+> 如果其他事务修改了选定的行，要强制让普通的 `SELECT` 语句阻塞其他事务的修改，请禁用自动提交来为每一个读操作都加锁。
 
 ### autocommit、Commit 和 Rollback
 
@@ -968,40 +1059,8 @@ READ COMMITTED 隔离级别仅支持基于行的二进制日志记录。如果�
 
 `COMMIT` 意味着在当前事务中所做的更改是永久的，并且对其他会话可见。而 `ROLLBACK` 语句取消当前事务所做的所有修改。`COMMIT` 和 `ROLLBACK` 都会释放在当前事务期间设置的所有 InnoDB 锁。
 
-## InnoDB Multi-Versioning
+### 分布式事务
 
-> `InnoDB` is a multi-version storage engine. It keeps information about old versions of changed rows to support transactional features such as concurrency and rollback. This information is stored in the system tablespace or undo tablespaces in a data structure called a rollback segment. `InnoDB` uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.
->
-> InnoDB 是一个多版本存储引擎。它保留有关已更改行的旧版本信息，以支持事务性功能，如并发（concurrency）和回滚（rollback）。此信息存储在系统表空间或撤消（undo）表空间称为回滚段（rollback segment）的数据结构中。InnoDB 使用回滚段中的信息执行事务回滚所需的撤消操作。它还使用这些信息构建行的早期版本，以实现一致的读取。
-
-InnoDB 在内部向数据库中存储的每一行添加三个字段：
-
-- 6 字节的 `DB_TRX_ID` 字段表示插入或更新行的最后一个事务的事务标识符。此外，删除在内部被视为更新，行中的特殊位设置标记为已删除。
-
-- 7 字节的 `DB_ROLL_PTR` 字段，称为滚动指针。滚动指针指向写入回滚段的撤消日志（undo log）记录。如果行已更新，则撤消日志记录包含更新前重建行内容所需的信息。
-
-- 6 字节的 `DB_ROW_ID` 字段包含一个随着插入新行而单调增加的行 ID。如果 InnoDB 自动生成聚集索引，则该索引包含行 ID 值。否则，`DB_ROW_ID` 列不会出现在任何索引中。
-
-  > 当用户没有**显式指定主键**且表中不存在**非空唯一索引**时，InnoDB 会自动生成聚集索引，使用的主键是 `DB_ROW_ID`。
-
-回滚段中的 undo log 分为 _insert undo log_ 和 _update undo log_ 。insert undo log 仅在事务回滚中需要，并且可以在事务提交后立即丢弃。update undo log 也用于一致性读取，但只有在当前不存在 InnoDB 已为其分配快照的事务时，才能丢弃 update undo log。在一致性读取中，快照可能需要更新撤消日志中的信息来构建数据库行的早期版本。
-
-建议定期提交事务，包括仅发出一致读取的事务。否则，InnoDB 无法丢弃 update undo log 中的数据，回滚段可能会变得太大，填满它所在的表空间。
-
-回滚段中 undo log 记录的物理大小通常小于相应的插入或更新行。可以使用此信息计算回滚段所需的空间。
-
-在 InnoDB 多版本控制方案中，使用 SQL 语句删除某一行时，该行不会立即从数据库中物理删除。InnoDB 仅在丢弃**为了删除操作而写入**的 update undo log 记录时，才从物理上删除相应的行及其索引记录。此删除操作称为清除（purge），速度相当快，通常与执行删除的 SQL 语句的时间顺序相同。
-
-如果以大约相同的速率在表中小批量插入和删除行，则清除线程可能会开始落后，并且由于这些“死（dead）”行的存在，表可能会变得越来越大，使所有内容都绑定在磁盘上并且速度非常慢。在这种情况下，通过调整 `innodb_max_purge_lag` 系统变量来限制新行操作，并为清除线程分配更多资源。
-
-### MVCC 和二级索引
-
-InnoDB 多版本并发控制（MVCC）处理二级索引的方式与处理聚集索引的方式不同。聚集索引中的记录会就地更新，其隐藏的系统列指向撤消日志项，从中可以重构早期版本的记录。与聚集索引记录不同，二级索引记录不包含隐藏的系统列，也不进行就地更新。
-
-更新二级索引列时，旧的二级索引记录将被标记为删除，新记录将被插入，删除标记的记录最终将被清除。当二级索引记录被标记为删除，或者二级索引页被较新的事务更新时，InnoDB 会在聚集索引中查找数据库记录。在聚集索引中检查记录的 `DB_TRX_ID`，如果在读取事务启动后修改了记录，则从 undo log 中检索记录的正确版本。
-
-如果二级索引记录被标记为删除，或者二级索引页由较新的事务更新，则不使用覆盖索引（covering index）技术。InnoDB 不会从索引结构返回值，而是在聚集索引中查找记录。
-
-但是，如果启用了索引条件下推（ICP）优化，并且只能使用索引中的字段来评估 `WHERE` 条件的一部分，MySQL 服务器仍然会将 `WHERE` 条件的这一部分下推到存储引擎，在那里使用索引对其进行评估。如果没有找到匹配的记录，则避免进行聚集索引查找。如果找到匹配的记录，即使在标记为删除的记录中，InnoDB 也会在聚集索引中查找该记录。
+### 长事务
 
 ## InnoDB Online DDL
