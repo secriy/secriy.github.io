@@ -32,6 +32,7 @@ LeetCode 刷题记录。
 - BFS
 - 回溯
 - 排序
+- 数学
 
 ## 1~100
 
@@ -1456,7 +1457,7 @@ func removeDuplicates(nums []int) int {
 
 ### [82. Remove Duplicates from Sorted List II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
 
-虚结点`dummy`指向链表头，使用`slow`、`fast`双指针来标记非重复结点和每一个结点。当遇到
+虚结点`dummy`指向链表头，使用`slow`、`fast`双指针来标记非重复结点和每一个结点。
 
 - 时间复杂度：$O(n)$
 - 空间复杂度：$O(1)$
@@ -1572,6 +1573,26 @@ func partition(head *ListNode, x int) *ListNode {
   }
   ```
 
+### [89. Gray Code](https://leetcode-cn.com/problems/gray-code/)
+
+#### 数学
+
+按照规律解法，当 $n=3$ 时，$Gray(i)=i^{i \over 2}$ 。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func grayCode(n int) []int {
+    res := make([]int, 0)
+    max := 1 << n
+    for i := 0; i < max; i++ {
+        res = append(res, i ^ i >> 1)
+    }
+    return res	
+}
+```
+
 ### 92.
 
 #### Ideas
@@ -1648,6 +1669,73 @@ func partition(head *ListNode, x int) *ListNode {
   	return result
   }
   ```
+
+### [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+#### 中序遍历（递归）
+
+BST 中序遍历结果是有序的。最简单的方式是用全局变量。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+var first = true
+var last int
+var ret = true
+
+func isValidBST(root *TreeNode) bool {
+    // 重置全局变量
+    first = true
+    last = root.Val
+    ret = true
+    inorder(root)
+    return ret
+}
+
+func inorder(root *TreeNode) {
+    if root == nil {
+        return
+    }
+    inorder(root.Left)
+    if root.Val <= last && !first {
+        ret = false
+        return
+    }
+    last = root.Val
+    first = false
+    inorder(root.Right)
+}
+```
+
+#### 中序遍历（迭代）
+
+```go
+func isValidBST(root *TreeNode) bool {
+    stack := []*TreeNode{}
+    last := math.MinInt64
+    for len(stack) > 0 || root != nil {
+        for root != nil {
+            stack = append(stack, root)
+            root = root.Left
+        }
+        root = stack[len(stack)-1]
+        stack = stack[:len(stack)-1]
+        if root.Val <= last {
+            return false
+        }
+        last = root.Val
+        root = root.Right
+    }
+    return true
+}
+```
 
 ### 100. [Same Tree](https://leetcode.com/problems/same-tree/)
 
@@ -1737,6 +1825,96 @@ func levelOrder(root *TreeNode) [][]int {
         result = append(result, tmp)
     }
     return result
+}
+```
+
+### [103. Binary Tree Zigzag Level Order Traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+#### 队列
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func zigzagLevelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return nil
+    }
+    res := make([][]int, 0)
+    queue := []*TreeNode{root}
+
+    level := 0
+
+    for len(queue) > 0 {
+        tmp := make([]int, 0)
+        // 偶数层处理
+        for i := len(queue); level % 2 == 0 && i > 0; i-- {
+            node := queue[0]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+            tmp = append(tmp, node.Val)
+            queue = queue[1:]
+        }
+        for i := len(queue); level % 2 != 0 && i > 0; i-- {
+            node := queue[len(queue)-1]
+            if node.Right != nil {
+                queue = append([]*TreeNode{node.Right}, queue...)
+            }
+            if node.Left != nil {
+                queue = append([]*TreeNode{node.Left}, queue...)
+            }
+            tmp = append(tmp, node.Val)
+            queue = queue[:len(queue)-1]
+        }
+        res = append(res, tmp)
+        level++
+    }
+    return res
+}
+```
+
+#### 队列，按层反转
+
+```go
+func zigzagLevelOrder(root *TreeNode) [][]int {
+    if root == nil {
+        return nil
+    }
+    res := make([][]int, 0)
+    queue := []*TreeNode{root}
+    level := 0
+    for len(queue) > 0 {
+        tmp := make([]int, 0)
+        for i := len(queue); i > 0; i-- {
+            node := queue[0]
+            queue = queue[1:]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+            tmp = append(tmp, node.Val)
+        }
+        // 奇数层就翻转一下结果
+        if level % 2 == 1 {
+            for i, n := 0, len(tmp); i < n/2; i++ {
+                tmp[i], tmp[n-1-i] = tmp[n-1-i], tmp[i]
+            }
+        }
+        res = append(res, tmp)
+        level++
+    }
+    return res
 }
 ```
 
@@ -1830,46 +2008,44 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 }
 ```
 
-### 110.[Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
+#### 后序遍历
 
-#### Ideas
+### [110. Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
 
-- 递归，先递归求左右子树的深度，判断深度差是否满足条件，递归所有子树
+#### 递归
 
-#### Solutions
+先递归求左右子树的深度，判断深度差是否满足条件，递归所有子树
 
-- 递归
+```go
+func isBalanced(root *TreeNode) bool {
+    if root == nil {
+        return true
+    }
+    // 求左右子树深度差
+    sub := helper(root.Left) - helper(root.Right)
+    if sub > 1 || sub < -1 {
+        return false
+    } else {
+        // 递归判断子树
+        return isBalanced(root.Left) && isBalanced(root.Right)
+    }
+}
 
-  ```go
-  func isBalanced(root *TreeNode) bool {
-      if root == nil {
-          return true
-      }
-      // 求左右子树深度差
-      sub := helper(root.Left) - helper(root.Right)
-      if sub > 1 || sub < -1 {
-          return false
-      } else {
-          // 递归判断子树
-          return isBalanced(root.Left) && isBalanced(root.Right)
-      }
-  }
-  
-  // 求二叉树深度，来自 LeetCode 104
-  func helper(root *TreeNode) int {
-      if root == nil {
-          return 0
-      }
-      return max(helper(root.Left), helper(root.Right)) + 1
-  }
-  
-  func max(a, b int) int {
-      if a > b {
-          return a
-      }
-      return b
-  }
-  ```
+// 求二叉树深度，来自 LeetCode 104
+func helper(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    return max(helper(root.Left), helper(root.Right)) + 1
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
 ### 113. [Path Sum II](https://leetcode.com/problems/path-sum-ii/)
 
@@ -1997,6 +2173,86 @@ func maxProfit(prices []int) int {
       return b
   }
   ```
+
+### [124. Binary Tree Maximum Path Sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+#### 递归
+
+遍历即可。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+var maxNum int
+
+func maxPathSum(root *TreeNode) int {
+    maxNum = -1001
+    pathSum(root)
+    return maxNum
+}
+
+func pathSum(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+
+    l := pathSum(root.Left)
+    r := pathSum(root.Right)
+
+    maxNum = max(maxNum, l + r + root.Val)
+
+    return max(max(max(l, r), 0) + root.Val, 0)
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
+
+#### DFS
+
+> 输出路径如何解？
+
+### [129. Sum Root to Leaf Numbers](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
+#### 递归
+
+> 尝试其他方法？
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func sumNumbers(root *TreeNode) int {
+    return helper(root, 0)
+}
+
+func helper(root *TreeNode, num int) int {
+    if root == nil {
+        return 0
+    }
+    num *= 10
+    if root.Left == nil && root.Right == nil {
+        return num + root.Val
+    }
+    return helper(root.Left, num+root.Val) + helper(root.Right, num+root.Val)
+}
+```
 
 ### [135. Candy](https://leetcode-cn.com/problems/candy/)
 
@@ -2566,6 +2822,47 @@ func hammingWeight(num uint32) int {
 }
 ```
 
+### [199. Binary Tree Right Side View](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+### 队列
+
+与 102 题相同，简单修改即可，求每一层的最后一个元素。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func rightSideView(root *TreeNode) []int {
+    if root == nil {
+        return nil
+    }
+    ret := make([]int, 0)
+    queue := []*TreeNode{root}
+
+    for len(queue) > 0 {
+        tmp := root.Val
+        for i := len(queue); i > 0; i-- {
+            node := queue[0]
+            if node.Left != nil {
+                queue = append(queue, node.Left)
+            }
+            if node.Right != nil {
+                queue = append(queue, node.Right)
+            }
+            tmp = node.Val
+            queue = queue[1:]
+        }
+        ret = append(ret, tmp)
+    }
+    return ret
+}
+```
+
 ### [200. Number of Islands](https://leetcode-cn.com/problems/number-of-islands/)
 
 #### DFS
@@ -2683,39 +2980,6 @@ func dfs(grid [][]byte, row, col int) {
 ### [215. Kth Largest Element in an Array](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 #### 排序
-
-快速排序：
-
-```go
-func findKthLargest(nums []int, k int) int {
-    quickSort(nums, 0, len(nums)-1)
-    return nums[len(nums)-k]
-}
-
-func quickSort(nums []int, low, high int) {
-	if low < high {
-		pivot := partition(nums, low, high)
-		quickSort(nums, low, pivot-1)
-		quickSort(nums, pivot+1, high)
-	}
-}
-
-func partition(nums []int, low, high int) int {
-	pivot := nums[rand.Intn(high-low)+low]
-	for low < high {
-		for low < high && pivot <= nums[high] {
-			high--
-		}
-		nums[low] = nums[high]
-		for low < high && pivot >= nums[low] {
-			low++
-		}
-		nums[high] = nums[low]
-	}
-	nums[low] = pivot
-	return low
-}
-```
 
 堆排序：
 
@@ -2964,7 +3228,7 @@ func deleteNode(node *ListNode) {
 }
 ```
 
-### 242. [Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
+### [242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
 
 #### Ideas
 
@@ -3053,6 +3317,28 @@ func min(a, b, c int) int {
 }
 ```
 
+### [283. Move Zeroes](https://leetcode-cn.com/problems/move-zeroes/)
+
+#### 双指针
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func moveZeroes(nums []int)  {
+    left, right, length := 0, 0, len(nums)
+    for right < length {
+        if nums[right] != 0 {
+            if nums[left] == 0 {
+                nums[left], nums[right] = nums[right], nums[left]
+            }
+            left++
+        }
+        right++
+    }
+}
+```
+
 ### [287. Find the Duplicate Number](https://leetcode-cn.com/problems/find-the-duplicate-number/)
 
 #### 双指针
@@ -3081,13 +3367,44 @@ func findDuplicate(nums []int) int {
 }
 ```
 
+### [299. Bulls and Cows](https://leetcode-cn.com/problems/bulls-and-cows/)
+
+#### 哈希表
+
+本题本质上就是求出两对数字中的相同位置数个数以及公有的数字个数。用哈希表存储就可以，但因为数字只在 0 ~ 9 范围内，可以使用数组存储。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func getHint(secret string, guess string) string {
+    nums := make([]int, 10)	// replace hash table
+    a, b := 0, 0	// count A and B
+    for i := 0; i < len(secret); i++ {
+        if secret[i] == guess[i] {
+            a++
+        } else {
+            if nums[secret[i]-'0'] < 0 {
+                b++
+            }
+            nums[secret[i]-'0']++
+            if nums[guess[i]-'0'] > 0 {
+                b++
+            }
+            nums[guess[i]-'0']--
+        }
+    }
+    return fmt.Sprintf("%dA%dB", a, b)
+}
+```
+
 ## 301-400
 
 ### 338.[Counting Bits](https://leetcode.com/problems/counting-bits/)
 
 - 动态规划，存在如下规律：
 
-  - 对于奇数$i$，其含二进制 1 个数与$i/2$含二进制 1 个数相等
+  - 对于奇数$i$，其含二进制 1 个数与$i\over2$含二进制 1 个数相等
   - 对于偶数$i$，其含二进制 1 个数等于$i-1$含二进制 1 个数加一
 
   ```go
@@ -3138,6 +3455,32 @@ func findDuplicate(nums []int) int {
   ```
 
 ## 401-500
+
+### [415. Add Strings](https://leetcode-cn.com/problems/add-strings/)
+
+#### 字符串
+
+> 效率不够高，如何优化？
+
+```go
+func addStrings(num1 string, num2 string) string {
+    carry := 0
+    ret := ""
+    for i, j := len(num1) - 1, len(num2) - 1; i >= 0 || j >= 0 || carry != 0; i, j = i - 1, j - 1 {
+        var a, b int
+        if i >= 0 {
+            a = int(num1[i] - '0')
+        }
+        if j >= 0 {
+            b = int(num2[j] - '0')
+        }
+        result := a + b + carry
+        ret = strconv.Itoa(result%10) + ret
+        carry = result / 10
+    }
+    return ret
+}
+```
 
 ### [434. Number of Segments in a String](https://leetcode-cn.com/problems/number-of-segments-in-a-string/)
 
@@ -3320,6 +3663,24 @@ func hammingDistance(x int, y int) int {
 }
 ```
 
+### [470. Implement Rand10() Using Rand7()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
+
+#### 拒绝采样
+
+`rand7() + rand7()` 生成 49 个数，去掉后九个数，前 40 个数每个数的出现概率都是 $1 \over 49$。
+
+```go
+func rand10() int {
+    for {
+        row, col := rand7(), rand7()
+        index := (row - 1) * 7 + col
+        if index <= 40 {
+            return index % 10 + 1
+        }
+    }
+}
+```
+
 ### [476. Number Complement](https://leetcode-cn.com/problems/number-complement/)
 
 #### 位运算
@@ -3367,7 +3728,84 @@ func dfs(nums []int, target, tmp, idx int) {
 
 #### 动态规划
 
+### [495. Teemo Attacking](https://leetcode-cn.com/problems/teemo-attacking/)
+
+#### 遍历
+
+放一个最大值，遍历时按情况减小即可。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func findPoisonedDuration(timeSeries []int, duration int) int {
+    ret := len(timeSeries) * duration
+    for i := 0; i < len(timeSeries)-1; i++ {
+        if sub := timeSeries[i+1] - timeSeries[i]; sub < duration {
+            ret -= duration - sub
+        }
+    }
+    return ret
+}
+```
+
+减少运算次数（好像也没减少）：
+
+```go
+func findPoisonedDuration(timeSeries []int, duration int) int {
+    ret := len(timeSeries) * duration
+    for i := 0; i < len(timeSeries)-1; i++ {
+        if sub := duration - (timeSeries[i+1] - timeSeries[i]); sub > 0 {
+            ret -= sub
+        }	
+    }
+    return ret
+}
+```
+
 ## 501-600
+
+### [543. Diameter of Binary Tree](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+#### 递归
+
+遍历整个树，把左右子树的深度和加起来，最大的深度和即答案。
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+var maxDepth int
+
+func diameterOfBinaryTree(root *TreeNode) int {
+    maxDepth = 0
+    depth(root)
+    return maxDepth
+}
+
+func depth(root *TreeNode) int {
+    if root == nil {
+        return 0
+    }
+    l := depth(root.Left)
+    r := depth(root.Right)
+    maxDepth = max(l + r, maxDepth)
+    return max(l, r) + 1
+}
+
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
+```
 
 ### [575. Distribute Candies](https://leetcode-cn.com/problems/distribute-candies/)
 
@@ -3477,7 +3915,7 @@ func numRabbits(answers []int) int {
 
 先统计所有数字出现的次数，通过公式计算出结果。
 
-如 1 出现了 3 次，则表示有$(x+y)/(y+1)*(y+1)$，$y = 1$，$x = 3$，即 3 个兔子。
+如 1 出现了 3 次，则表示有 $\lceil{ {x+y}\over{y+1} }\rceil\cdot(y+1)$，$y = 1$，$x = 3$，即 3 个兔子。
 
 ```go
 func numRabbits(answers []int) (ans int) {
@@ -3493,6 +3931,42 @@ func numRabbits(answers []int) (ans int) {
 ```
 
 ## 901-1000
+
+### [912. Sort an Array](https://leetcode-cn.com/problems/sort-an-array/)
+
+#### 排序
+
+快速排序，快排模板。
+
+```go
+func sortArray(nums []int) []int {
+    quickSort(nums, 0, len(nums)-1)
+    return nums
+}
+
+func quickSort(nums []int, low, high int) {
+    if low >= high {
+        return
+    }
+    pivot := nums[(low+high)/2]
+    left, right := low, high
+    for left <= right {
+        for left <= right && nums[left] < pivot {
+            left++
+        }
+        for left <= right && nums[right] > pivot {
+            right--
+        }
+        if left <= right {
+            nums[left], nums[right] = nums[right], nums[left]
+            left++
+            right--
+        }
+    }
+    quickSort(nums, low, right)
+    quickSort(nums, left, high)
+}
+```
 
 ### [946. Validate Stack Sequences](https://leetcode-cn.com/problems/validate-stack-sequences/)
 

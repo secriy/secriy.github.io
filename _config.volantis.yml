@@ -909,7 +909,7 @@ custom_css:
       weight: normal
       style: normal
     bodyfont:
-      fontfamily: 'Monaco, "Noto Sans SC", "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
+      fontfamily: 'UbuntuMono, "Noto Sans SC", "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial'
       name: "UbuntuMono"
       url: https://cdn.jsdelivr.net/gh/volantis-x/cdn-fonts/UbuntuMono/UbuntuMono-Regular.ttf
       weight: normal

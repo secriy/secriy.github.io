@@ -186,16 +186,16 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
       Nums   []int
       Length int
   }
-
+  
   func Constructor() CQueue {
       return CQueue{}
   }
-
+  
   func (this *CQueue) AppendTail(value int)  {
       this.Nums = append(this.Nums, value)
       this.Length++
   }
-
+  
   func (this *CQueue) DeleteHead() int {
       if this.Length == 0 {
           return -1
@@ -867,19 +867,19 @@ func spiralOrder(matrix [][]int) []int {
   	Nums []int
   	Helper []int
   }
-
+  
   /** initialize your data structure here. */
   func Constructor() MinStack {
   	return MinStack{make([]int, 0), make([]int, 0)}
   }
-
+  
   func (this *MinStack) Push(x int)  {
   	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
   	this.Helper = append(this.Helper, x)
   	}
   	this.Nums = append(this.Nums, x)
   }
-
+  
   func (this *MinStack) Pop()  {
   	num := this.Nums[len(this.Nums)-1]
   	hnum := this.Helper[len(this.Helper)-1]
@@ -888,15 +888,15 @@ func spiralOrder(matrix [][]int) []int {
   		this.Helper = this.Helper[:len(this.Helper)-1]
   	}
   }
-
+  
   func (this *MinStack) Top() int {
   	return this.Nums[len(this.Nums)-1]
   }
-
+  
   func (this *MinStack) Min() int {
   	return this.Helper[len(this.Helper)-1]
   }
-
+  
   /**
    * Your MinStack object will be instantiated and called as such:
    * obj := Constructor();
@@ -1287,6 +1287,8 @@ func max(a, b int) int {
     return b
 }
 ```
+
+
 
 ## [47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
 
@@ -1943,7 +1945,7 @@ func isStraight(nums []int) bool {
 
 解法：
 
-$f(x) = x(1 + x)/2$
+$f(x) = {x(1 + x) \over 2}$
 
 > 梯形面积公式。
 
