@@ -28,7 +28,7 @@ mathjax: true
 
 #### 变量
 
-Rust 中变量有可变变量（ *mutable variable*）和不可变变量（*immutable variable*）的区分，看如下的代码：
+Rust 中变量有可变变量（*mutable variable*）和不可变变量（*immutable variable*）的区分，看如下的代码：
 
 ```rust
 fn main() {
