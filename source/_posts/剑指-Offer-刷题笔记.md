@@ -279,7 +279,7 @@ func minArray(numbers []int) int {
             // 左侧有序
             low = mid + 1
         } else {
-           	// 去重
+            // 去重
             high--
         }
     }
@@ -719,7 +719,7 @@ func mirrorTree(root *TreeNode) *TreeNode {
     if root == nil {
         return nil
     }
-    root.Left, root.Right = root.Right, root.Left	// 交换左右子树
+    root.Left, root.Right = root.Right, root.Left    // 交换左右子树
     mirrorTree(root.Left)
     mirrorTree(root.Right)
     return root
@@ -864,37 +864,37 @@ func spiralOrder(matrix [][]int) []int {
 
   ```go
   type MinStack struct {
-  	Nums []int
-  	Helper []int
+      Nums []int
+      Helper []int
   }
   
   /** initialize your data structure here. */
   func Constructor() MinStack {
-  	return MinStack{make([]int, 0), make([]int, 0)}
+      return MinStack{make([]int, 0), make([]int, 0)}
   }
   
   func (this *MinStack) Push(x int)  {
-  	if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
-  	this.Helper = append(this.Helper, x)
-  	}
-  	this.Nums = append(this.Nums, x)
+      if len(this.Helper) == 0 || x <= this.Helper[len(this.Helper)-1] {
+      this.Helper = append(this.Helper, x)
+      }
+      this.Nums = append(this.Nums, x)
   }
   
   func (this *MinStack) Pop()  {
-  	num := this.Nums[len(this.Nums)-1]
-  	hnum := this.Helper[len(this.Helper)-1]
-  	this.Nums = this.Nums[:len(this.Nums)-1]
-  	if num == hnum {
-  		this.Helper = this.Helper[:len(this.Helper)-1]
-  	}
+      num := this.Nums[len(this.Nums)-1]
+      hnum := this.Helper[len(this.Helper)-1]
+      this.Nums = this.Nums[:len(this.Nums)-1]
+      if num == hnum {
+          this.Helper = this.Helper[:len(this.Helper)-1]
+      }
   }
   
   func (this *MinStack) Top() int {
-  	return this.Nums[len(this.Nums)-1]
+      return this.Nums[len(this.Nums)-1]
   }
   
   func (this *MinStack) Min() int {
-  	return this.Helper[len(this.Helper)-1]
+      return this.Helper[len(this.Helper)-1]
   }
   
   /**
@@ -916,7 +916,7 @@ func spiralOrder(matrix [][]int) []int {
 
 ```go
 func validateStackSequences(pushed []int, popped []int) bool {
-    stack := make([]int, 0)	// 模拟栈
+    stack := make([]int, 0)    // 模拟栈
     for i := range pushed {
         stack = append(stack, pushed[i]) // 压栈
         for len(popped) > 0 && len(stack) > 0 && stack[len(stack)-1] == popped[0] {
@@ -950,8 +950,8 @@ func levelOrder(root *TreeNode) []int {
         return []int{}
     }
 
-    queue := []*TreeNode{root}	// 队列
-    result := make([]int, 0)	// 存放结果
+    queue := []*TreeNode{root}    // 队列
+    result := make([]int, 0)    // 存放结果
 
     for len(queue) > 0 {
         root := queue[0]
@@ -993,7 +993,7 @@ func levelOrder(root *TreeNode) [][]int {
     result := make([][]int, 0)
 
     for len(queue) > 0 {
-        tmp := make([]int, 0)	// 单层结点值
+        tmp := make([]int, 0)    // 单层结点值
         for i := len(queue); i > 0; i-- {
             // 出队
             node := queue[0]
@@ -1180,8 +1180,8 @@ func permutation(s string) []string {
     t := []byte(s)
     sort.Slice(t, func(a, b int) bool {return t[a] < t[b]})
     s = string(t)
-    res := make([]string, 0)	// 结果集
-    visited := make([]bool, len(s))	// 判断是否访问
+    res := make([]string, 0)    // 结果集
+    visited := make([]bool, len(s))    // 判断是否访问
     dfs(s, "", &res, visited)
     return res
 }
@@ -1214,7 +1214,7 @@ func majorityElement(nums []int) int {
     num, sum := 0, 0
     for _, v := range nums {
         if sum == 0 {
-            num = v		// 当sum为0重新设置众数
+            num = v        // 当sum为0重新设置众数
         }
         if v != num {
             sum--
@@ -1288,8 +1288,6 @@ func max(a, b int) int {
 }
 ```
 
-
-
 ## [47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
 
 ### 动态规划
@@ -1339,7 +1337,7 @@ func nthUglyNumber(n int) int {
     dp := make([]int, n)
     dp[0] = 1
 
-    p1, p2, p3 := 0, 0, 0	// 三个指针
+    p1, p2, p3 := 0, 0, 0    // 三个指针
 
     for i := 1; i < n; i++ {
         dp[i] = min(dp[p1] * 2, dp[p2] * 3, dp[p3] * 5)
@@ -1603,7 +1601,7 @@ func missingNumber(nums []int) int {
 var res = 0
 var count = 0
 func kthLargest(root *TreeNode, k int) int {
-    res = 0		// 重置全局变量值，防止用例干扰
+    res = 0        // 重置全局变量值，防止用例干扰
     count = 0
     inorder(root, k)
     return res
@@ -1613,7 +1611,7 @@ func inorder(root *TreeNode, k int) {
     if root == nil {
         return
     }
-    inorder(root.Right, k)	// 先遍历右子树，得到中序遍历结果的逆序
+    inorder(root.Right, k)    // 先遍历右子树，得到中序遍历结果的逆序
     count++
     if count == k {
         // 当遍历的结点数等于 k 则返回
@@ -1666,7 +1664,7 @@ func maxDepth(root *TreeNode) int {
     if root == nil {
         return 0
     }
-    count := 0	// 统计层数
+    count := 0    // 统计层数
     queue := []*TreeNode{root} // 队列
     for len(queue) > 0 {
         for i := len(queue); i > 0; i-- {
@@ -1752,9 +1750,9 @@ func singleNumbers(nums []int) []int {
 
 ### 位运算
 
-1.  将所有数字进行异或运算，得到结果
-2.  求异或结果的低位真值（带 1）
-3.  将结果分组异或，得到原始值
+1. 将所有数字进行异或运算，得到结果
+2. 求异或结果的低位真值（带 1）
+3. 将结果分组异或，得到原始值
 
 ```go
 func singleNumbers(nums []int) []int {
@@ -1867,8 +1865,8 @@ func maxProfit(prices []int) int {
         return 0
     }
 
-    res := 0			// 差值
-    min := prices[0]	// 记录最低买入价
+    res := 0            // 差值
+    min := prices[0]    // 记录最低买入价
 
     for i := 1; i < len(prices); i++ {
         if prices[i] < min {
@@ -1913,18 +1911,18 @@ func max(a, b int) int {
 
 ### 排序 + 数学
 
-1.  首先通过排序方便检查重复并判断有序
-2.  记录 0 的个数
-3.  当非 0 的数字出现重复，则可以确定不满足条件
-4.  0 的个数正好等于第一个非零数字的下标
-5.  非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
+1. 首先通过排序方便检查重复并判断有序
+2. 记录 0 的个数
+3. 当非 0 的数字出现重复，则可以确定不满足条件
+4. 0 的个数正好等于第一个非零数字的下标
+5. 非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
 
 - 时间复杂度：$O(n)$
 - 空间复杂度：$O(n)$
 
 ```go
 func isStraight(nums []int) bool {
-    sort.Ints(nums)	// 排序
+    sort.Ints(nums)    // 排序
     count := 0
     for i := 0; i < 4; i++ {
         if nums[i] == 0 {
@@ -1990,15 +1988,15 @@ func add(a int, b int) int {
 
 ```go
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	for root != nil {
-		if root.Val < p.Val && root.Val < q.Val {
-			root = root.Right
-		} else if root.Va > p.Val && root.Val > q.Val {
-			root = root.Left
-		} else {
-			break
-		}
-	}
-	return root
+    for root != nil {
+        if root.Val < p.Val && root.Val < q.Val {
+            root = root.Right
+        } else if root.Va > p.Val && root.Val > q.Val {
+            root = root.Left
+        } else {
+            break
+        }
+    }
+    return root
 }
 ```

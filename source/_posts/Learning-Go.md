@@ -160,15 +160,15 @@ darwin/amd64
 
 #### env
 
-查询`golang`的环境变量配置。
+查询 `golang` 的环境变量配置。
 
 #### fix
 
-将包中使用的 API 更新为新版本用法，与`go tool fix`等同。
+将包中使用的 API 更新为新版本用法，与 `go tool fix` 等同。
 
 #### fmt
 
-格式化源码风格，是对**gofmt**工具进行的封装，与`gofmt -l -w `等同。
+格式化源码风格，是对**gofmt**工具进行的封装，与 `gofmt -l -w` 等同。
 
 #### generate
 
@@ -300,8 +300,8 @@ import "sync"
 
 ```go
 import (
-	"fmt"
-	"sync"
+    "fmt"
+    "sync"
 )
 ```
 
@@ -340,12 +340,12 @@ Golang 区分大小写，并使用大小写区分导出变量（常量、函数�
 package main
 
 import (
-	"fmt"
-	"math"
+    "fmt"
+    "math"
 )
 
 func main() {
-	fmt.Println(math.pi) // 导出名首字母大写，因此这段代码会报错，将pi改为Pi即可
+    fmt.Println(math.pi) // 导出名首字母大写，因此这段代码会报错，将pi改为Pi即可
 }
 ```
 
@@ -378,7 +378,7 @@ bool // 布尔值
 
 string // 字符串
 
-int  int8  int16  int32  int64			// 有符号整数
+int  int8  int16  int32  int64            // 有符号整数
 uint uint8 uint16 uint32 uint64 uintptr // 无符号整数
 
 byte // uint8 的别名
@@ -434,7 +434,7 @@ fmt.Println(d) // false
 package main
 
 func main() {
-	var a int
+    var a int
 }
 ```
 
@@ -503,8 +503,8 @@ fmt.Println(c) // 30
 
 ```go
 var (
-	a int = 1 // 1
-	b int 	  // 0
+    a int = 1 // 1
+    b int       // 0
     c bool    // false
 )
 ```
@@ -516,11 +516,11 @@ var (
 ```go
 func main() {
     var a uint = 1
-	b := 3
+    b := 3
     fmt.Println(a) // 1
-	fmt.Println(b) // 3
+    fmt.Println(b) // 3
     fmt.Println(reflect.TypeOf(a)) // uint
-	fmt.Println(reflect.TypeOf(b)) // int
+    fmt.Println(reflect.TypeOf(b)) // int
 }
 ```
 
@@ -531,10 +531,10 @@ func main() {
 ```go
 func main() {
     result, _ := add(10, 20) // 忽略add()返回的第二个值
-	fmt.Println("Result=", result)
+    fmt.Println("Result=", result)
 }
 func add(a int, b int) (int, string) {
-	return a + b, "Golang" // 函数add返回了两个值
+    return a + b, "Golang" // 函数add返回了两个值
 }
 ```
 
@@ -571,8 +571,8 @@ const (
 ```go
 const (
     a1 = 100 // 100
-    a2 		 // 100
-    a3  	 // 100
+    a2          // 100
+    a3       // 100
 )
 ```
 
@@ -586,8 +586,8 @@ const (
 
 ```go
 const (
-	Big = 1 << 100 	  // 1267650600228229401496703205376
-	Small = Big >> 99 // 2
+    Big = 1 << 100       // 1267650600228229401496703205376
+    Small = Big >> 99 // 2
 )
 
 func needInt(x int) int {
@@ -595,14 +595,14 @@ func needInt(x int) int {
 }
 
 func needFloat(x float64) float64 {
-	return x * 0.1
+    return x * 0.1
 }
 
 func main() {
-	fmt.Println(needInt(Small))   // 21
-	fmt.Println(needInt(Big))     // Overflow
-	fmt.Println(needFloat(Small)) // 0.2
-	fmt.Println(needFloat(Big))   // 1.2676506002282295e+29
+    fmt.Println(needInt(Small))   // 21
+    fmt.Println(needInt(Big))     // Overflow
+    fmt.Println(needFloat(Small)) // 0.2
+    fmt.Println(needFloat(Big))   // 1.2676506002282295e+29
 }
 ```
 
@@ -614,9 +614,9 @@ iota 可以用作常量的计数器，只能用于常量：
 
 ```go
 const (
-	a = iota // 0
-	b 		 // 1
-	c 		 // 2
+    a = iota // 0
+    b          // 1
+    c          // 2
 )
 ```
 
@@ -624,9 +624,9 @@ const (
 
 ```go
 const (
-	a = iota // 0
-	_
-	c 		 // 2
+    a = iota // 0
+    _
+    c          // 2
 )
 ```
 
@@ -634,10 +634,10 @@ const (
 
 ```go
 const (
-	a1 = iota // 0
-	a2 = 100  // 100
-	a3        // 100
-	a4        // 100
+    a1 = iota // 0
+    a2 = 100  // 100
+    a3        // 100
+    a4        // 100
 )
 ```
 
@@ -645,10 +645,10 @@ const (
 
 ```go
 const (
-	a1 = iota // 0
-	a2 = 100  // 100
-	a3 = iota // 2
-	a4        // 3
+    a1 = iota // 0
+    a2 = 100  // 100
+    a3 = iota // 2
+    a4        // 3
 )
 ```
 
@@ -656,9 +656,9 @@ const (
 
 ```go
 const (
-	a1, a2 = iota, iota + 1 // 0, 1
-	b1, b2					// 1, 2
-	c1, c2					// 2, 3
+    a1, a2 = iota, iota + 1 // 0, 1
+    b1, b2                    // 1, 2
+    c1, c2                    // 2, 3
 )
 ```
 
@@ -666,12 +666,12 @@ const (
 
 ```go
 const (
-	_  = iota
-	KB = 1 << (10 * iota)
-	MB = 1 << (10 * iota)
-	GB = 1 << (10 * iota)
-	TB = 1 << (10 * iota)
-	PB = 1 << (10 * iota)
+    _  = iota
+    KB = 1 << (10 * iota)
+    MB = 1 << (10 * iota)
+    GB = 1 << (10 * iota)
+    TB = 1 << (10 * iota)
+    PB = 1 << (10 * iota)
 )
 ```
 
@@ -680,9 +680,9 @@ const (
 在 Golang 中，所有类型的转换必须是显示转换，否则会编译错误：
 
 ```go
-i := 42			// int
+i := 42            // int
 f := float64(i) // float64
-u := uint(f) 	// uint
+u := uint(f)     // uint
 ```
 
 ```go
@@ -698,8 +698,8 @@ var f float64 = i
 
 ```go
 func main() {
-	v := 42
-	fmt.Printf("%T\n", v) // int
+    v := 42
+    fmt.Printf("%T\n", v) // int
 }
 ```
 
@@ -707,8 +707,8 @@ func main() {
 
 ```go
 func main() {
-	v := 42
-	fmt.Println(reflect.TypeOf(v)) // int
+    v := 42
+    fmt.Println(reflect.TypeOf(v)) // int
 }
 ```
 
@@ -724,11 +724,11 @@ package main
 import "fmt"
 
 func add(x int, y int) int {
-	return x + y
+    return x + y
 }
 
 func main() {
-	fmt.Println(add(42, 13))
+    fmt.Println(add(42, 13))
 }
 ```
 
@@ -738,7 +738,7 @@ func main() {
 
 ```go
 func add(x, y int, c string) string {
-	return string(rune(x+y)) + c
+    return string(rune(x+y)) + c
 }
 ```
 
@@ -748,12 +748,12 @@ Golang 还支持函数支持多返回值：
 
 ```go
 func swap(x, y string) (string, string) {
-	return y, x
+    return y, x
 }
 
 func main() {
-	a, b := swap("hello", "world")
-	fmt.Println(a, b) // world hello
+    a, b := swap("hello", "world")
+    fmt.Println(a, b) // world hello
 }
 ```
 
@@ -763,13 +763,13 @@ Golang 甚至支持对返回值进行命名：
 
 ```go
 func split(sum int) (x, y int) {
-	x = sum * 4 / 9
-	y = sum - x
-	return
+    x = sum * 4 / 9
+    y = sum - x
+    return
 }
 
 func main() {
-	fmt.Println(split(17))
+    fmt.Println(split(17))
 }
 ```
 
@@ -783,7 +783,7 @@ func main() {
 
 ```go
 if true {
-	fmt.Println("TRUE")
+    fmt.Println("TRUE")
 }
 
 // TRUE
@@ -795,7 +795,7 @@ Golang 支持在`if`语句中包含短变量声明语句：
 
 ```go
 if err := function(); err != nil {  // 函数function返回错误，nil为空值
-	fmt.Println("ERROR")
+    fmt.Println("ERROR")
 }
 ```
 
@@ -804,9 +804,9 @@ if err := function(); err != nil {  // 函数function返回错误，nil为空值
 ```go
 var judge = false
 if judge {
-	fmt.Println("TRUE")
+    fmt.Println("TRUE")
 } else {
-	fmt.Println("FALSE")
+    fmt.Println("FALSE")
 }
 
 // FALSE
@@ -817,11 +817,11 @@ if judge {
 ```go
 var num = 55
 if num > 12 {
-	fmt.Println(">12")
+    fmt.Println(">12")
 } else if num > 16 {
-	fmt.Println(">16")
+    fmt.Println(">16")
 } else {
-	fmt.Println("<=12")
+    fmt.Println("<=12")
 }
 
 // >12
@@ -841,7 +841,7 @@ Golang 中只提供了`for`循环语句，很多其他语言都提供了如`whil
 
 ```go
 for i := 0; i < 10; i++ {
-	fmt.Println(i)
+    fmt.Println(i)
 }
 ```
 
@@ -872,7 +872,7 @@ for {
 ```go
 for i := 0; i < 10; i++ {
     if i <= 5 {
-    	continue
+        continue
     }
     fmt.Print(i) // 6789
 }
@@ -885,7 +885,7 @@ for i := 0; i < 10; i++ {
 ```go
 for i := 0; i < 10; i++ {
     if i == 5 {
-    	break
+        break
     }
     fmt.Print(i) // 01234
 }
@@ -897,15 +897,15 @@ for i := 0; i < 10; i++ {
 
 ```go
 func main() {
-	fmt.Print("Go runs on ")
-	switch os := runtime.GOOS; os {
-	case "darwin":
-		fmt.Println("OS X.")
-	case "linux":
-		fmt.Println("Linux.")
-	default:
-		fmt.Printf("%s.\n", os)
-	}
+    fmt.Print("Go runs on ")
+    switch os := runtime.GOOS; os {
+    case "darwin":
+        fmt.Println("OS X.")
+    case "linux":
+        fmt.Println("Linux.")
+    default:
+        fmt.Printf("%s.\n", os)
+    }
 }
 
 // Go runs on windows
@@ -918,12 +918,12 @@ func main() {
 ```go
 switch s := 12; { // 注意省略判断语句但保留短变量声明时必须要带上这里的";"
 case s <= 10:
-	fmt.Println("<=10")
+    fmt.Println("<=10")
 case s == 12:
-	fmt.Println("==12")
-	fallthrough
+    fmt.Println("==12")
+    fallthrough
 default:
-	fmt.Println("<100")
+    fmt.Println("<100")
 }
 
 // ==12
@@ -938,9 +938,9 @@ default:
 
 ```go
 func main() {
-	defer fmt.Println("world")
+    defer fmt.Println("world")
 
-	fmt.Println("hello")
+    fmt.Println("hello")
 }
 
 // hello
@@ -983,12 +983,12 @@ fmt.Println(i)  // 20
 
 ```go
 type Person struct {
-	name string
-	age uint8
+    name string
+    age uint8
 }
 
 func main() {
-	ps := Person {"Tom", 12}
+    ps := Person {"Tom", 12}
     fmt.Println(ps) // {Tom 12}
 }
 ```
@@ -997,13 +997,13 @@ func main() {
 
 ```go
 type Person struct {
-	name string
-	age uint8
+    name string
+    age uint8
 }
 
 func main() {
-	ps := Person {"Tom", 12}
-	ps.age = 100
+    ps := Person {"Tom", 12}
+    ps.age = 100
     fmt.Println(ps) // {Tom 100}
 }
 ```
@@ -1014,15 +1014,15 @@ func main() {
 
 ```go
 type Person struct {
-	name string
-	age uint8
+    name string
+    age uint8
 }
 
 func main() {
-	ps := Person {"Tom", 12}
-	p := &ps
-	p.name = "Jack" // 等同于(*p).name = "Jack"
-	fmt.Println(ps)
+    ps := Person {"Tom", 12}
+    p := &ps
+    p.name = "Jack" // 等同于(*p).name = "Jack"
+    fmt.Println(ps)
 }
 ```
 
@@ -1030,19 +1030,19 @@ func main() {
 
 ```go
 type Person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
 var (
-	p1 = Person{"Jack", 12}
+    p1 = Person{"Jack", 12}
     p2 = Person{name: "Tom"}
-	p3 = Person{}
-	p  = &Person{"Cecelia", 16}
+    p3 = Person{}
+    p  = &Person{"Cecelia", 16}
 )
 
 func main() {
-	fmt.Println(p1, p2, p3) // {Jack 12} {Tom 0} { 0}
+    fmt.Println(p1, p2, p3) // {Jack 12} {Tom 0} { 0}
     fmt.Println(p) // &{Cecelia 16}
 }
 ```
@@ -1162,8 +1162,8 @@ fmt.Println(names) // [Angle ??? Cecelia Dog]
 
 ```go
 s := []struct {
-	name string
-	age int
+    name string
+    age int
 }{
     {"Dog", 12},
     {"Pig", 13},
@@ -1188,18 +1188,18 @@ package main
 import "fmt"
 
 func main() {
-	s := []int{2, 3, 5, 7, 11, 13}
-	s1 := s[:0]
-	s2 := s[:4]
-	s3 := s[2:]
-	printSlice(s) // len=6 cap=6 [2 3 5 7 11 13]
-	printSlice(s1) // len=0 cap=6 []
-	printSlice(s2) // len=4 cap=6 [2 3 5 7]
-	printSlice(s3) // len=4 cap=4 [5 7 11 13]
+    s := []int{2, 3, 5, 7, 11, 13}
+    s1 := s[:0]
+    s2 := s[:4]
+    s3 := s[2:]
+    printSlice(s) // len=6 cap=6 [2 3 5 7 11 13]
+    printSlice(s1) // len=0 cap=6 []
+    printSlice(s2) // len=4 cap=6 [2 3 5 7]
+    printSlice(s3) // len=4 cap=4 [5 7 11 13]
 }
 
 func printSlice(s []int) {
-	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 ```
 
@@ -1220,16 +1220,16 @@ package main
 import "fmt"
 
 func main() {
-	s := []int{2, 3, 5, 7}
-	printSlice(s) // len=4 cap=4 [2 3 5 7]
-	s = append(s, 1, 2, 2, 3) // 往切片里新增4个元素，填满底层数组
-	printSlice(s) // len=8 cap=8 [2 3 5 7 1 2 2 3]
-	s = append(s, 1) // 往切片里新增1个元素
-	printSlice(s) // len=9 cap=16 [2 3 5 7 1 2 2 3 1]
+    s := []int{2, 3, 5, 7}
+    printSlice(s) // len=4 cap=4 [2 3 5 7]
+    s = append(s, 1, 2, 2, 3) // 往切片里新增4个元素，填满底层数组
+    printSlice(s) // len=8 cap=8 [2 3 5 7 1 2 2 3]
+    s = append(s, 1) // 往切片里新增1个元素
+    printSlice(s) // len=9 cap=16 [2 3 5 7 1 2 2 3 1]
 }
 
 func printSlice(s []int) {
-	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
 ```
 
@@ -1312,7 +1312,7 @@ append 的第一个参数是原切片，其后一个或多个参数是需要添�
 ```go
 slice := []int{1, 2, 3 ,4, 5}
 for i, v := range slice {
-	fmt.Printf("Index:%d Value:%d\n", i, v)
+    fmt.Printf("Index:%d Value:%d\n", i, v)
 }
 
 // Index:0 Value:1
@@ -1329,7 +1329,7 @@ for i, v := range slice {
 ```go
 slice := []int{1, 2, 3 ,4, 5}
 for _, v := range slice {
-	fmt.Printf("Value:%d\n", v)
+    fmt.Printf("Value:%d\n", v)
 }
 
 // Value:1
@@ -1346,8 +1346,8 @@ map 是一种将键（Key）映射到值（Value）的数据类型：
 ```go
 var m map[string]int // declare
 m = map[string]int{
-	"a": 1,
-	"b": 2,
+    "a": 1,
+    "b": 2,
 }
 fmt.Println(m)
 ```
@@ -1389,9 +1389,9 @@ map 字面量类似于 struct 字面量，但必须要指定 Key：
 ```go
 type age int
 var m = map[string]age{
-	"Dog": 12,
-	"Pig": 1,
-	"Cat": 13,
+    "Dog": 12,
+    "Pig": 1,
+    "Cat": 13,
 }
 fmt.Println(m) // map[Cat:13 Dog:12 Pig:1]
 ```
@@ -1400,20 +1400,20 @@ fmt.Println(m) // map[Cat:13 Dog:12 Pig:1]
 
 ```go
 type Person struct {
-	gender string
-	age    int
+    gender string
+    age    int
 }
 
 var m1 = map[string]Person{
-	"Tom":    {"MAN", 12},
-	"Autumn": {"WOMAN", 13},
+    "Tom":    {"MAN", 12},
+    "Autumn": {"WOMAN", 13},
 }
 var m2 = map[string]struct {
-	gender string
-	age    int
+    gender string
+    age    int
 }{
-	"Tom":    {"MAN", 12},
-	"Autumn": {"WOMAN", 13},
+    "Tom":    {"MAN", 12},
+    "Autumn": {"WOMAN", 13},
 }
 fmt.Println(m1)
 fmt.Println(m2)
@@ -1446,15 +1446,15 @@ type age uint8
 m := make(map[string]age)
 m["Jerry"] = 12
 if value, ok := m["Tom"]; ok {
-	fmt.Println(value)
+    fmt.Println(value)
 } else {
-	fmt.Println("NOTEXIST " + strconv.Itoa(int(value)))
+    fmt.Println("NOTEXIST " + strconv.Itoa(int(value)))
 }
 
 if value, ok := m["Jerry"]; ok {
-	fmt.Println(value)
+    fmt.Println(value)
 } else {
-	fmt.Println("NOTEXIST " + strconv.Itoa(int(value)))
+    fmt.Println("NOTEXIST " + strconv.Itoa(int(value)))
 }
 
 // NOTEXIST 0
@@ -1491,17 +1491,17 @@ for k, v := range num {
 
 ```go
 func main() {
-	sum := calc(func(a, b int) int {
-		return a + b
-	})
+    sum := calc(func(a, b int) int {
+        return a + b
+    })
 
-	fmt.Println(sum) // 3
+    fmt.Println(sum) // 3
 }
 
 func calc(fn func(a, b int) int) int {
-	result := fn(1, 2)
+    result := fn(1, 2)
 
-	return result
+    return result
 }
 ```
 
@@ -1513,21 +1513,21 @@ func calc(fn func(a, b int) int) int {
 
 ```go
 func adder() func(int) int {
-	sum := 0
-	return func(x int) int {
-		sum += x
-		return sum
-	}
+    sum := 0
+    return func(x int) int {
+        sum += x
+        return sum
+    }
 }
 
 func main() {
-	pos, neg := adder(), adder()
-	for i := 0; i < 3; i++ {
-		fmt.Println(
-			pos(i),
-			neg(-2*i),
-		)
-	}
+    pos, neg := adder(), adder()
+    for i := 0; i < 3; i++ {
+        fmt.Println(
+            pos(i),
+            neg(-2*i),
+        )
+    }
 }
 ```
 
@@ -1535,12 +1535,12 @@ func main() {
 
 ```go
 func main() {
-	for i := 0; i < 3; i++ {
-		fmt.Println(
-			adder()(i),
-			adder()(-2*i),
-		)
-	}
+    for i := 0; i < 3; i++ {
+        fmt.Println(
+            adder()(i),
+            adder()(-2*i),
+        )
+    }
 }
 ```
 
@@ -1556,27 +1556,27 @@ Golang 并没有一般面对对象语言中类的概念，不过支持对某一�
 
 ```go
 type Person struct {
-	name string
-	age  uint8
+    name string
+    age  uint8
 }
 
 type Door bool
 
 func (p Person) getName() string {
-	return p.name
+    return p.name
 }
 
 func (d Door) getDoorStatus() bool {
-	return bool(d)
+    return bool(d)
 }
 
 func main() {
-	p1 := Person{"Tom", 12}
-	p2 := Person{"Jerry", 11}
-	var d1 Door = false
-	fmt.Println(p1.getName())
-	fmt.Println(p2.getName())
-	fmt.Println(d1.getDoorStatus())
+    p1 := Person{"Tom", 12}
+    p2 := Person{"Jerry", 11}
+    var d1 Door = false
+    fmt.Println(p1.getName())
+    fmt.Println(p2.getName())
+    fmt.Println(d1.getDoorStatus())
 }
 ```
 
@@ -1588,7 +1588,7 @@ func getName(p Person) string {
 }
 
 func main() {
-	p1 := Person{"Tom", 12}
+    p1 := Person{"Tom", 12}
     fmt.Println(getName(p1))
 }
 ```
@@ -1599,24 +1599,24 @@ func main() {
 
 ```go
 type person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
 func (p person) SetName(name string) {
-	p.name = name
+    p.name = name
 }
 
 func (p *person) SetRealName(name string) {
-	p.name = name
+    p.name = name
 }
 
 func main() {
-	p := person{"Jack", 12}
-	p.SetName("Tom")
-	fmt.Println(p) // {Jack 12}
-	p.SetRealName("Tom")
-	fmt.Println(p) // {Tom 12}
+    p := person{"Jack", 12}
+    p.SetName("Tom")
+    fmt.Println(p) // {Jack 12}
+    p.SetRealName("Tom")
+    fmt.Println(p) // {Tom 12}
 }
 ```
 
@@ -1624,24 +1624,24 @@ func main() {
 
 ```go
 type person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
 func SetName(p person, name string) {
-	p.name = name
+    p.name = name
 }
 
 func SetRealName(p *person, name string) {
-	p.name = name
+    p.name = name
 }
 
 func main() {
-	p := person{"Jack", 12}
-	SetName(p, "Tom")
-	fmt.Println(p) // {Jack 12}
-	SetRealName(&p, "Tom")
-	fmt.Println(p) // {Tom 12}
+    p := person{"Jack", 12}
+    SetName(p, "Tom")
+    fmt.Println(p) // {Jack 12}
+    SetRealName(&p, "Tom")
+    fmt.Println(p) // {Tom 12}
 }
 ```
 
@@ -1651,21 +1651,21 @@ func main() {
 
 ```go
 func (p person) setName(name string) {
-	p.name = name
+    p.name = name
 }
 func setName(p person, name string) {
-	p.name = name
+    p.name = name
 }
 
 func main() {
-	p := person{"Jack", 12}
-	p.setName("Tom")
-	fmt.Println(p) // {Jack 12}
-	(&p1).setName("Tom")
-	fmt.Println(p) // {Jack 12}
+    p := person{"Jack", 12}
+    p.setName("Tom")
+    fmt.Println(p) // {Jack 12}
+    (&p1).setName("Tom")
+    fmt.Println(p) // {Jack 12}
     setName(p, "Tom")
     fmt.Println(p) // {Jack 12}
-   	setName(p, "Tom") // Compile error
+       setName(p, "Tom") // Compile error
     fmt.Println(p)
 }
 ```
@@ -1685,28 +1685,28 @@ func main() {
 
 ```go
 type Person struct {
-	Name string
-	Age  int
+    Name string
+    Age  int
 }
 
 type Student struct {
-	Person
-	Class string
+    Person
+    Class string
 }
 
 func (p *Person) SetName(name string) {
-	p.Name = name
+    p.Name = name
 }
 
 func (s *Student) SetClass(class string) {
-	s.Class = class
+    s.Class = class
 }
 
 func main() {
     s := &Student{}
-	s.SetName("John")
-	s.SetClass("class-1")
-	fmt.Println(s)	// &{{John 0} class-1}
+    s.SetName("John")
+    s.SetClass("class-1")
+    fmt.Println(s)    // &{{John 0} class-1}
 }
 ```
 
@@ -1719,7 +1719,7 @@ func main() {
     p := &Person{}
     setName := p.SetName
     setName("John")
-    fmt.Println(p)	// &{John 0}
+    fmt.Println(p)    // &{John 0}
 }
 ```
 
@@ -1729,7 +1729,7 @@ func main() {
 func main() {
     p := &Person{}
     (*Person).SetName(p, "John")
-    fmt.Println(p)	// &{John 0}
+    fmt.Println(p)    // &{John 0}
 }
 ```
 
@@ -1739,13 +1739,13 @@ func main() {
 
 ```go
 func (p Person) SetName(name string) {
-	p.Name = name
+    p.Name = name
 }
 
 func main() {
     p := Person{}
     Person.SetName(p, "John")
-    fmt.Println(p)	// { 0}
+    fmt.Println(p)    // { 0}
 }
 ```
 
@@ -1760,37 +1760,37 @@ func main() {
 ```go
 // Sender 接口
 type Sender interface {
-	Send()
-	From()
+    Send()
+    From()
 }
 
 type message struct {
-	msg  string
-	from string
+    msg  string
+    from string
 }
 
 type mail struct {
-	msg  string
-	from string
-	to   string
+    msg  string
+    from string
+    to   string
 }
 
 func (m *message) Send() {
-	fmt.Println("已发送", m.msg)
+    fmt.Println("已发送", m.msg)
 }
 
 func (m *message) From() {
-	fmt.Println("发送者", m.from)
+    fmt.Println("发送者", m.from)
 }
 
 func main() {
-	var s Sender
-	s = &message{
-		msg:  "你好",
-		from: "Tom",
-	}
-	s.Send() // 已发送 你好
-	s.From() // 发送者 Tom
+    var s Sender
+    s = &message{
+        msg:  "你好",
+        from: "Tom",
+    }
+    s.Send() // 已发送 你好
+    s.From() // 发送者 Tom
 }
 ```
 
@@ -1804,20 +1804,20 @@ Golang 中接口的实现是隐式的，而不是某些语言中显式的实现�
 
 ```go
 type I interface {
-	M()
+    M()
 }
 
 type T struct {
-	S string
+    S string
 }
 
 func (t T) M() {
-	fmt.Println(t.S)
+    fmt.Println(t.S)
 }
 
 func main() {
-	var i I = T{"hello"}
-	i.M()
+    var i I = T{"hello"}
+    i.M()
 }
 
 ```
@@ -1830,15 +1830,15 @@ func main() {
 
 ```go
 func main() {
-	var s Sender
-	s = &message{
-		msg:  "你好",
-		from: "Tom",
-	}
-	s.Send()
-	s.From()
+    var s Sender
+    s = &message{
+        msg:  "你好",
+        from: "Tom",
+    }
+    s.Send()
+    s.From()
     // 加入下面一行
-	fmt.Printf("%v %T", s, s) // &{你好 Tom} *main.message
+    fmt.Printf("%v %T", s, s) // &{你好 Tom} *main.message
 }
 ```
 
@@ -1847,7 +1847,7 @@ func main() {
 ```go
 var s Sender
 var m = message{
-	msg:  "你好",
+    msg:  "你好",
     from: "Tom",
 }
 s = &m
@@ -1862,26 +1862,26 @@ m.Send() // 已发送  你好
 
 ```go
 type Sender interface {
-	Send()
+    Send()
 }
 
 type message struct {
-	msg  string
+    msg  string
 }
 
 func (m *message) Send() {
-	if m == nil {
-		fmt.Println("NIL")
-		return
-	}
+    if m == nil {
+        fmt.Println("NIL")
+        return
+    }
 }
 
 func main() {
-	var s Sender
-	var m *message // nil
-	s = m
-	s.Send() // NIL
-	fmt.Printf("%v %T", s, s) // <nil> *main.message
+    var s Sender
+    var m *message // nil
+    s = m
+    s.Send() // NIL
+    fmt.Printf("%v %T", s, s) // <nil> *main.message
 }
 ```
 
@@ -1893,8 +1893,8 @@ func main() {
 
 ```go
 func main() {
-	var s Sender
-	s.Send()
+    var s Sender
+    s.Send()
 }
 
 // panic: runtime error: invalid memory address or nil pointer dereference
@@ -1917,7 +1917,7 @@ type i interface{}
 // Spaces are always added between operands and a newline is appended.
 // It returns the number of bytes written and any write error encountered.
 func Println(a ...interface{}) (n int, err error) {
-	return Fprintln(os.Stdout, a...)
+    return Fprintln(os.Stdout, a...)
 }
 ```
 
@@ -1927,58 +1927,58 @@ func Println(a ...interface{}) (n int, err error) {
 // Some types can be done without reflection.
 switch f := arg.(type) {
 case bool:
-	p.fmtBool(f, verb)
+    p.fmtBool(f, verb)
 case float32:
-	p.fmtFloat(float64(f), 32, verb)
+    p.fmtFloat(float64(f), 32, verb)
 case float64:
-	p.fmtFloat(f, 64, verb)
+    p.fmtFloat(f, 64, verb)
 case complex64:
-	p.fmtComplex(complex128(f), 64, verb)
+    p.fmtComplex(complex128(f), 64, verb)
 case complex128:
-	p.fmtComplex(f, 128, verb)
+    p.fmtComplex(f, 128, verb)
 case int:
-	p.fmtInteger(uint64(f), signed, verb)
+    p.fmtInteger(uint64(f), signed, verb)
 case int8:
-	p.fmtInteger(uint64(f), signed, verb)
+    p.fmtInteger(uint64(f), signed, verb)
 case int16:
-	p.fmtInteger(uint64(f), signed, verb)
+    p.fmtInteger(uint64(f), signed, verb)
 case int32:
-	p.fmtInteger(uint64(f), signed, verb)
+    p.fmtInteger(uint64(f), signed, verb)
 case int64:
-	p.fmtInteger(uint64(f), signed, verb)
+    p.fmtInteger(uint64(f), signed, verb)
 case uint:
-	p.fmtInteger(uint64(f), unsigned, verb)
+    p.fmtInteger(uint64(f), unsigned, verb)
 case uint8:
-	p.fmtInteger(uint64(f), unsigned, verb)
+    p.fmtInteger(uint64(f), unsigned, verb)
 case uint16:
-	p.fmtInteger(uint64(f), unsigned, verb)
+    p.fmtInteger(uint64(f), unsigned, verb)
 case uint32:
-	p.fmtInteger(uint64(f), unsigned, verb)
+    p.fmtInteger(uint64(f), unsigned, verb)
 case uint64:
-	p.fmtInteger(f, unsigned, verb)
+    p.fmtInteger(f, unsigned, verb)
 case uintptr:
-	p.fmtInteger(uint64(f), unsigned, verb)
+    p.fmtInteger(uint64(f), unsigned, verb)
 case string:
-	p.fmtString(f, verb)
+    p.fmtString(f, verb)
 case []byte:
-	p.fmtBytes(f, verb, "[]byte")
+    p.fmtBytes(f, verb, "[]byte")
 case reflect.Value:
-	// Handle extractable values with special methods
-	// since printValue does not handle them at depth 0.
-	if f.IsValid() && f.CanInterface() {
-		p.arg = f.Interface()
-		if p.handleMethods(verb) {
-			return
-		}
-	}
-	p.printValue(f, verb, 0)
+    // Handle extractable values with special methods
+    // since printValue does not handle them at depth 0.
+    if f.IsValid() && f.CanInterface() {
+        p.arg = f.Interface()
+        if p.handleMethods(verb) {
+            return
+        }
+    }
+    p.printValue(f, verb, 0)
 default:
-	// If the type is not simple, it might have methods.
-	if !p.handleMethods(verb) {
-		// Need to use reflection, since the type had no
-		// interface methods that could be used for formatting.
-		p.printValue(reflect.ValueOf(f), verb, 0)
-	}
+    // If the type is not simple, it might have methods.
+    if !p.handleMethods(verb) {
+        // Need to use reflection, since the type had no
+        // interface methods that could be used for formatting.
+        p.printValue(reflect.ValueOf(f), verb, 0)
+    }
 }
 ```
 
@@ -1990,10 +1990,10 @@ default:
 
 ```go
 func main() {
-	var i interface{}
-	i = 12 // int
-	t := i.(int) // int 匹配 int
-	fmt.Println(t) // 12
+    var i interface{}
+    i = 12 // int
+    t := i.(int) // int 匹配 int
+    fmt.Println(t) // 12
 }
 ```
 
@@ -2029,19 +2029,19 @@ t, ok := v.(T) // T 指代类型
 
 ```go
 func main() {
-	var iSlice = []interface{}{
-		"string",
-		12,
-		nil,
-		int64(12),
-	}
-	for _, v := range iSlice {
-		if t, ok := v.(string); ok {
-			fmt.Printf("true: %v %T\n", t, t)
+    var iSlice = []interface{}{
+        "string",
+        12,
+        nil,
+        int64(12),
+    }
+    for _, v := range iSlice {
+        if t, ok := v.(string); ok {
+            fmt.Printf("true: %v %T\n", t, t)
         }else{
             fmt.Printf("false: %v %T\n", t, t)
         }
-	}
+    }
 }
 
 // true: string string
@@ -2070,18 +2070,18 @@ type Stringer interface {
 
 ```go
 type Person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
 func (p *Person) String() string {
-	return fmt.Sprintln(p.name, p.age)
+    return fmt.Sprintln(p.name, p.age)
 }
 
 func main() {
-	var p1 = &Person{"Tom", 12}
-	var p2 = &Person{"Jack", 11}
-	fmt.Printf("%v%v", p1, p2)
+    var p1 = &Person{"Tom", 12}
+    var p2 = &Person{"Jack", 11}
+    fmt.Printf("%v%v", p1, p2)
 }
 
 // Tom 12
@@ -2092,18 +2092,18 @@ func main() {
 
 ```go
 type Person struct {
-	name string
-	age  int
+    name string
+    age  int
 }
 
 func (p *Person) Format() string {
-	return fmt.Sprintln(p.name, p.age)
+    return fmt.Sprintln(p.name, p.age)
 }
 
 func main() {
-	var p1 = &Person{"Tom", 12}
-	var p2 = &Person{"Jack", 11}
-	fmt.Printf("%v%v", p1, p2)
+    var p1 = &Person{"Tom", 12}
+    var p2 = &Person{"Jack", 11}
+    fmt.Printf("%v%v", p1, p2)
 }
 
 // &{Tom 12}&{Jack 11}
@@ -2119,7 +2119,7 @@ Golang 的错误处理非常的丑，至少我是这么认为的 ㄟ( ▔, ▔ )
 
 ```go
 type error interface {
-	Error() string
+    Error() string
 }
 ```
 
@@ -2127,26 +2127,26 @@ type error interface {
 
 ```go
 type MyError struct {
-	When string
-	What string
+    When string
+    What string
 }
 
 func (e *MyError) Error() string {
-	return fmt.Sprintf("At %s, %s",
-		e.When, e.What)
+    return fmt.Sprintf("At %s, %s",
+        e.When, e.What)
 }
 
 func run() error {
-	return &MyError{
-		time.Now().Format("2006-01-02"),
-		"it didn't work",
-	}
+    return &MyError{
+        time.Now().Format("2006-01-02"),
+        "it didn't work",
+    }
 }
 
 func main() {
-	if err := run(); err != nil {
-		fmt.Println(err) // At 2021-04-23, it didn't work
-	}
+    if err := run(); err != nil {
+        fmt.Println(err) // At 2021-04-23, it didn't work
+    }
 }
 ```
 
@@ -2178,17 +2178,17 @@ func (T) Read(b []byte) (n int, err error)
 
 ```go
 func main() {
-	r := strings.NewReader("Hello, Reader!")
+    r := strings.NewReader("Hello, Reader!")
 
-	b := make([]byte, 8)
-	for {
-		n, err := r.Read(b)
-		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
-		fmt.Printf("b[:n] = %q\n", b[:n])
-		if err == io.EOF {
-			break
-		}
-	}
+    b := make([]byte, 8)
+    for {
+        n, err := r.Read(b)
+        fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+        fmt.Printf("b[:n] = %q\n", b[:n])
+        if err == io.EOF {
+            break
+        }
+    }
 }
 
 // n = 8 err = <nil> b = [72 101 108 108 111 44 32 82]
@@ -2217,13 +2217,13 @@ Goroutine 是由 Go runtime 管理的轻量级线程，使用`go`关键字创建
 
 ```go
 func main() {
-	for i := 0; i < 10; i++ {
-		go run(i)
-	}
+    for i := 0; i < 10; i++ {
+        go run(i)
+    }
 }
 
 func run(i int) {
-	fmt.Print(i)
+    fmt.Print(i)
 }
 ```
 
@@ -2233,14 +2233,14 @@ func run(i int) {
 
 ```go
 func main() {
-	for i := 0; i < 10; i++ {
-		go run(i)
-	}
-	time.Sleep(2 * time.Second)
+    for i := 0; i < 10; i++ {
+        go run(i)
+    }
+    time.Sleep(2 * time.Second)
 }
 
 func run(i int) {
-	fmt.Print(i)
+    fmt.Print(i)
 }
 
 // 9183467502
@@ -2276,14 +2276,14 @@ ch := make(chan int) // channel of int
 
 ```go
 func main() {
-	ch := make(chan string)
-	go push(ch)
-	fmt.Println(<-ch) // 延迟输出了 abc
+    ch := make(chan string)
+    go push(ch)
+    fmt.Println(<-ch) // 延迟输出了 abc
 }
 
 func push(ch chan string) {
-	time.Sleep(3 * time.Second)
-	ch <- "abc"
+    time.Sleep(3 * time.Second)
+    ch <- "abc"
 }
 ```
 
@@ -2293,17 +2293,17 @@ func push(ch chan string) {
 
 ```go
 func main() {
-	ch := make(chan int)
-	go add(ch)
-	for i := 0; i < 10; i++ {
-		fmt.Print(<-ch)
-	}
+    ch := make(chan int)
+    go add(ch)
+    for i := 0; i < 10; i++ {
+        fmt.Print(<-ch)
+    }
 }
 
 func add(ch chan int) {
-	for i := 0; i < 10; i++ {
-		ch <- i
-	}
+    for i := 0; i < 10; i++ {
+        ch <- i
+    }
 }
 
 // 0123456789
@@ -2315,19 +2315,19 @@ Channel 创建时默认是不带缓冲区的，也就是前面说的接收端和
 
 ```go
 func main() {
-	ch := make(chan int, 10)
-	go add(ch)
-	time.Sleep(3 * time.Second)
-	for i := 0; i < 10; i++ {
-		fmt.Print(<-ch)
-	}
+    ch := make(chan int, 10)
+    go add(ch)
+    time.Sleep(3 * time.Second)
+    for i := 0; i < 10; i++ {
+        fmt.Print(<-ch)
+    }
 }
 
 func add(ch chan int) {
-	for i := 0; i < 10; i++ {
-		ch <- i
-	}
-	fmt.Println("Completed!")
+    for i := 0; i < 10; i++ {
+        ch <- i
+    }
+    fmt.Println("Completed!")
 }
 
 // Completed!
@@ -2338,19 +2338,19 @@ func add(ch chan int) {
 
 ```go
 func main() {
-	ch := make(chan int)
-	go add(ch)
-	time.Sleep(3 * time.Second)
-	for i := 0; i < 10; i++ {
-		fmt.Print(<-ch)
-	}
+    ch := make(chan int)
+    go add(ch)
+    time.Sleep(3 * time.Second)
+    for i := 0; i < 10; i++ {
+        fmt.Print(<-ch)
+    }
 }
 
 func add(ch chan int) {
-	for i := 0; i < 10; i++ {
-		ch <- i
-	}
-	fmt.Println("Completed!")
+    for i := 0; i < 10; i++ {
+        ch <- i
+    }
+    fmt.Println("Completed!")
 }
 
 // 0123456789Completed! 或 0123456789
@@ -2364,9 +2364,9 @@ func add(ch chan int) {
 
 ```go
 func main() {
-	ch := make(chan int) // 等同于make(chan int, 0)
-	ch <- 1
-	fmt.Println(<-ch)
+    ch := make(chan int) // 等同于make(chan int, 0)
+    ch <- 1
+    fmt.Println(<-ch)
 }
 
 // fatal error: all goroutines are asleep - deadlock!
@@ -2378,23 +2378,23 @@ func main() {
 
 ```go
 func main() {
-	ch := make(chan int, 10)
-	go push(ch)
-	for i := 0; i < 10; i++ {
-		if v, ok := <-ch; ok {
-			fmt.Print(v)
-		}
-	}
+    ch := make(chan int, 10)
+    go push(ch)
+    for i := 0; i < 10; i++ {
+        if v, ok := <-ch; ok {
+            fmt.Print(v)
+        }
+    }
 }
 
 func push(ch chan int) {
-	for i := 0; i < 10; i++ {
-		if i == 5 {
-			close(ch)
-			break
-		}
-		ch <- i
-	}
+    for i := 0; i < 10; i++ {
+        if i == 5 {
+            close(ch)
+            break
+        }
+        ch <- i
+    }
 }
 
 // 01234
@@ -2404,21 +2404,21 @@ func push(ch chan int) {
 
 ```go
 func main() {
-	ch := make(chan int)
-	go push(ch)
-	for i := 0; i < 10; i++ {
-		fmt.Print(<-ch)
-	}
+    ch := make(chan int)
+    go push(ch)
+    for i := 0; i < 10; i++ {
+        fmt.Print(<-ch)
+    }
 }
 
 func push(ch chan int) {
-	for i := 0; i < 10; i++ {
-		if i == 5 {
-			close(ch)
-			break
-		}
-		ch <- i
-	}
+    for i := 0; i < 10; i++ {
+        if i == 5 {
+            close(ch)
+            break
+        }
+        ch <- i
+    }
 }
 
 // 0123400000
@@ -2432,11 +2432,11 @@ Close 操作用于告知接收者无值可传，是非必须的操作，与 I/O 
 
 ```go
 func main() {
-	ch := make(chan int, 10)
-	go push(ch)
-	for i := range ch {
-		fmt.Print(i)
-	}
+    ch := make(chan int, 10)
+    go push(ch)
+    for i := range ch {
+        fmt.Print(i)
+    }
 }
 
 // 01234
@@ -2448,31 +2448,31 @@ func main() {
 
 ```go
 func main() {
-	ch := make(chan int)
-	signal := make(chan int)
+    ch := make(chan int)
+    signal := make(chan int)
 
-	go input(ch, signal)
+    go input(ch, signal)
 
-	for {
-		select {
-		case v := <-ch:
-			fmt.Printf("%d ", v)
-		case <-signal:
-			fmt.Print("Done")
-			return
-		}
-	}
+    for {
+        select {
+        case v := <-ch:
+            fmt.Printf("%d ", v)
+        case <-signal:
+            fmt.Print("Done")
+            return
+        }
+    }
 
 }
 
 func input(ch, sig chan int) {
-	for i := 0; i < 10; i++ {
-		ch <- i
-		if i == 5 {
-			sig <- 0
-			break
-		}
-	}
+    for i := 0; i < 10; i++ {
+        ch <- i
+        if i == 5 {
+            sig <- 0
+            break
+        }
+    }
 }
 
 // 0 1 2 3 4 5 Done
@@ -2482,20 +2482,20 @@ func input(ch, sig chan int) {
 
 ```go
 func main() {
-	tick := time.Tick(100 * time.Millisecond)
-	boom := time.After(500 * time.Millisecond)
-	for {
-		select {
-		case <-tick:
-			fmt.Print("tick")
-		case <-boom:
-			fmt.Print("BOOM!")
-			return
-		default:
-			fmt.Print(".")
-			time.Sleep(50 * time.Millisecond)
-		}
-	}
+    tick := time.Tick(100 * time.Millisecond)
+    boom := time.After(500 * time.Millisecond)
+    for {
+        select {
+        case <-tick:
+            fmt.Print("tick")
+        case <-boom:
+            fmt.Print("BOOM!")
+            return
+        default:
+            fmt.Print(".")
+            time.Sleep(50 * time.Millisecond)
+        }
+    }
 }
 
 // ..tick..tick.tick..tick..BOOM!

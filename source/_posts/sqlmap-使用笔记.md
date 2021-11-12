@@ -40,16 +40,16 @@ sqlmap -u "http://192.168.1.2/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit#"
 
 ```bash
 指定:
---D 	指定库
---T 	指定表
---C		指定字段
+--D  指定库
+--T  指定表
+--C  指定字段
 
 枚举:
---dbs		枚举库
---tables	枚举表
---columns	枚举字段
---schema	枚举数据库管理模式
---batch		自动执行
+--dbs  枚举库
+--tables 枚举表
+--columns 枚举字段
+--schema 枚举数据库管理模式
+--batch  自动执行
 ```
 
 ### 全部选项

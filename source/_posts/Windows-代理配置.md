@@ -52,8 +52,8 @@ Windows 下代理环境配置。
 
     ```
     Host github.com
-    	User git
-    	ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p
+        User git
+        ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p
     ```
 
 - npm

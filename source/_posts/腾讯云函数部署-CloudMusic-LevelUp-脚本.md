@@ -22,7 +22,7 @@ urlname: cloudmusic-levelup
 
 ### 下载仓库
 
-项目地址（Gitee）：https://gitee.com/secriy/CloudMusic-LevelUp
+项目地址（Gitee）：<https://gitee.com/secriy/CloudMusic-LevelUp>
 
 ```shell
 git clone https://gitee.com/secriy/CloudMusic-LevelUp.git

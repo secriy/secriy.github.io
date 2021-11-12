@@ -69,9 +69,9 @@ To learn more, run the command again with --verbose.
 ```rust
 fn main() {
     let mut x = 5;
-    println!("{}", x);	// 5
+    println!("{}", x); // 5
     x = 6;
-    println!("{}", x);	// 6
+    println!("{}", x); // 6
 }
 ```
 
@@ -90,11 +90,11 @@ const PI: f32 = 3.14159;
 
 常量和变量有什么差别？
 
-1.  常量无法使用 `mut` 修饰，它始终是不可变的；
-2.  常量使用 `const` 声明，变量使用 `let`；
-3.  常量必须始终注明其数据类型；
-4.  常量可以在任何范围声明，如全局常量、局部常量；
-5.  常量是通过常量表达式确定值的，在编译期其值就会被确定，而变量的值可以在运行时赋予。
+1. 常量无法使用 `mut` 修饰，它始终是不可变的；
+2. 常量使用 `const` 声明，变量使用 `let`；
+3. 常量必须始终注明其数据类型；
+4. 常量可以在任何范围声明，如全局常量、局部常量；
+5. 常量是通过常量表达式确定值的，在编译期其值就会被确定，而变量的值可以在运行时赋予。
 
 #### Shadowing
 
@@ -108,7 +108,7 @@ fn main() {
 
     let x = x * 2;
 
-    println!("The value of x is: {}", x);	// The value of x is: 12
+    println!("The value of x is: {}", x); // The value of x is: 12
 }
 ```
 
@@ -120,7 +120,7 @@ fn main() {
 
     let string = string.len();
 
-    println!("The length of string is: {}", string)	// The length of string is: 3
+    println!("The length of string is: {}", string) // The length of string is: 3
 }
 ```
 
@@ -132,7 +132,7 @@ fn main() {
 fn main() {
     let mut string = "abc";
 
-	string = string.len();
+    string = string.len();
 
     println!("The length of string is: {}", string)
 }
@@ -148,7 +148,7 @@ fn main() {
 
     string = "xyz";
 
-    println!("The string is: {}", string)	// The string is: xyz
+    println!("The string is: {}", string) // The string is: xyz
 }
 ```
 
@@ -203,8 +203,8 @@ Rust 中有 `f32` 和 `f64` 两种浮点数类型，分别占用 32 bits 和 64 
 示例：
 
 ```rust
-let x = 1.0;		// f64
-let y: f32 = 3.0;	// f32
+let x = 1.0;  // f64
+let y: f32 = 3.0; // f32
 ```
 
 按照 IEEE-754 标准，`f32` 为单精度浮点数，`f64` 为双精度浮点数。
@@ -312,8 +312,8 @@ Array 的初始化：
 
 ```rust
 fn main() {
-    let a = [1, 2, 3, 4, 5];	// 初始化
-    let b: [i32; 5] = [1, 2, 3, 4, 5];	// [type; length]
+    let a = [1, 2, 3, 4, 5]; // 初始化
+    let b: [i32; 5] = [1, 2, 3, 4, 5]; // [type; length]
 }
 ```
 
@@ -325,17 +325,17 @@ Array 的声明和取值：
 
 ```rust
 fn main() {
-	let a: [isize; 5];	// 声明长度为 5 的空数组
+ let a: [isize; 5]; // 声明长度为 5 的空数组
     println!("{}", a[0]);
 }
 ```
 
-上面的代码会直接编译不通过，报 `` use of possibly-uninitialized `a`  `` 错误，这是因为 Rust 禁止使用未初始化的变量，改成下面的代码就可以了：
+上面的代码会直接编译不通过，报 ``use of possibly-uninitialized `a` `` 错误，这是因为 Rust 禁止使用未初始化的变量，改成下面的代码就可以了：
 
 ```rust
 fn main() {
     let a: [isize; 5];
-    a = [3; 5];	// 将一个长度为 5，内容全部为 3 的数组赋给变量 a
+    a = [3; 5]; // 将一个长度为 5，内容全部为 3 的数组赋给变量 a
     println!("{}", a[0]); // 3
 }
 ```
@@ -368,7 +368,7 @@ fn hello_world() {
 
 ```rust
 fn main() {
-    hello_world();	// Hello world.
+    hello_world(); // Hello world.
 }
 
 fn hello_world() {
@@ -386,7 +386,7 @@ fn main() {
 }
 
 fn another_function(x: i32) {
-    println!("The value of x is: {}", x);	// The value of x is: 5
+    println!("The value of x is: {}", x); // The value of x is: 5
 }
 ```
 
@@ -398,8 +398,8 @@ fn main() {
 }
 
 fn another_function(x: i32, y: i32) {
-    println!("The value of x is: {}", x);	// The value of x is: 5
-    println!("The value of y is: {}", y);	// The value of y is: 6
+    println!("The value of x is: {}", x); // The value of x is: 5
+    println!("The value of y is: {}", y); // The value of y is: 6
 }
 ```
 
@@ -424,7 +424,7 @@ fn main() {
     let mut x = five();
     x = plus_one(x);
 
-    println!("The value of x is: {}", x);	// The value of x is: 6
+    println!("The value of x is: {}", x); // The value of x is: 6
 }
 ```
 
@@ -477,7 +477,7 @@ fn main() {
     let number = 3;
 
     if number < 5 {
-        println!("number < 5");	// number < 5
+        println!("number < 5"); // number < 5
     } else {
         println!("number >= 5");
     }
@@ -495,7 +495,7 @@ fn main() {
     if number % 4 == 0 {
         println!("number is divisible by 4");
     } else if number % 3 == 0 {
-        println!("number is divisible by 3");	// number is divisible by 3
+        println!("number is divisible by 3"); // number is divisible by 3
     } else if number % 2 == 0 {
         println!("number is divisible by 2");
     } else {
@@ -511,7 +511,7 @@ fn main() {
     let condition = true;
     let number = if condition { 5 } else { 6 };
 
-    println!("The value of number is: {}", number);	// 5
+    println!("The value of number is: {}", number); // 5
 }
 ```
 
@@ -522,7 +522,7 @@ fn main() {
     let condition = true;
     let number = if condition {let x = 2; x+2} else {let x = 1; x+1};
 
-    println!("The value of number is: {}", number);	// 4
+    println!("The value of number is: {}", number); // 4
 }
 ```
 
@@ -538,11 +538,11 @@ Rust 有三种循环语句，`loop`、`while` 和 `for`。
 
 ```rust
 fn main() {
-    let mut count = 0;	// 统计循环次数
+    let mut count = 0; // 统计循环次数
     loop {
-        if count == 5 {break;}	// 当 count 等于 5 则退出循环
+        if count == 5 {break;} // 当 count 等于 5 则退出循环
         println!("hello");
-        count += 1;	// 次数加一
+        count += 1; // 次数加一
     }
 }
 ```
@@ -559,7 +559,7 @@ fn main() {
         println!("hello");
         count += 1;
     };
-    println!("The value of result is: {}", result);	// The value of result is: 6
+    println!("The value of result is: {}", result); // The value of result is: 6
 }
 ```
 
@@ -575,7 +575,7 @@ fn main() {
         println!("hello");
         count += 1;
     };
-    println!("The value of result is: {}", result);	// The value of result is: 17
+    println!("The value of result is: {}", result); // The value of result is: 17
 }
 ```
 
@@ -595,7 +595,7 @@ fn main() {
         number -= 1;
     }
 
-    println!("LIFTOFF!!!");	// LIFTOFF!!!
+    println!("LIFTOFF!!!"); // LIFTOFF!!!
 }
 ```
 
@@ -648,7 +648,7 @@ fn main() {
 
 ```rust
 fn main() {
-	for number in 1..4 {
+    for number in 1..4 {
         println!("{}!", number);
     }
     println!("LIFTOFF!!!");
@@ -666,7 +666,7 @@ fn main() {
 
 ```rust
 fn main() {
-	let arr = [10, 20, 30, 40, 50];
+    let arr = [10, 20, 30, 40, 50];
     for number in 3..5 {
         println!("{}", arr[number]);
     }
@@ -696,10 +696,10 @@ fn main() {
     }
     
     fn main() {
-        fib(1);		// 1
-        fib(2);		// 1
-        fib(3);		// 2
-        fib(10);	// 55
+        fib(1);  // 1
+        fib(2);  // 1
+        fib(3);  // 2
+        fib(10); // 55
     }
     ```
 
@@ -746,7 +746,7 @@ Ownership 对大多数学习 Rust 的人来说是一个全新的概念，因此�
 ```rust
 fn main() {
     let x = 1;
-    println!("{}", x);	// 1
+    println!("{}", x); // 1
 }
 ```
 
@@ -772,8 +772,8 @@ fn main() {
     let x = 5;
     {
         let y = 6;
-        println!("{}", x);	// 5
-        println!("{}", y);	// 6
+        println!("{}", x); // 5
+        println!("{}", y); // 6
     }
     // println!("{}", x);
     // println!("{}", y);
@@ -807,7 +807,7 @@ fn main() {
 `String` 的用法如下：
 
 ```rust
-let s = String::from("hello");	// 使用字符串字面量创建一个 String
+let s = String::from("hello"); // 使用字符串字面量创建一个 String
 ```
 
 其中，`::` 是一个运算符，在这里用于调用 `String` 类型命名空间下的 `from` 函数。
@@ -847,10 +847,10 @@ Rust 采用了不同的路径：**一旦占用内存的变量超出作用域，�
 ```rust
 fn main() {
     {
-        let s = String::from("hello");	// 变量 s 被初始化
+        let s = String::from("hello"); // 变量 s 被初始化
 
         // 处理 s 相关的代码
-    }                      				// 作用域结束，s 不再可用
+    } // 作用域结束，s 不再可用
 
 }
 ```
@@ -935,9 +935,9 @@ error: could not compile `ownership` due to previous error
 ```rust
 fn main() {
     let s1 = String::from("hello");
-    println!("{}", s1);		// hello
+    println!("{}", s1);  // hello
     let s2 = s1;
-    println!("{}", s2);		// hello
+    println!("{}", s2);  // hello
 }
 ```
 
@@ -948,4 +948,3 @@ fn main() {
 现在，我们可以说解决了双重释放的问题。从这个设计中我们可以看出，Rust 永远不会自动创建一个“深拷贝”，因此，任何自动化的复制行为都是性能很优良的。
 
 #### 变量和数据交互的方式：克隆
-

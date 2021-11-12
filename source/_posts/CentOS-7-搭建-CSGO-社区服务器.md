@@ -31,10 +31,10 @@ tags:
 1. 创建新用户：
 
    ```shell
-   useradd -m steam	# 创建名为steam的新用户
-   passwd steam		# 为新用户设置密码
-   su steam			# 切换到新用户
-   cd /home/steam/		# 进入用户目录
+   useradd -m steam # 创建名为steam的新用户
+   passwd steam  # 为新用户设置密码
+   su steam   # 切换到新用户
+   cd /home/steam/  # 进入用户目录
    ```
 
 2. 安装 `steamcmd`：
@@ -62,9 +62,9 @@ tags:
 ### 安装 CSGO
 
 ```shell
-login anonymous						# 以匿名身份登录
-force_install_dir ./csgo_server		# 设置安装文件夹路径
-app_update 740 validate				# 安装CSGO服务端，等待完成
+login anonymous      # 以匿名身份登录
+force_install_dir ./csgo_server  # 设置安装文件夹路径
+app_update 740 validate    # 安装CSGO服务端，等待完成
 ```
 
 出现 **Success!** 即安装完成，执行 `quit` 退出。
@@ -109,13 +109,13 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
 ## 服务端配置
 
-1.  前往 [Steam 游戏服务器帐户管理](https://steamcommunity.com/dev/managegameservers)创建服务器令牌：
+1. 前往 [Steam 游戏服务器帐户管理](https://steamcommunity.com/dev/managegameservers)创建服务器令牌：
 
     ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221010525719.png)
 
-2.  在 _csgo_server/csgo/cfg_ 路径下创建配置文件 _server.cfg_ 。
+2. 在 *csgo_server/csgo/cfg* 路径下创建配置文件 *server.cfg*。
 
-3.  写入必要参数：
+3. 写入必要参数：
 
     ```
     # 步骤1获取的服务器令牌ID
@@ -140,7 +140,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
 
    > 使用脚本启动方便修改启动项。
 
-   进入 _/home/steam/steamcmd/csgo_server/_ 路径，新建 _run.sh_ 文件，写入以下形式的文本：
+   进入 */home/steam/steamcmd/csgo_server/* 路径，新建 *run.sh* 文件，写入以下形式的文本：
 
    ```shell
    screen ./srcds_run -console -game csgo -usercon -noipx -nomaster
@@ -164,7 +164,7 @@ app_update 740 validate				# 安装CSGO服务端，等待完成
    ./run.sh
    ```
 
-   ![](CentOS-7-搭建-CSGO-社区服务器/image-20200221012223811.png)
+   ![csgo](CentOS-7-搭建-CSGO-社区服务器/image-20200221012223811.png)
 
    当出现上图显示的文字，服务器启动成功。
 

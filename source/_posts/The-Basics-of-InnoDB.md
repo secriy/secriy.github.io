@@ -370,7 +370,7 @@ InnoDB 中，表中数据按照主键顺序组织存放，被称为**索引组�
 mysql> create table tbl_test_1 (
     -> id int not null auto_increment,
     -> name varchar(20) not null,
-    -> primary key (id)	# 定义主键为 id
+    -> primary key (id) # 定义主键为 id
     -> ) engine=InnoDB;
 Query OK, 0 rows affected (0.02 sec)
 
@@ -582,8 +582,8 @@ ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
 B+ 树由 B 树和索引顺序访问方法（ISAM）演化而来，现实中 B 树已经很少被使用了。
 
 > 这里介绍一个数据结构可视化网站，下面给出其中 B 树与 B+ 树的页面链接。
-> B 树可视化：https://www.cs.usfca.edu/~galles/visualization/BTree.html
-> B+ 树可视化：https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html
+> B 树可视化：<https://www.cs.usfca.edu/~galles/visualization/BTree.html>
+> B+ 树可视化：<https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html>
 
 本文不对 B+ 树作详细介绍，下面是 B+ 树的图示，我们简要地对 B+ 树的部分特性做个列举：
 
@@ -753,7 +753,7 @@ TODO
 
 redo log 是一种基于磁盘的数据结构，用于在崩溃恢复期间纠正不完整事务写入的数据。在正常操作期间，rego log 对由 SQL 语句或低级 API 调用产生的**更改表数据的请求**进行**编码**。在初始化期间和接受连接之前（这里指数据库初始化以及接受 MySQL 客户端连接），会自动重做在意外关闭之前对数据文件未完成的修改。
 
-默认情况下，redo log 在磁盘上由两个名为 _ib_logfile0_ 和 _ib_logfile1_ 的文件物理表示。MySQL 以循环方式写入重做日志文件。redo log 中的数据按照受影响的记录进行编码，这些数据统称为重做（redo）。通过 redo log 的数据通道由不断增加的 LSN 值表示。
+默认情况下，redo log 在磁盘上由两个名为 *ib_logfile0* 和 *ib_logfile1* 的文件物理表示。MySQL 以循环方式写入重做日志文件。redo log 中的数据按照受影响的记录进行编码，这些数据统称为重做（redo）。通过 redo log 的数据通道由不断增加的 LSN 值表示。
 
 > 上面提到的编码，指的是将操作（更改表数据的请求）进行编码存储，比如把**将 tbx 表空间的 page#n 页，偏移 offset 位置的数据更新为 xxx** 编码成一段二进制数据，存储在 redo log 中，使得最终 redo log 占用的空间很少。执行事务时产生的修改操作会按照顺序写入 redo log。
 

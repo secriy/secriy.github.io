@@ -66,9 +66,9 @@ select (
   降序
 
 - limit & offset
-  `limit 2 offset 1 `指从第二个记录开始的一个记录，即第二个记录和第三个记录
+  `limit 2 offset 1` 指从第二个记录开始的一个记录，即第二个记录和第三个记录
 
-  MySQL 中可以使用短形式：`limit 1,2 `，同上
+  MySQL 中可以使用短形式：`limit 1,2`，同上
 
 - as
   给查询的列指定别名

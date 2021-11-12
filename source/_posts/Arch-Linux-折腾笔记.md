@@ -207,9 +207,9 @@ Secriy-Laptop
 _/etc/hosts_
 
 ```
-127.0.0.1	localhost
-::1			localhost
-127.0.1.1	Secriy-Laptop.localdomain	Secriy-Laptop
+127.0.0.1 localhost
+::1   localhost
+127.0.1.1 Secriy-Laptop.localdomain Secriy-Laptop
 ```
 
 #### 设置密码

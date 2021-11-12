@@ -37,25 +37,25 @@ tags:
 
 ```go
 func main() {
-	f1()
+    f1()
 }
 
 func f1() {
-	defer println("f1-begin")
-	f2()
-	defer println("f1-end")
+    defer println("f1-begin")
+    f2()
+    defer println("f1-end")
 }
 
 func f2() {
-	defer println("f2-begin")
-	f3()
-	defer println("f2-end")
+    defer println("f2-begin")
+    f3()
+    defer println("f2-end")
 }
 
 func f3() {
-	defer println("f3-begin")
-	panic(0)
-	defer println("f3-end")
+    defer println("f3-begin")
+    panic(0)
+    defer println("f3-end")
 }
 ```
 
@@ -78,14 +78,14 @@ func f3() {
 
 ```go
 func f(index int, value int) int {
-	fmt.Println(index)
+    fmt.Println(index)
 
-	return index
+    return index
 }
 
 func main() {
-	defer f(1, f(3, 0))
-	defer f(2, f(4, 0))
+    defer f(1, f(3, 0))
+    defer f(2, f(4, 0))
 }
 ```
 

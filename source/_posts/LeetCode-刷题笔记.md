@@ -45,14 +45,14 @@ LeetCode 刷题记录。
 
 ```go
 func twoSum(nums []int, target int) []int {
-    m := make(map[int]int)	// key: number, value: index
-	for k, v := range nums {
-		if idx, ok := m[target-v]; ok {
-			return []int{k, idx}
-		}
-		m[v] = k
-	}
-	return nil
+    m := make(map[int]int)    // key: number, value: index
+    for k, v := range nums {
+        if idx, ok := m[target-v]; ok {
+            return []int{k, idx}
+        }
+        m[v] = k
+    }
+    return nil
 }
 ```
 
@@ -105,21 +105,21 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 ```go
 func lengthOfLongestSubstring(s string) int {
-	res, left, right := 0, 0, 0
-	m := make(map[byte]bool, 0)
-	for right < len(s) {
-		if _, ok := m[s[right]]; !ok {
-			m[s[right]] = true
-			if right-left+1 > res {
-				res = right - left + 1
-			}
-			right++
-		} else {
-			delete(m, s[left])
-			left++
-		}
-	}
-	return res
+    res, left, right := 0, 0, 0
+    m := make(map[byte]bool, 0)
+    for right < len(s) {
+        if _, ok := m[s[right]]; !ok {
+            m[s[right]] = true
+            if right-left+1 > res {
+                res = right - left + 1
+            }
+            right++
+        } else {
+            delete(m, s[left])
+            left++
+        }
+    }
+    return res
 }
 ```
 
@@ -209,15 +209,15 @@ func isPalindrome(x int) bool {
 
 ```go
 func isPalindrome(x int) bool {
-	if x < 0 || (x%10 == 0 && x != 0) {
-		return false // x为负数或10的倍数返回false
-	}
-	num := 0
-	for x > num {
-		num = num*10 + x%10
-		x /= 10
-	}
-	return x == num || x == num/10
+    if x < 0 || (x%10 == 0 && x != 0) {
+        return false // x为负数或10的倍数返回false
+    }
+    num := 0
+    for x > num {
+        num = num*10 + x%10
+        x /= 10
+    }
+    return x == num || x == num/10
 }
 ```
 
@@ -227,14 +227,14 @@ func isPalindrome(x int) bool {
 
 ```go
 func isPalindrome(x int) bool {
-	str := strconv.FormatInt(int64(x), 10)
-	length := len(str)
-	for i := 0; 2*i < length-1; i++ {
-		if str[i] != str[length-1-i] {
-			return false
-		}
-	}
-	return true
+    str := strconv.FormatInt(int64(x), 10)
+    length := len(str)
+    for i := 0; 2*i < length-1; i++ {
+        if str[i] != str[length-1-i] {
+            return false
+        }
+    }
+    return true
 }
 ```
 
@@ -276,35 +276,35 @@ func maxArea(height []int) int {
 
   ```go
   func romanToInt(s string) int {
-  	result := 0
-  	for i := 0; i < len(s); i++ {
-  		switch s[i] {
-  		case 'I':
-  			result += 1
-  			if i+1 != len(s) && (s[i+1] == 'V' || s[i+1] == 'X') {
-  				result += -2
-  			}
-  		case 'V':
-  			result += 5
-  		case 'X':
-  			result += 10
-  			if i+1 != len(s) && (s[i+1] == 'L' || s[i+1] == 'C') {
-  				result += -20
-  			}
-  		case 'L':
-  			result += 50
-  		case 'C':
-  			result += 100
-  			if i+1 != len(s) && (s[i+1] == 'D' || s[i+1] == 'M') {
-  				result += -200
-  			}
-  		case 'D':
-  			result += 500
-  		case 'M':
-  			result += 1000
-  		}
-  	}
-  	return result
+      result := 0
+      for i := 0; i < len(s); i++ {
+          switch s[i] {
+          case 'I':
+              result += 1
+              if i+1 != len(s) && (s[i+1] == 'V' || s[i+1] == 'X') {
+                  result += -2
+              }
+          case 'V':
+              result += 5
+          case 'X':
+              result += 10
+              if i+1 != len(s) && (s[i+1] == 'L' || s[i+1] == 'C') {
+                  result += -20
+              }
+          case 'L':
+              result += 50
+          case 'C':
+              result += 100
+              if i+1 != len(s) && (s[i+1] == 'D' || s[i+1] == 'M') {
+                  result += -200
+              }
+          case 'D':
+              result += 500
+          case 'M':
+              result += 1000
+          }
+      }
+      return result
   }
 
   ```
@@ -313,44 +313,44 @@ func maxArea(height []int) int {
 
   ```go
   func romanToInt(s string) int {
-  	result := 0
-  	for i := 0; i < len(s); i++ {
-  		switch s[i] {
-  		case 'I':
-  			result += 1
-  		case 'V':
-  			result += 5
-  			if i > 0 && s[i-1] == 'I' {
-  				result -= 2
-  			}
-  		case 'X':
-  			result += 10
-  			if i > 0 && s[i-1] == 'I' {
-  				result -= 2
-  			}
-  		case 'L':
-  			result += 50
-  			if i > 0 && s[i-1] == 'X' {
-  				result -= 20
-  			}
-  		case 'C':
-  			result += 100
-  			if i > 0 && s[i-1] == 'X' {
-  				result -= 20
-  			}
-  		case 'D':
-  			result += 500
-  			if i > 0 && s[i-1] == 'C' {
-  				result -= 200
-  			}
-  		case 'M':
-  			result += 1000
-  			if i > 0 && s[i-1] == 'C' {
-  				result -= 200
-  			}
-  		}
-  	}
-  	return result
+      result := 0
+      for i := 0; i < len(s); i++ {
+          switch s[i] {
+          case 'I':
+              result += 1
+          case 'V':
+              result += 5
+              if i > 0 && s[i-1] == 'I' {
+                  result -= 2
+              }
+          case 'X':
+              result += 10
+              if i > 0 && s[i-1] == 'I' {
+                  result -= 2
+              }
+          case 'L':
+              result += 50
+              if i > 0 && s[i-1] == 'X' {
+                  result -= 20
+              }
+          case 'C':
+              result += 100
+              if i > 0 && s[i-1] == 'X' {
+                  result -= 20
+              }
+          case 'D':
+              result += 500
+              if i > 0 && s[i-1] == 'C' {
+                  result -= 200
+              }
+          case 'M':
+              result += 1000
+              if i > 0 && s[i-1] == 'C' {
+                  result -= 200
+              }
+          }
+      }
+      return result
   }
   ```
 
@@ -358,51 +358,51 @@ func maxArea(height []int) int {
 
   ```go
   func romanToInt(s string) int {
-  	s = strings.Replace(s, "IV", "1", -1)
-  	s = strings.Replace(s, "IX", "2", -1)
-  	s = strings.Replace(s, "XL", "3", -1)
-  	s = strings.Replace(s, "XC", "4", -1)
-  	s = strings.Replace(s, "CD", "5", -1)
-  	s = strings.Replace(s, "CM", "6", -1)
-  	result := 0
-  	fmt.Println(s)
-  	for _, v := range s {
-  		result += getVal(v)
-  	}
-  	return result
+      s = strings.Replace(s, "IV", "1", -1)
+      s = strings.Replace(s, "IX", "2", -1)
+      s = strings.Replace(s, "XL", "3", -1)
+      s = strings.Replace(s, "XC", "4", -1)
+      s = strings.Replace(s, "CD", "5", -1)
+      s = strings.Replace(s, "CM", "6", -1)
+      result := 0
+      fmt.Println(s)
+      for _, v := range s {
+          result += getVal(v)
+      }
+      return result
   }
   
   func getVal(r rune) int {
-  	switch r {
-  	case '1':
-  		return 4
-  	case '2':
-  		return 9
-  	case '3':
-  		return 40
-  	case '4':
-  		return 90
-  	case '5':
-  		return 400
-  	case '6':
-  		return 900
-  	case 'I':
-  		return 1
-  	case 'V':
-  		return 5
-  	case 'X':
-  		return 10
-  	case 'L':
-  		return 50
-  	case 'C':
-  		return 100
-  	case 'D':
-  		return 500
-  	case 'M':
-  		return 1000
-  	default:
-  		return 0
-  	}
+      switch r {
+      case '1':
+          return 4
+      case '2':
+          return 9
+      case '3':
+          return 40
+      case '4':
+          return 90
+      case '5':
+          return 400
+      case '6':
+          return 900
+      case 'I':
+          return 1
+      case 'V':
+          return 5
+      case 'X':
+          return 10
+      case 'L':
+          return 50
+      case 'C':
+          return 100
+      case 'D':
+          return 500
+      case 'M':
+          return 1000
+      default:
+          return 0
+      }
   }
   ```
 
@@ -410,42 +410,42 @@ func maxArea(height []int) int {
 
 ```go
 var chars = [][]byte{
-	{'a', 'b', 'c'}, 	  // 2
-    {'d', 'e', 'f'}, 	  // 3
-	{'g', 'h', 'i'}, 	  // 4
-	{'j', 'k', 'l'}, 	  // 5
-	{'m', 'n', 'o'}, 	  // 6
-	{'p', 'q', 'r', 's'}, // 7
-	{'t', 'u', 'v'},	  // 8
-	{'w', 'x', 'y', 'z'}, // 9
+    {'a', 'b', 'c'},       // 2
+    {'d', 'e', 'f'},       // 3
+    {'g', 'h', 'i'},       // 4
+    {'j', 'k', 'l'},       // 5
+    {'m', 'n', 'o'},       // 6
+    {'p', 'q', 'r', 's'}, // 7
+    {'t', 'u', 'v'},      // 8
+    {'w', 'x', 'y', 'z'}, // 9
 }
 
 var result []string
 
 func letterCombinations(digits string) []string {
     // 边界判断
-	if len(digits) == 0 {
-		return []string{}
-	}
+    if len(digits) == 0 {
+        return []string{}
+    }
     // 清空全局变量，防止下一示例直接使用了该变量
-	result = []string{}
-	dfs(digits, 0, "")
-	return result
+    result = []string{}
+    dfs(digits, 0, "")
+    return result
 }
 
 func dfs(digits string, level int, str string) {
-	// 递归出口
-	if level == len(digits) {
-		result = append(result, str)
-		return
-	}
+    // 递归出口
+    if level == len(digits) {
+        result = append(result, str)
+        return
+    }
     // 将输入的单个digit转换为数字
-	digit, _ := strconv.Atoi(string(digits[level]))
-	// 在单个键位的字符中循环
-	for i := 0; i < len(chars[digit-2]); i++ {
+    digit, _ := strconv.Atoi(string(digits[level]))
+    // 在单个键位的字符中循环
+    for i := 0; i < len(chars[digit-2]); i++ {
         // 下一层递归
-		dfs(digits, level+1, str+string(chars[digit-2][i]))
-	}
+        dfs(digits, level+1, str+string(chars[digit-2][i]))
+    }
 }
 
 ```
@@ -462,7 +462,7 @@ func dfs(digits string, level int, str string) {
 
   ```go
   func removeNthFromEnd(head *ListNode, n int) *ListNode {
-      pre, p1, p2 := head, head, head		// pre记录前置节点
+      pre, p1, p2 := head, head, head        // pre记录前置节点
       for p2 != nil {
           if n == 0 {
               pre = p1
@@ -488,7 +488,7 @@ func dfs(digits string, level int, str string) {
   func removeNthFromEnd(head *ListNode, n int) *ListNode {
       dummy := new(ListNode) // 在 head 前防止虚拟节点，解决删除的是第一个元素的问题
       dummy.Next = head
-      p := head	// p 是用于探底的指针
+      p := head    // p 是用于探底的指针
       head = dummy
       // p 先走
       for n > 0 {
@@ -515,15 +515,15 @@ func dfs(digits string, level int, str string) {
 
 ```go
 func isValid(s string) bool {
-	for strings.Contains(s, "[]") || strings.Contains(s, "{}") || strings.Contains(s, "()") {
-		s = strings.Replace(s, "[]", "", -1)
-		s = strings.Replace(s, "{}", "", -1)
-		s = strings.Replace(s, "()", "", -1)
-	}
-	if s == "" {
-		return true
-	}
-	return false
+    for strings.Contains(s, "[]") || strings.Contains(s, "{}") || strings.Contains(s, "()") {
+        s = strings.Replace(s, "[]", "", -1)
+        s = strings.Replace(s, "{}", "", -1)
+        s = strings.Replace(s, "()", "", -1)
+    }
+    if s == "" {
+        return true
+    }
+    return false
 }
 ```
 
@@ -534,22 +534,22 @@ func isValid(s string) bool {
 ```go
 func isValid(s string) bool {
     stack := make([]byte, 0)
-	length := 0	// 记录栈顶
-	for _, v := range []byte(s) {
-		stack = append(stack, v)
-		length++
-		for length > 1 {
-			left := stack[length-2]		// 栈末尾倒数第二个
-			right := stack[length-1]	// 栈末尾倒数第一个
-			if (left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']') {
+    length := 0    // 记录栈顶
+    for _, v := range []byte(s) {
+        stack = append(stack, v)
+        length++
+        for length > 1 {
+            left := stack[length-2]        // 栈末尾倒数第二个
+            right := stack[length-1]    // 栈末尾倒数第一个
+            if (left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']') {
                 length -= 2
-				stack = stack[:length]
-				continue
-			}
-			break
-		}
-	}
-	return len(stack) == 0
+                stack = stack[:length]
+                continue
+            }
+            break
+        }
+    }
+    return len(stack) == 0
 }
 ```
 
@@ -565,19 +565,19 @@ func isValid(s string) bool {
 
   ```go
   func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-  	if l1 == nil {
-  		return l2
-  	}
-  	if l2 == nil {
-  		return l1
-  	}
-  	if l1.Val < l2.Val {
-  		l1.Next = mergeTwoLists(l1.Next, l2)
-  		return l1
-  	} else {
-  		l2.Next = mergeTwoLists(l1, l2.Next)
-  		return l2
-  	}
+      if l1 == nil {
+          return l2
+      }
+      if l2 == nil {
+          return l1
+      }
+      if l1.Val < l2.Val {
+          l1.Next = mergeTwoLists(l1.Next, l2)
+          return l1
+      } else {
+          l2.Next = mergeTwoLists(l1, l2.Next)
+          return l2
+      }
   }
   ```
 
@@ -609,7 +609,7 @@ func dfs(left, right int, tmp string, res *[]string) {
         }
         dfs(left, right-1, tmp + ")", res)
     }
-	// 左括号数量大于右括号，无法再闭合，不可能生成有效的字符串，则丢弃
+    // 左括号数量大于右括号，无法再闭合，不可能生成有效的字符串，则丢弃
 }
 ```
 
@@ -640,9 +640,9 @@ func dfs(left, right int, tmp string, res *[]string) {
 
 #### 双指针
 
-1.  left 移动条件：left 为 0 或 left 元素和 left-1 的元素不相等
+1. left 移动条件：left 为 0 或 left 元素和 left-1 的元素不相等
 
-2.  right 移动条件：right 和 left 不等（相等则用 right 覆盖 left）
+2. right 移动条件：right 和 left 不等（相等则用 right 覆盖 left）
 
 ```go
 func removeDuplicates(nums []int) int {
@@ -774,7 +774,7 @@ func search(nums []int, target int) int {
 
 ```go
 func searchRange(nums []int, target int) []int {
-    res := []int{-1, -1}	// 返回值
+    res := []int{-1, -1}    // 返回值
 
     left, right := 0, len(nums) - 1
 
@@ -797,7 +797,7 @@ func searchRange(nums []int, target int) []int {
         return res
     }
     res[0] = left
-    right = len(nums)	// 复位 right
+    right = len(nums)    // 复位 right
 
     for left < right {
         mid := (left + right) >> 1
@@ -834,9 +834,9 @@ func searchRange(nums []int, target int) []int {
   func backtracking(candidates []int, target, index int, res *[][]int, tmp *[]int) {
       if target <= 0 {
           if target == 0 {
-          	dst := make([]int, len(*tmp))
-  	        copy(dst, *tmp)
-      	    *res = append(*res, dst)
+              dst := make([]int, len(*tmp))
+              copy(dst, *tmp)
+              *res = append(*res, dst)
           }
           return
       }
@@ -885,25 +885,25 @@ func searchRange(nums []int, target int) []int {
 
   ```go
   func jump(nums []int) int {
-  	curJump, farthestJump, jumps := 0, 0, 0
-  	for i := 0; i < len(nums)-1; i++ {
-  	    // push index of furthest jump during current iteration
-  		if i+nums[i] > farthestJump {
-  			farthestJump = i + nums[i]
-  		}
+      curJump, farthestJump, jumps := 0, 0, 0
+      for i := 0; i < len(nums)-1; i++ {
+          // push index of furthest jump during current iteration
+          if i+nums[i] > farthestJump {
+              farthestJump = i + nums[i]
+          }
   
-  		// if current iteration is ended - setup the next one
-  		if i == curJump {
-  			jumps, curJump = jumps+1, farthestJump
+          // if current iteration is ended - setup the next one
+          if i == curJump {
+              jumps, curJump = jumps+1, farthestJump
   
-  			if curJump >= len(nums)-1 {
-  				return jumps
-  			}
-  		}
-  	}
+              if curJump >= len(nums)-1 {
+                  return jumps
+              }
+          }
+      }
   
-  	// it's guaranteed to never hit it
-  	return 0
+      // it's guaranteed to never hit it
+      return 0
   }
   ```
 
@@ -1025,8 +1025,8 @@ func rotate(matrix [][]int)  {
 func groupAnagrams(strs []string) [][]string {
     m := make(map[string][]string)
     for _, v := range strs {
-        bt := []byte(v)	// 字符串转换为 byte 数组
-		// 排序
+        bt := []byte(v)    // 字符串转换为 byte 数组
+        // 排序
         sort.Slice(bt, func(a, b int) bool {
             return bt[a] < bt[b]
         })
@@ -1065,7 +1065,7 @@ func spiralOrder(matrix [][]int) []int {
         if rowMin >= rowMax {
             break
         }
-		// top -> down
+        // top -> down
         for i := rowMin; i < rowMax; i++ {
             res[index] = matrix[i][colMax-1]
             index++
@@ -1074,7 +1074,7 @@ func spiralOrder(matrix [][]int) []int {
         if colMin >= colMax {
             break
         }
-		// right -> left
+        // right -> left
         for i := colMax-1; i >= colMin; i-- {
             res[index] = matrix[rowMax-1][i]
             index++
@@ -1083,7 +1083,7 @@ func spiralOrder(matrix [][]int) []int {
         if rowMin >= rowMax {
             break
         }
-		// down -> top
+        // down -> top
         for i := rowMax-1; i >= rowMin; i-- {
             res[index] = matrix[i][colMin]
             index++
@@ -1140,7 +1140,7 @@ func merge(intervals [][]int) [][]int {
         return intervals[a][0] < intervals[b][0]
     })
 
-    res := [][]int{intervals[0]}	// 结果列表，已经插入了第一对数字
+    res := [][]int{intervals[0]}    // 结果列表，已经插入了第一对数字
 
     for i := 1; i < len(intervals); i++ {
         if num := res[len(res)-1][1]; num >= intervals[i][0] {
@@ -1191,8 +1191,8 @@ func lengthOfLastWord(s string) int {
 
   ```go
   func rotateRight(head *ListNode, k int) *ListNode {
-    	if head == nil {
-      	return head
+        if head == nil {
+          return head
       }
       p := head
       // 计算链表长度
@@ -1255,9 +1255,9 @@ func uniquePaths(m int, n int) int {
 简单的动态规划，从判断上、左元素大小，取小值加到当前位置，可以使用原数组存结果：
 
 ```
-1	3	1	->	1	4	5
-1   5   1	->	2	7	6
-4	2	1   ->	6	8	7
+1    3    1    ->    1    4    5
+1   5   1    ->    2    7    6
+4    2    1   ->    6    8    7
 ```
 
 ```go
@@ -1297,19 +1297,19 @@ func min(a, b int) int {
 
 ```go
 func plusOne(digits []int) []int {
-	for i := len(digits) - 1; i >= 0; i-- {
+    for i := len(digits) - 1; i >= 0; i-- {
         digits[i]++
-		if digits[i] > 9 {
-			digits[i] = 0
-			if i == 0 {
-				digits = append([]int{1}, digits...)
-				break
-			}
-			continue
-		}
-		break
-	}
-	return digits
+        if digits[i] > 9 {
+            digits[i] = 0
+            if i == 0 {
+                digits = append([]int{1}, digits...)
+                break
+            }
+            continue
+        }
+        break
+    }
+    return digits
 }
 ```
 
@@ -1589,11 +1589,11 @@ func grayCode(n int) []int {
     for i := 0; i < max; i++ {
         res = append(res, i ^ i >> 1)
     }
-    return res	
+    return res    
 }
 ```
 
-### 92.
+### 92
 
 #### Ideas
 
@@ -1607,12 +1607,12 @@ func grayCode(n int) []int {
       dummy.Next = head
       pre := dummy
       for i := 1; i < left; i++ {
-  		pre = pre.Next
+          pre = pre.Next
       }
       head = pre.Next
       for i := left; i < right; i++ {
           next := head.Next
-  		head.Next = next.Next
+          head.Next = next.Next
           next.Next = pre.Next
           pre.Next = next
       }
@@ -1633,18 +1633,18 @@ func grayCode(n int) []int {
 
   ```go
   func inorderTraversal(root *TreeNode) []int {
-  	result := make([]int, 0)
-  	helper(root, &result)
-  	return result
+      result := make([]int, 0)
+      helper(root, &result)
+      return result
   }
 
   func helper(root *TreeNode, result *[]int) {
-  	if root == nil {
-  		return
-  	}
-  	helper(root.Left, result)
-  	*result = append(*result, root.Val)
-  	helper(root.Right, result)
+      if root == nil {
+          return
+      }
+      helper(root.Left, result)
+      *result = append(*result, root.Val)
+      helper(root.Right, result)
   }
   ```
 
@@ -1652,21 +1652,21 @@ func grayCode(n int) []int {
 
   ```go
   func inorderTraversal(root *TreeNode) []int {
-  	stack := make([]*TreeNode, 0)
-  	result := make([]int, 0)
-  	for root != nil || len(stack) > 0 {
-  		for root != nil {
-  			stack = append(stack, root)
-  			root = root.Left
-  		}
-  		if len(stack) > 0 {
-  			root = stack[len(stack)-1]
-  			stack = stack[:len(stack)-1]
-  			result = append(result, root.Val)
-  			root = root.Right
-  		}
-  	}
-  	return result
+      stack := make([]*TreeNode, 0)
+      result := make([]int, 0)
+      for root != nil || len(stack) > 0 {
+          for root != nil {
+              stack = append(stack, root)
+              root = root.Left
+          }
+          if len(stack) > 0 {
+              root = stack[len(stack)-1]
+              stack = stack[:len(stack)-1]
+              result = append(result, root.Val)
+              root = root.Right
+          }
+      }
+      return result
   }
   ```
 
@@ -1776,7 +1776,7 @@ func isValidBST(root *TreeNode) bool {
       if root == nil {
           return true
       }
-  	return helper(root.Left, root.Right)
+      return helper(root.Left, root.Right)
   }
   
   func helper(left, right *TreeNode) bool {
@@ -2102,7 +2102,7 @@ func max(a, b int) int {
 var last *TreeNode
 
 func flatten(root *TreeNode)  {
-    last = nil	// 清空全局变量，防止干扰下一个用例
+    last = nil    // 清空全局变量，防止干扰下一个用例
     helper(root)
 }
 
@@ -2156,8 +2156,8 @@ func maxProfit(prices []int) int {
       length := len(prices)
       // 滚动数组节省空间
       var dp [2][2]int
-      dp[0][0] = 0			 // cash
-      dp[0][1] = -prices[0] 	 // stock
+      dp[0][0] = 0             // cash
+      dp[0][1] = -prices[0]      // stock
       for i := 1; i < length; i++ {
           dp[1][0] = max(dp[0][0], dp[0][1]+prices[i])
           dp[1][1] = max(dp[0][1], dp[0][0]-prices[i])
@@ -2262,11 +2262,11 @@ func helper(root *TreeNode, num int) int {
 func candy(ratings []int) int {
     nums := make([]int, len(ratings))
 
-    nums[0] = 1	// 填充初始的 1
+    nums[0] = 1    // 填充初始的 1
 
     // 左 -> 右
     for i := 1; i < len(ratings); i++ {
-        nums[i] = 1	// 填充初始的 1
+        nums[i] = 1    // 填充初始的 1
         if ratings[i] > ratings[i-1] {
             nums[i] = nums[i-1] + 1
         }
@@ -2359,15 +2359,15 @@ func copyRandomList(head *Node) *Node {
 
   ```go
   func hasCycle(head *ListNode) bool {
-  	m := make(map[*ListNode]bool)
-  	for head != nil {
-  		if _, ok := m[head]; ok {
-  			return true
-  		}
-  		m[head] = true
-  		head = head.Next
-  	}
-  	return false
+      m := make(map[*ListNode]bool)
+      for head != nil {
+          if _, ok := m[head]; ok {
+              return true
+          }
+          m[head] = true
+          head = head.Next
+      }
+      return false
   }
   ```
 
@@ -2375,14 +2375,14 @@ func copyRandomList(head *Node) *Node {
 
   ```go
   func hasCycle(head *ListNode) bool {
-  	slow, fast := head, head
-  	for fast != nil && fast.Next != nil {
-  		slow = slow.Next
-  		fast = fast.Next.Next
-  		if slow == fast {
-  			return true
-  		}
-  	}
+      slow, fast := head, head
+      for fast != nil && fast.Next != nil {
+          slow = slow.Next
+          fast = fast.Next.Next
+          if slow == fast {
+              return true
+          }
+      }
       return false
   }
   ```
@@ -2434,23 +2434,23 @@ func copyRandomList(head *Node) *Node {
  */
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
     // 边界判断
-	if headA == nil || headB == nil {
-		return nil
-	}
-	pA, pB := headA, headB
-	for pA != pB {
-		if pA != nil {
-			pA = pA.Next
-		} else {
-			pA = headB
-		}
-		if pB != nil {
-			pB = pB.Next
-		} else {
-			pB = headA
-		}
-	}
-	return pA
+    if headA == nil || headB == nil {
+        return nil
+    }
+    pA, pB := headA, headB
+    for pA != pB {
+        if pA != nil {
+            pA = pA.Next
+        } else {
+            pA = headB
+        }
+        if pB != nil {
+            pB = pB.Next
+        } else {
+            pB = headA
+        }
+    }
+    return pA
 }
 ```
 
@@ -2701,10 +2701,10 @@ func (this *MinStack) GetMin() int {
 var solution = func(read4 func([]byte) int) func([]byte, int) int {
     // implement read below.
     return func(buf []byte, n int) int {
-        cnt := 0	// 统计数量
-        num := 4	// read4() 读取的数量
+        cnt := 0    // 统计数量
+        num := 4    // read4() 读取的数量
         for num == 4 {
-            num = read4(buf[cnt:])	// 偏移 cnt
+            num = read4(buf[cnt:])    // 偏移 cnt
             cnt += num
         }
         // 返回 n 和 cnt 二者较小值
@@ -2731,18 +2731,18 @@ var solution = func(read4 func([]byte) int) func([]byte, int) int {
  * }
  */
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	m := make(map[*ListNode]bool)
-	for headA != nil {
-		m[headA] = true
-		headA = headA.Next
-	}
-	for headB != nil {
-		if _, ok := m[headB]; ok {
-			return headB
-		}
-		headB = headB.Next
-	}
-	return nil
+    m := make(map[*ListNode]bool)
+    for headA != nil {
+        m[headA] = true
+        headA = headA.Next
+    }
+    for headB != nil {
+        if _, ok := m[headB]; ok {
+            return headB
+        }
+        headB = headB.Next
+    }
+    return nil
 }
 ```
 
@@ -2927,7 +2927,7 @@ func dfs(grid [][]byte, row, col int) {
         return
     }
 
-    grid[row][col] = '0'	// 标记为非 1 字符都可
+    grid[row][col] = '0'    // 标记为非 1 字符都可
 
     dfs(grid, row + 1, col)
     dfs(grid, row - 1, col)
@@ -2952,14 +2952,14 @@ func dfs(grid [][]byte, row, col int) {
 
   ```go
   func reverseList(head *ListNode) *ListNode {
-  	var prev, next *ListNode
-  	for {
-  		next = head.Next 	// 存储下一结点
-  		head.Next = prev   	// 改变指针
-  		prev = head			// 存储当前结点
-  		head = next			// 跳转到下一个结点
-  	}
-  	return prev
+      var prev, next *ListNode
+      for {
+          next = head.Next     // 存储下一结点
+          head.Next = prev       // 改变指针
+          prev = head            // 存储当前结点
+          head = next            // 跳转到下一个结点
+      }
+      return prev
   }
   ```
 
@@ -2971,8 +2971,8 @@ func dfs(grid [][]byte, row, col int) {
           return head
       }
       dummy := reverseList(head.Next)
-      head.Next.Next = head	// 让下一结点指向自己
-      head.Next = nil			// 删除指向下一结点的指针
+      head.Next.Next = head    // 让下一结点指向自己
+      head.Next = nil            // 删除指向下一结点的指针
       return dummy
   }
   ```
@@ -2985,35 +2985,35 @@ func dfs(grid [][]byte, row, col int) {
 
 ```go
 func HeapSort(arr []int) {
-	for i := len(arr) - 1; i >= 0; i-- {
-		heapify(arr, i)
-		arr[0], arr[i] = arr[i], arr[0]
-	}
+    for i := len(arr) - 1; i >= 0; i-- {
+        heapify(arr, i)
+        arr[0], arr[i] = arr[i], arr[0]
+    }
     return
 }
 
 func heapify(arr []int, end int) {
-	for i := (len(arr) - 2) / 2; i >= 0; i-- {
-		sift_down(arr, i, end)
-	}
+    for i := (len(arr) - 2) / 2; i >= 0; i-- {
+        sift_down(arr, i, end)
+    }
 }
 
 func sift_down(arr []int, start, end int) {
-	root := start
-	for {
-		child := root*2 + 1
-		if child > end {
-			break
-		}
-		if child+1 <= end && arr[child] < arr[child+1] {
-			child++
-		}
-		if arr[root] >= arr[child] {
-			return
-		}
-		arr[root], arr[child] = arr[child], arr[root]
-		root = child
-	}
+    root := start
+    for {
+        child := root*2 + 1
+        if child > end {
+            break
+        }
+        if child+1 <= end && arr[child] < arr[child+1] {
+            child++
+        }
+        if arr[root] >= arr[child] {
+            return
+        }
+        arr[root], arr[child] = arr[child], arr[root]
+        root = child
+    }
 }
 ```
 
@@ -3179,7 +3179,7 @@ func reverse(head *ListNode) *ListNode {
  */
 
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	for root != nil {
+    for root != nil {
         if root.Val < p.Val && root.Val < q.Val {
             root = root.Right
         } else if  root.Val > p.Val && root.Val > q.Val {
@@ -3198,18 +3198,18 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 ```go
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	if root == nil || p == root || q == root {
-		return root
-	}
-	left := lowestCommonAncestor(root.Left, p, q)
-	right := lowestCommonAncestor(root.Right, p, q)
-	if left != nil && right != nil {
-		return root
-	}
-	if left == nil {
-		return right
-	}
-	return left
+    if root == nil || p == root || q == root {
+        return root
+    }
+    left := lowestCommonAncestor(root.Left, p, q)
+    right := lowestCommonAncestor(root.Right, p, q)
+    if left != nil && right != nil {
+        return root
+    }
+    if left == nil {
+        return right
+    }
+    return left
 }
 ```
 
@@ -3241,19 +3241,19 @@ func deleteNode(node *ListNode) {
 
    ```go
    func isAnagram(s string, t string) bool {
-   	m := make(map[rune]int)
-   	for _, v := range s {
-   		m[v]++
-   	}
-   	for _, v := range t {
-   		m[v]--
-   	}
-   	for _, v := range m {
-   		if v != 0 {
-   			return false
-   		}
-   	}
-   	return true
+       m := make(map[rune]int)
+       for _, v := range s {
+           m[v]++
+       }
+       for _, v := range t {
+           m[v]--
+       }
+       for _, v := range m {
+           if v != 0 {
+               return false
+           }
+       }
+       return true
    }
    ```
 
@@ -3261,19 +3261,19 @@ func deleteNode(node *ListNode) {
 
    ```go
    func isAnagram(s string, t string) bool {
-   	arr := [26]int{0}
-   	for _, v := range s {
-   		arr[v%97]++
-   	}
-   	for _, v := range t {
-   		arr[v%97]--
-   	}
-   	for _, v := range arr {
-   		if v != 0 {
-   			return false
-   		}
-   	}
-   	return true
+       arr := [26]int{0}
+       for _, v := range s {
+           arr[v%97]++
+       }
+       for _, v := range t {
+           arr[v%97]--
+       }
+       for _, v := range arr {
+           if v != 0 {
+               return false
+           }
+       }
+       return true
    }
    ```
 
@@ -3378,8 +3378,8 @@ func findDuplicate(nums []int) int {
 
 ```go
 func getHint(secret string, guess string) string {
-    nums := make([]int, 10)	// replace hash table
-    a, b := 0, 0	// count A and B
+    nums := make([]int, 10)    // replace hash table
+    a, b := 0, 0    // count A and B
     for i := 0; i < len(secret); i++ {
         if secret[i] == guess[i] {
             a++
@@ -3567,7 +3567,7 @@ func findDisappearedNumbers(nums []int) []int {
         arr[nums[i]-1] = 1
     }
 
-    res := make([]int, 0)	// 存放结果
+    res := make([]int, 0)    // 存放结果
 
     for i := range arr {
         if arr[i] == 0 {
@@ -3757,7 +3757,7 @@ func findPoisonedDuration(timeSeries []int, duration int) int {
     for i := 0; i < len(timeSeries)-1; i++ {
         if sub := duration - (timeSeries[i+1] - timeSeries[i]); sub > 0 {
             ret -= sub
-        }	
+        }    
     }
     return ret
 }
