@@ -260,7 +260,7 @@ let heart_eyed_cat = '😻';
 
 #### 复合类型
 
-复合类型是由多个数据类型组合成的一种数据类型，Rust 有两种原始的复合类型：元组（Tuple）和数组（Array）。
+复合类型是由多个数据类型组合成的一种数据类型，Rust 有两种原始的复合类型：Tuple（元组）和 Array（数组）。
 
 ##### Tuple
 
@@ -948,3 +948,145 @@ fn main() {
 现在，我们可以说解决了双重释放的问题。从这个设计中我们可以看出，Rust 永远不会自动创建一个“深拷贝”，因此，任何自动化的复制行为都是性能很优良的。
 
 #### 变量和数据交互的方式：克隆
+
+如果想要深拷贝 `String` 的堆中数据，可以使用一种叫做 `clone` 的通用方法。
+
+> 方法（method）是一种很常见的编程语言组成部分，在后文中才会对方法进行介绍。
+
+下面是一个示例：
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+    println!("s1 = {}, s2 = {}", s1, s2);
+}
+```
+
+上面这段代码显式地进行了 `s1` 的深拷贝。通过 `clone` 方法进行操作，能够提醒开发者注意这样的操作是可能影响性能的，要三思而后行。
+
+#### 仅存在栈上的数据：复制
+
+需要注意的是，那些只存储在栈上的数据是没有深拷贝和浅拷贝的区分的，拷贝它们不会导致各种问题。比如下面的代码：
+
+```rust
+fn main() {
+    let x = 5;
+    let y = x;
+
+    println!("x = {}, y = {}", x, y);
+}
+```
+
+大小确定的类型并不需要 `clone` 这样的方法来进行复制，因为它们在栈上，而不是堆上。对这样大小确定的栈数据的复制是很高效的。
+
+Rust 有一个特殊的注解（annotation）叫做 `Copy` trait，我们可以把它放在像整数（integer）这样存储在栈中的类型上。如果一个类型实现了 `Copy` trait，那么这个类型的一个旧的变量在赋给其他变量后仍然可用（就像上面的那段代码中的 `x`，赋值给 `y` 后仍然可用）。如果一个类型或者这个类型的任何部分实现了 `Drop` trait，Rust 就会不允许使用 `Copy` trait 注解该类型。
+
+如果某个类型的变量离开作用域时需要进行某些特殊处理，我们对该变量使用 `Copy` 注解会发生编译错误。
+
+> 关于 Trait，这是一种 Rust 中的概念，将在后文中进行介绍，暂时可以忽略。需要了解如何将 `Copy` 注解添加到类型中以实现 trait，请参阅 [Derivable  Traits](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html)。
+
+那么什么类型实现了 `Copy` trait？可以查看给定类型的文档来确定，但作为一个通用的规则，任何一组简单的**标量值**都可以实现 `Copy`，并且任何不需要内存分配（allocation，指前文所提到的在堆中分配）和某些形式资源的类型都可以实现 `Copy`。以下是一些实现 `Copy` 的类型：
+
+- 所有整数类型，例如 `u32`；
+- 布尔类型 `bool`；
+- 所有浮点类型，例如 `f64`；
+- 字符类型，`char`；
+- Tuple，如果只包含同样实现 `Copy` 的类型。例如，`(i32, i32)` 实现了 `Copy`，但 `(i32, String)` 没有。
+
+#### 所有权和函数
+
+将值传递给函数类似于为变量赋值。和变量赋值一样，将变量传递给函数会出现移动（move）或复制（copy）。看下面的一段代码：
+
+```rust
+fn main() {
+    let s = String::from("hello");  // s 进入作用域
+
+    takes_ownership(s);             // s 的值被移动（move）到了 takes_ownership 函数中，
+                                    // 因此它不再可用了
+
+    let x = 5;                      // x 进入作用域
+
+    makes_copy(x);                  // x 被传入 makes_copy 函数,
+                                    // 但是因为 i32 类型实现了 Copy,
+                                    // 因此在接下来还能够被使用
+
+} // x 离开作用域, 接着 s 离开作用域. 但是由于 s 的所有权被拿走了，因此不会有什么特别的操作
+
+fn takes_ownership(some_string: String) { // some_string 进入作用域
+    println!("{}", some_string);
+} // some_string 离开作用域，接着 drop() 被调用以回收内存
+
+fn makes_copy(some_integer: i32) { // some_integer 进入作用域
+    println!("{}", some_integer);
+} // some_integer 离开作用域，没有什么特别的操作
+```
+
+如果调用 `takes_ownership()` 之后尝试使用 `s`，Rust 会抛出一个编译错误。这些静态检查能够使我们免于出错。
+
+#### 返回值和作用域
+
+返回值也可以转移所有权：
+
+```rust
+fn main() {
+    let s1 = gives_ownership();         // s1 获得了 gives_ownership() 返回值的所有权
+
+    let s2 = String::from("hello");
+
+    let s3 = takes_and_gives_back(s2);  // s2 的所有权交给了 takes_and_gives_back() 的参数，
+                                        // 但又通过这个函数的返回值传给了 s3
+} // s3、s1 经由 drop() 回收
+
+fn gives_ownership() -> String {
+    let some_string = String::from("yours");
+
+    some_string // some_string 堆中部分的所有权将被交给调用它的变量
+}
+
+fn takes_and_gives_back(a_string: String) -> String { 
+    a_string
+}
+```
+
+所有变量的所有权都遵循相同的程式：把值直接赋给另一个变量会产生移动（move）。当包含了堆数据的变量离开作用域时，该值将通过 `drop()` 清除，除非该数据的所有权已经归另一个变量所有。
+
+测试下面的一段代码：
+
+```rust
+fn main() {
+    let s = String::from("hello");
+    
+    takes_ownership(s);
+    
+    println!("{}", s.len())
+}
+
+fn takes_ownership(s: String) {
+    println!("{}", s.len());
+}
+```
+
+意料之中地发生了编译错误，那么如何重新取得一个变量的所有权呢？可以通过下面的方式解决：
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let (s1, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len();
+
+    (s, length)
+}
+```
+
+上面的代码借 Tuple 实现了多返回值，并使用了 Rust 的 *shadowing* 机制重新得到了所有权并交给了同名变量 `s1`，可以感觉到这个过程还是太麻烦了。幸运的是，Rust 提供了**引用**（*references*）机制来解决这个问题。
+
+#### 总结
+
+本节对于 Rust 的所有权机制进行了一个初步的介绍，Rust 用所有权机制让栈中的变量与其在堆中分配的数据一对一地关联起来（个人感觉这就像一条牵狗绳），在变量赋值的过程中，原变量会失去堆中数据的所有权，转交给被赋值的变量。通过这种方式，Rust 硬性地解决了常见的各种内存分配问题。由于所有权的唯一化，在变量作用域结束时就可以将其自动回收，不会出现忘记回收以及重复回收的问题。
