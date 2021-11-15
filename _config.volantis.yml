@@ -560,7 +560,7 @@ plugins:
 
   # Typing Effects
   comment_typing:
-    enable: true
+    enable: false
     js: https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@2/js/comment_typing.js
 
   # Slide Background

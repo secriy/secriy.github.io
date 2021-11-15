@@ -167,36 +167,36 @@ func reverse(x int) int {
 
 ```go
 func myAtoi(s string) (ret int) {
-	i := 0    // 记录位置
-	flag := 1 // 标识正负
-	for i < len(s) && s[i] == ' ' {
-		// 去除前导空格
-		i++
-	}
-	if i < len(s) && s[i] == '-' {
-		flag = -1
-	}
-	if i < len(s) && (s[i] == '+' || s[i] == '-') {
-		i++
-	}
-	for i < len(s) {
-		sub := s[i] - '0'
-		if sub < 0 || sub >= 10 {
-			// 检查是不是数字
-			break
-		}
-		if ret > math.MaxInt32/10 || (ret == math.MaxInt32/10 && sub > 7) {
-			// 越界
-			if flag > 0 {
-				return math.MaxInt32
-			} else {
-				return math.MinInt32
-			}
-		}
-		ret = ret*10 + int(sub)
-		i++
-	}
-	return ret * flag
+    i := 0    // 记录位置
+    flag := 1 // 标识正负
+    for i < len(s) && s[i] == ' ' {
+        // 去除前导空格
+        i++
+    }
+    if i < len(s) && s[i] == '-' {
+        flag = -1
+    }
+    if i < len(s) && (s[i] == '+' || s[i] == '-') {
+        i++
+    }
+    for i < len(s) {
+        sub := s[i] - '0'
+        if sub < 0 || sub >= 10 {
+            // 检查是不是数字
+            break
+        }
+        if ret > math.MaxInt32/10 || (ret == math.MaxInt32/10 && sub > 7) {
+            // 越界
+            if flag > 0 {
+                return math.MaxInt32
+            } else {
+                return math.MinInt32
+            }
+        }
+        ret = ret*10 + int(sub)
+        i++
+    }
+    return ret * flag
 }
 ```
 
@@ -3889,13 +3889,13 @@ func findPoisonedDuration(timeSeries []int, duration int) int {
 func reverseStr(s string, k int) string {
     str := []byte(s)
     for n := 0; ; n += 2*k {
-		for i, j := n, min(n+k-1, len(str)-1); i < j; i, j = i+1, j-1 {
-			str[i], str[j] = str[j], str[i]
-		}
+        for i, j := n, min(n+k-1, len(str)-1); i < j; i, j = i+1, j-1 {
+            str[i], str[j] = str[j], str[i]
+        }
         if n+k > len(str) {
             break
         }
-	}
+    }
     return string(str)
 }
 

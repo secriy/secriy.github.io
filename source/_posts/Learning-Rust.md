@@ -857,7 +857,7 @@ fn main() {
 
 注意作用域结束的地方 `}`，当这个作用域结束，`s` 即不再可用，也就可以回收其内存了。Rust 在这时会调用一个特殊的函数 `drop`，`String` 的作者（author，这个作者指的是 `String` 标准库的开发者，并非使用者）可以在这里放置代码以返回内存。
 
-> 注：在 C++ 中，在项目的生命周期结束时释放资源的这种模式有时称为 *Resource Acquisition Is Initialization (RAII)*。如果你使用过 RAII 模式，Rust 中的 drop 函数对你来说会很熟悉。
+> 注：在 C++ 中，在项目的生命周期结束时释放资源的这种模式有时称为 *Resource Acquisition Is Initialization*（*RAII*）。如果你使用过 RAII 模式，Rust 中的 drop 函数对你来说会很熟悉。
 
 > 【截至写下本文，我都还不会 C++，我的下半生估计是废了 o(T ヘ To)】
 
