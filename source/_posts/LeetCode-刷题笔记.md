@@ -163,6 +163,43 @@ func reverse(x int) int {
 }
 ```
 
+### [8. String to Integer (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/)
+
+```go
+func myAtoi(s string) (ret int) {
+	i := 0    // 记录位置
+	flag := 1 // 标识正负
+	for i < len(s) && s[i] == ' ' {
+		// 去除前导空格
+		i++
+	}
+	if i < len(s) && s[i] == '-' {
+		flag = -1
+	}
+	if i < len(s) && (s[i] == '+' || s[i] == '-') {
+		i++
+	}
+	for i < len(s) {
+		sub := s[i] - '0'
+		if sub < 0 || sub >= 10 {
+			// 检查是不是数字
+			break
+		}
+		if ret > math.MaxInt32/10 || (ret == math.MaxInt32/10 && sub > 7) {
+			// 越界
+			if flag > 0 {
+				return math.MaxInt32
+			} else {
+				return math.MinInt32
+			}
+		}
+		ret = ret*10 + int(sub)
+		i++
+	}
+	return ret * flag
+}
+```
+
 ### [9. Palindrome Number](https://leetcode.com/problems/palindrome-number/description/)
 
 #### 翻转数字
@@ -2604,6 +2641,68 @@ func (this *LRUCache) Put(key int, value int)  {
  */
 ```
 
+### [151. Reverse Words in a String](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+#### 反转
+
+1. 去除多余空格（快慢指针）
+2. 反转整个字符串
+3. 反转单词
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
+- 空间复杂度（优化）：$O(1)$
+
+> 可以不把步骤单独封装为函数以减小内存消耗，如忽略 Go 字符串不可变的问题，空间复杂度可以达到 $O(1)$。
+
+```go
+func reverseWords(s string) string {
+    str := []byte(s)
+
+    str = trim(str)
+    reverse(str)
+    
+    for i, j := 0, 0; j <= len(str); {
+        if j < len(str) && str[j] != ' ' {
+            j++
+            continue
+        } else {
+            reverse(str[i:j])
+            j++
+            i = j
+        }
+    }
+
+    return string(str)
+}
+
+// trim 函数删除多余空格
+func trim(s []byte) []byte {
+    slow, fast := 0, 0
+    for fast < len(s) && s[fast] == ' ' {
+        fast++
+    }
+    for ; fast < len(s); fast++ {
+        if fast > 1 && s[fast] == ' ' && s[fast-1] == s[fast] {
+            continue
+        }
+        s[slow] = s[fast]
+        slow++
+    }
+    if s[slow-1] == ' ' {
+        return s[:slow-1]
+    }
+    return s[:slow]
+}
+
+// reverse 函数反转整个 s
+func reverse(s []byte) {
+    for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+        s[i], s[j] = s[j], s[i]
+    }
+}
+```
+
 ### [154. Find Minimum in Rotated Sorted Array II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
 
 #### 二分查找
@@ -3421,6 +3520,19 @@ func getHint(secret string, guess string) string {
   }
   ```
 
+### [344. Reverse String](https://leetcode-cn.com/problems/reverse-string/)
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func reverseString(s []byte)  {
+    for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+        s[i], s[j] = s[j], s[i]
+    }
+}
+```
+
 ### 345. [Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/)
 
 #### Ideas
@@ -3764,6 +3876,36 @@ func findPoisonedDuration(timeSeries []int, duration int) int {
 ```
 
 ## 501-600
+
+### [541. Reverse String II](https://leetcode-cn.com/problems/reverse-string-ii/)
+
+使用 `do...while...` 的循环解决数组长度小于 `k` 的问题。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度（Go 实现）：$O(n)$
+- 空间复杂度（原地修改）：$O(1)$
+
+```go
+func reverseStr(s string, k int) string {
+    str := []byte(s)
+    for n := 0; ; n += 2*k {
+		for i, j := n, min(n+k-1, len(str)-1); i < j; i, j = i+1, j-1 {
+			str[i], str[j] = str[j], str[i]
+		}
+        if n+k > len(str) {
+            break
+        }
+	}
+    return string(str)
+}
+
+func min(a, b int) int {
+    if a < b {
+        return a
+    }
+    return b
+}
+```
 
 ### [543. Diameter of Binary Tree](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 

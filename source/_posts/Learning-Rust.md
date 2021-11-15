@@ -14,7 +14,7 @@ mathjax: true
 
 {% noteblock quote cyan %}
 
-本文根据 [The Rust Programming Language](https://doc.rust-lang.org/book/) 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论的部分进行了介绍。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。
+本文主要根据 [The Rust Programming Language](https://doc.rust-lang.org/book/) 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，**因此对于本文内容请不要认为其等同于原文**。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。
 
 {% endnoteblock %}
 
@@ -1090,3 +1090,148 @@ fn calculate_length(s: String) -> (String, usize) {
 #### 总结
 
 本节对于 Rust 的所有权机制进行了一个初步的介绍，Rust 用所有权机制让栈中的变量与其在堆中分配的数据一对一地关联起来（个人感觉这就像一条牵狗绳），在变量赋值的过程中，原变量会失去堆中数据的所有权，转交给被赋值的变量。通过这种方式，Rust 硬性地解决了常见的各种内存分配问题。由于所有权的唯一化，在变量作用域结束时就可以将其自动回收，不会出现忘记回收以及重复回收的问题。
+
+### 引用和借用
+
+上一节末尾提到的**引用**（*references*）机制，可以在不移动所有权的前提下访问一个变量的堆中数据。下面是由上一节末尾处代码改写的一个示例：
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+```
+
+注意这段代码中的新语法 `&`（`&s1` 和 `&String`），使用这个操作符能够引用一个变量，从而在没有所有权的情况下操作这个变量的堆中数据。其底层的情况如下图所示：
+
+![&String s pointing at String s1](Learning-Rust/trpl04-05.svg)
+
+> 注意：使用 `&` 进行引用的相反操作是取消引用，可以通过取消引用操作符 `*` 来完成，这些内容暂时不进行讨论。
+
+上述代码中，`calculate_length` 函数中的 `s` 是一个 `&String` 类型，即一个 `String` 的引用类型，这表明它不具有某个值的所有权，在离开作用域时不会对其调用 `drop()` 操作，并且这个函数也不需要归还任何值的所有权。
+
+我们把创建引用的行为称为**借用**（*borrowing*），这个名字包含了“有借有还”的原则。
+
+看到这里很自然地会有一个问题：我们能不能对“借”来的值进行写操作呢？尝试编译运行下面的代码：
+
+```rust
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    some_string.push_str(", world");
+}
+```
+
+```shell
+$ cargo run
+   Compiling ownership v0.1.0
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+  --> src\main.rs:42:5
+   |
+41 | fn change(some_string: &String) {
+   |                        ------- help: consider changing this to be a mutable reference: `&mut String`
+42 |     some_string.push_str(", world");
+   |     ^^^^^^^^^^^ `some_string` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `ownership` due to previous error
+```
+
+答案是不能，从编译错误的信息中我们能够看到，由 `&` 借用来的 `String` 引用，默认是不可变的。
+
+#### 可变引用
+
+我们可以用下面的方式解决引用不可变的问题：
+
+```rust
+fn main() {
+    let mut s = String::from("hello"); // mut
+
+    change(&mut s); // mut
+}
+
+fn change(some_string: &mut String) { // mut
+    some_string.push_str(", world");
+}
+```
+
+上面的代码成功编译并运行了。需要注意的是所有权的拥有者（`s`）同样也要被改为可变的。
+
+然而有个很大的问题是只能借用一次可变，下面的代码就会编译出错：
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s;
+
+    println!("{}, {}", r1, r2);
+}
+```
+
+不能多次借用 `s` 作为可变参数。可能有人会想（比如我就这么想）：既然不能进行多次可变借用，那多次不可变借用行不行？
+
+```rust
+fn main() {
+    let mut s = String::from("hello"); // 由于 mut 属性没有被用到，编译时会警告但不会报错
+
+    let r1 = &s;
+    let r2 = &s;
+
+    println!("{}, {}", r1, r2);
+}
+```
+
+这么写就可以了，但要是一个可变借用一个不可变借用呢？尝试下面的情况：
+
+```rust
+let r1 = &mut s;
+let r2 = &s;
+```
+
+这次编译报错，提示 ``cannot borrow `s` as immutable because it is also borrowed as mutable``，意思是已经以可变的方式借用过了，不能再以不可变的方式借用了。再给它颠倒过来试一下：
+
+```rust
+let r1 = &s;
+let r2 = &mut s;
+```
+
+这次仍然报错，提示 ``cannot borrow `s` as mutable because it is also borrowed as immutable``，同样不行，报错信息也反过来了。
+
+第一个可变借用在 `r1` 中并且必须持续到它在 `println!` 中使用为止，要想再借用就必须在这之后（无论是可变还是不可变），所以下面的代码是有效的：
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    println!("{}", r1);
+    
+    let r2 = &mut s;
+    println!("{}", r2);
+}
+```
+
+综上所述，防止对同一数据进行多个可变引用的限制很严格，从而非常安全可控。不过虽然可以通过上面的代码来实现值的变动，但这实在是有些麻烦。
+
+> 这也是很多新的 Rust 人士（Rustaceans，Rust 开发者的自称）想要努力解决的问题，因为大多数语言都可以让开发者随时进行变动。
+
+有这个限制的好处是 Rust 可以在编译时防止出现**数据竞争**（*data races*）。数据竞争类似于竞争条件（*race condition*），当出现以下三种行为时就会发生：
+
+- 两个或多个指针同时访问相同的数据；
+- 至少有一个指针用于写入数据；
+- 没有用于同步数据访问的机制。
+
+数据竞争会导致未定义的行为，并且当你尝试在运行时追踪它们，可能难以诊断和修复。Rust 防止了这个问题的发生，因为带有数据竞争的代码编译直接不能通过。

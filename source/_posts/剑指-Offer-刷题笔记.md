@@ -1850,6 +1850,75 @@ func reverseWords(s string) string {
 }
 ```
 
+## [58 - II. 左旋转字符串](https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
+
+#### 字符串切片
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
+
+```go
+func reverseLeftWords(s string, n int) string {
+    return s[n:] + s[:n]
+}
+```
+
+#### 字符串反转
+
+反转整个字符串再翻转两个局部字符串。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度（Go）：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func reverseLeftWords(s string, n int) string {
+    str := []byte(s)
+
+    rev := func(s []byte) {
+        for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+            s[i], s[j] = s[j], s[i]
+        }
+    }
+
+    rev(str)
+    rev(str[:len(str)-n])
+    rev(str[len(str)-n:])
+
+    return string(str)
+}
+```
+
+## [61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+
+### 排序 + 数学
+
+1. 首先通过排序方便检查重复并判断有序
+2. 记录 0 的个数
+3. 当非 0 的数字出现重复，则可以确定不满足条件
+4. 0 的个数正好等于第一个非零数字的下标
+5. 非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
+
+```go
+func isStraight(nums []int) bool {
+    sort.Ints(nums)    // 排序
+    count := 0
+    for i := 0; i < 4; i++ {
+        if nums[i] == 0 {
+            // 统计 0 的个数
+            count++
+        } else if nums[i] == nums[i+1] {
+            // 非 0 数字重复
+            return false
+        }
+    }
+    return nums[4] - nums[count] < 5
+}
+```
+
 ## [63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)
 
 ### 动态规划
@@ -1885,55 +1954,6 @@ func max(a, b int) int {
         return a
     }
     return b
-}
-```
-
-## 58-2. [左旋转字符串](https://leetcode-cn.com/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/)
-
-### Ideas
-
-- 使用拼接字符串
-
-### Solutions
-
-- 字符串拼接
-
-  ```go
-  func LeftRotateString(str string, n int) string {
-      if len(str) <= 1 {
-          return str
-      }
-      return str[n:] + string(str[0:n])
-  }
-  ```
-
-## [61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
-
-### 排序 + 数学
-
-1. 首先通过排序方便检查重复并判断有序
-2. 记录 0 的个数
-3. 当非 0 的数字出现重复，则可以确定不满足条件
-4. 0 的个数正好等于第一个非零数字的下标
-5. 非零数字的两端差值小于 5 则表明中间能够用 0 填充使其满足条件
-
-- 时间复杂度：$O(n)$
-- 空间复杂度：$O(n)$
-
-```go
-func isStraight(nums []int) bool {
-    sort.Ints(nums)    // 排序
-    count := 0
-    for i := 0; i < 4; i++ {
-        if nums[i] == 0 {
-            // 统计 0 的个数
-            count++
-        } else if nums[i] == nums[i+1] {
-            // 非 0 数字重复
-            return false
-        }
-    }
-    return nums[4] - nums[count] < 5
 }
 ```
 
