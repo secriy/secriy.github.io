@@ -1210,13 +1210,37 @@ let r2 = &mut s;
 
 这次仍然报错，提示 ``cannot borrow `s` as mutable because it is also borrowed as immutable``，同样不行，报错信息也反过来了。
 
-第一个可变借用在 `r1` 中并且必须持续到它在 `println!` 中使用为止，要想再借用就必须在这之后（无论是可变还是不可变），所以下面的代码是有效的：
+第一个可变借用在 `r1` 中并且必须持续到它在 `println!` 中使用为止，要想再借用就必须在这之后（无论是可变还是不可变），所以下面的代码都是有效的：
 
 ```rust
 fn main() {
     let mut s = String::from("hello");
 
     let r1 = &mut s;
+    println!("{}", r1);
+    
+    let r2 = &mut s;
+    println!("{}", r2);
+}
+```
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    println!("{}", r1);
+    
+    let r2 = &s;
+    println!("{}", r2);
+}
+```
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &s;
     println!("{}", r1);
     
     let r2 = &mut s;
@@ -1235,3 +1259,101 @@ fn main() {
 - 没有用于同步数据访问的机制。
 
 数据竞争会导致未定义的行为，并且当你尝试在运行时追踪它们，可能难以诊断和修复。Rust 防止了这个问题的发生，因为带有数据竞争的代码编译直接不能通过。
+
+既然上述的限制都是在同一个作用域之中的，那么使用新的作用域也就不会有问题了：
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    {
+        let r1 = &mut s;
+    } // r1 已经离开作用域了，因此可以在后面再次引用 s
+
+    let r2 = &mut s;
+}
+```
+
+需要注意的是，引用的作用范围是从它**被引用的地方开始**，直到**最后一次被使用**。因此下面的代码不会出现编译错误，因为它们的作用范围没有交叉，根本不会引起冲突。
+
+```rust
+fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    let r2 = &mut s;
+    let r3 = &mut s;
+}
+```
+
+> 无需特别记忆这个规则，实际上很简单，就是看作用范围有没有重叠。没有出现引用的作用范围重叠的代码就是预期之中的。另外，编译器在某变量作用范围结束之前判断其**不再使用引用**的能力被称为非词法生命周期（Non-Lexical Lifetimes，简称 NLL），参照 [The Edition Guide](https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html)。
+
+如果不了解所有权机制，可能会写出很多错误的代码，但是 Rust 在这方面做的最贴心的地方就是编译器会尽早（在编译时而不是在运行时）指出潜在的错误，并准确地展示问题所在。这样就省去了很多花在在运行时 debug 的时间。大概率不会产生“为什么这个地方和我预期的结果不一样”的疑问。
+
+#### 悬挂引用
+
+> Dangling References，也可以译为悬空引用。
+
+在带有指针的编程语言中，如果释放了一块内存但是没有删除指向该内存的指针，那这个指针就变成了悬挂指针。该指针可能指向的是一块未分配的内存，也可能指向了**已经被分配给了其他数据**的内存，这是很严重的错误。相比之下，在 Rust 中，编译器能保证引用永远不会是悬挂引用：如果你持有一些数据（这段话中的数据指的都是堆中的值）的引用，编译器将确保在引用的数据处理完之前数据不会离开作用域。
+
+```rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String {
+    let s = String::from("hello");
+
+    &s
+}
+```
+
+上面的这段代码中，`dangle` 函数返回的是 `String` 的引用，而非转让它的所有权，因此当这个函数返回时，`reference_to_nothing` 引用的那块堆内存已经被 `drop` 了。下面是编译器报错：
+
+```shell
+$ cargo run
+   Compiling ownership v0.1.0
+error[E0106]: missing lifetime specifier
+  --> src\main.rs:45:16
+   |
+45 | fn dangle() -> &String {
+   |                ^ expected named lifetime parameter
+   |
+   = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
+help: consider using the `'static` lifetime
+   |
+45 | fn dangle() -> &'static String {
+   |                ^^^^^^^^
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `ownership` due to previous error
+```
+
+这段错误涉及到我们的知识盲区了，这个 *lifetime* 是什么？我暂时也不知道，但这不重要，看其中的一段错误信息：
+
+```
+this function's return type contains a borrowed value, but there is no value for it to be borrowed from.
+```
+
+这句话的意思是这个函数返回了**包含一个借用来的值**的类型，但是没有它能借用的值。借用来的值实际上就是指引用值，也就是说引用的对象已经不存在了。这很好理解，`dangle` 函数结束时把 `s` 给 `drop` 了。那怎么解决呢？很简单，就照没学引用的那时候办，直接转让所有权就行了：
+
+```rust
+fn no_dangle() -> String {
+    let s = String::from("hello");
+
+    s
+}
+```
+
+#### 总结
+
+让我们最后回顾一下本节关于引用的内容：
+
+- 在任何时候，可以有一个可变引用**或**任意数量的不可变引用。
+- 引用必须始终有效。
+
+> 要注意这个或啊，作用范围内生效的可变引用只能有一个，和不可变引用不能同时都有，不可变引用的话数量不限。
+
+### 切片类型
+
+> Slice，很常见的类型，如果只是停留在它的表象上可以理解为可变的数组。

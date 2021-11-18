@@ -590,33 +590,50 @@ func isValid(s string) bool {
 }
 ```
 
-### 21. [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/description/)
+### [21. Merge Two Sorted Lists](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
-#### Ideas
+#### 递归
 
-- 递归解法。
+```go
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+    if l1 == nil {
+        return l2
+    }
+    if l2 == nil {
+        return l1
+    }
+    if l1.Val < l2.Val {
+        l1.Next = mergeTwoLists(l1.Next, l2)
+        return l1
+    } else {
+        l2.Next = mergeTwoLists(l1, l2.Next)
+        return l2
+    }
+}
+```
 
-#### Solutions
+#### 去重\*
 
-- 递归
-
-  ```go
-  func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-      if l1 == nil {
-          return l2
-      }
-      if l2 == nil {
-          return l1
-      }
-      if l1.Val < l2.Val {
-          l1.Next = mergeTwoLists(l1.Next, l2)
-          return l1
-      } else {
-          l2.Next = mergeTwoLists(l1, l2.Next)
-          return l2
-      }
-  }
-  ```
+```go
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+    if l1 == nil {
+        return l2
+    }
+    if l2 == nil {
+        return l1
+    }
+    if l1.Val < l2.Val {
+        l1.Next = mergeTwoLists(l1.Next, l2)
+        return l1
+    } else if l1.Val > l2.Val {
+        l2.Next = mergeTwoLists(l1, l2.Next)
+        return l2
+    } else {
+        l1.Next = mergeTwoLists(l1.Next, l2.Next)
+        return l1
+    }
+}
+```
 
 ### [22. Generate Parentheses](https://leetcode-cn.com/problems/generate-parentheses/)
 
@@ -1134,6 +1151,33 @@ func spiralOrder(matrix [][]int) []int {
 }
 ```
 
+### [53. Maximum Subarray](https://leetcode-cn.com/problems/maximum-subarray/)
+
+#### 动态规划
+
+原地修改。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func maxSubArray(nums []int) int {
+    maxNum := nums[0]
+    sum := 0
+    for i := 1; i < len(nums); i++ {
+        if sum = nums[i]+nums[i-1]; sum > nums[i] {
+            nums[i] = sum
+        }
+        if nums[i] > maxNum {
+            maxNum = nums[i]
+        }
+    }
+    return maxNum
+}
+```
+
+#### 分治
+
 ### 55. [Jump Game](https://leetcode.com/problems/jump-game/)
 
 #### Ideas
@@ -1358,21 +1402,18 @@ func plusOne(digits []int) []int {
 
 ```go
 func mySqrt(x int) int {
-    if x == 1 {
-        return 1
-    }
     low, high := 0, x
-    for low < high-1 {
-        mid := (low + high) >> 1
+    for low <= high {
+        mid := (low+high)>>1
         if m := mid*mid; m == x {
             return mid
-        } else if m < x {
-            low = mid
+        } else if m > x {
+            high = mid - 1
         } else {
-            high = mid
+            low = mid + 1
         }
     }
-    return low
+    return low-1
 }
 ```
 
@@ -1598,12 +1639,12 @@ func partition(head *ListNode, x int) *ListNode {
 
   ```go
   func merge(nums1 []int, m int, nums2 []int, n int)  {
-      for i:= m+n-1; i >= 0; i-- {
+      for idx := m+n-1; idx >= 0; idx-- {
           if n-1 < 0 || (m-1 >= 0 && nums1[m-1] >= nums2[n-1]) {
-              nums1[i] = nums1[m-1]
+              nums1[idx] = nums1[m-1]
               m--
           } else {
-              nums1[i] = nums2[n-1]
+              nums1[idx] = nums2[n-1]
               n--
           }
       }
@@ -2379,115 +2420,72 @@ func copyRandomList(head *Node) *Node {
 }
 ```
 
-### 141. [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/description/)
+### [141. Linked List Cycle](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-#### Ideas
+#### 哈希表
 
-- 最简单的方法是使用 Map 保存结点，当遇到重复即返回。
-  - 时间复杂度：$O(n)$
-  - 空间复杂度：$O(n)$
-- 使用快慢指针，如果存在循环则二者必然交叉，当遇到交叉即返回。
-  - 时间复杂度：$O(n)$
-  - 空间复杂度：$O(1)$
+使用哈希表保存结点，当遇到重复即返回。
 
-#### Solutions
-
-- Map
-
-  ```go
-  func hasCycle(head *ListNode) bool {
-      m := make(map[*ListNode]bool)
-      for head != nil {
-          if _, ok := m[head]; ok {
-              return true
-          }
-          m[head] = true
-          head = head.Next
-      }
-      return false
-  }
-  ```
-
-- Slow-Fast Pointer
-
-  ```go
-  func hasCycle(head *ListNode) bool {
-      slow, fast := head, head
-      for fast != nil && fast.Next != nil {
-          slow = slow.Next
-          fast = fast.Next.Next
-          if slow == fast {
-              return true
-          }
-      }
-      return false
-  }
-  ```
-
-### 142. [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/description/)
-
-#### Ideas
-
-- Map 解法同 141 题，记录指针即可。
-
-- 快慢指针解法，当二者第一次相遇时将其中一个指针返回到链开头，二者以同样的速度往下遍历，直到二者相等即返回。
-
-#### Solutions
-
-- 略
-
-- Slow-Fast Pointer
-
-  ```go
-  func detectCycle(head *ListNode) *ListNode {
-      slow, fast := head, head
-      for fast != nil && fast.Next != nil {
-          slow = slow.Next
-          fast = fast.Next.Next
-          if slow == fast {
-              fast = head
-              for fast != slow {
-                  slow = slow.Next
-                  fast = fast.Next
-              }
-              return fast
-          }
-      }
-      return nil
-  }
-  ```
-
-#### Two points
-
-两个链表的长度不同，让二者相遇的办法是让它们的长度变为一致，具体实现是让它们在到达链表末尾后跳转到对方的链首。
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(n)$
 
 ```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-    // 边界判断
-    if headA == nil || headB == nil {
-        return nil
-    }
-    pA, pB := headA, headB
-    for pA != pB {
-        if pA != nil {
-            pA = pA.Next
-        } else {
-            pA = headB
+func hasCycle(head *ListNode) bool {
+    m := make(map[*ListNode]bool)
+    for head != nil {
+        if _, ok := m[head]; ok {
+            return true
         }
-        if pB != nil {
-            pB = pB.Next
-        } else {
-            pB = headA
+        m[head] = true
+        head = head.Next
+    }
+    return false
+}
+```
+
+#### 快慢指针
+
+如果存在循环则二者必然交叉，当遇到交叉即返回。
+
+- 时间复杂度：$O(n)$
+- 空间复杂度：$O(1)$
+
+```go
+func hasCycle(head *ListNode) bool {
+    slow, fast := head, head
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        if slow == fast {
+            return true
         }
     }
-    return pA
+    return false
+}
+```
+
+### [142. Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/description/)
+
+#### 快慢指针
+
+快慢指针解法，当二者第一次相遇时将其中一个指针返回到链开头，二者以同样的速度往下遍历，直到二者相等即返回。
+
+```go
+func detectCycle(head *ListNode) *ListNode {
+    slow, fast := head, head
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+        if slow == fast {
+            fast = head
+            for fast != slow {
+                slow = slow.Next
+                fast = fast.Next
+            }
+            return fast
+        }
+    }
+    return nil
 }
 ```
 
@@ -2842,6 +2840,31 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
         headB = headB.Next
     }
     return nil
+}
+```
+
+#### 交叉
+
+```go
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+    // 边界判断
+	if headA == nil || headB == nil {
+		return nil
+	}
+	pA, pB := headA, headB
+	for pA != pB {
+		if pA != nil {	
+			pA = pA.Next
+		} else {
+			pA = headB
+		}
+		if pB != nil {
+			pB = pB.Next
+		} else {
+			pB = headA
+		}
+	}
+	return pA
 }
 ```
 
@@ -4006,6 +4029,31 @@ func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 ```
 
 ## 701-800
+
+### [704. Binary Search](https://leetcode-cn.com/problems/binary-search/)
+
+#### 二分查找
+
+- 时间复杂度：$O(logn)$
+- 空间复杂度：$O(1)$
+
+```go
+func search(nums []int, target int) int {
+    low, high := 0, len(nums)-1
+    for low <= high {
+        mid := (low+high)>>1
+        if nums[mid] == target {
+            return mid
+        }
+        if nums[mid] < target {
+            low = mid + 1
+        } else {
+            high = mid - 1
+        }
+    }
+    return -1
+}
+```
 
 ### [739. Daily Temperatures](https://leetcode-cn.com/problems/daily-temperatures/)
 
