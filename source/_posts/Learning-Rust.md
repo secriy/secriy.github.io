@@ -14,7 +14,7 @@ mathjax: true
 
 {% noteblock quote cyan %}
 
-本文主要根据 [The Rust Programming Language](https://doc.rust-lang.org/book/) 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，**因此对于本文内容请不要认为其等同于原文**。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。
+本文主要根据 [The Rust Programming Language](https://doc.rust-lang.org/book/) 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，**因此对于本文内容请不要认为其等同于原文**。本文对于**有其他编程语言经验**的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。
 
 {% endnoteblock %}
 
@@ -156,7 +156,7 @@ fn main() {
 
 ### 数据类型
 
-数据类型是静态类型相当重要的部分，Rust 作为一种静态类型语言，其每一个值都有指定的类型，所有变量的类型在编译期间就已经确定了。
+数据类型是静态类型语言相当重要的部分，Rust 作为一种静态类型语言，其每一个值都有指定的类型，所有变量的类型在编译期间就已经确定了。
 
 Rust 中数据类型分为两大类：标量类型（scalar）以及复合类型（compound）。
 
@@ -290,7 +290,7 @@ fn main() {
 }
 ```
 
-类似 `let (x, y, z) = tup` 将一个 tuple 赋值给多个变量的用法被称为解构（*destructuring*），
+类似 `let (x, y, z) = tup` 将一个 tuple 赋值给多个变量的用法被称为解构（*destructuring*）。
 
 还可以直接根据下标取值：
 
@@ -368,11 +368,11 @@ fn hello_world() {
 
 ```rust
 fn main() {
-    hello_world(); // Hello world.
+    sample_func(); // Sample function.
 }
 
-fn hello_world() {
-    println!("Hello world.");
+fn sample_func() {
+    println!("Sample function.");
 }
 ```
 
@@ -407,17 +407,17 @@ fn another_function(x: i32, y: i32) {
 
 #### 函数返回值
 
-函数可以向调用它们的代码返回值。我们不命名返回值，但在箭头（`->`）后面声明它们的类型。在 Rust 中，函数的返回值与函数体块中最终表达式的值同义。通过使用 return 关键字并指定值，可以提前从函数返回，但大多数函数隐式返回最后一个表达式。下面是一个返回值的函数示例：
+函数可以向调用它们的代码返回值。我们不命名返回值，但在箭头（`->`）后面声明它们的类型。在 Rust 中，函数的返回值与函数体块中最终表达式的值同义。通过使用 `return` 关键字并指定值，可以提前从函数返回，但大多数函数隐式返回**最后一个表达式**。
 
 Rust 中函数返回值是无名的，只需要指定其类型：
 
 ```rust
 fn five() -> i32 {
-    5
+    5 // 等同于 `return 5;`
 }
 
 fn plus_one(x: i32) -> i32 {
-    x + 1
+    return x + 1;
 }
 
 fn main() {
@@ -428,7 +428,7 @@ fn main() {
 }
 ```
 
-注意，作为函数返回值的语句，其后是没有 `;` 的，如上面的 `5` 和 `x + 1`，加上分号就变成了普通语句，而不是返回值。
+注意，作为函数返回值的表达式，其后是没有 `;` 的，如上面的 `5` 和 `x + 1`，加上分号就变成了普通表达式，而不是返回值。
 
 `plus_one` 函数还可以改成如下的形式：
 
@@ -680,6 +680,8 @@ fn main() {
 
 1. 用目前学习的内容写一个计算斐波那契数列的函数：
 
+    动态规划解法：
+    
     ```rust
     fn fib(mut n: i32) {
         let mut pre = 1;
@@ -689,7 +691,7 @@ fn main() {
             let tmp = post;
             post += pre;
             pre = tmp;
-            n-=1;
+            n -= 1;
         }
     
         println!("{}", post);
@@ -885,7 +887,7 @@ let s2 = s1;
 
 ![String in memory](Learning-Rust/trpl04-01.svg)
 
-> 注：非单独注明，图片均来自 [The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html)。
+> 注：本章节的图片均取自 [The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html)。
 
 这和 Go 对字符串类型的实现基本相同。
 
@@ -1119,6 +1121,8 @@ fn calculate_length(s: &String) -> usize {
 
 我们把创建引用的行为称为**借用**（*borrowing*），这个名字包含了“有借有还”的原则。
 
+> reference 作名词，borrow 作动词，而在中文语境下不怎么需要纠结它们的差别。
+
 看到这里很自然地会有一个问题：我们能不能对“借”来的值进行写操作呢？尝试编译运行下面的代码：
 
 ```rust
@@ -1331,9 +1335,7 @@ error: could not compile `ownership` due to previous error
 
 这段错误涉及到我们的知识盲区了，这个 *lifetime* 是什么？我暂时也不知道，但这不重要，看其中的一段错误信息：
 
-```
-this function's return type contains a borrowed value, but there is no value for it to be borrowed from.
-```
+*this function's return type contains a borrowed value, but there is no value for it to be borrowed from.*
 
 这句话的意思是这个函数返回了**包含一个借用来的值**的类型，但是没有它能借用的值。借用来的值实际上就是指引用值，也就是说引用的对象已经不存在了。这很好理解，`dangle` 函数结束时把 `s` 给 `drop` 了。那怎么解决呢？很简单，就照没学引用的那时候办，直接转让所有权就行了：
 
@@ -1357,3 +1359,178 @@ fn no_dangle() -> String {
 ### 切片类型
 
 > Slice，很常见的类型，如果只是停留在它的表象上可以理解为可变的数组。
+
+切片是一种没有所有权的类型，它用于引用一个**连续的元素序列**的一部分。
+
+#### 字符串切片
+
+字符串切片（string slice）引用一个字符串的一部分，它的类型是 `&str`，例如下面的代码：
+
+```rust
+fn main() {
+    let s = String::from("hello world");
+
+    let hello = &s[0..5];
+    let world = &s[6..11];
+    
+    println!("{} {}", hello, world); // hello world
+}
+```
+
+其中，`hello` 和 `world` 各引用了 `s` 的一部分，它们通过下标来指定范围（这和其他编程语言没什么差别），使用了我们已经学过的 `&` 来引用。
+
+如果把 `&s[0..5]` 改为 `s[0..5]` 会怎么样呢？可以尝试一下，这时候编译器会报 `doesn't have a size known at compile-time` 错误，意思是这个值的大小在编译期间未知，这很合理。
+
+下图展示了 `s` 和 `world` 两个变量的实际结构：
+
+![world containing a pointer to the byte at index 6 of String s and a length 5](Learning-Rust/trpl04-06.svg)
+
+Rust 的范围语法支持很灵活的表示方式，比如省略开始下标（`[..n]`）和省略结束下标（`[n..]`）来实现从头开始和到尾结束，这也是比较常见的用法。
+
+需要注意的一点是，`String` 采用 UTF-8 编码，当字符串截取到非法的位置，是会引起运行时错误的。下面的代码展示了正确的情况：
+
+```rust
+fn main() {
+    let s = String::from("你好世界");
+
+    let len = s.len();
+
+    println!("{}", len); // 12
+
+    let hello = &s[..6];
+    let world = &s[6..];
+    let whole = &s[..]; // 等同于 `&s[0..s.len()]`
+
+    println!("{} {}", hello, world); // 你好 世界
+    println!("{}", whole); // 你好世界
+}
+```
+
+可以看到，四个中文字符总共占用了 12 bytes，根据 UTF-8 编码方式，它们每个字符占用的是 3 bytes，我们尝试在字符的中间位置截取字符串，把 `&s[..6]` 改为 `&s[..2]`：
+
+```rust
+let hello = &s[..2];
+```
+
+```shell
+$ cargo run
+   Compiling ownership v0.1.0
+    Finished dev [unoptimized + debuginfo] target(s) in 0.33s
+     Running `\path_to\ownership\target\debug\ownership.exe`
+12
+thread 'main' panicked at 'byte index 2 is not a char boundary; it is inside '你' (bytes 0..3) of `你好世界`', src\main.rs:58:18
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: process didn't exit successfully: `\path_to\ownership\target\debug\ownership.exe` (exit code: 101)
+```
+
+注意这次产生的是运行时错误，和以往的编译错误不同，它不会影响出错位置之前的代码执行，因此 12 这个结果能够正常输出。错误的原因也非常简单，刚刚已经提到过了，字符串截取的范围非法（不在字符边界）。这个问题需要留意，以免写出错误的程序。
+
+> 在之后的章节有对 Rust 关于字符串 UTF-8 编码的详细介绍。
+
+下面再看一段程序：
+
+```rust
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s);
+
+    s.clear(); // error!
+
+    println!("the first word is: {}", word);
+}
+```
+
+其中，`first_word` 函数的作用是返回一个字符串的第一个单词切片，使用了迭代特性，遇到空格就把前面的这部分字符串返回。`first_word` 函数暂时不是我们的重点，重点是 `main` 函数部分，它抛出了一个编译错误 ``cannot borrow `s` as mutable because it is also borrowed as immutable``，这个错误之前已经见过了。`clear` 方法是一个用于清空字符串内容的方法，显然它应当是以可变引用的方式借用的原字符串，而 `first_world` 函数是以不可变引用的方式借用的，并且它在 `clear` 被调用后仍在被使用，因此二者会出现冲突。
+
+#### 字符串字面量是切片
+
+回忆一下之前提到的字符串字面量：
+
+```rust
+let s = "Hello, world!";
+```
+
+`s` 的类型实际上是 `&str`，一个字符串切片，不过它指向的是栈空间中特定位置的二进制内容（指这段字符串）。这同时解释了为什么字符串字面量是不可变的。
+
+#### 字符串切片作为参数
+
+之前见到的处理字符串的函数通常是这样的：
+
+```rust
+fn first_word(s: &String) -> &str {}
+```
+
+而更有经验的程序员会使用下面的写法：
+
+```rust
+fn first_word(s: &str) -> &str {}
+```
+
+这有什么好处呢？实际上，第二种写法既能接收字符串引用，也能接收字符串切片，而第一种写法只能接收字符串引用：
+
+```rust
+fn first_word(s: &str) -> &str {
+    // 省略
+}
+
+fn main() {
+    // 下面的所有用法都是正确的
+    let my_string = String::from("hello world");
+
+    let word = first_word(&my_string[0..6]);
+    let word = first_word(&my_string[..]);
+    let word = first_word(&my_string); // ?
+
+    let my_string_literal = "hello world";
+
+    let word = first_word(&my_string_literal[0..6]);
+    let word = first_word(&my_string_literal[..]);
+    let word = first_word(my_string_literal);
+}
+```
+
+其他的地方都没什么好说的，需要特别注意的是上面问号注释的一行，实参是一个 `&String` 类型，而 `first_world` 的形参是一个 `&str` 类型，这说明 Rust 存在**隐式类型转换**，具体的实现未来再介绍。
+
+#### 其他切片
+
+字符串切片是基于字符串类型的，除了字符串切片还有很多切片类型，比如 `&[i32]` 切片：
+
+```rust
+fn main() {
+    let arr = [1, 2, 3, 4, 5];
+    
+    let slice = &arr[1..3];
+    
+    for e in slice {
+        println!("{}", e);
+    }
+    
+    assert_eq!(slice, &[2, 3]); // 断言
+}
+
+// 2
+// 3
+```
+
+这种切片的原理和实现和字符串切片相同，不再赘述。类似其他语言中的断言，Rust 的相等断言在其参数不相等时会报错，因此 `slice` 变量的内容和 `&[2, 3]` 是完全相等的。
+
+#### 总结
+
+所有权、借用和切片的概念确保了 Rust 程序在编译期间的内存安全。Rust 让你可以像使用其他系统编程语言（理解为主要用于开发操作系统的语言）一样控制内存的使用。但是让数据所有者在离开作用域时自动清理该数据，意味着开发者不必编写和调试额外的代码就能够得到这种控制。
+
+所有权机制会影响 Rust 许多其他部分的工作方式，因此在剩下的部分中还会讨论相关的某些概念。
+
+## 结构体
