@@ -681,7 +681,7 @@ fn main() {
 1. 用目前学习的内容写一个计算斐波那契数列的函数：
 
     动态规划解法：
-    
+
     ```rust
     fn fib(mut n: i32) {
         let mut pre = 1;
