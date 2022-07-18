@@ -23,37 +23,37 @@ tags:
 
 首先连接上采集卡，执行 `lsusb` 查看下设备状态，可以看到已经连接上了：
 
-**![image-20220719002737452](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719002737452.png)**
+**![image-20220719002737452](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719002737452.png)**
 
 再通过 `v4l2-ctl` 查看下外部设备，`video0` 就是我们要找的设备：
 
-![image-20220719002848154](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719002848154.png)
+![image-20220719002848154](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719002848154.png)
 
 尝试在 OBS 中添加一下视频源，结果发现出现 Resolution Not Supported for Resizing 的字样，应该是需要手动调整分辨率：
 
-![image-20220719003043327](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003043327.png)
+![image-20220719003043327](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003043327.png)
 
 接着调整分辨率为 **2560x1440**（这是我主力机的分辨率），然而画面绿了：
 
-![image-20220719003331844](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003331844.png)
+![image-20220719003331844](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003331844.png)
 
 OBS 不行，于是我试着用 MPV 看下：
 
-![image-20220719003549683](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003549683.png)
+![image-20220719003549683](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003549683.png)
 
 可以看到画面有了，不过经常出错，有时候打得开有时候打不开，很多时候需要重复插拔接口并且重新启动 MPV 多次才能正常看到画面，体验极差。OBS 也是相同的，经常莫名其妙得能看到画面，有时候又看不到了，在勾选下图中的选项后能看到实际上是有输入的，只不过不正常，直接花了：
 
-![image-20220719003958228](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003958228.png)
+![image-20220719003958228](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719003958228.png)
 
 接下来我尝试使用这台笔记本上的 Windows 系统，意料之中的一切正常。但我这台设备主要使用 Linux 系统，切系统十分麻烦，最好还是想办法解决 Linux 平台出现的问题。
 
 最终，我从 Arch Wiki 上找到了这么一个字段（[链接地址](https://wiki.archlinux.org/title/webcam_setup#V4L1_support)）：
 
-![image-20220719004352370](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719004352370.png)
+![image-20220719004352370](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719004352370.png)
 
 好家伙，这不就是我遇到的现象吗。在 */etc/profile.d* 目录下创建一个脚本文件，写入 `export LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so`，重启系统使其生效（重新登录也可以）。
 
-![image-20220719004852912](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719004852912.png)
+![image-20220719004852912](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719004852912.png)
 
 完美解决！
 
@@ -61,4 +61,4 @@ OBS 不行，于是我试着用 MPV 看下：
 
 音频部分就比较简单了，我这边是主力机安装 Voicemeeter Banana，将内部音频以及麦克风输入同时输出到耳机（连主力机）和 GC553，这个就比较顺利。
 
-![image-20220719005227349](/home/secriy/Working/hexo/source/_posts/GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719005227349.png)
+![image-20220719005227349](GC553-%E9%87%87%E9%9B%86%E5%8D%A1-Linux-%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20220719005227349.png)
