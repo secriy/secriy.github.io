@@ -29,10 +29,6 @@ sidebar: false
 
 {% checkbox blue checked, 文学：故事会。 %}
 
-{% folding 点我 %}
-{% image https://upyun.secriy.com/statics/img/avatar.png, alt=Secriy, bg=占位颜色（可选） %}
-{% endfolding %}
-
 {% note success, 希望明天能过得更好。  %}
 
 {% btns circle center grid5 %}

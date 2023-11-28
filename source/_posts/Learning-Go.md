@@ -19,9 +19,11 @@ references:
 
 <!-- more -->
 
+> 写作环境：`go version go1.17 windows/amd64`
+
 ## 命令行操作
 
-Golang 提供了完整的操作命令，用于管理和操作项目。配置好 Golang 环境后，可以直接输入`go`命令查看 Golang 提供的所有命令：
+Golang 提供了完整的操作命令，用于管理和操作项目。配置好 Golang 环境后，可以直接输入 `go` 命令查看 Golang 提供的所有命令：
 
 | command  | info                                                |
 | :------: | :-------------------------------------------------- |
@@ -43,7 +45,7 @@ Golang 提供了完整的操作命令，用于管理和操作项目。配置好 
 | version  | print Go version                                    |
 |   vet    | report likely mistakes in packages                  |
 
-使用`go help <command>`查询某个命令的详细信息：
+使用 `go help <command>` 查询某个命令的详细信息：
 
 ```shell
 go help build
@@ -56,15 +58,11 @@ usage: go build [-o output] [build flags] [packages]
 
 ### 命令详解
 
-> 只对命令常用用法和用途做介绍，详细使用方法需要参照命令行提示信息。
-
-#### bug
-
-该命令用于提交 Golang 的 bug，执行会打开 Github 上的 Golang 页面，并会添加系统信息。
+> 只对常用命令的简单用法进行介绍，详细使用方法需要参照命令行提示信息。
 
 #### build
 
-该命令用于编译包和依赖，如果是使用了 Go Modules 的项目，编译时会自动根据*go.mod*文件获取依赖包，再进行编译。
+该命令用于编译包和依赖，如果是使用了 Go Modules 的项目，编译时会自动根据 *go.mod* 文件获取依赖包，再进行编译。
 
 ##### 普通编译
 
@@ -139,7 +137,7 @@ darwin/amd64
    ```shell
    # Linux
    CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
-
+   
    # Windows
    CGO_ENABLED=0 GOOS=windows  GOARCH=amd64  go  build  main.go
    ```

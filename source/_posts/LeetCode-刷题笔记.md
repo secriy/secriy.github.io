@@ -785,6 +785,8 @@ func removeElement(nums []int, val int) int {
 
 旋转排序数组，仍然按照二分法，分别对左有序和右有序的情况作判断。
 
+#### Go
+
 ```go
 func search(nums []int, target int) int {
     low, high := 0, len(nums) - 1
@@ -819,12 +821,48 @@ func search(nums []int, target int) int {
 }
 ```
 
+#### Java
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int low = 0, high = nums.length - 1, mid = 0;
+
+        while (low <= high) {
+            mid = (low + high) >> 1;
+            if(nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] >= nums[low]) {
+                // left ordered
+                if (target < nums[mid] && target >= nums[low]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                // right ordered
+                if (target > nums[mid] && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+}
+```
+
 ### [34. Find First and Last Position of Element in Sorted Array](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 简单两次二分查找即可。
 
 - 时间复杂度：$O(log{n})$
 - 空间复杂度：$O(1)$
+
+#### Go
 
 ```go
 func searchRange(nums []int, target int) []int {
@@ -864,6 +902,46 @@ func searchRange(nums []int, target int) []int {
     res[1] = right - 1
 
     return res
+}
+```
+
+#### Java
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int low = 0, high = nums.length - 1, mid = 0;
+        int res[] = {-1, -1};
+        if (nums.length == 0) {
+            return res;
+        }
+
+        while(low < high) {
+            mid = (low + high) / 2;
+            if (nums[mid] >= target) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        if (nums[low] != target) {
+            return res;
+        }
+        res[0] = low;
+        high = nums.length;
+
+        while(low < high) {
+            mid = (low + high) / 2;
+            if (nums[mid] <= target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        res[1] = high - 1;
+        return res;
+    }
 }
 ```
 
@@ -1414,6 +1492,40 @@ func mySqrt(x int) int {
         }
     }
     return low-1
+}
+```
+
+### [74. Search a 2D Matrix](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+
+#### 二分查找
+
+将二维数组看作一维数组，转换下标即可。
+
+##### Java
+
+```java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int low = 0, mid = 0, high = m * n - 1;
+
+        while (low <= high) {
+            mid = (low + high) >> 1;
+            int row = mid / n;
+            int col = mid % n;
+  
+            if (matrix[row][col] == target) {
+                return true;
+            }
+            if (matrix[row][col] < target) {
+                low = mid + 1;
+            } else {
+                high = mid -1;
+            }
+        }
+        return false;
+    }
 }
 ```
 
@@ -2701,6 +2813,33 @@ func reverse(s []byte) {
 }
 ```
 
+### [153. Find Minimum in Rotated Sorted Array](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+
+#### 二分查找
+
+- 时间复杂度：$O(logn)$
+- 空间复杂度：$O(1)$
+
+##### Java
+
+```java
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0, high = nums.length-1, mid = 0;
+
+        while (low < high) {
+            mid = (low + high) >> 1;
+            if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return nums[low];
+    }
+}
+```
+
 ### [154. Find Minimum in Rotated Sorted Array II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
 
 #### 二分查找
@@ -2865,6 +3004,35 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 		}
 	}
 	return pA
+}
+```
+
+### [162. Find Peak Element](https://leetcode-cn.com/problems/find-peak-element/)
+
+#### 二分查找
+
+爬坡法。
+
+- 时间复杂度：$O(logn)$
+- 空间复杂度：$O(1)$
+
+##### Java
+
+```java
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int low = 0, high = nums.length-1, mid = 0;
+
+        while (low < high) {
+            mid = (low + high) >> 1;
+            if (nums[mid] < nums[mid+1]) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
+    }
 }
 ```
 
