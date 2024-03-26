@@ -1,7 +1,7 @@
 ---
-title: Learning Java
+title: Learn Java
 date: 2023-11-28 19:36:54
-urlname: learning-java
+urlname: learn-java
 categories: 学习笔记
 tags:
   - Java

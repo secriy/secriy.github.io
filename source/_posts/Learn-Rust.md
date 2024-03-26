@@ -1,7 +1,7 @@
 ---
-title: "Learning Rust"
+title: "Learn Rust"
 date: 2021-09-18 14:25:28
-urlname: learning-rust
+urlname: learn-rust
 categories: 学习笔记
 tags:
   - Rust
@@ -889,7 +889,7 @@ let s2 = s1;
 
 这和固定大小的 `i32` 整数有很大的区别，它并不是从 `s1` 直接复制值并赋给 `s2` 的。我们先看看 `String` 背后的结构：
 
-![String in memory](Learning-Rust/trpl04-01.svg)
+![String in memory](Learn-Rust/trpl04-01.svg)
 
 > 注：本章节的图片均取自 [The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html)。
 
@@ -897,11 +897,11 @@ let s2 = s1;
 
 其中，左边的部分是位于栈上的，右边的部分在堆上。长度（len）表示当前字符串已经占用的空间大小（以字节为单位），容量（capacity）表示可供使用的空间大小，即底层数组的实际大小（以字节为单位）。当复制 `s1` 时，仅仅是复制了栈中的部分，因此是下图的结果：
 
-![s1 and s2 pointing to the same value](Learning-Rust/trpl04-02.svg)
+![s1 and s2 pointing to the same value](Learn-Rust/trpl04-02.svg)
 
 由此可以看出，`s1` 和 `s2` 实际的内容是相同的。假设 Rust 同时也会复制堆数据会怎样？如下图的情况：
 
-![s1 and s2 to two places](Learning-Rust/trpl04-03.svg)
+![s1 and s2 to two places](Learn-Rust/trpl04-03.svg)
 
 可以预见，当字符串占用大量空间时，对其进行复制会耗费相当的时间和空间。下面我们丢掉这个假设，看实际的情况。
 
@@ -1117,7 +1117,7 @@ fn calculate_length(s: &String) -> usize {
 
 注意这段代码中的新语法 `&`（`&s1` 和 `&String`），使用这个操作符能够引用一个变量，从而在没有所有权的情况下操作这个变量的堆中数据。其底层的情况如下图所示：
 
-![&String s pointing at String s1](Learning-Rust/trpl04-05.svg)
+![&String s pointing at String s1](Learn-Rust/trpl04-05.svg)
 
 > 注意：使用 `&` 进行引用的相反操作是取消引用，可以通过取消引用操作符 `*` 来完成，这些内容暂时不进行讨论。
 
@@ -1387,7 +1387,7 @@ fn main() {
 
 下图展示了 `s` 和 `world` 两个变量的实际结构：
 
-![world containing a pointer to the byte at index 6 of String s and a length 5](Learning-Rust/trpl04-06.svg)
+![world containing a pointer to the byte at index 6 of String s and a length 5](Learn-Rust/trpl04-06.svg)
 
 Rust 的范围语法支持很灵活的表示方式，比如省略开始下标（`[..n]`）和省略结束下标（`[n..]`）来实现从头开始和到尾结束，这也是比较常见的用法。
 

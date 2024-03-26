@@ -1,7 +1,7 @@
 ---
-title: "Learning Go"
+title: "Learn Go"
 date: 2021-04-17 09:16:22
-urlname: learning-go
+urlname: learn-go
 categories: 学习笔记
 tags:
   - Go
@@ -1203,7 +1203,7 @@ func printSlice(s []int) {
 
 上述代码的四个切片底层共用一个数组，他们各自包含了起始元素的地址、切片长度和切片容量：
 
-![slice](Learning-Go/slice.png)
+![slice](Learn-Go/slice.png)
 
 - 切片`s`从数组的首位开始，长度和容量均等于数组的大小
 - 切片`s1`从数组的首位开始，长度为 0，但从首位开始计算数组的长度为 6，即切片的容量为 6
