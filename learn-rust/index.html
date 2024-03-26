@@ -22,7 +22,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Learning Rust - Secriy&#39;s Blog</title>
+  <title>Learn Rust - Secriy&#39;s Blog</title>
   
     <meta name="keywords" content="PL,Rust">
   
@@ -613,7 +613,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
       <h1 class="title">
-        Learning Rust
+        Learn Rust
       </h1>
       <div class='new-meta-box'>
         
@@ -655,7 +655,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="Learning Rust" data-path="/learning-rust/">
+      <div id="lc-pv" data-title="Learn Rust" data-path="/learn-rust/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -670,9 +670,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class="new-meta-item comments-count">
   
-  <a href="/learning-rust/#comments">
+  <a href="/learn-rust/#comments">
     <i class="fas fa-comment-dots fa-fw"></i>
-    <span class="valine-comment-count" data-xid="/learning-rust/">0</span>
+    <span class="valine-comment-count" data-xid="/learn-rust/">0</span>
     <span class="leancloud-comments-count">&nbsp;</span>
   </a>
 </div>
@@ -1333,15 +1333,15 @@ let y = x;
 let s2 = s1;
 </code></pre>
 <p>这和固定大小的 <code>i32</code> 整数有很大的区别，它并不是从 <code>s1</code> 直接复制值并赋给 <code>s2</code> 的。我们先看看 <code>String</code> 背后的结构：</p>
-<p><img src="/learning-rust/trpl04-01.svg" class="lazyload" data-srcset="/learning-rust/trpl04-01.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="String in memory"></p>
+<p><img src="/learn-rust/trpl04-01.svg" class="lazyload" data-srcset="/learn-rust/trpl04-01.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="String in memory"></p>
 <blockquote>
 <p>注：本章节的图片均取自 <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/title-page.html">The Rust Programming Language</a>。</p>
 </blockquote>
 <p>这和 Go 对字符串类型的实现基本相同。</p>
 <p>其中，左边的部分是位于栈上的，右边的部分在堆上。长度（len）表示当前字符串已经占用的空间大小（以字节为单位），容量（capacity）表示可供使用的空间大小，即底层数组的实际大小（以字节为单位）。当复制 <code>s1</code> 时，仅仅是复制了栈中的部分，因此是下图的结果：</p>
-<p><img src="/learning-rust/trpl04-02.svg" class="lazyload" data-srcset="/learning-rust/trpl04-02.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="s1 and s2 pointing to the same value"></p>
+<p><img src="/learn-rust/trpl04-02.svg" class="lazyload" data-srcset="/learn-rust/trpl04-02.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="s1 and s2 pointing to the same value"></p>
 <p>由此可以看出，<code>s1</code> 和 <code>s2</code> 实际的内容是相同的。假设 Rust 同时也会复制堆数据会怎样？如下图的情况：</p>
-<p><img src="/learning-rust/trpl04-03.svg" class="lazyload" data-srcset="/learning-rust/trpl04-03.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="s1 and s2 to two places"></p>
+<p><img src="/learn-rust/trpl04-03.svg" class="lazyload" data-srcset="/learn-rust/trpl04-03.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="s1 and s2 to two places"></p>
 <p>可以预见，当字符串占用大量空间时，对其进行复制会耗费相当的时间和空间。下面我们丢掉这个假设，看实际的情况。</p>
 <p>前面我们提到了，因为所有权机制，变量超出作用域会立即释放堆内存空间，那么对于具有相同内存空间来说的 <code>s1</code> 和 <code>s2</code>，会发生什么？显然，会调用两次 <code>drop()</code> 来释放同一块内存，这被称为<strong>双重释放</strong>（<em>double free</em>）错误，是我们之前提到的内存安全错误之一。</p>
 <p>为了确保内存安全，在 <code>s2 = s1</code> 这条语句后，Rust 就会认为 <code>s1</code> 不再有效了，因此无需再释放 <code>s1</code>，作用域结束时释放 <code>s2</code> 即可。这直接导致了下面的现象：</p>
@@ -1502,7 +1502,7 @@ fn calculate_length(s: &amp;String) -&gt; usize &#123;
 &#125;
 </code></pre>
 <p>注意这段代码中的新语法 <code>&amp;</code>（<code>&amp;s1</code> 和 <code>&amp;String</code>），使用这个操作符能够引用一个变量，从而在没有所有权的情况下操作这个变量的堆中数据。其底层的情况如下图所示：</p>
-<p><img src="/learning-rust/trpl04-05.svg" class="lazyload" data-srcset="/learning-rust/trpl04-05.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="&amp;String s pointing at String s1"></p>
+<p><img src="/learn-rust/trpl04-05.svg" class="lazyload" data-srcset="/learn-rust/trpl04-05.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="&amp;String s pointing at String s1"></p>
 <blockquote>
 <p>注意：使用 <code>&amp;</code> 进行引用的相反操作是取消引用，可以通过取消引用操作符 <code>*</code> 来完成，这些内容暂时不进行讨论。</p>
 </blockquote>
@@ -1709,7 +1709,7 @@ error: could not compile `ownership` due to previous error
 <p>其中，<code>hello</code> 和 <code>world</code> 各引用了 <code>s</code> 的一部分，它们通过下标来指定范围（这和其他编程语言没什么差别），使用了我们已经学过的 <code>&amp;</code> 来引用。</p>
 <p>如果把 <code>&amp;s[0..5]</code> 改为 <code>s[0..5]</code> 会怎么样呢？可以尝试一下，这时候编译器会报 <code>doesn&#39;t have a size known at compile-time</code> 错误，意思是这个值的大小在编译期间未知，这很合理。</p>
 <p>下图展示了 <code>s</code> 和 <code>world</code> 两个变量的实际结构：</p>
-<p><img src="/learning-rust/trpl04-06.svg" class="lazyload" data-srcset="/learning-rust/trpl04-06.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="world containing a pointer to the byte at index 6 of String s and a length 5"></p>
+<p><img src="/learn-rust/trpl04-06.svg" class="lazyload" data-srcset="/learn-rust/trpl04-06.svg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="world containing a pointer to the byte at index 6 of String s and a length 5"></p>
 <p>Rust 的范围语法支持很灵活的表示方式，比如省略开始下标（<code>[..n]</code>）和省略结束下标（<code>[n..]</code>）来实现从头开始和到尾结束，这也是比较常见的用法。</p>
 <p>需要注意的一点是，<code>String</code> 采用 UTF-8 编码，当字符串截取到非法的位置，是会引起运行时错误的。下面的代码展示了正确的情况：</p>
 <pre><code class="rust">fn main() &#123;
@@ -1966,7 +1966,7 @@ let origin = Point(0, 0, 0);
           <blockquote>
             
               
-                <p>本文永久链接：<a href=https://blog.secriy.com/learning-rust/>https://blog.secriy.com/learning-rust/</a></p>
+                <p>本文永久链接：<a href=https://blog.secriy.com/learn-rust/>https://blog.secriy.com/learn-rust/</a></p>
               
             
           </blockquote>
@@ -1983,7 +1983,7 @@ let origin = Point(0, 0, 0);
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2024-03-26T19:52:27+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2024-03-26T20:03:19+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2024年3月26日</p>
@@ -2008,7 +2008,7 @@ let origin = Point(0, 0, 0);
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/learning-rust/&title=Learning Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/learn-rust/&title=Learn Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
           
           >
           
@@ -2020,7 +2020,7 @@ let origin = Point(0, 0, 0);
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/learning-rust/&title=Learning Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/learn-rust/&title=Learn Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
           
           >
           
@@ -2032,7 +2032,7 @@ let origin = Point(0, 0, 0);
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/learning-rust/&title=Learning Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/learn-rust/&title=Learn Rust - Secriy's Blog&summary=本文主要根据 The Rust Programming Language 翻译总结而成，大多内容纯粹是对该书的翻译，但按照我个人的学习路线以及练习增删了一些内容，同时也参考了其他文档对需要深入讨论或是难以理解的部分进行了详细介绍，因此对于本文内容请不要认为其等同于原文。本文对于有其他编程语言经验的同学来说比较容易接受，容易引起歧义的英文翻译都会标注原文。由于本文完全直接参考官方教程等英文文献，可以确保内容不存在由于转经多人之手而出现的偏差。但受限于个人知识水平，难免出现疏漏错误，烦请告知。"
           
           >
           
@@ -2212,7 +2212,7 @@ let origin = Point(0, 0, 0);
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="Learning Rust";
+  pdata.postTitle="Learn Rust";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   // header 这里无论是否开启pjax都需要
