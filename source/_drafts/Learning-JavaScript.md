@@ -10,25 +10,23 @@ tags:
 
 {% noteblock quote cyan %}
 
-本文是 JavaScript 个人学习笔记，仅适合有编程基础快速入门使用。
+本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。
 
 {% endnoteblock %}
 
 <!-- more -->
 
-## 入门
-
-### JavaScript 参考
+## 参考资料
 
 - Specification：[The ECMA-262 specification](https://www.ecma-international.org/publications/standards/Ecma-262.htm)
 
 - MDN 手册：[MDN (Mozilla) JavaScript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference)
 
-### 名词解释
-
-- JavaScript 引擎：JavaScrit 的运行环境，负责将 JavaScript 代码转为机器码执行。如 Chrome 使用的 V8。
-
 ## 语言基础
+
+### 概念
+
+-   JavaScript 引擎：JavaScrit 的运行环境，负责将 JavaScript 代码转为机器码执行。如 Chrome 使用的 V8。
 
 ### 注释
 
@@ -42,7 +40,7 @@ tags:
 */
 ```
 
-## 数据类型
+### 数据类型
 
 JavaScript 中有原语（primitive）和对象（object） 两种类型区分：
 
@@ -56,7 +54,7 @@ JavaScript 中有原语（primitive）和对象（object） 两种类型区分�
   - undefined
 - object
 
-### Numbers
+#### Numbers
 
 JavaScript 中有两种数字类型：
 
@@ -103,4 +101,112 @@ num.toString(16); // 十六进制，f1
 num.toString(2); // 二进制，11110001
 ```
 
-### Bigint
+#### Bigint
+
+### 控制流
+
+#### 循环
+
+##### while
+
+```javascript
+let i = 0;
+while (i < 10) {
+    i++;
+}
+console.log(i); // 10
+```
+
+```javascript
+// 单行写法
+let i = 0;
+while(i) console.log(i--); // 10 9 8 ... 1
+```
+
+##### do while
+
+该循环至少会被执行一次：
+
+```javascript
+let i = 0;
+do {
+    i++;
+} while(i < 0);
+console.log(i); // 1
+```
+
+##### for
+
+能够替代其余所有循环方式：
+
+```javascript
+for (let i = 0; i < 10; i++) { // i 只在 for 循环内可访问
+    // ...
+}
+```
+
+```javascript
+let i = 0;
+for (let i = 0; i < 10; i++) {
+  i++;
+}
+console.log(i); // 0
+
+for (i = 0; i < 10; i++) {
+  i++;
+}
+console.log(i); // 10
+
+for (; i < 20; i++) {}
+console.log(i); // 20
+```
+
+省略赋值语句、条件或步进语句：
+
+```javascript
+let i = 0;
+for (; i < 10; i++) {}
+
+console.log(i); // 10
+
+for (;;i++) {
+    if (i > 20) break; // break 结束循环
+}
+
+console.log(i); // 21
+
+for (;;) {
+    if (i++ > 30) break;
+}
+
+console.log(i); // 32
+```
+
+死循环：
+
+```javascript
+// 二者等同
+for (;;) {}
+while (true) {}
+```
+
+`continue` 直接跳转到下一循环：
+
+```javascript
+let i = 0;
+for (; i < 10; i++) {
+    if (i > 5) continue;
+    console.log(i); // 0 1 ... 5
+}
+```
+
+`break` 结束循环：
+
+```javascript
+let i = 0;
+for (;; i++) {
+    if (i >= 10) break;
+}
+console.log(i); // 10
+```
+
