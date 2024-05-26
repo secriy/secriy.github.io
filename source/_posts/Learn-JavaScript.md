@@ -70,19 +70,19 @@ function test() {
 var a, b, c = 1, false, "c";
 ```
 
-`var` 声明提升：
+`var` 声明会被提升到作用域顶部：
 
 ```javascript
 function test() {
-    console.log(text);
+    console.log(text); // undefined
     var text = "hello";
 }
 
-// 这两个函数等价，因为 var 变量声明会提升到函数作用域顶部
-
+// 声明会被提升，但初始化不会，因此上面的函数等价于：
 function test() {
-    var text = "hello";
-    console.log(text);
+    var text;
+    console.log(text); // 不会报错，但 text 并未初始化，因此为 undefined
+    text = "hello";
 }
 ```
 
@@ -146,10 +146,6 @@ console.log(window.name); // a
 let name = "a";
 console.log(window.name); // undefined
 ```
-
-
-
-
 
 ### 数据类型
 
@@ -321,3 +317,298 @@ for (;; i++) {
 console.log(i); // 10
 ```
 
+#### `switch`
+
+`switch` 语句通过传入值匹配到指定代码段，注意匹配时的相等检查**类型严格**：
+
+```javascript
+switch(x) {
+    case '2':
+        ...
+        break;
+    case 2:
+        ...
+        break;
+    default:
+    	...
+}
+```
+
+如果不添加 `break`，匹配到 `case` 后会接着往下执行：
+
+```javascript
+let x = 1;
+switch(x) {
+    case 0:
+        alert(0);
+    case 1:
+        alert(1);
+    case 2:
+        alert(2);
+    default:
+        alert(-1);
+}
+
+// Output:
+//
+// 1
+// 2
+// -1
+```
+
+因此需要手动添加 `break`：
+
+```javascript
+let x = 1;
+switch(x) {
+    case 0:
+        alert(0);
+        break;
+    case 1:
+        alert(1);
+        break;
+    case 2:
+        alert(2);
+        break;
+    default:
+        alert(-1);
+}
+
+// Output:
+//
+// 1
+```
+
+将多个 `case` 组合到一起：
+
+```javascript
+switch(x) {
+    case 0:
+        alert(0);
+        break;
+    case 1:
+    case 2:
+        // x 为 1 或 2，都会执行到这里
+        alert("1 and 2");
+        break;
+    default:
+        alert(-1);
+}
+```
+
+### 函数
+
+#### 函数声明
+
+声明函数：
+
+```javascript
+function myFunction() {
+    alert("hello");
+}
+```
+
+调用函数：
+
+```javascript
+myFunction();
+```
+
+#### 变量作用域
+
+在函数内声明的变量为局部变量，函数外无法访问：
+
+```javascript
+function myFunction() {
+    let a = 1;
+    alert(a);
+}
+
+myFunction();
+
+alert(a); // ERROR
+```
+
+函数能访问外部变量，并可修改：
+
+```javascript
+let a = 1;
+
+function myFunction() {
+    a = 2;
+    let b = a + 1;
+    alert(b);
+}
+
+myFunction(); // 3
+
+alert(a); // 2
+```
+
+局部变量优先级高于全局变量，重名会优先使用局部变量：
+
+```javascript
+let a = 1;
+
+function myFunction() {
+    let a = 2;
+    alert(a);
+}
+
+myFunction(); // 2
+```
+
+注意，只要函数中存在同名变量声明，则外部同名变量会被忽略，不论是使用 `let` 或 `var`：
+
+```javascript
+let a = 1;
+
+function myFunction() {
+	alert(a); // ERROR: Cannot access 'a' before initialization
+    let a = 2;
+    alert(a);
+}
+
+myFunction();
+```
+
+```javascript
+let a = 1;
+
+function myFunction() {
+	a = 3; // 这里修改的是由 var 声明提升特性，在函数顶部声明的局部变量 a
+	alert(a); // 3
+    var a = 2;
+    alert(a); // 2
+}
+
+myFunction();
+
+alert(a); // 1
+```
+
+#### 函数参数
+
+函数参数：
+
+```javascript
+function add(a, b) {
+    return a + b; // a, b 均为局部变量
+}
+
+let sum = add(1, 2);
+alert(sum); // 3
+```
+
+函数参数传值时会拷贝参数，因此无法修改基本类型参数：
+
+```javascript
+function test(x) {
+    x = 2;
+}
+
+let a = 1;
+test(a);
+alert(a); // 1
+```
+
+调用时，参数数量可以不一致：
+
+```javascript
+function add(a, b) {
+    return a + b;
+}
+
+add(1, 2); // 3
+// 多余的参数会被忽略
+add(1, 2, 3, 4); // 3
+// 缺少的参数为 undefined
+add(); // NaN, 因为 undefined + undefined 为 NaN
+add(1); // NaN, 因为 1 + undefined 为 NaN
+```
+
+可以给参数设置默认值，当参数为 `undefined` 是会被替换为默认值：
+
+```javascript
+function add(a, b = 2) {
+    return a + b;
+}
+
+add(1); // 3
+add(1, 3); // 4
+add(1, undefined); // 3
+```
+
+```javascript
+function add(a = 1, b) {
+    return a + b;
+}
+
+add(2, 3); // 5
+add(undefined, 3); // 4
+```
+
+函数默认值可以使用表达式等：
+
+```javascript
+function add(a, b = a + 3) { // 注意，参数按顺序声明，因此默认值能为 a = b + 1 类似写法
+    return a + b;
+}
+
+add(1);
+```
+
+```javascript
+function defaultValue() {
+    return 23;
+}
+
+function add(a, b = defaultValue()) {
+    return a + b;
+}
+
+add(1); // 24
+```
+
+函数参数在调用时才会被操作：
+
+```javascript
+let x = 1;
+
+function defaultValue() {
+    x = 2;
+    return 23;
+}
+
+function add(a, b = defaultValue()) {
+    return a + b;
+}
+
+alert(x); // 1
+add(1); // 24
+alert(x); // 2
+```
+
+#### 函数返回值
+
+函数默认返回 `undefined`：
+
+```javascript
+function test() {};
+
+let a = test();
+alert(a); // undefined
+```
+
+多行返回值写法：
+
+```javascript
+function test() {
+    ...
+    return (
+    	a + b + c
+        + d +
+        f
+    )
+}
+```
