@@ -2,6 +2,7 @@
 title: "Go Learning: Testing"
 date: 2021-06-08 19:53:27
 categories: 学习笔记
+urlname: learn-go-testing
 tags:
   - Go
   - Programming

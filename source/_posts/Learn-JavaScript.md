@@ -1,7 +1,7 @@
 ---
-title: Learning JavaScript
+title: Learn JavaScript
 date: 2023-08-17 22:34:56
-urlname: learning-javascript
+urlname: learn-javascript
 categories: 学习笔记
 tags:
   - JavaScript
@@ -39,6 +39,117 @@ tags:
 释
 */
 ```
+
+### 变量
+
+```javascript
+var text; // 变量声明但不初始化，其值为 undefined
+
+var message = "hello"; // 变量初始化
+
+message = 100; // 将不同类型的值赋给已初始化变量，合法但不推荐
+```
+
+变量作用域：
+
+```javascript
+function test() {
+    var text = ""; // 局部变量，函数外访问不到
+}
+
+function test() {
+    text = ""; // 无 var 关键字，text 为全局变量，函数外可访问
+    
+    // 注意，test 函数被调用后 text 才会被声明，其后能被函数外的代码访问到
+}
+```
+
+多变量声明：
+
+```javascript
+var a, b, c = 1, false, "c";
+```
+
+`var` 声明提升：
+
+```javascript
+function test() {
+    console.log(text);
+    var text = "hello";
+}
+
+// 这两个函数等价，因为 var 变量声明会提升到函数作用域顶部
+
+function test() {
+    var text = "hello";
+    console.log(text);
+}
+```
+
+`var` 重复声明是合法的：
+
+```javascript
+var a = 1;
+var a = 2;
+var a = 3;
+
+console.log(a); // 3
+```
+
+`let` 与 `var` 的区别，作用域不同：
+
+```javascript
+// var 的作用域更大，能覆盖整个函数
+if (condition) {
+	var text = "hello";
+	console.log(text); // hello
+}
+console.log(text); // hello
+
+// let 只能在局部作用域（块作用域）生效
+if (condition) {
+    var text = "hello";
+	console.log(text); // hello
+}
+console.log(text); // ReferenceError: text is not defined
+```
+
+`let` 与 `var` 的区别，不能在同一个块中重复声明：
+
+```javascript
+let a = 1;
+let a = 2; // SyntaxError: Identifier 'a' has already been declared
+
+let b = 1;
+if (condition) {
+    let b = 2; // 合法，因为不在同一个块级作用域
+}
+```
+
+注意以 Chrome 浏览器的 Console 为例，每行命令为独立块作用域，因此重复 `let` 声明不会报错。
+
+`let` 与 `var` 的区别，不会被提升：
+
+```javascript
+function test() {
+    console.log(text); // ReferenceError: Cannot access 'text' before initialization
+    let text = "hello";
+}
+```
+
+`let` 与 `var` 的区别，全局作用域中声明的变量不会成为 `window` 对象的属性：
+
+```javascript
+var name = "a";
+console.log(window.name); // a
+
+let name = "a";
+console.log(window.name); // undefined
+```
+
+
+
+
 
 ### 数据类型
 

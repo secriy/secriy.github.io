@@ -1,7 +1,8 @@
 ---
 title: Cargo Basic Tutorial
 date: 2021-09-16 16:41:46
-categories:
+urlname: learn-cargo
+categories: 学习笔记
 tags:
 ---
 

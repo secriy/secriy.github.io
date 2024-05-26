@@ -2,6 +2,7 @@
 title: Hash Table
 date: 2021-06-06 11:48:01
 categories: 学习笔记
+urlname: learn-hash-table
 mathjax: true
 tags:
   - Data Structure

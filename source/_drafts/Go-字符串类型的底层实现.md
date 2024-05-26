@@ -2,6 +2,7 @@
 title: "Go 字符串类型的底层实现"
 date: 2021-04-14 01:19:27
 categories: 学习笔记
+urlname: go-string
 tags:
   - Go
   - Programming
