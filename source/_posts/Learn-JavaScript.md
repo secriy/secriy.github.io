@@ -612,3 +612,134 @@ function test() {
     )
 }
 ```
+
+#### 函数表达式
+
+函数可以作为值：
+
+```javascript
+let hello = function() {
+    alert("hello");
+};
+
+hello();
+```
+
+#### 箭头函数
+
+箭头函数简化了创建函数的方式：
+
+```javascript
+// let func = (arg1, arg2, ...) => expression;
+let hello = (name) => alert(`hello ${name}`);
+
+hello("foo"); // hello foo
+
+// 无参数
+let func = () => alert("hello");
+```
+
+更复杂的函数：
+
+```javascript
+let sum = (a, b) => {
+    let result = a + b;
+    return result;
+}
+
+alert(sum(1, 2)); // 3
+```
+
+### 对象
+
+对象为 key-value 存储：
+
+```javascript
+// 空对象创建
+let emptyObj = new Object();
+
+// 字面量写法，与上方等同
+let emptyObj = {};
+```
+
+#### 对象属性
+
+对象属性（property/name/identifier）：
+
+```javascript
+let person = {
+    name: "Alice",
+    age: 18
+};
+
+alert(person.name); // Alice
+
+// 添加属性
+person.dead = false;
+
+alert(person.dead); // true
+
+// 未设置的属性，即 undefined
+alert(person.a); // undefined
+
+// 删除属性
+delete person.dead;
+// 重复删除不会报错，但没有实际效果（no op）
+delete person.dead;
+
+// 属性可以用任意字符串命名
+let user = {
+    "any name": ""
+}
+
+alert(user["any name"]) // 使用 `[]` 取值
+
+// 使用 `[]` 设置属性
+user["name"] = "name";
+
+// 使用 `[]` 删除属性
+delete user["name"];
+
+// 使用 `[]` 则可以支持任意类型的 key，`.` 的方式只能支持字符串
+// user.name 等同于 user["name"]
+user[{}] = 1;
+
+alert(user[{}]); // 1
+```
+
+#### 计算属性
+
+JavaScript 支持属性名是变量：
+
+```javascript
+let keyFunc = (name) => name + "x";
+
+let key = keyFunc("test");
+
+let user = {
+  [key]: "hello", // 使用 `[]` 设置属性名，属性名为 `[]` 内变量的值
+};
+
+alert(user.testx); // hello
+
+// 修改 key 并不会对对象属性产生影响 
+
+key = "testy";
+
+alert(user.testy); // undefined
+```
+
+实际上，这就等同于下面的代码：
+
+```javascript
+let keyFunc = (name) => name + "x";
+
+let key = keyFunc("test");
+
+let user = {};
+
+user[key] = "hello"; // key 的值此时为 "testx"
+
+alert(user.testx); // hello
+```
+
