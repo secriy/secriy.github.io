@@ -1,0 +1,84 @@
+baseURL: https://blog.secriy.com/
+languageCode: en-US
+title: Secriy's Blog
+theme: ["PaperMod"]
+
+paginate: 5
+enableInlineShortcodes: true
+buildDrafts: false
+enableEmoji: true
+
+params:
+  author: Secriy
+
+  defaultTheme: auto
+  ShowToc: true
+  ShowShareButtons: true
+  ShowReadingTime: true
+  ShowPageNums: true
+  ShowBreadCrumbs: true
+  ShowRssButtonInSectionTermList: true
+  ShowCodeCopyButtons: true
+  displayFullLangName: true
+
+  homeInfoParams:
+    Title: Hi There,
+    Content: >
+      👋
+  socialIcons: # optional
+    - name: github
+      url: "https://github.com/secriy/"
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+defaultContentLanguageInSubdir: true
+defaultContentLanguage: zh-cn
+languages:
+  en:
+    languageName: "English"
+    contentDir: content/en
+    weight: 2
+    taxonomies:
+      category: categories
+      tag: tags
+      series: series
+    menu:
+      main:
+        - name: Search
+          url: en/search/
+          weight: 1
+        - name: Archive
+          url: en/archives/
+          weight: 10
+        - name: Tags
+          url: en/tags/
+          weight: 10
+        - name: Categories
+          url: en/categories/
+          weight: 10
+  zh-cn:
+    languageName: "简体中文"
+    contentDir: content/zh-cn
+    weight: 1
+    taxonomies:
+      category: categories
+      tag: tags
+      series: series
+    menu:
+      main:
+        - name: 搜索
+          url: zh-cn/search/
+          weight: 1
+        - name: 归档
+          url: zh-cn/archives/
+          weight: 10
+        - name: 标签
+          url: zh-cn/tags/
+          weight: 10
+        - name: 分类
+          url: zh-cn/categories/
+          weight: 10
