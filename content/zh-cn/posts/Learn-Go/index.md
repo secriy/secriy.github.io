@@ -2499,8 +2499,3 @@ func main() {
 - Readers 练习
 - Images
 - 等价二叉树练习
-
-## Reference
-
-1.    [_A Tour of Go_](https://tour.golang.org/) 
-2.   

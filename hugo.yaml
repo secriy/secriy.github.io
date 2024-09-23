@@ -3,7 +3,6 @@ languageCode: en-US
 title: Secriy's Blog
 theme: ["PaperMod"]
 
-paginate: 5
 enableInlineShortcodes: true
 buildDrafts: false
 enableEmoji: true
