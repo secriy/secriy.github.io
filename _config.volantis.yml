@@ -48,15 +48,6 @@ navbar:
     - name: 其他
       icon: fas fa-ellipsis-v
       rows:
-        - name: 私有云盘
-          icon: fas fa-cloud
-          url: https://cloud.secriy.com/
-          target: _blank
-        - name: 个人图床
-          icon: fas fa-images
-          url: https://h.acgfate.com/
-          target: _blank
-        - name: hr
         - name: 暗黑模式 # 可自定义
           icon: fas fa-moon # 可自定义
           toggle: darkmode
