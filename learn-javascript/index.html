@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="zh-CN,default">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>Learn JavaScript - Secriy&#39;s Blog</title>
+  
+    <meta name="keywords" content="PL,JavaScript">
+  
+
+  
+    <meta name="description" content="本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Secriy's Blog" type="application/atom+xml">
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://upyun.secriy.com/statics/img/sun.png">
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur floatable show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Secriy's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/projects/
+                  
+                  
+                  
+                    id="projects"
+                  >
+                  <i class='fas fa-code-branch fa-fw'></i>项目
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" 
+                  
+                  
+                  >
+                  <i class='fas fa-ellipsis-v fa-fw'></i>其他
+                </a>
+                
+                  <ul class="list-v">
+                    
+                      
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/projects/
+                  
+                  
+                  
+                    id="projects"
+                  >
+                  <i class='fas fa-code-branch fa-fw'></i>项目
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" 
+                  
+                  
+                  >
+                  <i class='fas fa-ellipsis-v fa-fw'></i>其他
+                </a>
+                
+                  <ul class="list-v">
+                    
+                      
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div class='cover-bg lazyload placeholder' data-bg="https://upyun.secriy.com/statics/img/scene.jpg"></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Secriy's Blog</p>
+    
+    
+      <p class="subtitle">To be continue...</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-rss fa-fw'></i><p>博客</p>
+            </a>
+          
+            <a href="/projects/"
+              
+              
+              id="projects">
+              <i class='fas fa-code-branch fa-fw'></i><p>项目</p>
+            </a>
+          
+            <a href="/friends/"
+              
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow floatable article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        Learn JavaScript
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://upyun.secriy.com/statics/img/avatar.png">
+    <p>Secriy</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/note/">学习笔记</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2023年8月17日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Learn JavaScript" data-path="/learn-javascript/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+<div class="new-meta-item comments-count">
+  
+  <a href="/learn-javascript/#comments">
+    <i class="fas fa-comment-dots fa-fw"></i>
+    <span class="valine-comment-count" data-xid="/learn-javascript/">0</span>
+    <span class="leancloud-comments-count">&nbsp;</span>
+  </a>
+</div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <div class="note quote cyan"><p>本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。</p></div>
+
+<span id="more"></span>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><p>Specification：<a target="_blank" rel="noopener" href="https://www.ecma-international.org/publications/standards/Ecma-262.htm">The ECMA-262 specification</a></p>
+</li>
+<li><p>MDN 手册：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">MDN (Mozilla) JavaScript Reference</a></p>
+</li>
+</ul>
+<h2 id="语言基础"><a href="#语言基础" class="headerlink" title="语言基础"></a>语言基础</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>  JavaScript 引擎：JavaScrit 的运行环境，负责将 JavaScript 代码转为机器码执行。如 Chrome 使用的 V8。</li>
+</ul>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><pre><code class="javascript">// 单行注释
+
+/* 多
+行
+注
+释
+*/
+</code></pre>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><pre><code class="javascript">var text; // 变量声明但不初始化，其值为 undefined
+
+var message = &quot;hello&quot;; // 变量初始化
+
+message = 100; // 将不同类型的值赋给已初始化变量，合法但不推荐
+</code></pre>
+<p>变量作用域：</p>
+<pre><code class="javascript">function test() &#123;
+    var text = &quot;&quot;; // 局部变量，函数外访问不到
+&#125;
+
+function test() &#123;
+    text = &quot;&quot;; // 无 var 关键字，text 为全局变量，函数外可访问
+    
+    // 注意，test 函数被调用后 text 才会被声明，其后能被函数外的代码访问到
+&#125;
+</code></pre>
+<p>多变量声明：</p>
+<pre><code class="javascript">var a, b, c = 1, false, &quot;c&quot;;
+</code></pre>
+<p><code>var</code> 声明会被提升到作用域顶部：</p>
+<pre><code class="javascript">function test() &#123;
+    console.log(text); // undefined
+    var text = &quot;hello&quot;;
+&#125;
+
+// 声明会被提升，但初始化不会，因此上面的函数等价于：
+function test() &#123;
+    var text;
+    console.log(text); // 不会报错，但 text 并未初始化，因此为 undefined
+    text = &quot;hello&quot;;
+&#125;
+</code></pre>
+<p><code>var</code> 重复声明是合法的：</p>
+<pre><code class="javascript">var a = 1;
+var a = 2;
+var a = 3;
+
+console.log(a); // 3
+</code></pre>
+<p><code>let</code> 与 <code>var</code> 的区别，作用域不同：</p>
+<pre><code class="javascript">// var 的作用域更大，能覆盖整个函数
+if (condition) &#123;
+    var text = &quot;hello&quot;;
+    console.log(text); // hello
+&#125;
+console.log(text); // hello
+
+// let 只能在局部作用域（块作用域）生效
+if (condition) &#123;
+    var text = &quot;hello&quot;;
+    console.log(text); // hello
+&#125;
+console.log(text); // ReferenceError: text is not defined
+</code></pre>
+<p><code>let</code> 与 <code>var</code> 的区别，不能在同一个块中重复声明：</p>
+<pre><code class="javascript">let a = 1;
+let a = 2; // SyntaxError: Identifier &#39;a&#39; has already been declared
+
+let b = 1;
+if (condition) &#123;
+    let b = 2; // 合法，因为不在同一个块级作用域
+&#125;
+</code></pre>
+<p>注意以 Chrome 浏览器的 Console 为例，每行命令为独立块作用域，因此重复 <code>let</code> 声明不会报错。</p>
+<p><code>let</code> 与 <code>var</code> 的区别，不会被提升：</p>
+<pre><code class="javascript">function test() &#123;
+    console.log(text); // ReferenceError: Cannot access &#39;text&#39; before initialization
+    let text = &quot;hello&quot;;
+&#125;
+</code></pre>
+<p><code>let</code> 与 <code>var</code> 的区别，全局作用域中声明的变量不会成为 <code>window</code> 对象的属性：</p>
+<pre><code class="javascript">var name = &quot;a&quot;;
+console.log(window.name); // a
+
+let name = &quot;a&quot;;
+console.log(window.name); // undefined
+</code></pre>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>JavaScript 中有原语（primitive）和对象（object） 两种类型区分：</p>
+<ul>
+<li>primitive<ul>
+<li>string</li>
+<li>number</li>
+<li>bigint</li>
+<li>boolean</li>
+<li>symbol</li>
+<li>null</li>
+<li>undefined</li>
+</ul>
+</li>
+<li>object</li>
+</ul>
+<h4 id="Numbers"><a href="#Numbers" class="headerlink" title="Numbers"></a>Numbers</h4><p>JavaScript 中有两种数字类型：</p>
+<ul>
+<li>常规数字，以 IEEE-754 双精度浮点数存储，应用于大部分情况；</li>
+<li>Bigint，任意长度的数字。</li>
+</ul>
+<p>本小节只介绍常规数字。</p>
+<p>数字的字面量表示方式：</p>
+<pre><code class="javascript">let billion = 1000000000;
+let billion = 1_000_000_000; // 下划线仅作为语法糖，会被 JavaScript 引擎忽略，等同于上一句
+let x = 243_4343_42342;
+let x = 4234_; // error，下划线不允许在末尾
+let billion = 1e9; // 科学计数法
+let n = 7.3e9;
+let n = 7300000000; // 与上一句等同
+let mcs = 0.000001; // microsecond
+let mcs = 1e-6; // 与上一句等同
+</code></pre>
+<p>十六进制，二进制，八进制：</p>
+<pre><code class="javascript">let h = 0xff; // 255
+let h = 0xFF; // 255
+let b = 0b110; // 6
+let o = 0o377; // 255
+// 0xFF === 0o377
+</code></pre>
+<p>数字的 <code>toString</code> 方法（2-36 进制）：</p>
+<pre><code class="javascript">let num = 255;
+num.toString(); // 十进制，255
+num.toString(16); // 十六进制，ff
+num.toString(2); // 二进制，11111111
+
+let num = 0xf1;
+num.toString(); // 十进制，241
+num.toString(16); // 十六进制，f1
+num.toString(2); // 二进制，11110001
+</code></pre>
+<h4 id="Bigint"><a href="#Bigint" class="headerlink" title="Bigint"></a>Bigint</h4><h3 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h3><h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><h5 id="while"><a href="#while" class="headerlink" title="while"></a>while</h5><pre><code class="javascript">let i = 0;
+while (i &lt; 10) &#123;
+    i++;
+&#125;
+console.log(i); // 10
+</code></pre>
+<pre><code class="javascript">// 单行写法
+let i = 0;
+while(i) console.log(i--); // 10 9 8 ... 1
+</code></pre>
+<h5 id="do-while"><a href="#do-while" class="headerlink" title="do while"></a>do while</h5><p>该循环至少会被执行一次：</p>
+<pre><code class="javascript">let i = 0;
+do &#123;
+    i++;
+&#125; while(i &lt; 0);
+console.log(i); // 1
+</code></pre>
+<h5 id="for"><a href="#for" class="headerlink" title="for"></a>for</h5><p>能够替代其余所有循环方式：</p>
+<pre><code class="javascript">for (let i = 0; i &lt; 10; i++) &#123; // i 只在 for 循环内可访问
+    // ...
+&#125;
+</code></pre>
+<pre><code class="javascript">let i = 0;
+for (let i = 0; i &lt; 10; i++) &#123;
+  i++;
+&#125;
+console.log(i); // 0
+
+for (i = 0; i &lt; 10; i++) &#123;
+  i++;
+&#125;
+console.log(i); // 10
+
+for (; i &lt; 20; i++) &#123;&#125;
+console.log(i); // 20
+</code></pre>
+<p>省略赋值语句、条件或步进语句：</p>
+<pre><code class="javascript">let i = 0;
+for (; i &lt; 10; i++) &#123;&#125;
+
+console.log(i); // 10
+
+for (;;i++) &#123;
+    if (i &gt; 20) break; // break 结束循环
+&#125;
+
+console.log(i); // 21
+
+for (;;) &#123;
+    if (i++ &gt; 30) break;
+&#125;
+
+console.log(i); // 32
+</code></pre>
+<p>死循环：</p>
+<pre><code class="javascript">// 二者等同
+for (;;) &#123;&#125;
+while (true) &#123;&#125;
+</code></pre>
+<p><code>continue</code> 直接跳转到下一循环：</p>
+<pre><code class="javascript">let i = 0;
+for (; i &lt; 10; i++) &#123;
+    if (i &gt; 5) continue;
+    console.log(i); // 0 1 ... 5
+&#125;
+</code></pre>
+<p><code>break</code> 结束循环：</p>
+<pre><code class="javascript">let i = 0;
+for (;; i++) &#123;
+    if (i &gt;= 10) break;
+&#125;
+console.log(i); // 10
+</code></pre>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a><code>switch</code></h4><p><code>switch</code> 语句通过传入值匹配到指定代码段，注意匹配时的相等检查<strong>类型严格</strong>：</p>
+<pre><code class="javascript">switch(x) &#123;
+    case &#39;2&#39;:
+        ...
+        break;
+    case 2:
+        ...
+        break;
+    default:
+        ...
+&#125;
+</code></pre>
+<p>如果不添加 <code>break</code>，匹配到 <code>case</code> 后会接着往下执行：</p>
+<pre><code class="javascript">let x = 1;
+switch(x) &#123;
+    case 0:
+        alert(0);
+    case 1:
+        alert(1);
+    case 2:
+        alert(2);
+    default:
+        alert(-1);
+&#125;
+
+// Output:
+//
+// 1
+// 2
+// -1
+</code></pre>
+<p>因此需要手动添加 <code>break</code>：</p>
+<pre><code class="javascript">let x = 1;
+switch(x) &#123;
+    case 0:
+        alert(0);
+        break;
+    case 1:
+        alert(1);
+        break;
+    case 2:
+        alert(2);
+        break;
+    default:
+        alert(-1);
+&#125;
+
+// Output:
+//
+// 1
+</code></pre>
+<p>将多个 <code>case</code> 组合到一起：</p>
+<pre><code class="javascript">switch(x) &#123;
+    case 0:
+        alert(0);
+        break;
+    case 1:
+    case 2:
+        // x 为 1 或 2，都会执行到这里
+        alert(&quot;1 and 2&quot;);
+        break;
+    default:
+        alert(-1);
+&#125;
+</code></pre>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h4><p>声明函数：</p>
+<pre><code class="javascript">function myFunction() &#123;
+    alert(&quot;hello&quot;);
+&#125;
+</code></pre>
+<p>调用函数：</p>
+<pre><code class="javascript">myFunction();
+</code></pre>
+<h4 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h4><p>在函数内声明的变量为局部变量，函数外无法访问：</p>
+<pre><code class="javascript">function myFunction() &#123;
+    let a = 1;
+    alert(a);
+&#125;
+
+myFunction();
+
+alert(a); // ERROR
+</code></pre>
+<p>函数能访问外部变量，并可修改：</p>
+<pre><code class="javascript">let a = 1;
+
+function myFunction() &#123;
+    a = 2;
+    let b = a + 1;
+    alert(b);
+&#125;
+
+myFunction(); // 3
+
+alert(a); // 2
+</code></pre>
+<p>局部变量优先级高于全局变量，重名会优先使用局部变量：</p>
+<pre><code class="javascript">let a = 1;
+
+function myFunction() &#123;
+    let a = 2;
+    alert(a);
+&#125;
+
+myFunction(); // 2
+</code></pre>
+<p>注意，只要函数中存在同名变量声明，则外部同名变量会被忽略，不论是使用 <code>let</code> 或 <code>var</code>：</p>
+<pre><code class="javascript">let a = 1;
+
+function myFunction() &#123;
+    alert(a); // ERROR: Cannot access &#39;a&#39; before initialization
+    let a = 2;
+    alert(a);
+&#125;
+
+myFunction();
+</code></pre>
+<pre><code class="javascript">let a = 1;
+
+function myFunction() &#123;
+    a = 3; // 这里修改的是由 var 声明提升特性，在函数顶部声明的局部变量 a
+    alert(a); // 3
+    var a = 2;
+    alert(a); // 2
+&#125;
+
+myFunction();
+
+alert(a); // 1
+</code></pre>
+<h4 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h4><p>函数参数：</p>
+<pre><code class="javascript">function add(a, b) &#123;
+    return a + b; // a, b 均为局部变量
+&#125;
+
+let sum = add(1, 2);
+alert(sum); // 3
+</code></pre>
+<p>函数参数传值时会拷贝参数，因此无法修改基本类型参数：</p>
+<pre><code class="javascript">function test(x) &#123;
+    x = 2;
+&#125;
+
+let a = 1;
+test(a);
+alert(a); // 1
+</code></pre>
+<p>调用时，参数数量可以不一致：</p>
+<pre><code class="javascript">function add(a, b) &#123;
+    return a + b;
+&#125;
+
+add(1, 2); // 3
+// 多余的参数会被忽略
+add(1, 2, 3, 4); // 3
+// 缺少的参数为 undefined
+add(); // NaN, 因为 undefined + undefined 为 NaN
+add(1); // NaN, 因为 1 + undefined 为 NaN
+</code></pre>
+<p>可以给参数设置默认值，当参数为 <code>undefined</code> 是会被替换为默认值：</p>
+<pre><code class="javascript">function add(a, b = 2) &#123;
+    return a + b;
+&#125;
+
+add(1); // 3
+add(1, 3); // 4
+add(1, undefined); // 3
+</code></pre>
+<pre><code class="javascript">function add(a = 1, b) &#123;
+    return a + b;
+&#125;
+
+add(2, 3); // 5
+add(undefined, 3); // 4
+</code></pre>
+<p>函数默认值可以使用表达式等：</p>
+<pre><code class="javascript">function add(a, b = a + 3) &#123; // 注意，参数按顺序声明，因此默认值能为 a = b + 1 类似写法
+    return a + b;
+&#125;
+
+add(1);
+</code></pre>
+<pre><code class="javascript">function defaultValue() &#123;
+    return 23;
+&#125;
+
+function add(a, b = defaultValue()) &#123;
+    return a + b;
+&#125;
+
+add(1); // 24
+</code></pre>
+<p>函数参数在调用时才会被操作：</p>
+<pre><code class="javascript">let x = 1;
+
+function defaultValue() &#123;
+    x = 2;
+    return 23;
+&#125;
+
+function add(a, b = defaultValue()) &#123;
+    return a + b;
+&#125;
+
+alert(x); // 1
+add(1); // 24
+alert(x); // 2
+</code></pre>
+<h4 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h4><p>函数默认返回 <code>undefined</code>：</p>
+<pre><code class="javascript">function test() &#123;&#125;;
+
+let a = test();
+alert(a); // undefined
+</code></pre>
+<p>多行返回值写法：</p>
+<pre><code class="javascript">function test() &#123;
+    ...
+    return (
+        a + b + c
+        + d +
+        f
+    )
+&#125;
+</code></pre>
+<h4 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h4><p>函数可以作为值：</p>
+<pre><code class="javascript">let hello = function() &#123;
+    alert(&quot;hello&quot;);
+&#125;;
+
+hello();
+</code></pre>
+<h4 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h4><p>箭头函数简化了创建函数的方式：</p>
+<pre><code class="javascript">// let func = (arg1, arg2, ...) =&gt; expression;
+let hello = (name) =&gt; alert(`hello $&#123;name&#125;`);
+
+hello(&quot;foo&quot;); // hello foo
+
+// 无参数
+let func = () =&gt; alert(&quot;hello&quot;);
+</code></pre>
+<p>更复杂的函数：</p>
+<pre><code class="javascript">let sum = (a, b) =&gt; &#123;
+    let result = a + b;
+    return result;
+&#125;
+
+alert(sum(1, 2)); // 3
+</code></pre>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象为 key-value 存储：</p>
+<pre><code class="javascript">// 空对象创建
+let emptyObj = new Object();
+
+// 字面量写法，与上方等同
+let emptyObj = &#123;&#125;;
+</code></pre>
+<h4 id="对象属性"><a href="#对象属性" class="headerlink" title="对象属性"></a>对象属性</h4><p>对象属性（property/name/identifier）：</p>
+<pre><code class="javascript">let person = &#123;
+    name: &quot;Alice&quot;,
+    age: 18
+&#125;;
+
+alert(person.name); // Alice
+
+// 添加属性
+person.dead = false;
+
+alert(person.dead); // true
+
+// 未设置的属性，即 undefined
+alert(person.a); // undefined
+
+// 删除属性
+delete person.dead;
+// 重复删除不会报错，但没有实际效果（no op）
+delete person.dead;
+
+// 属性可以用任意字符串命名
+let user = &#123;
+    &quot;any name&quot;: &quot;&quot;
+&#125;
+
+alert(user[&quot;any name&quot;]) // 使用 `[]` 取值
+
+// 使用 `[]` 设置属性
+user[&quot;name&quot;] = &quot;name&quot;;
+
+// 使用 `[]` 删除属性
+delete user[&quot;name&quot;];
+
+// 使用 `[]` 则可以支持任意类型的 key，`.` 的方式只能支持字符串
+// user.name 等同于 user[&quot;name&quot;]
+user[&#123;&#125;] = 1;
+
+alert(user[&#123;&#125;]); // 1
+</code></pre>
+<h4 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h4><p>JavaScript 支持属性名是变量：</p>
+<pre><code class="javascript">let keyFunc = (name) =&gt; name + &quot;x&quot;;
+
+let key = keyFunc(&quot;test&quot;);
+
+let user = &#123;
+  [key]: &quot;hello&quot;, // 使用 `[]` 设置属性名，属性名为 `[]` 内变量的值
+&#125;;
+
+alert(user.testx); // hello
+
+// 修改 key 并不会对对象属性产生影响 
+
+key = &quot;testy&quot;;
+
+alert(user.testy); // undefined
+</code></pre>
+<p>实际上，这就等同于下面的代码：</p>
+<pre><code class="javascript">let keyFunc = (name) =&gt; name + &quot;x&quot;;
+
+let key = keyFunc(&quot;test&quot;);
+
+let user = &#123;&#125;;
+
+user[key] = &quot;hello&quot;; // key 的值此时为 &quot;testx&quot;
+
+alert(user.testx); // hello
+</code></pre>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>本文永久链接：<a href=https://blog.secriy.com/learn-javascript/>https://blog.secriy.com/learn-javascript/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2025-02-16T15:13:36+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2025年2月16日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/PL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>PL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/JavaScript/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>JavaScript</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.secriy.com/learn-javascript/&title=Learn JavaScript - Secriy's Blog&summary=本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。"
+          
+          >
+          
+            <img src="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.secriy.com/learn-javascript/&title=Learn JavaScript - Secriy's Blog&summary=本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。"
+          
+          >
+          
+            <img src="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.secriy.com/learn-javascript/&title=Learn JavaScript - Secriy's Blog&summary=本文是 JavaScript 的个人学习笔记，仅适合有编程基础快速上手新语言使用。"
+          
+          >
+          
+            <img src="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.secriy.com/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/jiangyingpro-ui-scale/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>剪映专业版 Windows 下调整 UI 缩放教程</p>
+          <p class='content'>Windows 平台剪映专业版，修改 UI 缩放及字体大小。
+
+
+
+背景2K 下 100% 的缩放比例使用剪映专业版发现界面 UI 字体非常小，还没提供修改 UI 缩放比例的设置选项（很怀疑“专...</p>
+        </a>
+      
+      
+        <a class='next' href='/gc553-linux/'>
+          <p class='title'>GC553 采集卡 Linux 踩坑记录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>闲着没事买了一张采集卡直播用，打算将台式机的视频输出到采集卡，再通过 Linux 笔记本进行推流。然而过程中遇到一大堆问题，不过最终还是解决了。
+
+
+
+前言我个人有两台设备，一台 Windows...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow floatable" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="toc-text">语言基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Numbers"><span class="toc-text">Numbers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bigint"><span class="toc-text">Bigint</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">控制流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-text">循环</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#while"><span class="toc-text">while</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#do-while"><span class="toc-text">do while</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch"><span class="toc-text">switch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E"><span class="toc-text">函数声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">变量作用域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">函数表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0"><span class="toc-text">箭头函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-text">对象属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-text">计算属性</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+<section class="widget text shadow floatable desktop">
+  
+  <header>
+    
+      <i class="fas fa-exclamation-triangle fa-fw" aria-hidden="true"></i><span class='name'>注意</span>
+    
+  </header>
+
+
+  <div class='content'>
+    
+      <p>本文内容可能存在滞后性，请自行确认相关内容是否仍可用。</p>
+
+    
+  </div>
+</section>
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="Learn JavaScript";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='320px'
+      server='netease'
+      type='playlist'
+      id='741934630'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:me@secriy.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/secriy"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://music.163.com/#/user/home?id=494386912"
+                class="social fas fa-headphones-alt flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://blog.secriy.com/">Copyright © 2018-2021 Secriy</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.secriy.com/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  loadCSS("https://cdn.secriy.com/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css", window.volantis.loadcss);
+  
+  
+  loadCSS("https://cdn.secriy.com/npm/node-waves@0.7.6/dist/waves.min.css", window.volantis.loadcss);
+  
+  
+  loadCSS("https://cdn.secriy.com/gh/highlightjs/cdn-release@10/build/styles/monokai.min.css", window.volantis.loadcss);
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.secriy.com/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+  <script defer src="https://cdn.secriy.com/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.secriy.com/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+  <script src="https://cdn.secriy.com/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+	volantis.pjax.push(pjax_initCopyCode)
+</script>
+
+
+
+
+   <script type="text/javascript">
+  loadScript("https://cdn.secriy.com/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js")
+  function pjax_scrollrebeal() {
+    ScrollReveal().reveal('.l_main .reveal', {
+      distance: '32px',
+      duration: '800',
+      interval: '20',
+      scale: '1',
+      easing: 'ease-out'
+    });
+  }
+  $(function () {
+  var checkScrollReveal = setInterval(function () {
+    if ($("#safearea").css("display")!="block") return
+    if (typeof ScrollReveal=="undefined") return
+    clearInterval(checkScrollReveal)
+	pjax_scrollrebeal();
+  }, 100)
+  });
+  volantis.pjax.push(pjax_scrollrebeal)
+</script>
+
+
+
+
+  <script>
+  let APlayerController = new Object();
+  APlayerController.id = '741934630';  // 设定全局音乐播放ID
+  APlayerController.volume = '0.7';
+  loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css", window.volantis.loadcss);
+  // APlayer 需要在  MetingJS 之前加载
+  loadScript("https://cdn.secriy.com/npm/aplayer@1.10/dist/APlayer.min.js")
+  window.volantis.APlayerLoaded=0 // APlayer加载完成状态
+  var checkAPlayer = setInterval(function () {
+    if (!window.APlayer) return // APlayer加载完成？
+	  if ($("#safearea").css("display")!="block") return // 文章内容加载完成？ see: source/css/first.styl
+    clearInterval(checkAPlayer)
+	  if (!window.volantis.APlayerLoaded&&!window.MetingJSElement){ // APlayer只能加载一次
+      window.volantis.APlayerLoaded=1 // APlayer加载完成
+      loadScript("https://cdn.secriy.com/npm/meting@2.0/dist/Meting.min.js") // 加载 MetingJS
+	  }
+  }, 2500) // 按照网速调节差分2.5s
+  // rightmenu see: layout/_partial/rightmenu.ejs
+
+</script>
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    var valine = new Valine();
+    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"2vPmpbITcoNLH4pYUREeHcUG-gzGzoHsz","appKey":"kez3VpW1ATEYJA2JNBudkNLs","meta":["nick","mail","link"],"requiredFields":["nick","mail"],"enableQQ":true,"recordIP":true,"avatar":"retro","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false}, {
+      el: '#valine_container',
+      path: path,
+      placeholder: pagePlaceholder,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps,
+    }))
+  }
+  $(function () {
+    pjax_valine();
+  });
+  volantis.pjax.push(pjax_valine);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+  
+<script src="https://cdn.secriy.com/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+<script type="text/javascript">
+$(function () {
+  Waves.attach('.flat-btn', ['waves-button']);
+  Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+  Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+  Waves.attach('.flat-box', ['waves-block']);
+  Waves.attach('.float-box', ['waves-block', 'waves-float']);
+  Waves.attach('.waves-image');
+  Waves.init();
+});
+</script>
+
+
+
+
+
+  
+
+<script src="https://cdn.secriy.com/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://blog.secriy.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://blog.secriy.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://blog.secriy.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+		volantis.pjax.push(window.HideLoading,'HideLoading');
+		volantis.pjax.send(window.ShowLoading,'ShowLoading');
+		volantis.pjax.error(window.HideLoading,'HideLoading');
+	</script>
+</div>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>
