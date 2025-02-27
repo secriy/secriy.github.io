@@ -30,16 +30,3 @@ sidebar: false
 {% checkbox blue checked, 文学：故事会。 %}
 
 {% note success, 希望明天能过得更好。  %}
-
-{% btns circle center grid5 %}
-<a href=''>
-<b>支付宝</b>
-{% p blue, 求打赏不是要饭 %}
-<img src='https://upyun.secriy.com/statics/img/alipay.png'>
-</a>
-<a href=''>
-<b>微信</b>
-{% p green, 求打赏不是要饭 %}
-<img src='https://upyun.secriy.com/statics/img/wechat.jpg'>
-</a>
-{% endbtns %}
